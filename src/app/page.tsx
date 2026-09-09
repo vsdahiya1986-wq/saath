@@ -1,69 +1,68 @@
-import Image from "next/image";
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePerson } from '@/lib/usePerson';
+import { announce } from '@/lib/voiceNav';
+import { t } from '@/lib/i18n';
+import BigChoice from '@/components/ui/BigChoice';
 
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+export default function PersonHome() {
+  const router = useRouter();
+  const { person, loading } = usePerson();
+
+  useEffect(() => {
+    if (person?.navigation === 'voice-guided') {
+      announce('home_intro', person.language);
+    }
+  }, [person]);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
+        <p style={{ fontSize: 'var(--text-body)' }}>Loading…</p>
       </main>
-    </div>
+    );
+  }
+
+  if (!person) {
+    return (
+      <main className="min-h-screen flex flex-col items-center justify-center gap-6 bg-[var(--bg)] p-6 text-center">
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
+          Welcome to SAATH
+        </h1>
+        <p style={{ fontSize: 'var(--text-body)' }} className="text-[var(--text-muted)] max-w-sm">
+          No person profile exists on this device yet. A family member or worker sets one up from the Circle
+          screens.
+        </p>
+        <button
+          onClick={() => router.push('/circle/setup')}
+          style={{ minHeight: 72, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
+          className="text-white font-black px-8 text-xl active:opacity-80"
+        >
+          Set up a profile
+        </button>
+      </main>
+    );
+  }
+
+  return (
+    <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5">
+      <header className="pb-2">
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
+          {person.display_name}
+        </h1>
+      </header>
+
+      <BigChoice icon="play" labelKey="home.play" subKey="home.play.sub" person={person} onSelect={() => router.push('/play')} />
+      <BigChoice icon="help" labelKey="home.help" subKey="home.help.sub" person={person} onSelect={() => router.push('/help')} />
+      <BigChoice icon="today" labelKey="home.today" subKey="home.today.sub" person={person} onSelect={() => router.push('/today')} />
+
+      <footer className="mt-auto pt-4 text-center">
+        <Link href="/circle" className="underline" style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+          {t('common.open', person.language)} circle {'→'}
+        </Link>
+      </footer>
+    </main>
   );
 }

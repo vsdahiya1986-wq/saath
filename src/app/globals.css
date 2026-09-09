@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
+/*
+ * SAATH design tokens — Part 4.1 of the master plan.
+ * Deliberately NOT theme-aware: this app is for elderly users with
+ * cataracts/macular degeneration. One fixed high-contrast palette,
+ * always. No dark mode toggle, no prefers-color-scheme handling.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: #0f2419; /* hard borders, not shadows */
+  --text: #0f2419;
+  --text-muted: #4b5563;
+  --accent: #065f46; /* single actionable colour */
+  --accent-press: #043d2e;
+  --warn: #b45309;
+  --alert: #9f1239;
+  --ok: #065f46;
+
+  --text-body: 18px;
+  --text-action: 26px;
+  --text-title: 32px;
+  --touch-min: 56px;
+  --radius: 16px;
+  --border-w: 3px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--text-body);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
 }

@@ -1,0 +1,48 @@
+{
+  "framing": "SAATH is a digital delivery vehicle for culturally-adapted Cognitive Stimulation Therapy (CST) — a named psychosocial intervention with real evidence, not an invented game mechanic.",
+  "evidence": [
+    "Cochrane systematic review of 15 RCTs (718 participants): consistent significant benefit to cognitive function following treatment, over and above medication effects, sustained at follow-up up to three months. (Aguirre, Woods, Spector & Orrell, Ageing Research Reviews, 2013; Cochrane CD005562)",
+    "2024 systematic review & meta-analysis of the original 14-session CST protocol: strong evidence of positive treatment effects for global cognition, language and quality of life.",
+    "Official guidelines exist for adapting CST to other cultures (Aguirre, Spector & Orrell) — cultural adaptation for NER is a documented methodology, not improvisation.",
+    "2025 systematic review on personalisation: personalised activities are associated with greater engagement and adherence.",
+    "NICE NG97 recommends offering group cognitive stimulation to people with mild-to-moderate dementia."
+  ],
+  "honestLimit": "CST has evidence. Our digital delivery of it does not yet — that is what a pilot would test.",
+  "mapping": [
+    {
+      "activity": "familiar_pairs",
+      "label": "Familiar Pairs",
+      "psRequirement": "a.1 — Memory improvement",
+      "cstTheme": "Matched to CST's object/word recognition and recall sessions.",
+      "note": "Uses approved familiar objects from the household's own pack — personalisation the CST literature links to engagement."
+    },
+    {
+      "activity": "sound_sight",
+      "label": "Sound & Sight",
+      "psRequirement": "a.2 — Attention and concentration",
+      "cstTheme": "Matched to CST's sensory/sound-based orientation sessions.",
+      "note": "Visual-only mode available so hearing loss is never penalised."
+    },
+    {
+      "activity": "pattern_garden",
+      "label": "Pattern Garden",
+      "psRequirement": "a.4 — Pattern and object recognition",
+      "cstTheme": "Matched to CST's categorisation and sorting sessions.",
+      "note": "Shape and contrast only — never colour alone."
+    },
+    {
+      "activity": "my_next_step",
+      "label": "My Next Step",
+      "psRequirement": "a.3 — Daily routine recall",
+      "cstTheme": "Matched to CST's everyday-life / practical activity sessions.",
+      "note": "Caregiver-approved, low-risk routine sequences only."
+    },
+    {
+      "activity": "together",
+      "label": "Together Moment",
+      "psRequirement": "a.5 — Emotional and mental engagement",
+      "cstTheme": "Matched to CST's reminiscence and current-affairs discussion sessions.",
+      "note": "No score, no streak — a shared conversation, not a graded task. Reminiscence can cause distress (Alzheimer's Society guidance) — exit and content rejection are mandatory."
+    }
+  ]
+}

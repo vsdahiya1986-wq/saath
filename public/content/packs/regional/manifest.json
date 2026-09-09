@@ -1,0 +1,36 @@
+{
+  "source": "Generated in-app placeholder shapes (no photographs) — see Part 20 of the master plan.",
+  "reviewer": "not yet reviewed by a clinician or cultural advisor — placeholder only",
+  "review_date": null,
+  "licence": "n/a — original vector shapes drawn for this project, no third-party assets",
+  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to. The UI must label every one of these as 'general' and prompt the family to replace it with their own photographed object — never presented as 'what NER people recognise'.",
+  "objects": [
+    { "id": "reg_tumbler", "icon": "tumbler", "label": "Steel tumbler" },
+    { "id": "reg_lamp", "icon": "lamp", "label": "Kerosene lamp" },
+    { "id": "reg_basket", "icon": "basket", "label": "Bamboo basket" },
+    { "id": "reg_umbrella", "icon": "umbrella", "label": "Umbrella" },
+    { "id": "reg_kettle", "icon": "kettle", "label": "Tea kettle" },
+    { "id": "reg_stool", "icon": "stool", "label": "Wooden stool" }
+  ],
+  "patterns": [
+    { "id": "reg_triangle", "icon": "triangle", "label": "Triangle" },
+    { "id": "reg_square", "icon": "square", "label": "Square" },
+    { "id": "reg_circle", "icon": "circle", "label": "Circle" },
+    { "id": "reg_star", "icon": "star", "label": "Star" }
+  ],
+  "sounds": {
+    "shipped": false,
+    "note": "Part 20 names timbrally distinct sounds (temple_bell.wav, wooden_clapper.wav, bamboo_flute.wav, rain_on_tin_roof.wav, morning_birds.wav) as the intended fallback library. No licensed audio was available to record or source for this build, and we will not ship synthesized sine-tone substitutes — the plan explicitly warns those are indistinguishable on cheap tablet speakers for presbycusis, which would make the fallback actively worse than no fallback. Sound & Sight therefore degrades to visual-only matching when no family-recorded pack audio exists, with an honest on-screen note, instead of a fake sound."
+  },
+  "defaultRoutine": {
+    "id": "reg_morning_routine",
+    "title": "Morning routine",
+    "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+    "steps": [
+      { "id": "wake", "icon": "clock", "label": "Wake up" },
+      { "id": "medicine", "icon": "tumbler", "label": "Take medicine" },
+      { "id": "wash", "icon": "kettle", "label": "Wash up" },
+      { "id": "breakfast", "icon": "basket", "label": "Have breakfast" }
+    ]
+  }
+}

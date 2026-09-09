@@ -1,0 +1,16 @@
+[
+  { "name": "Next.js", "version": "16.3.4", "license": "MIT", "copyright": "Copyright (c) 2025 Vercel, Inc." },
+  { "name": "React", "version": "19.2.8", "license": "MIT", "copyright": "Copyright (c) Meta Platforms, Inc. and affiliates." },
+  { "name": "React DOM", "version": "19.2.8", "license": "MIT", "copyright": "Copyright (c) Meta Platforms, Inc. and affiliates." },
+  { "name": "Dexie.js", "version": "4.4.5", "license": "Apache-2.0", "copyright": "Copyright (c) David Fahlander" },
+  { "name": "Supabase JS", "version": "2.116.0", "license": "MIT", "copyright": "Copyright (c) Supabase" },
+  { "name": "uuid", "version": "14.0.2", "license": "MIT", "copyright": "Copyright (c) 2010-2020 Robert Kieffer and other contributors" },
+  { "name": "Capacitor (core, android, cli)", "version": "8.5.1", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "Capacitor Local Notifications", "version": "8.3.1", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "Capacitor Preferences", "version": "8.0.1", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "Capacitor Network", "version": "8.0.1", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "Capacitor Camera", "version": "8.2.4", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "Capacitor Filesystem", "version": "8.1.3", "license": "MIT", "copyright": "Copyright (c) Ionic Team" },
+  { "name": "capacitor-secure-storage-plugin", "version": "0.13.0", "license": "MIT", "copyright": "Copyright (c) Martin Kasa" },
+  { "name": "Tailwind CSS", "version": "4.3.3", "license": "MIT", "copyright": "Copyright (c) Tailwind Labs, Inc." }
+]
