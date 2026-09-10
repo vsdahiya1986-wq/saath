@@ -38,6 +38,9 @@ export const STRINGS: Record<string, string> = {
   'status.synced': 'Synced',
   'status.syncing': 'Syncing…',
 
+  'adaptive.learned': 'Adapting to you',
+  'adaptive.baseline': 'Standard pace',
+
   'play.title': 'Choose an activity',
   'play.pairs.intro': 'Find the two pictures that are the same. Take your time.',
   'play.sound.intro': 'Listen to the sound, then choose the matching picture.',

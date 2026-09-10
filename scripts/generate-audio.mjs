@@ -1,8 +1,19 @@
 // node scripts/generate-audio.mjs
 //
-// Build-time only. Requires BHASHINI_API_KEY, BHASHINI_USER_ID,
-// BHASHINI_PIPELINE_ID (register at bhashini.gov.in). Generates audio once,
-// ships the files, plays offline forever — see src/lib/audio.ts / i18n.ts.
+// Build-time only. Requires BHASHINI_API_KEY — a dashboard-issued inference
+// key from bhashini.gov.in tied to a specific pipeline of tasks (TTS/
+// translation per language) the user selected when creating that pipeline.
+// Generates audio once, ships the files, plays offline forever — see
+// src/lib/audio.ts / i18n.ts.
+//
+// BHASHINI_USER_ID / BHASHINI_PIPELINE_ID are NOT used here. Those belong to
+// the *other* Bhashini auth flow — raw ULCA credentials calling
+// meity-auth.ulcacontrib.org/.../getModelsPipeline for service discovery.
+// A dashboard inference key skips that: it's called directly against
+// dhruva-api.bhashini.gov.in and only works for the tasks/languages already
+// attached to that key's pipeline in the dashboard UI. If a task 500s with
+// "DHRUVA-101: Failed to send request", that task isn't attached to this
+// key's pipeline — add it in the Bhashini dashboard, it's not a code bug.
 //
 // Writes to public/content/lang/{lang}/ (NOT src/content) because the app
 // fetches these at runtime from a root-relative path that Next.js only
@@ -15,10 +26,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const API_KEY = process.env.BHASHINI_API_KEY;
-const PIPELINE = process.env.BHASHINI_PIPELINE_ID;
 
-if (!API_KEY || !PIPELINE) {
-  console.error('Missing BHASHINI_API_KEY / BHASHINI_PIPELINE_ID. See .env.local.example.');
+if (!API_KEY) {
+  console.error('Missing BHASHINI_API_KEY. See .env.local.example.');
   process.exit(1);
 }
 
@@ -43,6 +53,8 @@ const STRINGS = {
   'status.offline': 'Working offline',
   'status.synced': 'Synced',
   'status.syncing': 'Syncing…',
+  'adaptive.learned': 'Adapting to you',
+  'adaptive.baseline': 'Standard pace',
   'play.title': 'Choose an activity',
   'play.pairs.intro': 'Find the two pictures that are the same. Take your time.',
   'play.sound.intro': 'Listen to the sound, then choose the matching picture.',
@@ -56,14 +68,27 @@ const STRINGS = {
   'common.pause': 'Paused. Tap to continue, or choose Stop.',
   'common.stop': 'We can stop here. That is completely fine.',
   'common.open': 'Open',
+  'common.pause_btn': 'Pause',
+  'common.skip_btn': 'Skip',
+  'common.stop_btn': 'Stop',
+  'common.back': 'Back',
+  'common.continue': 'Continue',
+  'common.save': 'Save',
+  'common.cancel': 'Cancel',
   'a11y.listen': 'Listen',
+  'help.title': 'Help',
   'help.need': 'I need someone',
   'help.sent_local': 'Your family has been told on this network.',
   'help.stored': 'Saved on this device. It will be sent when there is a connection.',
+  'help.stale_warning': 'This may not show where it really is right now.',
+  'today.title': "Today's reminders",
   'remind.medicine': 'It is time for your medicine.',
   'remind.hydration': 'Time for a glass of water.',
   'remind.activity': 'Time for your daily activity.',
   'remind.appointment': 'You have a clinic appointment.',
+  'exit.pause': 'Pause',
+  'exit.skip': 'Skip',
+  'exit.stop': 'Stop',
 };
 
 async function tts(text, lang) {
@@ -99,21 +124,63 @@ async function translate(text, target) {
 }
 
 async function main() {
+  const failures = {};
+
   for (const lang of ['as', 'en']) {
     const dir = path.join('public', 'content', 'lang', lang);
     await fs.mkdir(dir, { recursive: true });
     const manifest = {};
+    failures[lang] = [];
+
     for (const [key, en] of Object.entries(STRINGS)) {
-      const text = lang === 'en' ? en : await translate(en, lang);
-      const wav = await tts(text, lang);
-      const file = `${key.replace(/\./g, '_')}.wav`;
-      await fs.writeFile(path.join(dir, file), wav);
-      manifest[key] = { file, text };
-      console.log(`  ${lang}/${file}`);
+      let text = en;
+      if (lang !== 'en') {
+        try {
+          text = await translate(en, lang);
+        } catch (e) {
+          console.error(`  ${lang}/${key}: translation failed — ${e.message}`);
+          failures[lang].push(key);
+          manifest[key] = { file: null, text: en };
+          continue;
+        }
+      }
+
+      try {
+        const wav = await tts(text, lang);
+        const file = `${key.replace(/\./g, '_')}.wav`;
+        await fs.writeFile(path.join(dir, file), wav);
+        manifest[key] = { file, text };
+        console.log(`  ${lang}/${file}`);
+      } catch (e) {
+        console.error(`  ${lang}/${key}: TTS failed — ${e.message}`);
+        failures[lang].push(key);
+        // Keep the translated text even without audio — playCue() no-ops on
+        // a null file and the app falls back to on-screen/read text.
+        manifest[key] = { file: null, text };
+      }
       await new Promise((r) => setTimeout(r, 300)); // be polite to the API
     }
     await fs.writeFile(path.join(dir, 'manifest.json'), JSON.stringify(manifest, null, 2));
   }
+
+  console.log('\n--- generate-audio summary ---');
+  for (const [lang, keys] of Object.entries(failures)) {
+    if (keys.length === 0) {
+      console.log(`${lang}: all ${Object.keys(STRINGS).length} strings generated with audio.`);
+    } else {
+      console.log(
+        `${lang}: ${keys.length}/${Object.keys(STRINGS).length} strings have NO audio (text-only fallback) — ` +
+          `${keys.join(', ')}`
+      );
+      console.log(
+        `  Likely cause: this task/language isn't attached to the BHASHINI_API_KEY's pipeline in the ` +
+          `Bhashini dashboard. Add it there, then re-run this script — no code change needed.`
+      );
+    }
+  }
+
+  const anyFailures = Object.values(failures).some((k) => k.length > 0);
+  if (anyFailures) process.exitCode = 1; // signal partial success without discarding what did generate
 }
 
 main().catch((e) => {

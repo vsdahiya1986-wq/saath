@@ -1,0 +1,226 @@
+{
+  "home.title": {
+    "file": "home_title.wav",
+    "text": "SAATH"
+  },
+  "home_intro": {
+    "file": "home_intro.wav",
+    "text": "This is your memory companion. Choose Play, Help, or Today."
+  },
+  "home.play": {
+    "file": "home_play.wav",
+    "text": "Play"
+  },
+  "home.play.sub": {
+    "file": "home_play_sub.wav",
+    "text": "A familiar activity"
+  },
+  "home.help": {
+    "file": "home_help.wav",
+    "text": "Help"
+  },
+  "home.help.sub": {
+    "file": "home_help_sub.wav",
+    "text": "Get help with something"
+  },
+  "home.today": {
+    "file": "home_today.wav",
+    "text": "Today"
+  },
+  "home.today.sub": {
+    "file": "home_today_sub.wav",
+    "text": "Today's reminders"
+  },
+  "activity.familiar_pairs": {
+    "file": "activity_familiar_pairs.wav",
+    "text": "Familiar Pairs"
+  },
+  "activity.sound_sight": {
+    "file": "activity_sound_sight.wav",
+    "text": "Sound & Sight"
+  },
+  "activity.pattern_garden": {
+    "file": "activity_pattern_garden.wav",
+    "text": "Pattern Garden"
+  },
+  "activity.my_next_step": {
+    "file": "activity_my_next_step.wav",
+    "text": "My Next Step"
+  },
+  "activity.together": {
+    "file": "activity_together.wav",
+    "text": "Together Moment"
+  },
+  "domain.memory": {
+    "file": "domain_memory.wav",
+    "text": "Memory"
+  },
+  "domain.attention": {
+    "file": "domain_attention.wav",
+    "text": "Attention & Concentration"
+  },
+  "domain.routine": {
+    "file": "domain_routine.wav",
+    "text": "Daily Routine Recall"
+  },
+  "domain.pattern": {
+    "file": "domain_pattern.wav",
+    "text": "Pattern & Object Recognition"
+  },
+  "status.offline": {
+    "file": "status_offline.wav",
+    "text": "Working offline"
+  },
+  "status.synced": {
+    "file": "status_synced.wav",
+    "text": "Synced"
+  },
+  "status.syncing": {
+    "file": "status_syncing.wav",
+    "text": "Syncing…"
+  },
+  "adaptive.learned": {
+    "file": "adaptive_learned.wav",
+    "text": "Adapting to you"
+  },
+  "adaptive.baseline": {
+    "file": "adaptive_baseline.wav",
+    "text": "Standard pace"
+  },
+  "play.title": {
+    "file": "play_title.wav",
+    "text": "Choose an activity"
+  },
+  "play.pairs.intro": {
+    "file": "play_pairs_intro.wav",
+    "text": "Find the two pictures that are the same. Take your time."
+  },
+  "play.sound.intro": {
+    "file": "play_sound_intro.wav",
+    "text": "Listen to the sound, then choose the matching picture."
+  },
+  "play.pattern.intro": {
+    "file": "play_pattern_intro.wav",
+    "text": "Look at the shapes and choose what comes next."
+  },
+  "play.step.intro": {
+    "file": "play_step_intro.wav",
+    "text": "Put the steps of your routine in order."
+  },
+  "play.together.intro": {
+    "file": "play_together_intro.wav",
+    "text": "Let us look at this picture together."
+  },
+  "cue.repeat": {
+    "file": "cue_repeat.wav",
+    "text": "Let me say that again."
+  },
+  "cue.highlight": {
+    "file": "cue_highlight.wav",
+    "text": "Look here."
+  },
+  "cue.reduce": {
+    "file": "cue_reduce.wav",
+    "text": "Let us try with fewer choices."
+  },
+  "cue.demonstrate": {
+    "file": "cue_demonstrate.wav",
+    "text": "Watch how it is done, then you try."
+  },
+  "common.pause": {
+    "file": "common_pause.wav",
+    "text": "Paused. Tap to continue, or choose Stop."
+  },
+  "common.stop": {
+    "file": "common_stop.wav",
+    "text": "We can stop here. That is completely fine."
+  },
+  "common.open": {
+    "file": "common_open.wav",
+    "text": "Open"
+  },
+  "common.pause_btn": {
+    "file": "common_pause_btn.wav",
+    "text": "Pause"
+  },
+  "common.skip_btn": {
+    "file": "common_skip_btn.wav",
+    "text": "Skip"
+  },
+  "common.stop_btn": {
+    "file": "common_stop_btn.wav",
+    "text": "Stop"
+  },
+  "common.back": {
+    "file": "common_back.wav",
+    "text": "Back"
+  },
+  "common.continue": {
+    "file": "common_continue.wav",
+    "text": "Continue"
+  },
+  "common.save": {
+    "file": "common_save.wav",
+    "text": "Save"
+  },
+  "common.cancel": {
+    "file": "common_cancel.wav",
+    "text": "Cancel"
+  },
+  "a11y.listen": {
+    "file": "a11y_listen.wav",
+    "text": "Listen"
+  },
+  "help.title": {
+    "file": "help_title.wav",
+    "text": "Help"
+  },
+  "help.need": {
+    "file": "help_need.wav",
+    "text": "I need someone"
+  },
+  "help.sent_local": {
+    "file": "help_sent_local.wav",
+    "text": "Your family has been told on this network."
+  },
+  "help.stored": {
+    "file": "help_stored.wav",
+    "text": "Saved on this device. It will be sent when there is a connection."
+  },
+  "help.stale_warning": {
+    "file": "help_stale_warning.wav",
+    "text": "This may not show where it really is right now."
+  },
+  "today.title": {
+    "file": "today_title.wav",
+    "text": "Today's reminders"
+  },
+  "remind.medicine": {
+    "file": "remind_medicine.wav",
+    "text": "It is time for your medicine."
+  },
+  "remind.hydration": {
+    "file": "remind_hydration.wav",
+    "text": "Time for a glass of water."
+  },
+  "remind.activity": {
+    "file": "remind_activity.wav",
+    "text": "Time for your daily activity."
+  },
+  "remind.appointment": {
+    "file": "remind_appointment.wav",
+    "text": "You have a clinic appointment."
+  },
+  "exit.pause": {
+    "file": "exit_pause.wav",
+    "text": "Pause"
+  },
+  "exit.skip": {
+    "file": "exit_skip.wav",
+    "text": "Skip"
+  },
+  "exit.stop": {
+    "file": "exit_stop.wav",
+    "text": "Stop"
+  }
+}

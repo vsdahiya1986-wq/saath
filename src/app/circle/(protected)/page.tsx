@@ -17,6 +17,22 @@ export default function CircleHome() {
       <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
         Circle
       </h1>
+      <section
+        style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 14 }}
+        className="flex flex-col gap-1"
+      >
+        <span style={{ fontSize: 14 }} className="font-black text-[var(--text)]">
+          Data & privacy
+        </span>
+        <span style={{ fontSize: 13 }} className="text-[var(--text-muted)]">
+          Names, care-plan text, photos and recordings are AES-256 encrypted at rest on this device (see
+          src/lib/crypto.ts). This device does not sync anywhere unless a Supabase backend is configured for the
+          deployment (it is not configured in this demo build) — only coded gameplay data, never identifying
+          fields, is ever pushed, and only when that&apos;s set up and the device is online. Consent is recorded
+          per person in the profile screen, not inferred.
+        </span>
+      </section>
+
       <div className="flex flex-col gap-3">
         {LINKS.map((l) => (
           <Link

@@ -116,15 +116,28 @@ export default function PersonSetup() {
         </label>
       </fieldset>
 
-      <label className="flex flex-col gap-1">
-        <span style={{ fontSize: 15 }}>Consent reference</span>
-        <input
-          value={consentRef}
-          onChange={(e) => setConsentRef(e.target.value)}
-          placeholder="e.g. consent form ID"
-          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 }}
-        />
-      </label>
+      <fieldset style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 12 }}>
+        <legend style={{ fontSize: 15 }} className="px-1">
+          Data & consent
+        </legend>
+        <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] mb-2">
+          Name, care-plan text, and photos/recordings are stored AES-256-encrypted on this device, keyed by a
+          secret in the platform&apos;s secure hardware store — never a password or anything guessable (see
+          src/lib/crypto.ts). This device does not sync anywhere unless a Supabase backend is configured for the
+          deployment (not configured in this demo build). Record what this person (or their authorized
+          representative) actually consented to below — a form ID, a verbal consent log entry, whatever your care
+          team already uses. This field is not itself a consent mechanism.
+        </p>
+        <label className="flex flex-col gap-1">
+          <span style={{ fontSize: 15 }}>Consent reference</span>
+          <input
+            value={consentRef}
+            onChange={(e) => setConsentRef(e.target.value)}
+            placeholder="e.g. consent form ID"
+            style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 }}
+          />
+        </label>
+      </fieldset>
 
       <button
         onClick={save}

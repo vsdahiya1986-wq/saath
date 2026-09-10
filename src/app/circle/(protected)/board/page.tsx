@@ -7,6 +7,39 @@ import { conditionTrends, ConditionSeries } from '@/lib/analytics';
 import { burdenReport, pickOnCall, BurdenRow, OnCall } from '@/lib/rotation';
 import { db, FollowupItem } from '@/lib/db';
 
+type OverallTrend = 'improving' | 'stable' | 'declining' | 'insufficient';
+
+/**
+ * SIH26003 (f): "an at-a-glance status (improving/stable/declining) readable
+ * in 3 seconds." Deliberately simple and stated as an engineering heuristic,
+ * matching this page's own existing disclaimer — NOT a clinical read: for
+ * each interpretable condition series (see src/lib/analytics.ts's own
+ * refusal to blend across changed difficulty/cue), compare the first vs
+ * last comparable weekly point and average those deltas. A small threshold
+ * (8 percentage points) keeps single-week noise from reading as a trend.
+ */
+function overallTrend(trends: ConditionSeries[]): { trend: OverallTrend; basis: number } {
+  const deltas: number[] = [];
+  for (const s of trends) {
+    if (!s.interpretable) continue;
+    const pts = s.points.filter((p) => p.supportedCompletionRate != null);
+    if (pts.length < 2) continue;
+    deltas.push(pts[pts.length - 1].supportedCompletionRate! - pts[0].supportedCompletionRate!);
+  }
+  if (!deltas.length) return { trend: 'insufficient', basis: 0 };
+  const avg = deltas.reduce((a, b) => a + b, 0) / deltas.length;
+  if (avg > 0.08) return { trend: 'improving', basis: deltas.length };
+  if (avg < -0.08) return { trend: 'declining', basis: deltas.length };
+  return { trend: 'stable', basis: deltas.length };
+}
+
+const TREND_STYLE: Record<OverallTrend, { label: string; color: string; icon: string }> = {
+  improving: { label: 'Improving', color: 'var(--ok)', icon: '▲' },
+  stable: { label: 'Stable', color: 'var(--accent)', icon: '▬' },
+  declining: { label: 'Declining', color: 'var(--alert)', icon: '▼' },
+  insufficient: { label: 'Not enough data yet', color: 'var(--text-muted)', icon: '—' },
+};
+
 export default function CircleBoard() {
   const [personId, setPersonId] = useState<string | null>(null);
   const [ledger, setLedger] = useState<EngagementLedger | null>(null);
@@ -36,6 +69,8 @@ export default function CircleBoard() {
   }
 
   const openFollowups = pendingHandoffs.filter((f) => !['resolved', 'cancelled', 'expired'].includes(f.state));
+  const { trend, basis } = overallTrend(trends);
+  const trendStyle = TREND_STYLE[trend];
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
@@ -45,6 +80,26 @@ export default function CircleBoard() {
       <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-3">
         These are activity observations under stated conditions. They are not a clinical measure.
       </p>
+
+      <section
+        data-testid="overall-trend"
+        style={{ border: `var(--border-w) solid ${trendStyle.color}`, borderRadius: 'var(--radius)', padding: 16, background: trend === 'declining' ? '#FEF2F4' : trend === 'improving' ? '#ECFDF5' : 'var(--surface)' }}
+        className="flex items-center gap-4"
+      >
+        <span style={{ fontSize: 36, color: trendStyle.color, lineHeight: 1 }} aria-hidden="true">
+          {trendStyle.icon}
+        </span>
+        <div>
+          <p style={{ fontSize: 20, color: trendStyle.color }} className="font-black">
+            {trendStyle.label}
+          </p>
+          <p style={{ fontSize: 12 }} className="text-[var(--text-muted)]">
+            {trend === 'insufficient'
+              ? 'Needs at least 3 comparable weeks under one unchanged activity/difficulty/assistance condition.'
+              : `Based on ${basis} comparable condition series over the trend window below.`}
+          </p>
+        </div>
+      </section>
 
       <section style={cardStyle}>
         <h2 style={h2Style}>Engagement</h2>
@@ -119,19 +174,33 @@ export default function CircleBoard() {
                   {s.activity} · difficulty {s.difficulty} · {s.cue} cue
                 </p>
                 {s.interpretable ? (
-                  <div className="flex items-end gap-1 h-16 mt-1">
-                    {s.points.map((p, j) => (
-                      <div
-                        key={j}
-                        title={`${p.weekStart}: n=${p.n}`}
-                        style={{
-                          width: 14,
-                          height: p.supportedCompletionRate != null ? `${Math.max(6, p.supportedCompletionRate * 60)}px` : '4px',
-                          background: p.supportedCompletionRate != null ? 'var(--accent)' : '#ddd',
-                          borderRadius: 2,
-                        }}
-                      />
-                    ))}
+                  <div className="flex items-end gap-2 mt-1">
+                    <span style={{ fontSize: 10 }} className="text-[var(--text-muted)] pb-0.5">
+                      100%
+                    </span>
+                    <div className="flex items-end gap-1 h-16" style={{ borderBottom: '1px solid #e5e7eb' }}>
+                      {s.points.map((p, j) => {
+                        const isLatest = j === s.points.length - 1;
+                        return (
+                          <div key={j} className="flex flex-col items-center justify-end h-full">
+                            {isLatest && p.supportedCompletionRate != null && (
+                              <span style={{ fontSize: 10, color: 'var(--accent-press)' }} className="font-black mb-0.5">
+                                {Math.round(p.supportedCompletionRate * 100)}%
+                              </span>
+                            )}
+                            <div
+                              title={`${p.weekStart}: n=${p.n}${p.supportedCompletionRate != null ? `, ${Math.round(p.supportedCompletionRate * 100)}% completion` : ', below minimum n'}`}
+                              style={{
+                                width: 14,
+                                height: p.supportedCompletionRate != null ? `${Math.max(6, p.supportedCompletionRate * 60)}px` : '4px',
+                                background: p.supportedCompletionRate == null ? '#ddd' : isLatest ? 'var(--accent-press)' : 'var(--accent)',
+                                borderRadius: 2,
+                              }}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 ) : (
                   <div style={{ background: '#f3f4f6', borderRadius: 8, padding: 10 }}>

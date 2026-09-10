@@ -94,32 +94,46 @@ const PATHS: Record<IconName, ReactElement> = {
       <circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none" />
     </>
   ),
-  /* Generic regional-fallback objects — Part 20. Deliberately plain shapes,
-     not photographs: we have no licensed regional photo library to ship,
-     and the plan itself requires these to read as "general", nagging the
-     household to replace them with their own things. */
+  /* Regional-fallback objects — Part 20, redesigned per SIH26003 requirement
+     (d). Still deliberately plain line art, not photographs: there is no
+     licensed regional photo library to ship, and the intent stays the same
+     — nudge the household to replace these with their own things (see
+     FamiliarPairs/SoundAndSight/MyNextStep's "Using general pictures/
+     routine" banners). What changed is the SHAPE: umbrella/lamp/stool read
+     as generic international clip-art, not as anything from a North-East
+     Indian home, so those three are now a japi (conical bamboo/cane hat),
+     a diya (oil lamp), and a mora (woven bamboo stool) — common, everyday,
+     not community- or festival-specific to any one group. */
   tumbler: (
     <path d="M8 4h8l-1 15a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2L8 4z" strokeLinejoin="round" />
   ),
+  /* diya — a shallow oil-lamp bowl with a small flame above it. */
   lamp: (
     <>
-      <path d="M9 3h6l1 6H8l1-6z" strokeLinejoin="round" />
-      <path d="M6 9h12l-2 4H8l-2-4z" strokeLinejoin="round" />
-      <path d="M12 13v7M9 20h6" strokeLinecap="round" />
+      <path d="M4 15.5c0-1.7 3.6-2.8 8-2.8s8 1.1 8 2.8-3.6 3.3-8 3.3-8-1.6-8-3.3z" strokeLinejoin="round" />
+      <path d="M9.5 14.3c1-.3 4-.3 5 0" strokeLinecap="round" opacity="0.6" />
+      <path
+        d="M12 5.2c1.4 1.1 1.9 2.7.9 4-.6.8-1.7.8-2.2-.1-.5-.9-.1-2 .5-2.8.2-.3.5-.7.8-1.1z"
+        fill="currentColor"
+        stroke="none"
+      />
     </>
   ),
+  /* khorai — a bamboo basket with a visible over-under weave texture. */
   basket: (
     <>
       <path d="M4 10h16l-2 9H6l-2-9z" strokeLinejoin="round" />
       <path d="M8 10 9 5h6l1 5" strokeLinejoin="round" />
-      <path d="M7 13h10M7.5 16h9" />
+      <path d="M5 13h14M5.6 16h12.8" opacity="0.5" />
+      <path d="M8 10.5v8M12 10.5v8.3M16 10.5v8" opacity="0.5" />
     </>
   ),
+  /* japi — a conical cane/bamboo hat with a wide brim and radiating ribs. */
   umbrella: (
     <>
-      <path d="M4 12a8 8 0 0 1 16 0z" strokeLinejoin="round" />
-      <path d="M12 12v8a2 2 0 0 1-3 1.7" strokeLinecap="round" />
-      <path d="M12 4v1" strokeLinecap="round" />
+      <path d="M12 3 4.5 16.3a8.5 3 0 0 0 15 0L12 3z" strokeLinejoin="round" />
+      <ellipse cx="12" cy="16.3" rx="7.5" ry="2.7" />
+      <path d="M12 6.5v9.8M9 9l1.3 7.3M15 9l-1.3 7.3" strokeLinecap="round" opacity="0.6" />
     </>
   ),
   kettle: (
@@ -129,10 +143,15 @@ const PATHS: Record<IconName, ReactElement> = {
       <path d="M10 13v3M14 13v3" strokeLinecap="round" />
     </>
   ),
+  /* mora — a rounded, woven bamboo stool (barrel silhouette, horizontal weave lines). */
   stool: (
     <>
-      <path d="M5 8h14l-1.5 4H6.5L5 8z" strokeLinejoin="round" />
-      <path d="M7 12l-1 9M17 12l1 9" strokeLinecap="round" />
+      <path
+        d="M6.5 8.5c0-1.9 2.5-3 5.5-3s5.5 1.1 5.5 3v8c0 1.9-2.5 3-5.5 3s-5.5-1.1-5.5-3v-8z"
+        strokeLinejoin="round"
+      />
+      <path d="M6.5 8.5c0 1.9 2.5 3 5.5 3s5.5-1.1 5.5-3" />
+      <path d="M7 12.5h10M7 16h10" opacity="0.5" />
     </>
   ),
   triangle: <path d="M12 4 21 20H3L12 4z" strokeLinejoin="round" />,

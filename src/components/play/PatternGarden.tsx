@@ -8,6 +8,9 @@ import { playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon, { IconName } from '@/components/ui/Icon';
 import ExitBar from '@/components/ui/ExitBar';
+import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
+import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 const ACTIVITY_VERSION = '1';
 const SHAPES: IconName[] = ['triangle', 'square', 'circle', 'star'];
@@ -34,7 +37,9 @@ export default function PatternGarden({ person }: { person: Person }) {
   const router = useRouter();
   const { logTrial } = useActivityTrial(person.id, 'pattern_garden', ACTIVITY_VERSION);
 
-  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused'>('loading');
+  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused' | 'done'>('loading');
+  const [outcome, setOutcome] = useState<'completed' | 'not_completed' | null>(null);
+  const [nextPreview, setNextPreview] = useState<Decision | null>(null);
   const [decision, setDecision] = useState<Decision | null>(null);
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
   const [visible, setVisible] = useState<IconName[]>([]);
@@ -94,10 +99,15 @@ export default function PatternGarden({ person }: { person: Person }) {
     setDecision(d);
     switch (d.chosenCue) {
       case 'highlight':
+        playCue('cue.highlight', person.language);
+        setHighlightAnswer(true);
+        break;
       case 'demonstrate':
+        playCue('cue.demonstrate', person.language);
         setHighlightAnswer(true);
         break;
       case 'reduce_choices':
+        playCue('cue.reduce', person.language);
         setReduced(true);
         break;
       default:
@@ -105,7 +115,7 @@ export default function PatternGarden({ person }: { person: Person }) {
     }
   }
 
-  async function logAndLeave(outcome: 'skipped' | 'withdrawn' | 'not_completed', to: string) {
+  async function logAndLeave(outcome: 'skipped' | 'withdrawn', to: string) {
     await logTrial({
       outcome,
       difficulty,
@@ -117,25 +127,39 @@ export default function PatternGarden({ person }: { person: Person }) {
     router.push(to);
   }
 
+  /** SIH26003 (b): show what decide() would choose next time, right on the completion screen. */
+  async function finishSession(finalOutcome: 'completed' | 'not_completed', errors: number) {
+    await logTrial({
+      outcome: finalOutcome,
+      difficulty,
+      cue: (decision?.chosenCue ?? 'none') as CueType,
+      policyMode: decision?.mode ?? 'baseline',
+      modelVersion: decision?.modelVersion ?? 'unknown',
+      perseverativeErrors: errors,
+    });
+    setOutcome(finalOutcome);
+    setPhase('done');
+    const preview = await decide({
+      personId: person.id,
+      activity: 'pattern_garden',
+      difficulty,
+      allowedCues: person.care_config.allowed_cues,
+      maxDifficulty: person.care_config.max_difficulty,
+    });
+    setNextPreview(preview);
+  }
+
   async function pick(shape: IconName) {
     if (phase !== 'playing' || !answer) return;
     if (shape === answer) {
-      await logTrial({
-        outcome: 'completed',
-        difficulty,
-        cue: (decision?.chosenCue ?? 'none') as CueType,
-        policyMode: decision?.mode ?? 'baseline',
-        modelVersion: decision?.modelVersion ?? 'unknown',
-        perseverativeErrors: mismatches,
-      });
-      router.push('/play');
+      await finishSession('completed', mismatches);
       return;
     }
     setWrong(shape);
     setTimeout(() => setWrong(null), 700);
     const next = mismatches + 1;
     setMismatches(next);
-    if (next >= budget) await logAndLeave('not_completed', '/play');
+    if (next >= budget) await finishSession('not_completed', next);
   }
 
   useEffect(() => {
@@ -170,12 +194,38 @@ export default function PatternGarden({ person }: { person: Person }) {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4">
+      <header className="p-4 flex items-center justify-between gap-3">
         <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
           {t('activity.pattern_garden', person.language)}
         </h1>
+        <div className="flex items-center gap-2">
+          <AdaptiveBadge decision={decision} lang={person.language} />
+          <StatusBadge lang={person.language} />
+        </div>
       </header>
 
+      {phase === 'done' && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6">
+          {outcome === 'completed' ? (
+            <>
+              <Icon name="check" size={64} />
+              <p style={{ fontSize: 22 }} className="font-black">
+                Well done.
+              </p>
+            </>
+          ) : (
+            <p style={{ fontSize: 20 }}>That is completely fine. We can try again another time.</p>
+          )}
+          {nextPreview && decision && (
+            <SessionOutcomeNote preview={nextPreview} playedDifficulty={difficulty} playedCue={decision.chosenCue} />
+          )}
+          <button onClick={() => router.push('/play')} style={btnStyle}>
+            {t('common.back', person.language)}
+          </button>
+        </div>
+      )}
+
+      {phase !== 'done' && (
       <div className="flex-1 flex flex-col items-center gap-8 p-4">
         <div className="flex gap-2 flex-wrap justify-center">
           {visible.map((shape, i) => (
@@ -213,6 +263,7 @@ export default function PatternGarden({ person }: { person: Person }) {
           ))}
         </div>
       </div>
+      )}
 
       {phase === 'playing' && (
         <div className="px-4 pb-2 flex justify-center">
@@ -226,6 +277,7 @@ export default function PatternGarden({ person }: { person: Person }) {
         </div>
       )}
 
+      {phase !== 'done' && (
       <ExitBar
         person={person}
         paused={phase === 'paused'}
@@ -233,6 +285,17 @@ export default function PatternGarden({ person }: { person: Person }) {
         onSkip={() => logAndLeave('skipped', '/play')}
         onStop={() => logAndLeave('withdrawn', '/')}
       />
+      )}
     </main>
   );
 }
+
+const btnStyle = {
+  minHeight: 56,
+  background: 'var(--accent)',
+  borderRadius: 'var(--radius)',
+  color: 'white',
+  fontWeight: 900,
+  padding: '0 28px',
+  fontSize: 18,
+} as const;

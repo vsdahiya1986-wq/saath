@@ -5,6 +5,7 @@ import { usePerson } from '@/lib/usePerson';
 import { t } from '@/lib/i18n';
 import { playCue } from '@/lib/audio';
 import Icon, { IconName } from '@/components/ui/Icon';
+import StatusBadge from '@/components/ui/StatusBadge';
 import type { Activity } from '@/lib/db';
 
 // Each activity is mapped to exactly one of the 4 cognitive domains named in
@@ -14,8 +15,8 @@ import type { Activity } from '@/lib/db';
 // a game and guess what it's meant to train.
 const ACTIVITIES: { activity: Activity; icon: IconName; labelKey: string; domainKey: string }[] = [
   { activity: 'familiar_pairs', icon: 'photo', labelKey: 'activity.familiar_pairs', domainKey: 'domain.memory' },
-  { activity: 'sound_sight', icon: 'listen', labelKey: 'activity.sound_sight', domainKey: 'domain.pattern' },
-  { activity: 'pattern_garden', icon: 'circle', labelKey: 'activity.pattern_garden', domainKey: 'domain.attention' },
+  { activity: 'sound_sight', icon: 'listen', labelKey: 'activity.sound_sight', domainKey: 'domain.attention' },
+  { activity: 'pattern_garden', icon: 'circle', labelKey: 'activity.pattern_garden', domainKey: 'domain.pattern' },
   { activity: 'my_next_step', icon: 'clock', labelKey: 'activity.my_next_step', domainKey: 'domain.routine' },
   { activity: 'together', icon: 'help', labelKey: 'activity.together', domainKey: 'domain.attention' },
 ];
@@ -28,9 +29,12 @@ export default function PlayPicker() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
-        {t('play.title', person.language)}
-      </h1>
+      <header className="flex items-center justify-between gap-3">
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
+          {t('play.title', person.language)}
+        </h1>
+        <StatusBadge lang={person.language} />
+      </header>
       {ACTIVITIES.map(({ activity, icon, labelKey, domainKey }) => (
         <div
           key={activity}

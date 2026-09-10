@@ -1,0 +1,226 @@
+{
+  "home.title": {
+    "file": "home_title.wav",
+    "text": "সাথ"
+  },
+  "home_intro": {
+    "file": "home_intro.wav",
+    "text": "এয়া আপোনাৰ স্মৃতিৰ সংগী। প্লে, হেল্প, বা টুডে বাছনি কৰক।"
+  },
+  "home.play": {
+    "file": "home_play.wav",
+    "text": "খেলিব"
+  },
+  "home.play.sub": {
+    "file": "home_play_sub.wav",
+    "text": "এটা পৰিচিত কাৰ্য্যকলাপ"
+  },
+  "home.help": {
+    "file": "home_help.wav",
+    "text": "সহায় কৰক"
+  },
+  "home.help.sub": {
+    "file": "home_help_sub.wav",
+    "text": "কিবা এটাৰ বাবে সহায় লওক"
+  },
+  "home.today": {
+    "file": "home_today.wav",
+    "text": "আজি"
+  },
+  "home.today.sub": {
+    "file": "home_today_sub.wav",
+    "text": "আজিৰ স্মাৰকসমূহ"
+  },
+  "activity.familiar_pairs": {
+    "file": "activity_familiar_pairs.wav",
+    "text": "পৰিচিত যোৰা"
+  },
+  "activity.sound_sight": {
+    "file": "activity_sound_sight.wav",
+    "text": "শব্দ আৰু দৃষ্টি"
+  },
+  "activity.pattern_garden": {
+    "file": "activity_pattern_garden.wav",
+    "text": "আৰ্হি উদ্যান"
+  },
+  "activity.my_next_step": {
+    "file": "activity_my_next_step.wav",
+    "text": "মোৰ পৰৱৰ্তী পদক্ষেপ"
+  },
+  "activity.together": {
+    "file": "activity_together.wav",
+    "text": "একেলগে মুহূৰ্ত"
+  },
+  "domain.memory": {
+    "file": "domain_memory.wav",
+    "text": "স্মৃতিশক্তি"
+  },
+  "domain.attention": {
+    "file": "domain_attention.wav",
+    "text": "মনোযোগ আৰু মনোযোগ"
+  },
+  "domain.routine": {
+    "file": "domain_routine.wav",
+    "text": "দৈনিক ৰুটিন ৰিকল"
+  },
+  "domain.pattern": {
+    "file": "domain_pattern.wav",
+    "text": "আৰ্হি আৰু বস্তু চিনাক্তকৰণ"
+  },
+  "status.offline": {
+    "file": "status_offline.wav",
+    "text": "অফলাইনত কাম কৰা"
+  },
+  "status.synced": {
+    "file": "status_synced.wav",
+    "text": "সমন্বয় কৰা হৈছে"
+  },
+  "status.syncing": {
+    "file": "status_syncing.wav",
+    "text": "সমীকৰণ কৰা হৈছে"
+  },
+  "adaptive.learned": {
+    "file": "adaptive_learned.wav",
+    "text": "আপোনাৰ লগত খাপ খোৱা"
+  },
+  "adaptive.baseline": {
+    "file": "adaptive_baseline.wav",
+    "text": "মানক গতি"
+  },
+  "play.title": {
+    "file": "play_title.wav",
+    "text": "এটা কাৰ্য্যকলাপ বাছনি কৰক"
+  },
+  "play.pairs.intro": {
+    "file": "play_pairs_intro.wav",
+    "text": "একেটা ছবি দুখন বিচাৰি উলিয়াওক। আপোনাৰ সময় লওক।"
+  },
+  "play.sound.intro": {
+    "file": "play_sound_intro.wav",
+    "text": "শব্দটো শুনক, তাৰ পিছত মিল খোৱা ছবিখন বাছনি কৰক।"
+  },
+  "play.pattern.intro": {
+    "file": "play_pattern_intro.wav",
+    "text": "আকৃতিবোৰ চাওক আৰু পৰৱৰ্তী সময়ত কি আহিব সেইটো বাছনি কৰক।"
+  },
+  "play.step.intro": {
+    "file": "play_step_intro.wav",
+    "text": "আপোনাৰ ৰুটিনৰ পদক্ষেপবোৰ ক্ৰমত ৰাখক।"
+  },
+  "play.together.intro": {
+    "file": "play_together_intro.wav",
+    "text": "এই ছবিখন একেলগে চাওক।"
+  },
+  "cue.repeat": {
+    "file": "cue_repeat.wav",
+    "text": "সেই কথা পুনৰ কওঁ।"
+  },
+  "cue.highlight": {
+    "file": "cue_highlight.wav",
+    "text": "ইয়াত চাওক।"
+  },
+  "cue.reduce": {
+    "file": "cue_reduce.wav",
+    "text": "আমি কম বিকল্পৰ সৈতে চেষ্টা কৰো।"
+  },
+  "cue.demonstrate": {
+    "file": "cue_demonstrate.wav",
+    "text": "এইটো কেনেকৈ কৰা হয় চাওক, তাৰ পিছত আপুনি চেষ্টা কৰক।"
+  },
+  "common.pause": {
+    "file": "common_pause.wav",
+    "text": "থমকি ৰয়। অব্যাহত ৰাখিবলৈ টেপ কৰক, বা ষ্টপ বাছনি কৰক।"
+  },
+  "common.stop": {
+    "file": "common_stop.wav",
+    "text": "আমি ইয়াতেই থমকি ৰ \"ব পাৰো। সেইটো সম্পূৰ্ণৰূপে ঠিক আছে।"
+  },
+  "common.open": {
+    "file": "common_open.wav",
+    "text": "খোলক"
+  },
+  "common.pause_btn": {
+    "file": "common_pause_btn.wav",
+    "text": "ৰৈ থাকক"
+  },
+  "common.skip_btn": {
+    "file": "common_skip_btn.wav",
+    "text": "স্কিপ কৰক"
+  },
+  "common.stop_btn": {
+    "file": "common_stop_btn.wav",
+    "text": "ৰাখক"
+  },
+  "common.back": {
+    "file": "common_back.wav",
+    "text": "পিছফালে"
+  },
+  "common.continue": {
+    "file": "common_continue.wav",
+    "text": "অব্যাহত ৰাখক"
+  },
+  "common.save": {
+    "file": "common_save.wav",
+    "text": "সংৰক্ষণ কৰক"
+  },
+  "common.cancel": {
+    "file": "common_cancel.wav",
+    "text": "বাতিল কৰক"
+  },
+  "a11y.listen": {
+    "file": "a11y_listen.wav",
+    "text": "শুনক"
+  },
+  "help.title": {
+    "file": "help_title.wav",
+    "text": "সহায় কৰক"
+  },
+  "help.need": {
+    "file": "help_need.wav",
+    "text": "মোক কোনোবা এজন লাগে"
+  },
+  "help.sent_local": {
+    "file": "help_sent_local.wav",
+    "text": "আপোনাৰ পৰিয়ালক এই নেটৱৰ্কত কোৱা হৈছে।"
+  },
+  "help.stored": {
+    "file": "help_stored.wav",
+    "text": "এই ডিভাইচত সংৰক্ষণ কৰা হৈছে। সংযোগ থাকিলে ইয়াক প্ৰেৰণ কৰা হ 'ব।"
+  },
+  "help.stale_warning": {
+    "file": "help_stale_warning.wav",
+    "text": "এইটোৱে হয়তো এই মুহূৰ্তত প্ৰকৃততে ক \"ত আছে দেখুৱাব নোৱাৰে।"
+  },
+  "today.title": {
+    "file": "today_title.wav",
+    "text": "আজিৰ স্মাৰকসমূহ"
+  },
+  "remind.medicine": {
+    "file": "remind_medicine.wav",
+    "text": "এতিয়া আপোনাৰ ঔষধৰ সময়।"
+  },
+  "remind.hydration": {
+    "file": "remind_hydration.wav",
+    "text": "এক গিলাচ পানী খোৱাৰ সময়।"
+  },
+  "remind.activity": {
+    "file": "remind_activity.wav",
+    "text": "আপোনাৰ দৈনন্দিন কাম-কাজৰ বাবে সময়।"
+  },
+  "remind.appointment": {
+    "file": "remind_appointment.wav",
+    "text": "আপোনাৰ এটা ক্লিনিক এপইণ্টমেণ্ট আছে।"
+  },
+  "exit.pause": {
+    "file": "exit_pause.wav",
+    "text": "ৰৈ থাকক"
+  },
+  "exit.skip": {
+    "file": "exit_skip.wav",
+    "text": "স্কিপ কৰক"
+  },
+  "exit.stop": {
+    "file": "exit_stop.wav",
+    "text": "ৰাখক"
+  }
+}

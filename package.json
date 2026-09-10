@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "node scripts/check-audio-coverage.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -11,7 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "generate-audio": "node scripts/generate-audio.mjs"
+    "generate-audio": "node --env-file=.env.local scripts/generate-audio.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.1",

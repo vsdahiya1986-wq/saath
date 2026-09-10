@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { t } from '@/lib/i18n';
-import { Person } from '@/lib/db';
+import { Lang } from '@/lib/db';
 
 /**
  * Persistent offline/synced indicator — SIH26003 requirement (g): "Work in
@@ -11,8 +11,12 @@ import { Person } from '@/lib/db';
  *
  * Deliberately minimal: a small pill in the corner, not a banner that eats
  * into the elderly-friendly layout's already-scarce screen space.
+ *
+ * Takes `lang` rather than a full `Person` so it also works on screens with
+ * no active/known person yet (Circle login, the no-profile home state) —
+ * every screen needs to show this, not only person-facing ones.
  */
-export default function StatusBadge({ person }: { person: Person }) {
+export default function StatusBadge({ lang = 'en' }: { lang?: Lang }) {
   const [online, setOnline] = useState(true);
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function StatusBadge({ person }: { person: Person }) {
           background: online ? 'var(--ok)' : 'var(--text-muted)',
         }}
       />
-      {t(online ? 'status.synced' : 'status.offline', person.language)}
+      {t(online ? 'status.synced' : 'status.offline', lang)}
     </div>
   );
 }

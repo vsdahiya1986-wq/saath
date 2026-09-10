@@ -8,6 +8,7 @@ import { routeHelpRequest } from '@/lib/alerts';
 import { playPackAudio } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/ui/Icon';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 interface PromptCard {
   id: string;
@@ -22,6 +23,18 @@ function isStale(reviewBy?: string, state?: string): boolean {
   if (!reviewBy) return false;
   return new Date(reviewBy).getTime() < Date.now();
 }
+
+/**
+ * SIH26003 (h): audit every screen against BigChoice's literacy-scaling
+ * pattern (src/components/ui/BigChoice.tsx) — this screen previously used
+ * one fixed size regardless of person.literacy, unlike BigChoice itself.
+ * Same tiers, same numbers, for visual consistency across the app.
+ */
+const SIZES = {
+  'non-literate': { icon: 56, label: 26, warn: 32 },
+  basic: { icon: 44, label: 20, warn: 26 },
+  fluent: { icon: 40, label: 20, warn: 26 },
+} as const;
 
 export default function HelpScreen() {
   const { person, loading } = usePerson();
@@ -60,11 +73,16 @@ export default function HelpScreen() {
 
   if (loading || !person) return null;
 
+  const s = SIZES[person.literacy];
+
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
-        {t('help.title', person.language)}
-      </h1>
+      <header className="flex items-center justify-between gap-3">
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
+          {t('help.title', person.language)}
+        </h1>
+        <StatusBadge lang={person.language} />
+      </header>
 
       <div className="flex flex-col gap-3">
         {cards.map((c) => (
@@ -76,16 +94,21 @@ export default function HelpScreen() {
           >
             {c.photoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={c.photoUrl} alt={c.title} className="w-14 h-14 object-cover rounded" />
+              <img
+                src={c.photoUrl}
+                alt={c.title}
+                className="object-cover rounded"
+                style={{ width: s.icon, height: s.icon }}
+              />
             ) : (
-              <Icon name="photo" size={40} />
+              <Icon name="photo" size={s.icon} />
             )}
-            <span style={{ fontSize: 20 }} className="font-black flex-1">
+            <span style={{ fontSize: s.label }} className="font-black flex-1">
               {c.title}
             </span>
             {c.stale && (
               <span title={t('help.stale_warning', person.language)}>
-                <Icon name="warning" size={26} />
+                <Icon name="warning" size={s.warn} />
               </span>
             )}
             <Icon name="listen" size={22} />

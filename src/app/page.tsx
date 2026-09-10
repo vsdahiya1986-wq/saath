@@ -53,7 +53,7 @@ export default function PersonHome() {
         <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
           {person.display_name}
         </h1>
-        <StatusBadge person={person} />
+        <StatusBadge lang={person.language} />
       </header>
 
       <BigChoice icon="play" labelKey="home.play" subKey="home.play.sub" person={person} onSelect={() => router.push('/play')} />

@@ -1,7 +1,7 @@
 import { STRINGS } from '@/content/strings';
 import type { Lang } from './db';
 
-type Manifest = Record<string, { file: string; text: string }>;
+type Manifest = Record<string, { file: string | null; text: string }>;
 
 const cache: Partial<Record<Lang, Manifest>> = {};
 const inflight: Partial<Record<Lang, Promise<Manifest>>> = {};

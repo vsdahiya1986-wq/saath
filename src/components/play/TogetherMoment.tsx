@@ -8,6 +8,7 @@ import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/ui/Icon';
 import ExitBar from '@/components/ui/ExitBar';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 const ACTIVITY_VERSION = '1';
 
@@ -114,10 +115,11 @@ export default function TogetherMoment({ person }: { person: Person }) {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4">
+      <header className="p-4 flex items-center justify-between gap-3">
         <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
           {t('activity.together', person.language)}
         </h1>
+        <StatusBadge lang={person.language} />
       </header>
 
       <div className="flex-1 flex flex-col items-center justify-center gap-5 p-4">

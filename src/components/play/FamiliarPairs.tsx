@@ -9,6 +9,9 @@ import { t } from '@/lib/i18n';
 import { playCue } from '@/lib/audio';
 import Icon from '@/components/ui/Icon';
 import ExitBar from '@/components/ui/ExitBar';
+import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
+import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 const ACTIVITY_VERSION = '1';
 const PAIRS_FOR_DIFFICULTY: Record<Difficulty, number> = { 1: 3, 2: 4, 3: 5, 4: 6 };
@@ -77,6 +80,7 @@ export default function FamiliarPairs({ person }: { person: Person }) {
   const [flipped, setFlipped] = useState<string[]>([]);
   const [mismatches, setMismatches] = useState(0);
   const [decision, setDecision] = useState<Decision | null>(null);
+  const [nextPreview, setNextPreview] = useState<Decision | null>(null);
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
   const [usedRegional, setUsedRegional] = useState(false);
   const [hintIds, setHintIds] = useState<string[]>([]);
@@ -102,6 +106,7 @@ export default function FamiliarPairs({ person }: { person: Person }) {
 
     switch (cue) {
       case 'highlight':
+        playCue('cue.highlight', person.language);
         if (pairs.length) {
           const ids = pairs[0].map((c) => c.cardId);
           setHintIds(ids);
@@ -109,12 +114,14 @@ export default function FamiliarPairs({ person }: { person: Person }) {
         }
         break;
       case 'demonstrate':
+        playCue('cue.demonstrate', person.language);
         if (pairs.length) {
           const ids = pairs[0].map((c) => c.cardId);
           setCards((cs) => cs.map((c) => (ids.includes(c.cardId) ? { ...c, matched: true } : c)));
         }
         break;
       case 'reduce_choices':
+        playCue('cue.reduce', person.language);
         if (pairs.length > 1) {
           const remove = pairs[pairs.length - 1].map((c) => c.cardId);
           setCards((cs) => cs.filter((c) => !remove.includes(c.cardId)));
@@ -226,7 +233,23 @@ export default function FamiliarPairs({ person }: { person: Person }) {
   }
 
   useEffect(() => {
-    if (outcome) logTrial(outcome);
+    if (!outcome) return;
+    (async () => {
+      await logTrial(outcome);
+      // SIH26003 (b): preview what the SAME decide() call would choose next
+      // time, now that this trial is logged — makes the "why" visible right
+      // where the session just ended, not only in the Evidence Inspector.
+      // Awaiting logTrial first matters: decide() reads db.trials, so the
+      // preview must run after this session's own trial has landed.
+      const preview = await decide({
+        personId: person.id,
+        activity: 'familiar_pairs',
+        difficulty,
+        allowedCues: person.care_config.allowed_cues,
+        maxDifficulty: person.care_config.max_difficulty,
+      });
+      setNextPreview(preview);
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [outcome]);
 
@@ -262,10 +285,14 @@ export default function FamiliarPairs({ person }: { person: Person }) {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4 flex items-center justify-between">
+      <header className="p-4 flex items-center justify-between gap-3 flex-wrap">
         <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
           {t('activity.familiar_pairs', person.language)}
         </h1>
+        <div className="flex items-center gap-2">
+          <AdaptiveBadge decision={decision} lang={person.language} />
+          <StatusBadge lang={person.language} />
+        </div>
         {usedRegional && (
           <span style={{ fontSize: 12 }} className="text-[var(--text-muted)] max-w-[45%] text-right">
             Using general pictures. Add {person.display_name}&apos;s own things when you can.
@@ -279,6 +306,7 @@ export default function FamiliarPairs({ person }: { person: Person }) {
           <p style={{ fontSize: 22 }} className="font-black">
             Well done.
           </p>
+          {nextPreview && <SessionOutcomeNote preview={nextPreview} playedDifficulty={difficulty} playedCue={decision.chosenCue} />}
           <button onClick={() => router.push('/play')} style={btnStyle}>
             {t('common.back', person.language)}
           </button>
@@ -288,6 +316,7 @@ export default function FamiliarPairs({ person }: { person: Person }) {
       {outcome === 'not_completed' && (
         <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6">
           <p style={{ fontSize: 20 }}>That is completely fine. We can try again another time.</p>
+          {nextPreview && <SessionOutcomeNote preview={nextPreview} playedDifficulty={difficulty} playedCue={decision.chosenCue} />}
           <button onClick={() => router.push('/play')} style={btnStyle}>
             {t('common.back', person.language)}
           </button>

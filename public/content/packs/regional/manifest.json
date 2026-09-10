@@ -3,14 +3,14 @@
   "reviewer": "not yet reviewed by a clinician or cultural advisor — placeholder only",
   "review_date": null,
   "licence": "n/a — original vector shapes drawn for this project, no third-party assets",
-  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to. The UI must label every one of these as 'general' and prompt the family to replace it with their own photographed object — never presented as 'what NER people recognise'.",
+  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. Several icons (japi, diya, mora) are drawn as common everyday NER-regional shapes rather than sterile international clip-art, but they are still original line art, not photographs — the household is still prompted to replace each one with their own photographed object, never presented as 'what NER people recognise'. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to.",
   "objects": [
     { "id": "reg_tumbler", "icon": "tumbler", "label": "Steel tumbler" },
-    { "id": "reg_lamp", "icon": "lamp", "label": "Kerosene lamp" },
+    { "id": "reg_lamp", "icon": "lamp", "label": "Diya (oil lamp)" },
     { "id": "reg_basket", "icon": "basket", "label": "Bamboo basket" },
-    { "id": "reg_umbrella", "icon": "umbrella", "label": "Umbrella" },
+    { "id": "reg_umbrella", "icon": "umbrella", "label": "Japi (bamboo hat)" },
     { "id": "reg_kettle", "icon": "kettle", "label": "Tea kettle" },
-    { "id": "reg_stool", "icon": "stool", "label": "Wooden stool" }
+    { "id": "reg_stool", "icon": "stool", "label": "Mora (bamboo stool)" }
   ],
   "patterns": [
     { "id": "reg_triangle", "icon": "triangle", "label": "Triangle" },

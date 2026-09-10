@@ -9,6 +9,9 @@ import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon, { IconName } from '@/components/ui/Icon';
 import ExitBar from '@/components/ui/ExitBar';
+import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
+import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 const ACTIVITY_VERSION = '1';
 const STEPS_FOR_DIFFICULTY: Record<Difficulty, number> = { 1: 3, 2: 3, 3: 4, 4: 5 };
@@ -46,7 +49,9 @@ export default function MyNextStep({ person }: { person: Person }) {
   const router = useRouter();
   const { logTrial } = useActivityTrial(person.id, 'my_next_step', ACTIVITY_VERSION);
 
-  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused'>('loading');
+  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused' | 'done'>('loading');
+  const [outcome, setOutcome] = useState<'completed' | 'not_completed' | null>(null);
+  const [nextPreview, setNextPreview] = useState<Decision | null>(null);
   const [decision, setDecision] = useState<Decision | null>(null);
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
   const [steps, setSteps] = useState<Step[]>([]);
@@ -101,7 +106,7 @@ export default function MyNextStep({ person }: { person: Person }) {
   const budget = useMemo(() => Math.max(6, steps.length * 3), [steps]);
   const nextCorrectId = steps[placed.length]?.id;
 
-  async function logAndLeave(outcome: 'skipped' | 'withdrawn' | 'not_completed', to: string) {
+  async function logAndLeave(outcome: 'skipped' | 'withdrawn', to: string) {
     await logTrial({
       outcome,
       difficulty,
@@ -111,6 +116,28 @@ export default function MyNextStep({ person }: { person: Person }) {
       perseverativeErrors: mismatches,
     });
     router.push(to);
+  }
+
+  /** SIH26003 (b): show what decide() would choose next time, right on the completion screen. */
+  async function finishSession(finalOutcome: 'completed' | 'not_completed', errors: number) {
+    await logTrial({
+      outcome: finalOutcome,
+      difficulty,
+      cue: (decision?.chosenCue ?? 'none') as CueType,
+      policyMode: decision?.mode ?? 'baseline',
+      modelVersion: decision?.modelVersion ?? 'unknown',
+      perseverativeErrors: errors,
+    });
+    setOutcome(finalOutcome);
+    setPhase('done');
+    const preview = await decide({
+      personId: person.id,
+      activity: 'my_next_step',
+      difficulty,
+      allowedCues: person.care_config.allowed_cues,
+      maxDifficulty: person.care_config.max_difficulty,
+    });
+    setNextPreview(preview);
   }
 
   /** In-activity assistance request — Part 3.1 F2 / Part 12 demo script. */
@@ -127,9 +154,11 @@ export default function MyNextStep({ person }: { person: Person }) {
     setDecision(d);
     switch (d.chosenCue) {
       case 'highlight':
+        playCue('cue.highlight', person.language);
         setHighlightNext(true);
         break;
       case 'demonstrate': {
+        playCue('cue.demonstrate', person.language);
         const next = tiles.find((tile) => tile.id === nextCorrectId);
         if (next) await tap(next); // reuse the real placement + completion-check path
         break;
@@ -148,24 +177,14 @@ export default function MyNextStep({ person }: { person: Person }) {
       const newPlaced = [...placed, tile];
       setPlaced(newPlaced);
       setTiles((ts) => ts.filter((s) => s.id !== tile.id));
-      if (newPlaced.length === steps.length) {
-        await logTrial({
-          outcome: 'completed',
-          difficulty,
-          cue: (decision?.chosenCue ?? 'none') as CueType,
-          policyMode: decision?.mode ?? 'baseline',
-          modelVersion: decision?.modelVersion ?? 'unknown',
-          perseverativeErrors: mismatches,
-        });
-        router.push('/play');
-      }
+      if (newPlaced.length === steps.length) await finishSession('completed', mismatches);
       return;
     }
     setWrongId(tile.id);
     setTimeout(() => setWrongId(null), 700);
     const next = mismatches + 1;
     setMismatches(next);
-    if (next >= budget) await logAndLeave('not_completed', '/play');
+    if (next >= budget) await finishSession('not_completed', next);
   }
 
   useEffect(() => {
@@ -200,10 +219,14 @@ export default function MyNextStep({ person }: { person: Person }) {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4 flex items-center justify-between">
+      <header className="p-4 flex items-center justify-between gap-3 flex-wrap">
         <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
           {t('activity.my_next_step', person.language)}
         </h1>
+        <div className="flex items-center gap-2">
+          <AdaptiveBadge decision={decision} lang={person.language} />
+          <StatusBadge lang={person.language} />
+        </div>
         {isRegional && (
           <span style={{ fontSize: 12 }} className="text-[var(--text-muted)] max-w-[45%] text-right">
             Using a general routine. Add {person.display_name}&apos;s own in Pack Studio.
@@ -211,6 +234,29 @@ export default function MyNextStep({ person }: { person: Person }) {
         )}
       </header>
 
+      {phase === 'done' && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6">
+          {outcome === 'completed' ? (
+            <>
+              <Icon name="check" size={64} />
+              <p style={{ fontSize: 22 }} className="font-black">
+                Well done.
+              </p>
+            </>
+          ) : (
+            <p style={{ fontSize: 20 }}>That is completely fine. We can try again another time.</p>
+          )}
+          {nextPreview && decision && (
+            <SessionOutcomeNote preview={nextPreview} playedDifficulty={difficulty} playedCue={decision.chosenCue} />
+          )}
+          <button onClick={() => router.push('/play')} style={btnStyle}>
+            {t('common.back', person.language)}
+          </button>
+        </div>
+      )}
+
+      {phase !== 'done' && (
+      <>
       <div className="p-4">
         <p style={{ fontSize: 14 }} className="text-[var(--text-muted)] mb-2">
           Your order so far:
@@ -270,6 +316,18 @@ export default function MyNextStep({ person }: { person: Person }) {
         onSkip={() => logAndLeave('skipped', '/play')}
         onStop={() => logAndLeave('withdrawn', '/')}
       />
+      </>
+      )}
     </main>
   );
 }
+
+const btnStyle = {
+  minHeight: 56,
+  background: 'var(--accent)',
+  borderRadius: 'var(--radius)',
+  color: 'white',
+  fontWeight: 900,
+  padding: '0 28px',
+  fontSize: 18,
+} as const;

@@ -5,10 +5,13 @@ import { Person, Difficulty, CueType, getBlob, packsForPerson } from '@/lib/db';
 import { decide, Decision } from '@/lib/model';
 import { lastDifficulty, useActivityTrial } from '@/lib/activityHelpers';
 import { loadRegionalManifest, RegionalItem } from '@/lib/regionalPacks';
-import { playPackAudio } from '@/lib/audio';
+import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/ui/Icon';
 import ExitBar from '@/components/ui/ExitBar';
+import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
+import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 const ACTIVITY_VERSION = '1';
 const CHOICES_FOR_DIFFICULTY: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 4, 4: 5 };
@@ -66,7 +69,9 @@ export default function SoundAndSight({ person }: { person: Person }) {
   const router = useRouter();
   const { logTrial } = useActivityTrial(person.id, 'sound_sight', ACTIVITY_VERSION);
 
-  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused'>('loading');
+  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused' | 'done'>('loading');
+  const [outcome, setOutcome] = useState<'completed' | 'not_completed' | null>(null);
+  const [nextPreview, setNextPreview] = useState<Decision | null>(null);
   const [choices, setChoices] = useState<Choice[]>([]);
   const [targetId, setTargetId] = useState<string | null>(null);
   const [decision, setDecision] = useState<Decision | null>(null);
@@ -145,10 +150,15 @@ export default function SoundAndSight({ person }: { person: Person }) {
     setDecision(d);
     switch (d.chosenCue) {
       case 'highlight':
+        playCue('cue.highlight', person.language);
+        setDemoTargetShown(true);
+        break;
       case 'demonstrate':
+        playCue('cue.demonstrate', person.language);
         setDemoTargetShown(true);
         break;
       case 'reduce_choices':
+        playCue('cue.reduce', person.language);
         setReduced(true);
         break;
       default:
@@ -156,35 +166,44 @@ export default function SoundAndSight({ person }: { person: Person }) {
     }
   }
 
+  /**
+   * SIH26003 (b): instead of navigating away the instant the round ends,
+   * show a brief completion screen with a preview of what decide() would
+   * choose next time — logTrial() must land first since decide() reads
+   * db.trials.
+   */
+  async function finishSession(finalOutcome: 'completed' | 'not_completed', errors: number) {
+    await logTrial({
+      outcome: finalOutcome,
+      difficulty,
+      cue: (decision?.chosenCue ?? 'none') as CueType,
+      policyMode: decision?.mode ?? 'baseline',
+      modelVersion: decision?.modelVersion ?? 'unknown',
+      perseverativeErrors: errors,
+    });
+    setOutcome(finalOutcome);
+    setPhase('done');
+    const preview = await decide({
+      personId: person.id,
+      activity: 'sound_sight',
+      difficulty,
+      allowedCues: person.care_config.allowed_cues,
+      maxDifficulty: person.care_config.max_difficulty,
+    });
+    setNextPreview(preview);
+  }
+
   async function pick(choiceId: string) {
     if (phase !== 'playing') return;
     if (choiceId === targetId) {
-      await logTrial({
-        outcome: 'completed',
-        difficulty,
-        cue: (decision?.chosenCue ?? 'none') as CueType,
-        policyMode: decision?.mode ?? 'baseline',
-        modelVersion: decision?.modelVersion ?? 'unknown',
-        perseverativeErrors: mismatches,
-      });
-      router.push('/play');
+      await finishSession('completed', mismatches);
       return;
     }
     setWrongId(choiceId);
     setTimeout(() => setWrongId(null), 700);
     const next = mismatches + 1;
     setMismatches(next);
-    if (next >= budget) {
-      await logTrial({
-        outcome: 'not_completed',
-        difficulty,
-        cue: (decision?.chosenCue ?? 'none') as CueType,
-        policyMode: decision?.mode ?? 'baseline',
-        modelVersion: decision?.modelVersion ?? 'unknown',
-        perseverativeErrors: next,
-      });
-      router.push('/play');
-    }
+    if (next >= budget) await finishSession('not_completed', next);
   }
 
   useEffect(() => {
@@ -219,10 +238,14 @@ export default function SoundAndSight({ person }: { person: Person }) {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4 flex items-center justify-between">
+      <header className="p-4 flex items-center justify-between gap-3 flex-wrap">
         <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
           {t('activity.sound_sight', person.language)}
         </h1>
+        <div className="flex items-center gap-2">
+          <AdaptiveBadge decision={decision} lang={person.language} />
+          <StatusBadge lang={person.language} />
+        </div>
         {usedRegional && (
           <span style={{ fontSize: 12 }} className="text-[var(--text-muted)] max-w-[45%] text-right">
             Using general pictures. Add {person.display_name}&apos;s own things when you can.
@@ -230,7 +253,28 @@ export default function SoundAndSight({ person }: { person: Person }) {
         )}
       </header>
 
-      {!audioMode && (
+      {phase === 'done' && (
+        <div className="flex-1 flex flex-col items-center justify-center gap-4 text-center px-6">
+          {outcome === 'completed' ? (
+            <>
+              <Icon name="check" size={64} />
+              <p style={{ fontSize: 22 }} className="font-black">
+                Well done.
+              </p>
+            </>
+          ) : (
+            <p style={{ fontSize: 20 }}>That is completely fine. We can try again another time.</p>
+          )}
+          {nextPreview && decision && (
+            <SessionOutcomeNote preview={nextPreview} playedDifficulty={difficulty} playedCue={decision.chosenCue} />
+          )}
+          <button onClick={() => router.push('/play')} style={btnStyle}>
+            {t('common.back', person.language)}
+          </button>
+        </div>
+      )}
+
+      {phase !== 'done' && !audioMode && (
         <p style={{ fontSize: 13 }} className="text-center text-[var(--text-muted)] px-4 -mt-2 mb-2">
           {visualOnly
             ? 'Visual mode — find the picture that matches the one shown.'
@@ -238,6 +282,7 @@ export default function SoundAndSight({ person }: { person: Person }) {
         </p>
       )}
 
+      {phase !== 'done' && (
       <div className="flex-1 flex flex-col items-center gap-6 p-4">
         {audioMode ? (
           <button
@@ -286,6 +331,7 @@ export default function SoundAndSight({ person }: { person: Person }) {
           ))}
         </div>
       </div>
+      )}
 
       {phase === 'playing' && (
         <div className="px-4 pb-2 flex justify-center">
@@ -299,6 +345,7 @@ export default function SoundAndSight({ person }: { person: Person }) {
         </div>
       )}
 
+      {phase !== 'done' && (
       <ExitBar
         person={person}
         paused={phase === 'paused'}
@@ -324,6 +371,17 @@ export default function SoundAndSight({ person }: { person: Person }) {
           }).then(() => router.push('/'))
         }
       />
+      )}
     </main>
   );
 }
+
+const btnStyle = {
+  minHeight: 56,
+  background: 'var(--accent)',
+  borderRadius: 'var(--radius)',
+  color: 'white',
+  fontWeight: 900,
+  padding: '0 28px',
+  fontSize: 18,
+} as const;

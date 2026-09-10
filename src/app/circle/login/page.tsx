@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { hasPin, setPin, verifyPin, markSessionUnlocked } from '@/lib/circleAuth';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 export default function CircleLogin() {
   const router = useRouter();
@@ -36,7 +37,10 @@ export default function CircleLogin() {
   if (mode === 'checking') return null;
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-5 bg-[var(--bg)] p-6">
+    <main className="min-h-screen flex flex-col items-center justify-center gap-5 bg-[var(--bg)] p-6 relative">
+      <div className="absolute top-4 right-4">
+        <StatusBadge />
+      </div>
       <h1 style={{ fontSize: 28 }} className="font-black text-[var(--text)]">
         Circle access
       </h1>
