@@ -6,6 +6,7 @@ import { usePerson } from '@/lib/usePerson';
 import { announce } from '@/lib/voiceNav';
 import { t } from '@/lib/i18n';
 import BigChoice from '@/components/ui/BigChoice';
+import StatusBadge from '@/components/ui/StatusBadge';
 
 export default function PersonHome() {
   const router = useRouter();
@@ -48,10 +49,11 @@ export default function PersonHome() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5">
-      <header className="pb-2">
+      <header className="pb-2 flex items-center justify-between gap-3">
         <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
           {person.display_name}
         </h1>
+        <StatusBadge person={person} />
       </header>
 
       <BigChoice icon="play" labelKey="home.play" subKey="home.play.sub" person={person} onSelect={() => router.push('/play')} />

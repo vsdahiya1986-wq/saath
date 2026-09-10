@@ -29,6 +29,15 @@ export const STRINGS: Record<string, string> = {
   'activity.my_next_step': 'My Next Step',
   'activity.together': 'Together Moment',
 
+  'domain.memory': 'Memory',
+  'domain.attention': 'Attention & Concentration',
+  'domain.routine': 'Daily Routine Recall',
+  'domain.pattern': 'Pattern & Object Recognition',
+
+  'status.offline': 'Working offline',
+  'status.synced': 'Synced',
+  'status.syncing': 'Syncing…',
+
   'play.title': 'Choose an activity',
   'play.pairs.intro': 'Find the two pictures that are the same. Take your time.',
   'play.sound.intro': 'Listen to the sound, then choose the matching picture.',
