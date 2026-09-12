@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Person, Difficulty, CueType } from '@/lib/db';
 import { decide, Decision } from '@/lib/model';
@@ -48,6 +49,86 @@ export default function PatternGarden({ person }: { person: Person }) {
   const [wrong, setWrong] = useState<IconName | null>(null);
   const [reduced, setReduced] = useState(false);
   const [highlightAnswer, setHighlightAnswer] = useState(false);
+
+  /**
+   * Priority 3 stretch (research finding #2: motion + cognitive challenge
+   * beats static tap-only for cognitive gains) — dragging a shape onto the
+   * "?" slot is an ADDITIONAL way to answer, not a replacement. Tap still
+   * works exactly as before via the button's own onClick; this only adds a
+   * second, more physically-embodied input path on top of it, so nobody who
+   * can't perform a drag gesture loses the ability to play (every
+   * interactive element keeps a persistent, non-gesture fallback — the same
+   * rule the redesign brief applies everywhere else).
+   */
+  const [drag, setDrag] = useState<{ shape: IconName; x: number; y: number; overTarget: boolean } | null>(null);
+  const dropZoneRef = useRef<HTMLDivElement | null>(null);
+  const suppressNextClick = useRef(false);
+  const activeDragCleanup = useRef<(() => void) | null>(null);
+  const DRAG_THRESHOLD_PX = 12;
+
+  // Safety net for navigating away (Stop/Skip/Pause) mid-drag: without this,
+  // a drag started right before unmount would leave its window listeners
+  // attached forever, each still holding a closure over this instance.
+  useEffect(() => {
+    return () => activeDragCleanup.current?.();
+  }, []);
+
+  function isOverDropZone(x: number, y: number): boolean {
+    const el = dropZoneRef.current;
+    if (!el) return false;
+    const r = el.getBoundingClientRect();
+    return x >= r.left && x <= r.right && y >= r.top && y <= r.bottom;
+  }
+
+  /**
+   * Listens on `window`, not the button that started the gesture: a drag
+   * naturally ends with the pointer over a DIFFERENT element (the drop
+   * zone), and relying on that original button to still receive the "up"
+   * event left the ghost stuck on screen whenever the browser routed the
+   * final event elsewhere. Attaching to window for the gesture's duration
+   * guarantees exactly one cleanup regardless of where the pointer ends up.
+   */
+  function onChoicePointerDown(shape: IconName, e: ReactPointerEvent<HTMLButtonElement>) {
+    if (phase !== 'playing') return;
+    const startX = e.clientX;
+    const startY = e.clientY;
+    let dragging = false;
+
+    const onMove = (ev: PointerEvent) => {
+      if (!dragging && Math.hypot(ev.clientX - startX, ev.clientY - startY) < DRAG_THRESHOLD_PX) return;
+      dragging = true;
+      setDrag({ shape, x: ev.clientX, y: ev.clientY, overTarget: isOverDropZone(ev.clientX, ev.clientY) });
+    };
+    const removeListeners = () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onCancel);
+      activeDragCleanup.current = null;
+    };
+    const finish = (ev: PointerEvent) => {
+      removeListeners();
+      setDrag(null);
+      if (dragging && isOverDropZone(ev.clientX, ev.clientY)) {
+        suppressNextClick.current = true; // the browser still fires a click after pointerup; this round already answered
+        pick(shape);
+      }
+    };
+    const onUp = (ev: PointerEvent) => finish(ev);
+    const onCancel = (ev: PointerEvent) => finish(ev);
+
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onCancel);
+    activeDragCleanup.current = removeListeners;
+  }
+
+  function onChoiceClick(shape: IconName) {
+    if (suppressNextClick.current) {
+      suppressNextClick.current = false;
+      return;
+    }
+    pick(shape);
+  }
 
   useEffect(() => {
     (async () => {
@@ -234,7 +315,14 @@ export default function PatternGarden({ person }: { person: Person }) {
             </div>
           ))}
           <div
-            style={{ border: 'var(--border-w) dashed var(--border)', borderRadius: 'var(--radius)', padding: 10, minWidth: 64 }}
+            ref={dropZoneRef}
+            style={{
+              border: `var(--border-w) dashed ${drag?.overTarget ? 'var(--accent)' : 'var(--border)'}`,
+              borderRadius: 'var(--radius)',
+              padding: 10,
+              minWidth: 64,
+              background: drag?.overTarget ? 'var(--accent-soft)' : 'transparent',
+            }}
             className="flex items-center justify-center"
           >
             <span style={{ fontSize: 28 }} className="font-black">
@@ -243,18 +331,25 @@ export default function PatternGarden({ person }: { person: Person }) {
           </div>
         </div>
 
+        <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-4">
+          Tap an answer, or drag it onto the {'"?"'}
+        </p>
+
         <div className="grid grid-cols-2 gap-4">
           {choices.map((shape) => (
             <button
               key={shape}
               data-testid="pattern-choice"
-              onClick={() => pick(shape)}
+              onClick={() => onChoiceClick(shape)}
+              onPointerDown={(e) => onChoicePointerDown(shape, e)}
               disabled={phase === 'paused'}
               style={{
                 minHeight: 90,
                 minWidth: 90,
                 border: `var(--border-w) solid ${wrong === shape ? 'var(--alert)' : highlightAnswer && shape === answer ? 'var(--accent)' : 'var(--border)'}`,
                 borderRadius: 'var(--radius)',
+                opacity: drag?.shape === shape ? 0.35 : 1,
+                touchAction: 'none',
               }}
               className="flex items-center justify-center"
             >
@@ -263,6 +358,27 @@ export default function PatternGarden({ person }: { person: Person }) {
           ))}
         </div>
       </div>
+      )}
+
+      {drag && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            left: drag.x - 28,
+            top: drag.y - 28,
+            width: 56,
+            height: 56,
+            pointerEvents: 'none',
+            background: 'var(--surface)',
+            border: `var(--border-w) solid ${drag.overTarget ? 'var(--accent)' : 'var(--border)'}`,
+            borderRadius: 'var(--radius)',
+            zIndex: 50,
+          }}
+          className="flex items-center justify-center"
+        >
+          <Icon name={drag.shape} size={32} />
+        </div>
       )}
 
       {phase === 'playing' && (
