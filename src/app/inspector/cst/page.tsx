@@ -1,12 +1,15 @@
 import protocol from '@/content/cst/protocol.json';
-import Link from 'next/link';
+import BackButton from '@/components/ui/BackButton';
 
 export default function CstProtocolMap() {
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5 max-w-2xl mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        CST Protocol Map
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/inspector" label="Back to Evidence Inspector" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          CST Protocol Map
+        </h1>
+      </header>
       <p style={{ fontSize: 15 }}>{protocol.framing}</p>
 
       <section style={cardStyle}>
@@ -37,10 +40,6 @@ export default function CstProtocolMap() {
           </div>
         ))}
       </section>
-
-      <Link href="/inspector" className="underline text-center" style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-        Back to Evidence Inspector
-      </Link>
     </main>
   );
 }

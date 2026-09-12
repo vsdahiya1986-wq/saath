@@ -1,0 +1,17 @@
+{
+  "name": "SAATH",
+  "short_name": "SAATH",
+  "description": "Offline-first memory companion",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#065f46",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

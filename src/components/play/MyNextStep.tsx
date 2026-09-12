@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import { Person, Difficulty, CueType, packsForPerson } from '@/lib/db';
 import { decide, Decision } from '@/lib/model';
 import { lastDifficulty, useActivityTrial } from '@/lib/activityHelpers';
-import { loadRegionalManifest } from '@/lib/regionalPacks';
+import { loadRegionalManifest, pickRegionalRoutine } from '@/lib/regionalPacks';
 import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon, { IconName } from '@/components/ui/Icon';
+import IconTile from '@/components/ui/IconTile';
 import ExitBar from '@/components/ui/ExitBar';
 import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
 import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
@@ -32,7 +33,8 @@ async function buildRoutine(person: Person, need: number): Promise<{ steps: Step
   }
 
   const manifest = await loadRegionalManifest();
-  const steps = manifest.defaultRoutine.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, icon: s.icon }));
+  const regionalRoutine = pickRegionalRoutine(manifest);
+  const steps = regionalRoutine.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, icon: s.icon }));
   return { steps, isRegional: true };
 }
 
@@ -290,7 +292,7 @@ export default function MyNextStep({ person }: { person: Person }) {
               }}
               className="flex flex-col items-center justify-center gap-1 p-2"
             >
-              <Icon name={tile.icon} size={32} />
+              <IconTile icon={tile.icon} size={26} />
               <span style={{ fontSize: 13 }}>{tile.label}</span>
             </button>
           ))}

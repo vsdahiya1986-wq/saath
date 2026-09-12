@@ -1,9 +1,9 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { CircleMember, putMember, membersForPerson, db } from '@/lib/db';
+import BackButton from '@/components/ui/BackButton';
 
 const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -67,9 +67,12 @@ export default function Roster() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Circle roster
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Circle roster
+        </h1>
+      </header>
 
       <section style={cardStyle} className="flex flex-col gap-3">
         <h2 style={{ fontSize: 18 }} className="font-black">
@@ -141,10 +144,6 @@ export default function Roster() {
         ))}
         {!members.length && <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">No circle members yet.</p>}
       </section>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }

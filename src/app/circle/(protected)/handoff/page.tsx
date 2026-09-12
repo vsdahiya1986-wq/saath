@@ -1,9 +1,9 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, Handoff, CircleMember, membersForPerson, packsForPerson } from '@/lib/db';
+import BackButton from '@/components/ui/BackButton';
 
 export default function HandoffScreen() {
   const [personId, setPersonId] = useState<string | null>(null);
@@ -65,9 +65,12 @@ export default function HandoffScreen() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Handoff
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Handoff
+        </h1>
+      </header>
       <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-3">
         A snapshot of current pack versions, sent from one worker to another, always with an explicit accept step.
       </p>
@@ -129,10 +132,6 @@ export default function HandoffScreen() {
           ))}
         {!handoffs.length && <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">No handoffs yet.</p>}
       </section>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }

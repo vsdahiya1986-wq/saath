@@ -16,10 +16,8 @@ export interface RegionalRoutine {
 interface RegionalManifest {
   objects: RegionalItem[];
   patterns: RegionalItem[];
-  defaultRoutine: RegionalRoutine;
+  routines: RegionalRoutine[];
 }
-
-const EMPTY_ROUTINE: RegionalRoutine = { id: 'reg_empty', title: '', note: '', steps: [] };
 
 let cached: RegionalManifest | null = null;
 
@@ -29,7 +27,18 @@ export async function loadRegionalManifest(): Promise<RegionalManifest> {
     const res = await fetch('/content/packs/regional/manifest.json');
     cached = await res.json();
   } catch {
-    cached = { objects: [], patterns: [], defaultRoutine: EMPTY_ROUTINE };
+    cached = { objects: [], patterns: [], routines: [] };
   }
   return cached!;
+}
+
+/**
+ * SIH26003 bug fix: My Next Step previously always showed the same single
+ * "Morning routine" fallback every session (manifest had exactly one). Pick
+ * one of several routine templates at random per session instead — content
+ * variety, not a logic change (see the manifest's own `routines` array).
+ */
+export function pickRegionalRoutine(manifest: RegionalManifest): RegionalRoutine {
+  if (!manifest.routines.length) return { id: 'reg_empty', title: '', note: '', steps: [] };
+  return manifest.routines[Math.floor(Math.random() * manifest.routines.length)];
 }

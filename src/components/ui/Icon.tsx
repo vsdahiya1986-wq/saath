@@ -25,7 +25,18 @@ export type IconName =
   | 'triangle'
   | 'square'
   | 'star'
-  | 'cardback';
+  | 'cardback'
+  | 'back'
+  | 'comb'
+  | 'torch'
+  | 'slipper'
+  | 'thali'
+  | 'broom'
+  | 'ghoti'
+  | 'mirror'
+  | 'pankha'
+  | 'keylock'
+  | 'jhola';
 
 const PATHS: Record<IconName, ReactElement> = {
   play: (
@@ -161,6 +172,76 @@ const PATHS: Record<IconName, ReactElement> = {
     <>
       <rect x="3" y="3" width="18" height="18" rx="3" />
       <path d="M3 3l18 18M21 3 3 21" strokeWidth={1} opacity={0.5} />
+    </>
+  ),
+  back: <path d="M15 5 7 12l8 7" strokeLinecap="round" strokeLinejoin="round" />,
+  /* Additional regional-fallback objects (Part 20 expansion) — same rule as
+     tumbler/lamp/basket/umbrella/kettle/stool above: common, everyday NER
+     household items, plain original line art, not photographs, not tied to
+     any one festival or community. Added to break the memory-game pool out
+     of only 6 items — see FamiliarPairs/SoundAndSight's root-cause note. */
+  comb: (
+    <>
+      <rect x="5" y="4" width="14" height="4" rx="1" />
+      <path d="M7 8v11M10 8v11M13 8v11M16 8v11" strokeLinecap="round" opacity="0.7" />
+    </>
+  ),
+  torch: (
+    <>
+      <rect x="9" y="9" width="6" height="12" rx="2" />
+      <path d="M8.5 9 9.5 5h5l1 4" strokeLinejoin="round" />
+      <path d="M12 3v1.5" strokeLinecap="round" opacity="0.6" />
+    </>
+  ),
+  slipper: (
+    <>
+      <ellipse cx="11" cy="14" rx="6.5" ry="4.2" />
+      <path d="M9 10 6 5.5M9 10 12 5.5" strokeLinecap="round" />
+    </>
+  ),
+  thali: (
+    <>
+      <circle cx="12" cy="12" r="8" />
+      <circle cx="12" cy="12" r="4" opacity="0.5" />
+    </>
+  ),
+  broom: (
+    <>
+      <path d="M15 3 7 15" strokeLinecap="round" />
+      <path d="M7 15 4 21M7 15 6 21M7 15 8 21M7 15 10 21" strokeLinecap="round" />
+    </>
+  ),
+  ghoti: (
+    <>
+      <path d="M8 9c0-2 1.8-3 4-3s4 1 4 3v6a4 4 0 0 1-8 0V9z" strokeLinejoin="round" />
+      <path d="M10 6V4M14 6V4" strokeLinecap="round" />
+    </>
+  ),
+  mirror: (
+    <>
+      <circle cx="12" cy="9" r="6" />
+      <path d="M12 15v6" strokeLinecap="round" />
+      <path d="M9 21h6" strokeLinecap="round" />
+    </>
+  ),
+  pankha: (
+    <>
+      <path d="M4 12a8 8 0 0 1 16 0" strokeLinejoin="round" />
+      <path d="M8 12 12 4M12 12V3.5M16 12 12 4" strokeLinecap="round" opacity="0.6" />
+      <path d="M12 12v9" strokeLinecap="round" />
+    </>
+  ),
+  keylock: (
+    <>
+      <rect x="6" y="11" width="12" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+      <circle cx="12" cy="15.5" r="1.3" fill="currentColor" stroke="none" />
+    </>
+  ),
+  jhola: (
+    <>
+      <path d="M6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z" strokeLinejoin="round" />
+      <path d="M9 9V7a3 3 0 0 1 6 0v2" strokeLinecap="round" />
     </>
   ),
 };

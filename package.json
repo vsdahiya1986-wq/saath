@@ -6,6 +6,7 @@
     "dev": "next dev",
     "prebuild": "node scripts/check-audio-coverage.mjs",
     "build": "next build",
+    "postbuild": "node scripts/generate-sw-precache.mjs",
     "start": "next start",
     "lint": "eslint",
     "android": "next build && npx cap sync android && npx cap open android",

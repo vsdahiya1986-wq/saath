@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import BackButton from '@/components/ui/BackButton';
 
 const LINKS: { href: string; label: string; desc: string }[] = [
   { href: '/circle/setup', label: 'Person profile', desc: 'Create or edit the person this device is for' },
@@ -14,9 +15,12 @@ const LINKS: { href: string; label: string; desc: string }[] = [
 export default function CircleHome() {
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
-        Circle
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/" label="Back" />
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)] flex-1">
+          Circle
+        </h1>
+      </header>
       <section
         style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 14 }}
         className="flex flex-col gap-1"
@@ -50,9 +54,6 @@ export default function CircleHome() {
           </Link>
         ))}
       </div>
-      <Link href="/" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline mt-4 text-center">
-        Back to person view
-      </Link>
     </main>
   );
 }

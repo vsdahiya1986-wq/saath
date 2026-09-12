@@ -1,9 +1,9 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { hasPin, setPin, verifyPin, markSessionUnlocked } from '@/lib/circleAuth';
 import StatusBadge from '@/components/ui/StatusBadge';
+import BackButton from '@/components/ui/BackButton';
 
 export default function CircleLogin() {
   const router = useRouter();
@@ -38,6 +38,9 @@ export default function CircleLogin() {
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center gap-5 bg-[var(--bg)] p-6 relative">
+      <div className="absolute top-4 left-4">
+        <BackButton href="/" label="Back" />
+      </div>
       <div className="absolute top-4 right-4">
         <StatusBadge />
       </div>
@@ -87,10 +90,6 @@ export default function CircleLogin() {
       >
         {mode === 'create' ? 'Set PIN' : 'Continue'}
       </button>
-
-      <Link href="/" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline mt-2">
-        Back to home
-      </Link>
     </main>
   );
 }

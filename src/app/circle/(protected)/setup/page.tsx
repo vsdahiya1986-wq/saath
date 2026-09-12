@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { v4 as uuid } from 'uuid';
 import { putPerson, Person, Literacy, Lang, Nav, Difficulty, CueType } from '@/lib/db';
 import { getActivePersonId, setActivePersonId } from '@/lib/usePerson';
+import BackButton from '@/components/ui/BackButton';
 
 const ALL_CUES: CueType[] = ['none', 'repeat_audio', 'highlight', 'reduce_choices', 'demonstrate'];
 
@@ -51,9 +52,12 @@ export default function PersonSetup() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4 max-w-md mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Person profile
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Person profile
+        </h1>
+      </header>
 
       <label className="flex flex-col gap-1">
         <span style={{ fontSize: 15 }}>Name</span>

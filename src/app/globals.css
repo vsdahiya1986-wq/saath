@@ -5,15 +5,30 @@
  * Deliberately NOT theme-aware: this app is for elderly users with
  * cataracts/macular degeneration. One fixed high-contrast palette,
  * always. No dark mode toggle, no prefers-color-scheme handling.
+ *
+ * SIH26003 redesign pass (requirement d / research findings #4 & #6): the
+ * research is explicit that "modern" for older users means clear, warm and
+ * respectful — not simplified further, and not novel-for-its-own-sake. The
+ * prior palette was pure white-on-near-black with a single green accent,
+ * reading as a bare, sterile default UI rather than anything warm or
+ * NER-appropriate. This keeps every accessibility-load-bearing value
+ * unchanged (contrast ratios, --accent as the ONE actionable colour for
+ * buttons, --touch-min, no dark mode) and adds only a warm ivory canvas plus
+ * a decorative warm tone for non-interactive accents (domain badges, icon
+ * backgrounds) — never used on anything tappable, so "what can I press"
+ * stays unambiguous.
  */
 :root {
-  --bg: #ffffff;
-  --surface: #ffffff;
+  --bg: #faf6ee; /* warm ivory canvas, not sterile white */
+  --surface: #ffffff; /* cards stay crisp white — pops against the canvas instead of vanishing into it */
   --border: #0f2419; /* hard borders, not shadows */
   --text: #0f2419;
   --text-muted: #4b5563;
-  --accent: #065f46; /* single actionable colour */
+  --accent: #065f46; /* single actionable colour — buttons only, never decorative */
   --accent-press: #043d2e;
+  --accent-warm: #b45309; /* decorative warmth only — domain badges, icon backgrounds. Never a button. */
+  --accent-warm-soft: #fdf1e2;
+  --accent-soft: #e7f3ee;
   --warn: #b45309;
   --alert: #9f1239;
   --ok: #065f46;

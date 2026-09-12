@@ -8,6 +8,7 @@ import { loadRegionalManifest, RegionalItem } from '@/lib/regionalPacks';
 import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/ui/Icon';
+import IconTile from '@/components/ui/IconTile';
 import ExitBar from '@/components/ui/ExitBar';
 import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
 import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
@@ -47,7 +48,11 @@ async function buildPool(person: Person, need: number): Promise<{ pool: Choice[]
 
   if (pool.length < need) {
     const manifest = await loadRegionalManifest();
-    for (const r of manifest.objects) {
+    // Shuffle before picking: manifest.objects is now a 16-item pool (see
+    // Part 20 expansion) specifically so sessions vary — reading it in
+    // fixed array order would always pick the same first `need` items and
+    // silently waste the expanded pool.
+    for (const r of shuffle(manifest.objects)) {
       if (pool.length >= need) break;
       if (pool.some((c) => c.id === r.id)) continue;
       pool.push({ id: r.id, label: r.label, icon: r.icon, isRegional: true });
@@ -299,8 +304,8 @@ export default function SoundAndSight({ person }: { person: Person }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={target.photoUrl} alt="" className="w-28 h-28 object-cover rounded" style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }} />
               ) : (
-                <div style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 }}>
-                  <Icon name={target.icon ?? 'square'} size={72} />
+                <div style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 12 }}>
+                  <IconTile icon={target.icon ?? 'square'} size={56} />
                 </div>
               )}
             </div>
@@ -325,7 +330,7 @@ export default function SoundAndSight({ person }: { person: Person }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={c.photoUrl} alt="" className="w-16 h-16 object-cover rounded" />
               ) : (
-                <Icon name={c.icon ?? 'square'} size={56} />
+                <IconTile icon={c.icon ?? 'square'} size={40} />
               )}
             </button>
           ))}

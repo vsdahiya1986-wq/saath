@@ -8,6 +8,7 @@ import { loadRegionalManifest, RegionalItem } from '@/lib/regionalPacks';
 import { t } from '@/lib/i18n';
 import { playCue } from '@/lib/audio';
 import Icon from '@/components/ui/Icon';
+import IconTile from '@/components/ui/IconTile';
 import ExitBar from '@/components/ui/ExitBar';
 import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
 import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
@@ -53,7 +54,11 @@ async function buildDeck(person: Person, need: number): Promise<DeckItem[]> {
 
   if (items.length < need) {
     const manifest = await loadRegionalManifest();
-    for (const r of manifest.objects) {
+    // Shuffle before picking: manifest.objects is now a 16-item pool (see
+    // Part 20 expansion) specifically so sessions vary — reading it in
+    // fixed array order would always pick the same first `need` items and
+    // silently waste the expanded pool.
+    for (const r of shuffle(manifest.objects)) {
       if (items.length >= need) break;
       items.push({ matchId: r.id, label: r.label, icon: r.icon, isRegional: true });
     }
@@ -351,7 +356,7 @@ export default function FamiliarPairs({ person }: { person: Person }) {
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={card.photoUrl} alt={card.label} className="w-10 h-10 object-cover rounded" />
                       ) : (
-                        <Icon name={card.icon ?? 'square'} size={40} />
+                        <IconTile icon={card.icon ?? 'square'} size={26} />
                       )}
                       <span style={{ fontSize: 13 }}>{card.label}</span>
                     </>

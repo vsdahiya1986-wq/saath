@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { getActivePersonId } from '@/lib/usePerson';
 import { packsForPerson, putPack } from '@/lib/db';
 import { createHelpRequest, transition } from '@/lib/events';
 import { setForcedOffline, isForcedOffline, syncTrials } from '@/lib/sync';
+import BackButton from '@/components/ui/BackButton';
 
 interface LogLine {
   at: string;
@@ -63,9 +63,12 @@ export default function FailureTheatre() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5 max-w-2xl mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Failure Theatre
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/inspector" label="Back to Evidence Inspector" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Failure Theatre
+        </h1>
+      </header>
       <p style={{ fontSize: 14 }} className="text-[var(--text-muted)] -mt-3">
         Demo-mode only. Every button here demonstrates honest failure handling, on demand.
       </p>
@@ -94,10 +97,6 @@ export default function FailureTheatre() {
         ))}
         {!log.length && <p style={{ fontSize: 13 }} className="text-[var(--text-muted)]">Nothing yet. Press a button above.</p>}
       </section>
-
-      <Link href="/inspector" className="underline text-center" style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-        Back to Evidence Inspector
-      </Link>
     </main>
   );
 }

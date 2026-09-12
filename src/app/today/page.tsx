@@ -1,5 +1,4 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePerson } from '@/lib/usePerson';
 import { Reminder, remindersForPerson } from '@/lib/db';
@@ -8,6 +7,7 @@ import { t } from '@/lib/i18n';
 import AnalogClock from '@/components/ui/AnalogClock';
 import Icon from '@/components/ui/Icon';
 import StatusBadge from '@/components/ui/StatusBadge';
+import BackButton from '@/components/ui/BackButton';
 
 const CUE_KEY: Record<Reminder['category'], string> = {
   medicine: 'remind.medicine',
@@ -66,8 +66,9 @@ export default function TodayScreen() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <header className="flex items-center justify-between gap-3">
-        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)]">
+      <header className="flex items-center gap-3">
+        <BackButton href="/" label={t('common.back', person.language)} />
+        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)] flex-1">
           {t('today.title', person.language)}
         </h1>
         <StatusBadge lang={person.language} />
@@ -128,10 +129,6 @@ export default function TodayScreen() {
           </p>
         )}
       </div>
-
-      <Link href="/" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center mt-auto">
-        {t('common.back', person.language)}
-      </Link>
     </main>
   );
 }

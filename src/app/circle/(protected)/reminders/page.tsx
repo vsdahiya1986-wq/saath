@@ -1,11 +1,11 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { Reminder, remindersForPerson, db } from '@/lib/db';
 import { scheduleReminder, cancelReminder, ensurePermission } from '@/lib/reminders';
 import AnalogClock from '@/components/ui/AnalogClock';
+import BackButton from '@/components/ui/BackButton';
 
 export default function ReminderScheduler() {
   const [personId, setPersonId] = useState<string | null>(null);
@@ -71,9 +71,12 @@ export default function ReminderScheduler() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Reminders
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Reminders
+        </h1>
+      </header>
 
       {permissionWarning && (
         <p style={{ fontSize: 14, color: 'var(--alert)' }}>
@@ -153,10 +156,6 @@ export default function ReminderScheduler() {
         ))}
         {!reminders.length && <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">No reminders yet.</p>}
       </section>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }

@@ -1,11 +1,11 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { ContentPack, putPack, packsForPerson, putBlob, getBlob, membersForPerson, CircleMember } from '@/lib/db';
 import { VoiceRecorder, playPackAudio } from '@/lib/audio';
 import Icon from '@/components/ui/Icon';
+import BackButton from '@/components/ui/BackButton';
 
 type Kind = ContentPack['kind'];
 
@@ -111,9 +111,12 @@ export default function PackStudio() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Pack Studio
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Pack Studio
+        </h1>
+      </header>
 
       <section style={cardStyle} className="flex flex-col gap-3">
         <h2 style={{ fontSize: 18 }} className="font-black">
@@ -248,10 +251,6 @@ export default function PackStudio() {
         ))}
         {!packs.length && <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">No packs yet.</p>}
       </section>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }

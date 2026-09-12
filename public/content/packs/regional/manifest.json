@@ -3,14 +3,24 @@
   "reviewer": "not yet reviewed by a clinician or cultural advisor — placeholder only",
   "review_date": null,
   "licence": "n/a — original vector shapes drawn for this project, no third-party assets",
-  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. Several icons (japi, diya, mora) are drawn as common everyday NER-regional shapes rather than sterile international clip-art, but they are still original line art, not photographs — the household is still prompted to replace each one with their own photographed object, never presented as 'what NER people recognise'. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to.",
+  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. Several icons (japi, diya, mora, and this expansion pass's ghoti/pankha) are drawn as common everyday NER-regional shapes rather than sterile international clip-art, but they are still original line art, not photographs — the household is still prompted to replace each one with their own photographed object, never presented as 'what NER people recognise'. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to. Expanded from 6 to 16 objects and 1 to 3 routines (SIH26003 rebuild pass) specifically so Familiar Pairs / Sound & Sight / My Next Step don't show the identical fixed set every single session before any family content exists — this is a content-authoring fix, not a game-logic change.",
   "objects": [
     { "id": "reg_tumbler", "icon": "tumbler", "label": "Steel tumbler" },
     { "id": "reg_lamp", "icon": "lamp", "label": "Diya (oil lamp)" },
     { "id": "reg_basket", "icon": "basket", "label": "Bamboo basket" },
     { "id": "reg_umbrella", "icon": "umbrella", "label": "Japi (bamboo hat)" },
     { "id": "reg_kettle", "icon": "kettle", "label": "Tea kettle" },
-    { "id": "reg_stool", "icon": "stool", "label": "Mora (bamboo stool)" }
+    { "id": "reg_stool", "icon": "stool", "label": "Mora (bamboo stool)" },
+    { "id": "reg_comb", "icon": "comb", "label": "Comb" },
+    { "id": "reg_torch", "icon": "torch", "label": "Torch" },
+    { "id": "reg_slipper", "icon": "slipper", "label": "Slippers" },
+    { "id": "reg_thali", "icon": "thali", "label": "Thali (plate)" },
+    { "id": "reg_broom", "icon": "broom", "label": "Jharu (broom)" },
+    { "id": "reg_ghoti", "icon": "ghoti", "label": "Ghoti (water pot)" },
+    { "id": "reg_mirror", "icon": "mirror", "label": "Mirror" },
+    { "id": "reg_pankha", "icon": "pankha", "label": "Pankha (hand fan)" },
+    { "id": "reg_keylock", "icon": "keylock", "label": "Lock and key" },
+    { "id": "reg_jhola", "icon": "jhola", "label": "Cloth bag" }
   ],
   "patterns": [
     { "id": "reg_triangle", "icon": "triangle", "label": "Triangle" },
@@ -22,15 +32,39 @@
     "shipped": false,
     "note": "Part 20 names timbrally distinct sounds (temple_bell.wav, wooden_clapper.wav, bamboo_flute.wav, rain_on_tin_roof.wav, morning_birds.wav) as the intended fallback library. No licensed audio was available to record or source for this build, and we will not ship synthesized sine-tone substitutes — the plan explicitly warns those are indistinguishable on cheap tablet speakers for presbycusis, which would make the fallback actively worse than no fallback. Sound & Sight therefore degrades to visual-only matching when no family-recorded pack audio exists, with an honest on-screen note, instead of a fake sound."
   },
-  "defaultRoutine": {
-    "id": "reg_morning_routine",
-    "title": "Morning routine",
-    "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
-    "steps": [
-      { "id": "wake", "icon": "clock", "label": "Wake up" },
-      { "id": "medicine", "icon": "tumbler", "label": "Take medicine" },
-      { "id": "wash", "icon": "kettle", "label": "Wash up" },
-      { "id": "breakfast", "icon": "basket", "label": "Have breakfast" }
-    ]
-  }
+  "routines": [
+    {
+      "id": "reg_morning_routine",
+      "title": "Morning routine",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "steps": [
+        { "id": "wake", "icon": "clock", "label": "Wake up" },
+        { "id": "medicine", "icon": "tumbler", "label": "Take medicine" },
+        { "id": "wash", "icon": "kettle", "label": "Wash up" },
+        { "id": "breakfast", "icon": "basket", "label": "Have breakfast" }
+      ]
+    },
+    {
+      "id": "reg_afternoon_routine",
+      "title": "Afternoon routine",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "steps": [
+        { "id": "rest", "icon": "stool", "label": "Sit and rest" },
+        { "id": "tea", "icon": "kettle", "label": "Have tea" },
+        { "id": "walk", "icon": "umbrella", "label": "Short walk" },
+        { "id": "water", "icon": "ghoti", "label": "Drink water" }
+      ]
+    },
+    {
+      "id": "reg_evening_routine",
+      "title": "Evening routine",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "steps": [
+        { "id": "wash_up", "icon": "kettle", "label": "Wash up" },
+        { "id": "dinner", "icon": "thali", "label": "Have dinner" },
+        { "id": "lock_up", "icon": "keylock", "label": "Lock the door" },
+        { "id": "sleep", "icon": "lamp", "label": "Turn off the lamp" }
+      ]
+    }
+  ]
 }

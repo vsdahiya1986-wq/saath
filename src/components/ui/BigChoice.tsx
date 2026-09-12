@@ -1,8 +1,10 @@
 'use client';
+import { useEffect } from 'react';
 import { Person } from '@/lib/db';
-import { playCue } from '@/lib/audio';
+import { playCue, queueAutoCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon, { IconName } from './Icon';
+import IconTile from './IconTile';
 
 const SIZES = {
   'non-literate': { icon: 96, label: 30, sub: 0 },
@@ -24,12 +26,25 @@ export default function BigChoice({
   onSelect: () => void;
 }) {
   const s = SIZES[person.literacy];
+
+  // SIH26003 bug fix: this card's audio previously only played when the
+  // small "listen" button below was tapped — for a non-literate user who
+  // cannot read labelKey's text, that button is itself undiscoverable
+  // without already knowing what it does. Auto-play once on screen entry so
+  // audio genuinely comes "first," per the comment on the button below; the
+  // button remains as a manual replay, not the only trigger.
+  useEffect(() => {
+    if (person.literacy === 'non-literate') {
+      queueAutoCue(labelKey, person.language);
+    }
+  }, [labelKey, person.language, person.literacy]);
+
   return (
     <div
       className="flex items-center gap-5 bg-[var(--surface)] p-5"
       style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }}
     >
-      <Icon name={icon} size={s.icon} />
+      <IconTile icon={icon} size={s.icon} />
       <div className="flex-1">
         <div style={{ fontSize: s.label }} className="font-black text-[var(--text)]">
           {t(labelKey, person.language)}

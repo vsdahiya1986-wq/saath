@@ -1,10 +1,10 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getActivePersonId } from '@/lib/usePerson';
 import { listLegacy, exportLegacyZip, LegacyEntry } from '@/lib/voiceLegacy';
 import { playPackAudio } from '@/lib/audio';
 import Icon from '@/components/ui/Icon';
+import BackButton from '@/components/ui/BackButton';
 
 export default function VoiceLegacy() {
   const [personId, setPersonId] = useState<string | null>(null);
@@ -38,9 +38,12 @@ export default function VoiceLegacy() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Voice Legacy
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Voice Legacy
+        </h1>
+      </header>
       <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">
         Every prompt recorded in SAATH becomes part of a family&apos;s permanent voice archive. We don&apos;t
         synthesise a relative&apos;s voice — we help families keep the real one.
@@ -81,10 +84,6 @@ export default function VoiceLegacy() {
       >
         Give the family a copy
       </button>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }

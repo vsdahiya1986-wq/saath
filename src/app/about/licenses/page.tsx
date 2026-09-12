@@ -1,12 +1,15 @@
 import licenses from '@/content/licenses.json';
-import Link from 'next/link';
+import BackButton from '@/components/ui/BackButton';
 
 export default function Licenses() {
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4 max-w-2xl mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        About &amp; licences
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/" label="Back to home" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          About &amp; licences
+        </h1>
+      </header>
       <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">
         SAATH is built for SIH26003, submitted under the standard student-team guidance to use verified open-source
         components only and acknowledge them appropriately. Every dependency, its licence, and its copyright notice
@@ -24,9 +27,6 @@ export default function Licenses() {
           </div>
         ))}
       </div>
-      <Link href="/" className="underline text-center" style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-        Back to home
-      </Link>
     </main>
   );
 }

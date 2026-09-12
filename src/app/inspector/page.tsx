@@ -4,6 +4,7 @@ import { getActivePersonId } from '@/lib/usePerson';
 import { getPerson, db, Person, Activity, Difficulty, TrialEvent, packsForPerson, ContentPack } from '@/lib/db';
 import { decide, Decision } from '@/lib/model';
 import Link from 'next/link';
+import BackButton from '@/components/ui/BackButton';
 
 const ACTIVITIES: Activity[] = ['familiar_pairs', 'sound_sight', 'pattern_garden', 'my_next_step', 'together'];
 
@@ -52,9 +53,12 @@ export default function EvidenceInspector() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5 max-w-2xl mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Evidence Inspector
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Evidence Inspector
+        </h1>
+      </header>
       <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-3">
         Jury view — the model&apos;s own reasoning, not a marketing screen.
       </p>
@@ -191,9 +195,6 @@ export default function EvidenceInspector() {
         </Link>
         <Link href="/inspector/theatre" className="underline" style={{ fontSize: 14 }}>
           Failure Theatre
-        </Link>
-        <Link href="/circle" className="underline" style={{ fontSize: 14, color: 'var(--text-muted)' }}>
-          Back to Circle
         </Link>
       </div>
     </main>

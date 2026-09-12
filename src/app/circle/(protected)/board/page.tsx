@@ -1,11 +1,11 @@
 'use client';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { getActivePersonId } from '@/lib/usePerson';
 import { computeLedger, EngagementLedger } from '@/lib/engagement';
 import { conditionTrends, ConditionSeries } from '@/lib/analytics';
 import { burdenReport, pickOnCall, BurdenRow, OnCall } from '@/lib/rotation';
 import { db, FollowupItem } from '@/lib/db';
+import BackButton from '@/components/ui/BackButton';
 
 type OverallTrend = 'improving' | 'stable' | 'declining' | 'insufficient';
 
@@ -74,9 +74,12 @@ export default function CircleBoard() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-6 max-w-lg mx-auto">
-      <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-        Circle Board
-      </h1>
+      <header className="flex items-center gap-3">
+        <BackButton href="/circle" label="Back to Circle" />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
+          Circle Board
+        </h1>
+      </header>
       <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-3">
         These are activity observations under stated conditions. They are not a clinical measure.
       </p>
@@ -218,10 +221,6 @@ export default function CircleBoard() {
           </p>
         )}
       </section>
-
-      <Link href="/circle" style={{ fontSize: 14, color: 'var(--text-muted)' }} className="underline text-center">
-        Back to Circle
-      </Link>
     </main>
   );
 }
