@@ -1,55 +1,27 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import { t } from '@/lib/i18n';
 import { Lang } from '@/lib/db';
 
-/**
- * Persistent offline/synced indicator — SIH26003 requirement (g): "Work in
- * low-connectivity environments with offline functionality support." The app
- * already works fully offline; this component just makes that fact visible,
- * so a judge (or a caregiver) doesn't have to take it on faith.
- *
- * Deliberately minimal: a small pill in the corner, not a banner that eats
- * into the elderly-friendly layout's already-scarce screen space.
- *
- * Takes `lang` rather than a full `Person` so it also works on screens with
- * no active/known person yet (Circle login, the no-profile home state) —
- * every screen needs to show this, not only person-facing ones.
- */
+function subscribe(cb: () => void) {
+  window.addEventListener('online', cb);
+  window.addEventListener('offline', cb);
+  return () => {
+    window.removeEventListener('online', cb);
+    window.removeEventListener('offline', cb);
+  };
+}
+
+/** Persistent offline/synced indicator (SIH26003 requirement g). */
 export default function StatusBadge({ lang = 'en' }: { lang?: Lang }) {
-  const [online, setOnline] = useState(true);
-
-  useEffect(() => {
-    setOnline(navigator.onLine);
-    const goOnline = () => setOnline(true);
-    const goOffline = () => setOnline(false);
-    window.addEventListener('online', goOnline);
-    window.addEventListener('offline', goOffline);
-    return () => {
-      window.removeEventListener('online', goOnline);
-      window.removeEventListener('offline', goOffline);
-    };
-  }, []);
-
+  const online = useSyncExternalStore(subscribe, () => navigator.onLine, () => true);
+  const color = online ? 'var(--ok)' : 'var(--accent-warm)';
   return (
-    <div
-      data-testid="status-badge"
-      style={{
-        fontSize: 12,
-        color: online ? 'var(--ok)' : 'var(--text-muted)',
-        border: `2px solid ${online ? 'var(--ok)' : 'var(--text-muted)'}`,
-        borderRadius: 999,
-      }}
-      className="inline-flex items-center gap-1.5 px-3 py-1 font-bold"
-    >
-      <span
-        style={{
-          width: 8,
-          height: 8,
-          borderRadius: '50%',
-          background: online ? 'var(--ok)' : 'var(--text-muted)',
-        }}
-      />
+    <div data-testid="status-badge" className="chip shrink-0" style={{ color }}>
+      <span className="relative flex" style={{ width: 10, height: 10 }}>
+        <span className="absolute inset-0 rounded-full breathe" style={{ background: color, opacity: 0.5 }} />
+        <span className="relative rounded-full" style={{ width: 10, height: 10, background: color }} />
+      </span>
       {t(online ? 'status.synced' : 'status.offline', lang)}
     </div>
   );

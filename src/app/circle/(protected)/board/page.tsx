@@ -86,7 +86,7 @@ export default function CircleBoard() {
 
       <section
         data-testid="overall-trend"
-        style={{ border: `var(--border-w) solid ${trendStyle.color}`, borderRadius: 'var(--radius)', padding: 16, background: trend === 'declining' ? '#FEF2F4' : trend === 'improving' ? '#ECFDF5' : 'var(--surface)' }}
+        style={{ border: `var(--border-w) solid ${trendStyle.color}`, borderRadius: 'var(--radius)', padding: 16, background: trend === 'declining' ? 'var(--alert-soft)' : trend === 'improving' ? 'var(--ok-soft)' : 'var(--surface)' }}
         className="flex items-center gap-4"
       >
         <span style={{ fontSize: 36, color: trendStyle.color, lineHeight: 1 }} aria-hidden="true">
@@ -133,7 +133,7 @@ export default function CircleBoard() {
                 <span style={{ fontSize: 14, width: 90 }} className="truncate">
                   {b.name}
                 </span>
-                <div style={{ flex: 1, height: 14, background: '#eee', borderRadius: 6, overflow: 'hidden' }}>
+                <div style={{ flex: 1, height: 14, background: 'var(--surface-3)', borderRadius: 6, overflow: 'hidden' }}>
                   <div style={{ width: `${b.share}%`, height: '100%', background: b.share > 50 ? 'var(--warn)' : 'var(--accent)' }} />
                 </div>
                 <span style={{ fontSize: 13, width: 40, textAlign: 'right' }}>{b.share}%</span>
@@ -181,7 +181,7 @@ export default function CircleBoard() {
                     <span style={{ fontSize: 10 }} className="text-[var(--text-muted)] pb-0.5">
                       100%
                     </span>
-                    <div className="flex items-end gap-1 h-16" style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <div className="flex items-end gap-1 h-16" style={{ borderBottom: '1px solid var(--border)' }}>
                       {s.points.map((p, j) => {
                         const isLatest = j === s.points.length - 1;
                         return (
@@ -196,7 +196,7 @@ export default function CircleBoard() {
                               style={{
                                 width: 14,
                                 height: p.supportedCompletionRate != null ? `${Math.max(6, p.supportedCompletionRate * 60)}px` : '4px',
-                                background: p.supportedCompletionRate == null ? '#ddd' : isLatest ? 'var(--accent-press)' : 'var(--accent)',
+                                background: p.supportedCompletionRate == null ? 'var(--surface-3)' : isLatest ? 'var(--accent-press)' : 'var(--accent)',
                                 borderRadius: 2,
                               }}
                             />
@@ -206,7 +206,7 @@ export default function CircleBoard() {
                     </div>
                   </div>
                 ) : (
-                  <div style={{ background: '#f3f4f6', borderRadius: 8, padding: 10 }}>
+                  <div style={{ background: 'var(--surface-2)', borderRadius: 8, padding: 10 }}>
                     <p style={{ fontSize: 12 }} className="text-[var(--text-muted)]">
                       {s.note}
                     </p>

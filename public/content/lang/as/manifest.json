@@ -31,18 +31,6 @@
     "file": "home_today_sub.wav",
     "text": "আজিৰ স্মাৰকসমূহ"
   },
-  "activity.familiar_pairs": {
-    "file": "activity_familiar_pairs.wav",
-    "text": "পৰিচিত যোৰা"
-  },
-  "activity.sound_sight": {
-    "file": "activity_sound_sight.wav",
-    "text": "শব্দ আৰু দৃষ্টি"
-  },
-  "activity.pattern_garden": {
-    "file": "activity_pattern_garden.wav",
-    "text": "আৰ্হি উদ্যান"
-  },
   "activity.my_next_step": {
     "file": "activity_my_next_step.wav",
     "text": "মোৰ পৰৱৰ্তী পদক্ষেপ"
@@ -90,18 +78,6 @@
   "play.title": {
     "file": "play_title.wav",
     "text": "এটা কাৰ্য্যকলাপ বাছনি কৰক"
-  },
-  "play.pairs.intro": {
-    "file": "play_pairs_intro.wav",
-    "text": "একেটা ছবি দুখন বিচাৰি উলিয়াওক। আপোনাৰ সময় লওক।"
-  },
-  "play.sound.intro": {
-    "file": "play_sound_intro.wav",
-    "text": "শব্দটো শুনক, তাৰ পিছত মিল খোৱা ছবিখন বাছনি কৰক।"
-  },
-  "play.pattern.intro": {
-    "file": "play_pattern_intro.wav",
-    "text": "আকৃতিবোৰ চাওক আৰু পৰৱৰ্তী সময়ত কি আহিব সেইটো বাছনি কৰক।"
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",

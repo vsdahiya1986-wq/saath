@@ -86,7 +86,7 @@ export default function CircleLogin() {
       <button
         onClick={mode === 'create' ? submitCreate : submitEnter}
         style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-        className="text-white font-black px-8 text-lg active:opacity-80"
+        className="text-[var(--on-accent)] font-black px-8 text-lg active:opacity-80"
       >
         {mode === 'create' ? 'Set PIN' : 'Continue'}
       </button>

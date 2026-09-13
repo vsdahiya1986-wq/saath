@@ -1,5 +1,13 @@
 {
-  "framing": "SAATH is a digital delivery vehicle for culturally-adapted Cognitive Stimulation Therapy (CST) — a named psychosocial intervention with real evidence, not an invented game mechanic.",
+  "framing": "SAATH delivers culturally-adapted Cognitive Stimulation Therapy (CST) — a named, evidence-based psychosocial intervention. Every activity below is a digital version of a specific session theme from the 14-session CST programme, not an invented game.",
+  "principles": [
+    "Opinions over facts — no one is ever told they are 'wrong'; mistakes get a gentle retry.",
+    "Recognition over recall — choices are always shown, never a blank to fill.",
+    "Orientation woven in gently — time of day, season and date as conversation.",
+    "Multi-sensory — every prompt is spoken aloud as well as shown.",
+    "Personalised & culturally relevant — household objects and routines from North-East India, replaced by the family's own photos when available.",
+    "Fun and respectful — adult tone, no childish rewards, always-available Pause / Skip / Stop."
+  ],
   "evidence": [
     "Cochrane systematic review of 15 RCTs (718 participants): consistent significant benefit to cognitive function following treatment, over and above medication effects, sustained at follow-up up to three months. (Aguirre, Woods, Spector & Orrell, Ageing Research Reviews, 2013; Cochrane CD005562)",
     "2024 systematic review & meta-analysis of the original 14-session CST protocol: strong evidence of positive treatment effects for global cognition, language and quality of life.",
@@ -7,42 +15,47 @@
     "2025 systematic review on personalisation: personalised activities are associated with greater engagement and adherence.",
     "NICE NG97 recommends offering group cognitive stimulation to people with mild-to-moderate dementia."
   ],
-  "honestLimit": "CST has evidence. Our digital delivery of it does not yet — that is what a pilot would test.",
+  "honestLimit": "CST has evidence. Our digital, one-to-one delivery of it does not yet — that is what a pilot would test.",
   "mapping": [
     {
       "activity": "familiar_pairs",
-      "label": "Familiar Pairs",
+      "label": "Today & Me",
       "psRequirement": "a.1 — Memory improvement",
-      "cstTheme": "Matched to CST's object/word recognition and recall sessions.",
-      "note": "Uses approved familiar objects from the household's own pack — personalisation the CST literature links to engagement."
+      "cstSession": "Session 10 · Orientation",
+      "cstTheme": "Reality-orientation conversation: part of day, season, weekday and month, drawn live from the device clock.",
+      "note": "Every answer is affirmed with the true fact spoken aloud, so the activity orients rather than tests."
     },
     {
       "activity": "sound_sight",
-      "label": "Sound & Sight",
+      "label": "Hear & Find",
       "psRequirement": "a.2 — Attention and concentration",
-      "cstTheme": "Matched to CST's sensory/sound-based orientation sessions.",
-      "note": "Visual-only mode available so hearing loss is never penalised."
+      "cstSession": "Session 7 · Word Association (with Session 2 · Sounds)",
+      "cstTheme": "Hear a spoken word — or a family member's recorded voice — and find the matching picture among distractors.",
+      "note": "Visual-only mode shows the word instead, so hearing loss is never penalised."
     },
     {
       "activity": "pattern_garden",
-      "label": "Pattern Garden",
+      "label": "Sort the Home",
       "psRequirement": "a.4 — Pattern and object recognition",
-      "cstTheme": "Matched to CST's categorisation and sorting sessions.",
-      "note": "Shape and contrast only — never colour alone."
+      "cstSession": "Session 9 · Categorising Objects",
+      "cstTheme": "Sort everyday NER household objects into Kitchen, Getting ready and Around the house.",
+      "note": "Categories and objects grow with difficulty; shape and label are always shown, never colour alone."
     },
     {
       "activity": "my_next_step",
       "label": "My Next Step",
       "psRequirement": "a.3 — Daily routine recall",
-      "cstTheme": "Matched to CST's everyday-life / practical activity sessions.",
-      "note": "Caregiver-approved, low-risk routine sequences only."
+      "cstSession": "Session 4 · Everyday Practical Life",
+      "cstTheme": "Put the steps of a familiar daily routine in order.",
+      "note": "Uses the family's own approved routine when one exists; otherwise a generic morning, afternoon or evening routine."
     },
     {
       "activity": "together",
       "label": "Together Moment",
       "psRequirement": "a.5 — Emotional and mental engagement",
-      "cstTheme": "Matched to CST's reminiscence and current-affairs discussion sessions.",
-      "note": "No score, no streak — a shared conversation, not a graded task. Reminiscence can cause distress (Alzheimer's Society guidance) — exit and content rejection are mandatory."
+      "cstSession": "Session 3 · Childhood, Session 5 · Food & Reminiscence",
+      "cstTheme": "Shared reminiscence around family photos and voices, or open CST discussion prompts.",
+      "note": "No score, no streak — a shared conversation. Reminiscence can cause distress (Alzheimer's Society guidance) — exit and content rejection are always available."
     }
   ]
 }

@@ -1,65 +1,61 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Person, ContentPack, getBlob, packsForPerson, putPack } from '@/lib/db';
-import { MODEL_VERSION } from '@/lib/model';
-import { useActivityTrial } from '@/lib/activityHelpers';
-import { playPackAudio, playCue } from '@/lib/audio';
-import { t } from '@/lib/i18n';
+import { ContentPack, Person, getBlob, packsForPerson, putPack } from '@/lib/db';
+import { useCstSession } from '@/lib/useCstSession';
+import { playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
+import { REMINISCENCE_PROMPTS, shuffle } from '@/content/cstContent';
 import Icon from '@/components/ui/Icon';
-import ExitBar from '@/components/ui/ExitBar';
-import StatusBadge from '@/components/ui/StatusBadge';
-
-const ACTIVITY_VERSION = '1';
+import IconTile from '@/components/ui/IconTile';
+import GameFrame from './GameFrame';
 
 /**
- * No score, no streak, no adaptive difficulty — deliberately. This is the
- * one activity the master plan (Part 3.1, F2) explicitly exempts from the
- * performance-scored model, and it never gets a generic regional fallback
- * either: a placeholder object is harmless practice content, but a
- * placeholder "memory" for a reminiscence activity would be hollow. If no
- * pack exists, we say so honestly instead of inventing one.
+ * "Together Moment" — CST reminiscence (Sessions 3 & 5). Never scored. Uses
+ * the family's own photos and voices when prepared; otherwise open CST
+ * discussion prompts about opinions and stories, never invented memories.
  */
-export default function TogetherMoment({ person }: { person: Person }) {
-  const router = useRouter();
-  const { logTrial } = useActivityTrial(person.id, 'together', ACTIVITY_VERSION);
 
-  const [phase, setPhase] = useState<'loading' | 'playing' | 'paused' | 'none'>('loading');
+type Prompt = (typeof REMINISCENCE_PROMPTS)[number];
+
+export default function TogetherMoment({ person, onRestart }: { person: Person; onRestart: () => void }) {
+  const router = useRouter();
+  const lang = person.language;
   const [pack, setPack] = useState<ContentPack | null>(null);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [prompts, setPrompts] = useState<Prompt[]>([]);
+  const [index, setIndex] = useState(0);
+  const [showFollow, setShowFollow] = useState(false);
   const [confirmingReject, setConfirmingReject] = useState(false);
 
-  useEffect(() => {
-    (async () => {
+  const session = useCstSession({
+    person,
+    activity: 'together',
+    version: '2',
+    scored: false,
+    onStart: async (_d, isCancelled) => {
       const packs = await packsForPerson(person.id, 'approved');
       const candidates = packs.filter((p) => p.permitted_uses.includes('together'));
-      if (!candidates.length) {
-        setPhase('none');
-        return;
-      }
-      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
-      setPack(chosen);
-      const photoKey = chosen.media.photo ?? chosen.media.place_photo;
-      if (photoKey) {
-        const blob = await getBlob(photoKey);
+      if (isCancelled()) return;
+      setPrompts(shuffle(REMINISCENCE_PROMPTS).slice(0, 3));
+      if (candidates.length) {
+        const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+        setPack(chosen);
+        const key = chosen.media.photo ?? chosen.media.place_photo;
+        const blob = key ? await getBlob(key) : undefined;
+        if (isCancelled()) return;
         if (blob) setPhotoUrl(URL.createObjectURL(blob));
+        if (chosen.media.audio_key) playPackAudio(chosen.media.audio_key);
+        else queueAutoCue('play.together.intro', lang);
       }
-      if (chosen.media.audio_key) playPackAudio(chosen.media.audio_key);
-      else playCue('play.together.intro', person.language);
-      setPhase('playing');
-    })();
-  }, [person]);
+    },
+  });
 
-  async function finish(outcome: 'completed' | 'skipped' | 'withdrawn') {
-    await logTrial({
-      outcome,
-      difficulty: 1,
-      cue: 'none',
-      policyMode: 'baseline',
-      modelVersion: MODEL_VERSION,
-    });
-    router.push(outcome === 'withdrawn' ? '/' : '/play');
-  }
+  const prompt = prompts[index];
+
+  useEffect(() => {
+    if (!pack && prompt && session.phase === 'playing') queueSpeak(prompt.question, lang);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pack, prompt?.question, session.phase === 'playing']);
 
   async function rejectForever() {
     if (!pack) return;
@@ -68,102 +64,109 @@ export default function TogetherMoment({ person }: { person: Person }) {
       return;
     }
     await putPack({ ...pack, state: 'withdrawn' });
-    await logTrial({ outcome: 'skipped', difficulty: 1, cue: 'none', policyMode: 'baseline', modelVersion: MODEL_VERSION });
-    router.push('/play');
+    await session.leave('skipped', '/play');
   }
 
-  useEffect(() => {
-    // visibilitychange, not pagehide: pagehide's async IndexedDB write is
-    // frequently killed mid-flight by the browser tearing the page down
-    // before it completes (observed live). visibilitychange fires earlier,
-    // while the page is still fully alive, giving the write time to land.
-    const onHide = () => {
-      if (document.visibilityState === 'hidden' && (phase === 'playing' || phase === 'paused')) {
-        logTrial({ outcome: 'interrupted', difficulty: 1, cue: 'none', policyMode: 'baseline', modelVersion: MODEL_VERSION });
-      }
-    };
-    document.addEventListener('visibilitychange', onHide);
-    return () => document.removeEventListener('visibilitychange', onHide);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
-
-  if (phase === 'loading') {
-    return (
-      <main className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
-        <p style={{ fontSize: 18 }}>Loading…</p>
-      </main>
-    );
-  }
-
-  if (phase === 'none') {
-    return (
-      <main className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[var(--bg)] p-6 text-center">
-        <p style={{ fontSize: 20 }}>No shared moments have been prepared yet.</p>
-        <p style={{ fontSize: 15 }} className="text-[var(--text-muted)]">
-          A family member can record one in Pack Studio, marked for &quot;together&quot;.
-        </p>
-        <button
-          onClick={() => router.push('/play')}
-          style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-          className="text-white font-black px-8 text-lg"
-        >
-          {t('common.back', person.language)}
-        </button>
-      </main>
-    );
+  function nextPrompt() {
+    setShowFollow(false);
+    setIndex((i) => (i + 1) % prompts.length);
   }
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] flex flex-col">
-      <header className="p-4 flex items-center justify-between gap-3">
-        <h1 style={{ fontSize: 22 }} className="font-black text-[var(--text)]">
-          {t('activity.together', person.language)}
-        </h1>
-        <StatusBadge lang={person.language} />
-      </header>
-
-      <div className="flex-1 flex flex-col items-center justify-center gap-5 p-4">
-        {photoUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={photoUrl} alt={pack?.title ?? ''} className="max-w-full max-h-72 object-contain rounded" style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }} />
-        ) : (
-          <Icon name="photo" size={96} />
-        )}
-        <p style={{ fontSize: 24 }} className="font-black text-center">
-          {pack?.title}
+    <GameFrame
+      person={person}
+      activity="together"
+      session={session}
+      onRestart={onRestart}
+      doneTitle="Thank you for sharing."
+      doneExtra={
+        <p style={{ fontSize: 19 }} className="muted max-w-md">
+          Talking about memories is good for the mind and the heart. There is no score here.
         </p>
-        <button
-          onClick={() => pack && playPackAudio(pack.media.audio_key)}
-          style={{ border: 'var(--border-w) solid var(--accent)', borderRadius: 'var(--radius)', minHeight: 64 }}
-          className="flex items-center gap-2 px-6 text-[var(--accent)] font-black"
-        >
-          <Icon name="listen" size={26} /> {t('a11y.listen', person.language)}
-        </button>
-
-        <button
-          onClick={() => finish('completed')}
-          style={{ minHeight: 72, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-          className="text-white font-black px-10 text-xl mt-4"
-        >
-          Done talking about this
-        </button>
-
-        <button
-          onClick={rejectForever}
-          style={{ fontSize: 13, color: 'var(--alert)' }}
-          className="underline mt-2"
-        >
-          {confirmingReject ? 'Tap again to remove this forever' : "I don't want to see this again"}
-        </button>
-      </div>
-
-      <ExitBar
-        person={person}
-        paused={phase === 'paused'}
-        onPauseToggle={() => setPhase(phase === 'paused' ? 'playing' : 'paused')}
-        onSkip={() => finish('skipped')}
-        onStop={() => finish('withdrawn')}
-      />
-    </main>
+      }
+    >
+      {pack ? (
+        <div className="flex flex-col items-center gap-5">
+          <div className="shell w-full rise">
+            <div className="core p-4 flex flex-col items-center gap-4">
+              {photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={photoUrl} alt={pack.title} className="w-full object-contain" style={{ maxHeight: '42vh', borderRadius: 18 }} />
+              ) : (
+                <span style={{ color: 'var(--accent)' }}>
+                  <Icon name="photo" size={110} />
+                </span>
+              )}
+              <p className="title-lg text-center">{pack.title}</p>
+              <p style={{ fontSize: 20 }} className="muted text-center">
+                Who is here? What do you remember about this?
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <button onClick={() => playPackAudio(pack.media.audio_key)} className="btn btn-ghost btn-xl" style={{ color: 'var(--accent)' }}>
+              <Icon name="listen" size={28} /> Listen
+            </button>
+            <button onClick={() => session.finish('completed')} className="btn btn-primary btn-xl">
+              <Icon name="heart" size={26} /> Done talking
+            </button>
+          </div>
+          <button onClick={rejectForever} style={{ fontSize: 17, color: 'var(--alert)' }} className="underline underline-offset-4 py-3">
+            {confirmingReject ? 'Tap again to remove this forever' : "I don't want to see this again"}
+          </button>
+        </div>
+      ) : (
+        prompt && (
+          <div className="flex flex-col gap-5">
+            <div className="shell rise" key={prompt.question}>
+              <div
+                className="core p-6 flex flex-col items-center gap-5 text-center"
+                style={{ background: 'radial-gradient(100% 90% at 50% 0%, rgba(249,168,212,0.14), transparent 60%), linear-gradient(180deg, var(--surface-2), var(--surface))' }}
+              >
+                <span className="eyebrow" style={{ color: '#f9a8d4', background: 'rgba(249,168,212,0.12)', borderColor: 'rgba(249,168,212,0.35)' }}>
+                  {prompt.theme}
+                </span>
+                <IconTile icon={prompt.icon} size={72} fg="#f9a8d4" />
+                <p className="title-lg" style={{ lineHeight: 1.2 }}>
+                  {prompt.question}
+                </p>
+                {showFollow ? (
+                  <p style={{ fontSize: 22 }} className="muted rise">
+                    {prompt.followUp}
+                  </p>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setShowFollow(true);
+                      speak(prompt.followUp, lang);
+                    }}
+                    className="btn btn-ghost"
+                  >
+                    Tell me more
+                  </button>
+                )}
+                <button onClick={() => speak(prompt.question, lang)} className="btn btn-ghost btn-icon" aria-label="Listen" style={{ color: '#f9a8d4', width: 72, height: 72 }}>
+                  <Icon name="listen" size={30} />
+                </button>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onClick={nextPrompt} className="btn btn-ghost btn-xl">
+                <Icon name="refresh" size={24} /> Another topic
+              </button>
+              <button onClick={() => session.finish('completed')} className="btn btn-primary btn-xl">
+                <Icon name="heart" size={24} /> Done talking
+              </button>
+            </div>
+            <p style={{ fontSize: 16 }} className="muted text-center">
+              A family member can add real photos and voices in Pack Studio.{' '}
+              <button onClick={() => router.push('/circle/packs')} className="underline underline-offset-4">
+                Open
+              </button>
+            </p>
+          </div>
+        )
+      )}
+    </GameFrame>
   );
 }

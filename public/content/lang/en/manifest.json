@@ -32,16 +32,16 @@
     "text": "Today's reminders"
   },
   "activity.familiar_pairs": {
-    "file": "activity_familiar_pairs.wav",
-    "text": "Familiar Pairs"
+    "file": null,
+    "text": "Today & Me"
   },
   "activity.sound_sight": {
-    "file": "activity_sound_sight.wav",
-    "text": "Sound & Sight"
+    "file": null,
+    "text": "Hear & Find"
   },
   "activity.pattern_garden": {
-    "file": "activity_pattern_garden.wav",
-    "text": "Pattern Garden"
+    "file": null,
+    "text": "Sort the Home"
   },
   "activity.my_next_step": {
     "file": "activity_my_next_step.wav",
@@ -92,16 +92,16 @@
     "text": "Choose an activity"
   },
   "play.pairs.intro": {
-    "file": "play_pairs_intro.wav",
-    "text": "Find the two pictures that are the same. Take your time."
+    "file": null,
+    "text": "Let us talk about today. Choose the answer that feels right. There is no hurry."
   },
   "play.sound.intro": {
-    "file": "play_sound_intro.wav",
-    "text": "Listen to the sound, then choose the matching picture."
+    "file": null,
+    "text": "Listen to the word, then tap the matching picture."
   },
   "play.pattern.intro": {
-    "file": "play_pattern_intro.wav",
-    "text": "Look at the shapes and choose what comes next."
+    "file": null,
+    "text": "Where does this belong? Tap the right basket."
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",

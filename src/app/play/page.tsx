@@ -4,107 +4,97 @@ import { useRouter } from 'next/navigation';
 import { usePerson } from '@/lib/usePerson';
 import { t } from '@/lib/i18n';
 import { playCue, queueAutoCue } from '@/lib/audio';
-import Icon, { IconName } from '@/components/ui/Icon';
+import Icon from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
 import StatusBadge from '@/components/ui/StatusBadge';
 import BackButton from '@/components/ui/BackButton';
-import type { Activity } from '@/lib/db';
-
-// Each activity is mapped to exactly one of the 4 cognitive domains named in
-// SIH26003 requirement (a): memory, attention/concentration, daily routine
-// recall, pattern/object recognition. domainKey is shown as a visible badge
-// on the card so a judge can see domain coverage at a glance, not just play
-// a game and guess what it's meant to train.
-const ACTIVITIES: { activity: Activity; icon: IconName; labelKey: string; domainKey: string }[] = [
-  { activity: 'familiar_pairs', icon: 'photo', labelKey: 'activity.familiar_pairs', domainKey: 'domain.memory' },
-  { activity: 'sound_sight', icon: 'listen', labelKey: 'activity.sound_sight', domainKey: 'domain.attention' },
-  { activity: 'pattern_garden', icon: 'circle', labelKey: 'activity.pattern_garden', domainKey: 'domain.pattern' },
-  { activity: 'my_next_step', icon: 'clock', labelKey: 'activity.my_next_step', domainKey: 'domain.routine' },
-  { activity: 'together', icon: 'help', labelKey: 'activity.together', domainKey: 'domain.attention' },
-];
-
-// Visual-identity pass: each domain gets its own consistent, high-contrast
-// colour (same domain = same colour everywhere, never reassigned — research
-// finding #6) so a judge or family member can tell activities apart at a
-// glance instead of every card reading identically in the single app accent.
-// All four are ≥4.5:1 against a white card background.
-const DOMAIN_COLOR: Record<string, string> = {
-  'domain.memory': '#065f46',
-  'domain.attention': '#6d28d9',
-  'domain.pattern': '#92400e',
-  'domain.routine': '#0369a1',
-};
+import BottomNav from '@/components/ui/BottomNav';
+import { ACTIVITIES, DOMAIN_COLOR } from '@/content/activities';
 
 export default function PlayPicker() {
   const router = useRouter();
   const { person, loading } = usePerson();
 
-  // SIH26003 bug fix: same root cause as BigChoice — a non-literate user
-  // landing on this list previously got no audio at all unless they already
-  // knew to tap the small per-card "listen" icon. Queue each card's label in
-  // display order so they announce one after another instead of overlapping.
   useEffect(() => {
-    if (!person || person.literacy !== 'non-literate') return;
-    for (const { labelKey } of ACTIVITIES) {
-      queueAutoCue(labelKey, person.language);
-    }
+    if (!person) return;
+    queueAutoCue('play.title', person.language);
+    if (person.literacy !== 'non-literate') return;
+    for (const { labelKey } of ACTIVITIES) queueAutoCue(labelKey, person.language);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person?.id, person?.literacy, person?.language]);
 
   if (loading || !person) return null;
+  const big = person.literacy === 'non-literate';
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <header className="flex items-center gap-3">
-        <BackButton href="/" label={t('common.back', person.language)} />
-        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)] flex-1">
-          {t('play.title', person.language)}
-        </h1>
-        <StatusBadge lang={person.language} />
-      </header>
-      {ACTIVITIES.map(({ activity, icon, labelKey, domainKey }) => {
-        const domainColor = DOMAIN_COLOR[domainKey];
-        return (
-        <div
-          key={activity}
-          data-testid={`activity-card-${activity}`}
-          className="flex items-center gap-5 bg-[var(--surface)] p-5"
-          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }}
-        >
-          <IconTile icon={icon} size={person.literacy === 'non-literate' ? 72 : 48} fg={domainColor} bg={`${domainColor}1a`} />
-          <div className="flex-1" style={{ fontSize: person.literacy === 'non-literate' ? 26 : 22 }}>
-            <span className="font-black text-[var(--text)]">{t(labelKey, person.language)}</span>
-            {person.literacy !== 'non-literate' && (
-              <div
-                style={{ fontSize: 13, color: domainColor, border: `2px solid ${domainColor}`, borderRadius: 999 }}
-                className="inline-block px-3 py-0.5 mt-1 font-bold"
-                data-testid={`domain-badge-${activity}`}
-              >
-                {t(domainKey, person.language)}
-              </div>
-            )}
+    <main className="h-[100dvh] flex flex-col">
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-3xl mx-auto px-5 pt-6 pb-8 flex flex-col gap-6">
+          <header className="flex items-center justify-between gap-3 rise">
+            <BackButton href="/" label={t('common.back', person.language)} />
+            <StatusBadge lang={person.language} />
+          </header>
+
+          <div className="flex flex-col gap-3 rise rise-1">
+            <span className="eyebrow self-start">
+              <Icon name="sparkle" size={14} /> Cognitive Stimulation Therapy
+            </span>
+            <h1 className="title-xl">{t('play.title', person.language)}</h1>
+            <p className="muted" style={{ fontSize: 19 }}>
+              Short, gentle sessions. There are no wrong answers — just try your best and enjoy.
+            </p>
           </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              playCue(labelKey, person.language);
-            }}
-            aria-label={t('a11y.listen', person.language)}
-            style={{ minWidth: 'var(--touch-min)', minHeight: 'var(--touch-min)', border: 'var(--border-w) solid var(--accent)', borderRadius: 'var(--radius)' }}
-            className="text-[var(--accent)] flex items-center justify-center"
-          >
-            <Icon name="listen" size={22} />
-          </button>
-          <button
-            onClick={() => router.push(`/play/${activity}`)}
-            style={{ minHeight: 72, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-            className="text-white font-black px-7 text-xl active:opacity-80"
-          >
-            {t('common.open', person.language)}
-          </button>
+
+          {ACTIVITIES.map(({ activity, icon, labelKey, domainKey, cstSession, blurb }, i) => {
+            const color = DOMAIN_COLOR[domainKey];
+            return (
+              <div key={activity} data-testid={`activity-card-${activity}`} className={`shell hover-lift rise rise-${Math.min(i + 2, 6)}`}>
+                <div
+                  className="core p-5 flex flex-col gap-4"
+                  style={{ background: `radial-gradient(90% 120% at 0% 0%, color-mix(in srgb, ${color} 12%, transparent) 0%, transparent 55%), linear-gradient(180deg, var(--surface-2), var(--surface))` }}
+                >
+                  <div className="flex items-start gap-4">
+                    <IconTile icon={icon} size={big ? 52 : 40} fg={color} />
+                    <div className="flex-1 min-w-0 flex flex-col gap-1">
+                      <span style={{ fontSize: 13, color, letterSpacing: '0.12em' }} className="font-bold uppercase">
+                        {cstSession}
+                      </span>
+                      <span style={{ fontSize: big ? 32 : 28, letterSpacing: '-0.02em' }} className="font-extrabold leading-tight">
+                        {t(labelKey, person.language)}
+                      </span>
+                      {!big && (
+                        <span style={{ fontSize: 17 }} className="muted">
+                          {blurb}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      onClick={() => playCue(labelKey, person.language)}
+                      aria-label={t('a11y.listen', person.language)}
+                      className="btn btn-ghost btn-icon"
+                      style={{ color }}
+                    >
+                      <Icon name="listen" size={24} />
+                    </button>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 flex-wrap">
+                    <span className="chip" style={{ color }} data-testid={`domain-badge-${activity}`}>
+                      {t(domainKey, person.language)}
+                    </span>
+                    <button onClick={() => router.push(`/play/${activity}`)} className="btn btn-primary" style={{ paddingRight: 10 }}>
+                      {t('common.open', person.language)}
+                      <span className="nub">
+                        <Icon name="arrow" size={22} strokeWidth={2.6} />
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        );
-      })}
+      </div>
+      <BottomNav lang={person.language} backHref="/" backLabel={t('common.back', person.language)} />
     </main>
   );
 }

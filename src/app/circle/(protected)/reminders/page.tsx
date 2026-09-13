@@ -132,7 +132,7 @@ export default function ReminderScheduler() {
           </div>
           <AnalogClock hour={hour} minute={minute} size={56} />
         </div>
-        <button onClick={add} disabled={!carePlanText.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-white font-black disabled:opacity-40">
+        <button onClick={add} disabled={!carePlanText.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Schedule
         </button>
       </section>

@@ -1,12 +1,26 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { getActivePersonId } from '@/lib/usePerson';
-import { getPerson, db, Person, Activity, Difficulty, TrialEvent, packsForPerson, ContentPack } from '@/lib/db';
-import { decide, Decision } from '@/lib/model';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { v4 as uuid } from 'uuid';
+import { getActivePersonId } from '@/lib/usePerson';
+import { getPerson, db, Person, Activity, Difficulty, TrialEvent, packsForPerson, ContentPack, CueType } from '@/lib/db';
+import { decide, Decision, MODEL_VERSION } from '@/lib/model';
+import { ACTIVITIES, DOMAIN_COLOR, activityInfo } from '@/content/activities';
+import { t } from '@/lib/i18n';
 import BackButton from '@/components/ui/BackButton';
+import Icon, { IconName } from '@/components/ui/Icon';
+import IconTile from '@/components/ui/IconTile';
+import { CUE_LABEL } from '@/components/ui/SessionOutcomeNote';
 
-const ACTIVITIES: Activity[] = ['familiar_pairs', 'sound_sight', 'pattern_garden', 'my_next_step', 'together'];
+const OUTCOME_STYLE: Record<TrialEvent['outcome'], { label: string; color: string; icon: IconName }> = {
+  completed: { label: 'Completed', color: 'var(--ok)', icon: 'check' },
+  not_completed: { label: 'Not completed', color: 'var(--warn)', icon: 'circle' },
+  skipped: { label: 'Skipped', color: 'var(--text-muted)', icon: 'skip' },
+  withdrawn: { label: 'Stopped by person', color: 'var(--text-muted)', icon: 'stop' },
+  interrupted: { label: 'Interrupted', color: 'var(--text-muted)', icon: 'pause' },
+};
+
+const pct = (x: number) => `${Math.round(x * 100)}%`;
 
 export default function EvidenceInspector() {
   const [person, setPerson] = useState<Person | null>(null);
@@ -14,8 +28,9 @@ export default function EvidenceInspector() {
   const [difficulty, setDifficulty] = useState<Difficulty>(1);
   const [includeSynthetic, setIncludeSynthetic] = useState(false);
   const [decision, setDecision] = useState<Decision | null>(null);
-  const [recent, setRecent] = useState<TrialEvent[]>([]);
+  const [trials, setTrials] = useState<TrialEvent[]>([]);
   const [packs, setPacks] = useState<ContentPack[]>([]);
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
     getActivePersonId().then(async (id) => {
@@ -28,6 +43,7 @@ export default function EvidenceInspector() {
 
   useEffect(() => {
     if (!person) return;
+    let cancelled = false;
     (async () => {
       const d = await decide({
         personId: person.id,
@@ -37,169 +53,442 @@ export default function EvidenceInspector() {
         maxDifficulty: person.care_config.max_difficulty,
         includeSynthetic,
       });
-      setDecision(d);
       const all = await db.trials.where({ person_id: person.id, activity }).toArray();
-      setRecent(all.sort((a, b) => b.created_at.localeCompare(a.created_at)).slice(0, 15));
+      if (cancelled) return;
+      setDecision(d);
+      setTrials(all.sort((a, b) => b.created_at.localeCompare(a.created_at)));
     })();
-  }, [person, activity, difficulty, includeSynthetic]);
+    return () => {
+      cancelled = true;
+    };
+  }, [person, activity, difficulty, includeSynthetic, tick]);
+
+  const seedDemo = useCallback(async () => {
+    if (!person) return;
+    const cues = person.care_config.allowed_cues.length ? person.care_config.allowed_cues : (['none'] as CueType[]);
+    const rows: TrialEvent[] = [];
+    const base = Date.now() - 7 * 864e5;
+    cues.forEach((cue, ci) => {
+      const successes = [2, 4, 3, 1, 3][ci % 5];
+      for (let k = 0; k < 4; k++) {
+        rows.push({
+          id: uuid(),
+          person_id: person.id,
+          activity,
+          activity_version: 'demo',
+          difficulty,
+          cue,
+          outcome: k < successes ? 'completed' : 'not_completed',
+          latency_ms: 20000 + k * 3000,
+          perseverative_errors: k < successes ? 1 : 4,
+          policy_mode: 'baseline',
+          model_version: MODEL_VERSION,
+          synthetic: true,
+          created_at: new Date(base + (ci * 4 + k) * 36e5).toISOString(),
+        });
+      }
+    });
+    await db.trials.bulkPut(rows);
+    setIncludeSynthetic(true);
+    setTick((x) => x + 1);
+  }, [person, activity, difficulty]);
+
+  const clearDemo = useCallback(async () => {
+    if (!person) return;
+    const ids = (await db.trials.where({ person_id: person.id }).toArray()).filter((r) => r.synthetic).map((r) => r.id);
+    await db.trials.bulkDelete(ids);
+    setTick((x) => x + 1);
+  }, [person]);
 
   if (!person) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-6 text-center bg-[var(--bg)]">
-        <p>Set up a person profile first.</p>
+      <main className="min-h-[100dvh] flex flex-col items-center justify-center gap-4 p-6 text-center">
+        <Icon name="profile" size={56} />
+        <p style={{ fontSize: 20 }}>Set up a person profile first.</p>
+        <BackButton href="/circle" label="Back to Circle" />
       </main>
     );
   }
 
+  const info = activityInfo(activity);
+  const color = DOMAIN_COLOR[info.domainKey];
+  const learned = decision?.mode === 'learned';
+  const scoped = trials.filter((x) => includeSynthetic || !x.synthetic);
+  const eligible = scoped.filter((x) => x.outcome === 'completed' || x.outcome === 'not_completed');
+  const completionRate = eligible.length ? eligible.filter((x) => x.outcome === 'completed').length / eligible.length : null;
+  const syntheticCount = trials.filter((x) => x.synthetic).length;
+  const minEvidence = decision?.config.MIN_EVIDENCE ?? 3;
+  const activeLayer = !decision ? 0 : decision.ranking.length === 0 ? 1 : learned ? 3 : 2;
+
   return (
-    <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-5 max-w-2xl mx-auto">
-      <header className="flex items-center gap-3">
-        <BackButton href="/circle" label="Back to Circle" />
-        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-          Evidence Inspector
-        </h1>
-      </header>
-      <p style={{ fontSize: 13 }} className="text-[var(--text-muted)] -mt-3">
-        Jury view — the model&apos;s own reasoning, not a marketing screen.
-      </p>
-
-      <div className="flex gap-3">
-        <select value={activity} onChange={(e) => setActivity(e.target.value as Activity)} style={inputStyle}>
-          {ACTIVITIES.map((a) => (
-            <option key={a} value={a}>
-              {a}
-            </option>
-          ))}
-        </select>
-        <select value={difficulty} onChange={(e) => setDifficulty(Number(e.target.value) as Difficulty)} style={inputStyle}>
-          {[1, 2, 3, 4].map((d) => (
-            <option key={d} value={d}>
-              difficulty {d}
-            </option>
-          ))}
-        </select>
-        <label className="flex items-center gap-2" style={{ fontSize: 13 }}>
-          <input type="checkbox" checked={includeSynthetic} onChange={(e) => setIncludeSynthetic(e.target.checked)} />
-          include synthetic (demo only)
-        </label>
-      </div>
-
-      {decision && (
-        <section style={cardStyle} className="flex flex-col gap-2">
-          <div className="flex justify-between">
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: 900,
-                padding: '3px 10px',
-                borderRadius: 20,
-                border: `var(--border-w) solid ${decision.mode === 'learned' ? 'var(--accent)' : 'var(--border)'}`,
-                color: decision.mode === 'learned' ? 'var(--accent)' : 'var(--text)',
-              }}
-            >
-              {decision.mode.toUpperCase()}
-            </span>
-            <span style={{ fontSize: 12 }} className="text-[var(--text-muted)]">
-              model {decision.modelVersion}
-            </span>
+    <main className="min-h-[100dvh]">
+      <div className="max-w-5xl mx-auto px-5 pt-6 pb-16 flex flex-col gap-8">
+        <header className="flex items-center justify-between gap-3 flex-wrap rise">
+          <BackButton href="/circle" label="Back to Circle" />
+          <div className="flex gap-2">
+            <Link href="/inspector/cst" className="btn btn-ghost" style={{ fontSize: 17 }}>
+              <Icon name="shield" size={20} /> CST Protocol Map
+            </Link>
+            <Link href="/inspector/theatre" className="btn btn-ghost" style={{ fontSize: 17 }}>
+              <Icon name="warning" size={20} /> Failure Theatre
+            </Link>
           </div>
-          <p style={{ fontSize: 15 }}>{decision.reason}</p>
-          <p style={{ fontSize: 14 }}>
-            Chosen cue: <b>{decision.chosenCue}</b> · Chosen difficulty: <b>{decision.chosenDifficulty}</b> · Baseline cue:{' '}
-            <b>{decision.baselineCue}</b> ·{' '}
-            <span style={{ color: decision.changedFromBaseline ? 'var(--accent)' : 'var(--text-muted)' }}>
-              {decision.changedFromBaseline ? 'CHANGED from baseline' : 'unchanged from baseline'}
-            </span>
+        </header>
+
+        <section className="flex flex-col gap-3 rise rise-1">
+          <span className="eyebrow self-start">
+            <Icon name="chart" size={14} /> Jury view · model {decision?.modelVersion ?? MODEL_VERSION}
+          </span>
+          <h1 className="title-xl">Evidence Inspector</h1>
+          <p style={{ fontSize: 19 }} className="muted max-w-2xl">
+            Exactly how SAATH decides the level and type of help for {person.display_name} — every number below comes straight from this
+            device&apos;s own session records. Nothing is hidden or invented.
           </p>
-
-          <table style={{ fontSize: 13, width: '100%' }} className="mt-2">
-            <thead>
-              <tr className="text-left text-[var(--text-muted)]">
-                <th>cue</th>
-                <th>n</th>
-                <th>completions</th>
-                <th>posterior mean</th>
-                <th>supported</th>
-              </tr>
-            </thead>
-            <tbody>
-              {decision.ranking.map((r) => (
-                <tr key={r.cue}>
-                  <td>{r.cue}</td>
-                  <td>{r.n}</td>
-                  <td>{r.completions}</td>
-                  <td>{r.posteriorMean.toFixed(3)}</td>
-                  <td>{r.supported ? 'yes' : 'no'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <details className="mt-2">
-            <summary style={{ fontSize: 12 }} className="text-[var(--text-muted)] cursor-pointer">
-              Predeclared config (engineering, not clinical cutoffs)
-            </summary>
-            <pre style={{ fontSize: 11, overflowX: 'auto' }}>{JSON.stringify(decision.config, null, 2)}</pre>
-          </details>
         </section>
-      )}
 
-      <section style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 900, marginBottom: 8 }}>Event lifecycle timeline</h2>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ fontSize: 12, width: '100%' }}>
-            <thead>
-              <tr className="text-left text-[var(--text-muted)]">
-                <th>when</th>
-                <th>difficulty</th>
-                <th>cue</th>
-                <th>outcome</th>
-                <th>mode</th>
-                <th>synthetic</th>
-                <th>synced</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recent.map((t) => (
-                <tr key={t.id}>
-                  <td>{new Date(t.created_at).toLocaleString()}</td>
-                  <td>{t.difficulty}</td>
-                  <td>{t.cue}</td>
-                  <td>{t.outcome}</td>
-                  <td>{t.policy_mode}</td>
-                  <td>{t.synthetic ? 'SYNTHETIC' : 'real'}</td>
-                  <td>{t.synced_at ? 'yes' : 'no'}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {!recent.length && <p className="text-[var(--text-muted)] mt-2">No trials logged yet for this activity.</p>}
-        </div>
-      </section>
-
-      <section style={cardStyle}>
-        <h2 style={{ fontSize: 16, fontWeight: 900, marginBottom: 8 }}>Pack versions</h2>
-        {packs.map((p) => (
-          <div key={p.id} style={{ fontSize: 13 }} className="flex justify-between">
-            <span>{p.id.slice(0, 8)}…</span>
-            <span>
-              v{p.version} · {p.state}
-            </span>
+        {/* Controls */}
+        <section className="shell rise rise-2">
+          <div className="core p-5 flex flex-col gap-5">
+            <div className="flex flex-col gap-2">
+              <span className="muted font-bold uppercase tracking-widest" style={{ fontSize: 13 }}>
+                1 · Choose an activity
+              </span>
+              <div className="flex flex-wrap gap-2" role="tablist">
+                {ACTIVITIES.map((a) => {
+                  const active = a.activity === activity;
+                  const c = DOMAIN_COLOR[a.domainKey];
+                  return (
+                    <button
+                      key={a.activity}
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => setActivity(a.activity)}
+                      className="btn"
+                      style={{
+                        minHeight: 52,
+                        fontSize: 17,
+                        padding: '0 18px',
+                        color: active ? '#06101f' : 'var(--text)',
+                        background: active ? c : 'rgba(255,255,255,0.04)',
+                        border: `2px solid ${active ? c : 'var(--border-strong)'}`,
+                      }}
+                    >
+                      <Icon name={a.icon} size={20} /> {t(a.labelKey)}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="flex flex-wrap items-end gap-6">
+              <div className="flex flex-col gap-2">
+                <span className="muted font-bold uppercase tracking-widest" style={{ fontSize: 13 }}>
+                  2 · Level
+                </span>
+                <div className="flex gap-2">
+                  {([1, 2, 3, 4] as Difficulty[]).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setDifficulty(d)}
+                      aria-pressed={difficulty === d}
+                      className={`btn ${difficulty === d ? 'btn-primary' : 'btn-ghost'}`}
+                      style={{ minHeight: 52, width: 56, padding: 0, fontSize: 20 }}
+                    >
+                      {d}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <span className="muted font-bold uppercase tracking-widest" style={{ fontSize: 13 }}>
+                  3 · Demo data
+                </span>
+                <div className="flex flex-wrap gap-2 items-center">
+                  <button
+                    onClick={() => setIncludeSynthetic(!includeSynthetic)}
+                    role="switch"
+                    aria-checked={includeSynthetic}
+                    className="btn btn-ghost"
+                    style={{ minHeight: 52, fontSize: 16, borderColor: includeSynthetic ? 'var(--accent-warm)' : undefined }}
+                  >
+                    <span
+                      className="relative rounded-full transition-colors"
+                      style={{ width: 44, height: 26, background: includeSynthetic ? 'var(--accent-warm)' : 'var(--surface-3)' }}
+                    >
+                      <span
+                        className="absolute top-[3px] rounded-full bg-white transition-transform"
+                        style={{ width: 20, height: 20, left: 3, transform: includeSynthetic ? 'translateX(18px)' : 'none', transitionTimingFunction: 'var(--ease-spring)' }}
+                      />
+                    </span>
+                    Include synthetic
+                  </button>
+                  <button onClick={seedDemo} className="btn btn-ghost" style={{ minHeight: 52, fontSize: 16 }}>
+                    <Icon name="sparkle" size={18} /> Add demo trials
+                  </button>
+                  {syntheticCount > 0 && (
+                    <button onClick={clearDemo} className="btn btn-ghost" style={{ minHeight: 52, fontSize: 16, color: 'var(--alert)' }}>
+                      Clear {syntheticCount} demo
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
-      </section>
+        </section>
 
-      <div className="flex gap-4 justify-center">
-        <Link href="/inspector/cst" className="underline" style={{ fontSize: 14 }}>
-          CST Protocol Map
-        </Link>
-        <Link href="/inspector/theatre" className="underline" style={{ fontSize: 14 }}>
-          Failure Theatre
-        </Link>
+        {decision && (
+          <>
+            {/* Verdict */}
+            <section className="shell rise rise-3">
+              <div
+                className="core p-6 sm:p-8 flex flex-col gap-6"
+                style={{
+                  borderColor: learned ? 'rgba(94,234,212,0.55)' : 'var(--border)',
+                  background: `radial-gradient(90% 120% at 100% 0%, ${learned ? 'rgba(94,234,212,0.16)' : 'rgba(147,197,253,0.08)'}, transparent 60%), linear-gradient(180deg, var(--surface-2), var(--surface))`,
+                }}
+              >
+                <div className="flex items-start gap-4 flex-wrap">
+                  <IconTile icon={info.icon} size={40} fg={color} />
+                  <div className="flex-1 min-w-[240px] flex flex-col gap-2">
+                    <span
+                      className="chip self-start"
+                      style={{ color: learned ? 'var(--accent)' : 'var(--accent-2)', fontSize: 15 }}
+                      data-testid="inspector-mode"
+                    >
+                      <Icon name={learned ? 'sparkle' : 'shield'} size={16} />
+                      {learned ? 'LEARNED — personalised from evidence' : 'BASELINE — safe default'}
+                    </span>
+                    <p style={{ fontSize: 'clamp(22px, 3.4vw, 30px)', letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+                      Next {t(info.labelKey)} session: <span style={{ color }}>{CUE_LABEL[decision.chosenCue]}</span> at{' '}
+                      <span style={{ color }}>level {decision.chosenDifficulty}</span>.
+                    </p>
+                    <p style={{ fontSize: 18 }} className="muted">
+                      <b className="text-[var(--text)]">Why: </b>
+                      {decision.reason}
+                    </p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <Stat label="Compared with baseline" value={decision.changedFromBaseline ? 'Changed' : 'Same'} tone={decision.changedFromBaseline ? 'var(--accent)' : 'var(--text-muted)'} sub={`Baseline help: ${CUE_LABEL[decision.baselineCue]}`} />
+                  <Stat label="Sessions recorded" value={String(scoped.length)} sub={`${eligible.length} count as evidence`} />
+                  <Stat label="Completion rate" value={completionRate === null ? '—' : pct(completionRate)} sub="completed ÷ (completed + not completed)" tone="var(--ok)" />
+                </div>
+              </div>
+            </section>
+
+            {/* Pipeline */}
+            <section className="flex flex-col gap-4 rise rise-4">
+              <h2 className="title-lg" style={{ fontSize: 28 }}>
+                How the decision is made
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { n: 1, title: 'A person asks for help', body: 'Human intent always wins. Pressing Help overrides the model immediately.', icon: 'people' as IconName },
+                  { n: 2, title: 'Is there enough evidence?', body: `Each type of help needs at least ${minEvidence} finished sessions at this level. If none do, a safe default is used.`, icon: 'shield' as IconName },
+                  { n: 3, title: 'Pick what works best', body: 'Types of help with enough evidence are ranked by their estimated success. Level moves by at most one step.', icon: 'sparkle' as IconName },
+                ].map((step) => {
+                  const active = step.n === activeLayer;
+                  return (
+                    <div key={step.n} className="panel p-5 flex flex-col gap-3" style={{ borderColor: active ? 'var(--accent)' : 'var(--border)', boxShadow: active ? '0 0 0 4px rgba(94,234,212,0.12)' : undefined, opacity: active ? 1 : 0.72 }}>
+                      <div className="flex items-center gap-3">
+                        <span
+                          className="flex items-center justify-center rounded-full font-extrabold"
+                          style={{ width: 40, height: 40, background: active ? 'var(--accent)' : 'var(--surface-3)', color: active ? 'var(--on-accent)' : 'var(--text-muted)' }}
+                        >
+                          {step.n}
+                        </span>
+                        <span style={{ color: active ? 'var(--accent)' : 'var(--text-muted)' }}>
+                          <Icon name={step.icon} size={24} />
+                        </span>
+                        {active && (
+                          <span className="chip ml-auto" style={{ color: 'var(--accent)', fontSize: 12 }}>
+                            USED NOW
+                          </span>
+                        )}
+                      </div>
+                      <h3 style={{ fontSize: 21 }} className="font-extrabold">
+                        {step.title}
+                      </h3>
+                      <p style={{ fontSize: 16 }} className="muted">
+                        {step.body}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Evidence per cue */}
+            <section className="flex flex-col gap-4">
+              <div className="flex items-end justify-between gap-3 flex-wrap">
+                <h2 className="title-lg" style={{ fontSize: 28 }}>
+                  Evidence for each type of help · level {difficulty}
+                </h2>
+                <span style={{ fontSize: 15 }} className="muted">
+                  Estimated success = (completions + 1) ÷ (sessions + 2)
+                </span>
+              </div>
+              {decision.ranking.length === 0 && (
+                <div className="panel p-5" style={{ fontSize: 18 }}>
+                  Ranking is skipped when a person explicitly asks for help.
+                </div>
+              )}
+              <div className="flex flex-col gap-3">
+                {decision.ranking.map((r) => {
+                  const chosen = r.cue === decision.chosenCue;
+                  return (
+                    <div key={r.cue} className="panel p-5 flex flex-col gap-3" style={{ borderColor: chosen ? 'var(--accent)' : 'var(--border)' }}>
+                      <div className="flex items-center justify-between gap-3 flex-wrap">
+                        <div className="flex items-center gap-3">
+                          <span style={{ fontSize: 22 }} className="font-extrabold capitalize">
+                            {CUE_LABEL[r.cue]}
+                          </span>
+                          {chosen && (
+                            <span className="chip" style={{ color: 'var(--accent)', fontSize: 13 }}>
+                              <Icon name="check" size={14} /> CHOSEN
+                            </span>
+                          )}
+                        </div>
+                        <span className="chip" style={{ color: r.supported ? 'var(--ok)' : 'var(--warn)', fontSize: 14 }}>
+                          {r.supported ? 'Enough evidence' : `Needs ${minEvidence - r.n} more`}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="progress-track flex-1" style={{ height: 16 }}>
+                          <div className="progress-fill" style={{ transform: `scaleX(${r.posteriorMean})`, background: chosen ? undefined : 'linear-gradient(90deg,#64748b,#94a3b8)' }} />
+                        </div>
+                        <span style={{ fontSize: 24, minWidth: 64 }} className="font-extrabold tabular-nums text-right">
+                          {pct(r.posteriorMean)}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-5 flex-wrap" style={{ fontSize: 16 }}>
+                        <span className="flex items-center gap-2 muted">
+                          Evidence
+                          <span className="flex gap-1">
+                            {Array.from({ length: Math.max(minEvidence, r.n) }).map((_, i) => (
+                              <span key={i} className="rounded-full" style={{ width: 14, height: 14, background: i < r.n ? (r.supported ? 'var(--ok)' : 'var(--warn)') : 'var(--surface-3)' }} />
+                            ))}
+                          </span>
+                        </span>
+                        <span className="muted">
+                          <b className="text-[var(--text)]">{r.completions}</b> completed of <b className="text-[var(--text)]">{r.n}</b>
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+
+            {/* Config */}
+            <section className="flex flex-col gap-4">
+              <h2 className="title-lg" style={{ fontSize: 28 }}>
+                Fixed rules, declared in advance
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <Stat label="Evidence needed" value={`${decision.config.MIN_EVIDENCE} sessions`} sub="per type of help, per level" />
+                <Stat label="Level goes up when" value={`> ${pct(decision.config.TARGET_HIGH)}`} sub="estimated success" tone="var(--ok)" />
+                <Stat label="Level goes down when" value={`< ${pct(decision.config.TARGET_LOW)}`} sub="estimated success" tone="var(--warn)" />
+                <Stat label="Tie margin" value={pct(decision.config.TIE_TOLERANCE)} sub="then preference decides" />
+              </div>
+              <p style={{ fontSize: 15 }} className="muted">
+                These are engineering settings, not clinical cutoffs. Skips, stops and interruptions are recorded but never counted as failure.
+                Synthetic demo data never affects a real recommendation unless the switch above is on. Care-team bounds: levels up to{' '}
+                {person.care_config.max_difficulty}, help allowed: {person.care_config.allowed_cues.map((c) => CUE_LABEL[c]).join(', ')}.
+              </p>
+            </section>
+          </>
+        )}
+
+        {/* Timeline */}
+        <section className="flex flex-col gap-4">
+          <h2 className="title-lg" style={{ fontSize: 28 }}>
+            Session timeline · {t(info.labelKey)}
+          </h2>
+          {!scoped.length && (
+            <div className="panel p-6 muted" style={{ fontSize: 18 }}>
+              No sessions logged yet for this activity. Play it once, or add demo trials above.
+            </div>
+          )}
+          <ol className="flex flex-col gap-2">
+            {scoped.slice(0, 20).map((row) => {
+              const o = OUTCOME_STYLE[row.outcome];
+              return (
+                <li key={row.id} className="panel px-4 py-3 flex items-center gap-4 flex-wrap">
+                  <span className="flex items-center justify-center rounded-full shrink-0" style={{ width: 40, height: 40, color: o.color, border: `2px solid ${o.color}` }}>
+                    <Icon name={o.icon} size={20} />
+                  </span>
+                  <div className="flex-1 min-w-[180px]">
+                    <div style={{ fontSize: 18, color: o.color }} className="font-extrabold">
+                      {o.label}
+                    </div>
+                    <div style={{ fontSize: 14 }} className="muted">
+                      {new Date(row.created_at).toLocaleString()}
+                    </div>
+                  </div>
+                  <span className="chip" style={{ color: 'var(--accent-2)' }}>
+                    Level {row.difficulty}
+                  </span>
+                  <span className="chip" style={{ color: 'var(--text-muted)' }}>
+                    {CUE_LABEL[row.cue]}
+                  </span>
+                  <span className="chip" style={{ color: row.policy_mode === 'learned' ? 'var(--accent)' : 'var(--text-muted)' }}>
+                    {row.policy_mode}
+                  </span>
+                  {row.synthetic && (
+                    <span className="chip" style={{ color: 'var(--accent-warm)' }}>
+                      synthetic
+                    </span>
+                  )}
+                  <span className="chip" style={{ color: row.synced_at ? 'var(--ok)' : 'var(--text-dim)' }}>
+                    {row.synced_at ? 'synced' : 'on device'}
+                  </span>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+
+        <section className="flex flex-col gap-4">
+          <h2 className="title-lg" style={{ fontSize: 28 }}>
+            Content pack versions
+          </h2>
+          {!packs.length && (
+            <p className="muted" style={{ fontSize: 17 }}>
+              No family packs on this device yet.
+            </p>
+          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {packs.map((p) => (
+              <div key={p.id} className="panel px-4 py-3 flex items-center justify-between gap-3">
+                <span className="font-bold truncate" style={{ fontSize: 17 }}>
+                  {p.title}
+                </span>
+                <span className="chip" style={{ color: p.state === 'approved' ? 'var(--ok)' : 'var(--warn)' }}>
+                  v{p.version} · {p.state}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </main>
   );
 }
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
-const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 44, padding: '0 10px', fontSize: 14 } as const;
+function Stat({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: string }) {
+  return (
+    <div className="panel p-4 flex flex-col gap-1">
+      <span style={{ fontSize: 13 }} className="muted font-bold uppercase tracking-widest">
+        {label}
+      </span>
+      <span style={{ fontSize: 28, color: tone ?? 'var(--text)', letterSpacing: '-0.02em' }} className="font-extrabold tabular-nums">
+        {value}
+      </span>
+      {sub && (
+        <span style={{ fontSize: 14 }} className="muted">
+          {sub}
+        </span>
+      )}
+    </div>
+  );
+}

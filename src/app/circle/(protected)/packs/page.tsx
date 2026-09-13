@@ -213,7 +213,7 @@ export default function PackStudio() {
           onClick={createPack}
           disabled={!title.trim() || !recordedKey}
           style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-          className="text-white font-black text-lg disabled:opacity-40"
+          className="text-[var(--on-accent)] font-black text-lg disabled:opacity-40"
         >
           Approve pack
         </button>

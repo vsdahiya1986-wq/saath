@@ -4,44 +4,13 @@ import { usePerson } from '@/lib/usePerson';
 import { Reminder, remindersForPerson } from '@/lib/db';
 import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
+import { CUE_KEY, CATEGORY_COLOR, isOverdue, sortReminders, formatTime } from '@/lib/reminders';
 import AnalogClock from '@/components/ui/AnalogClock';
 import Icon from '@/components/ui/Icon';
 import StatusBadge from '@/components/ui/StatusBadge';
 import BackButton from '@/components/ui/BackButton';
-
-const CUE_KEY: Record<Reminder['category'], string> = {
-  medicine: 'remind.medicine',
-  hydration: 'remind.hydration',
-  activity: 'remind.activity',
-  appointment: 'remind.appointment',
-};
-
-/**
- * SIH26003 (e): "overdue/urgent reminders unmistakably distinct (color +
- * icon + position), not just a small warning icon." Reminder rows only
- * store a recurring daily hour/minute/period (see src/lib/db.ts) — there is
- * no per-day "done today" record, so "overdue" is the honest thing this
- * screen CAN derive without touching the data layer: has today's clock
- * already passed this reminder's time. It resets itself every midnight for
- * free, by the same logic, with no stored state to go stale.
- */
-function minutesSinceMidnight(hour12: number, minute: number, period: 'AM' | 'PM'): number {
-  const h = period === 'PM' ? (hour12 % 12) + 12 : hour12 % 12;
-  return h * 60 + minute;
-}
-
-function isOverdue(r: Reminder): boolean {
-  const now = new Date();
-  const nowMinutes = now.getHours() * 60 + now.getMinutes();
-  return minutesSinceMidnight(r.hour, r.minute, r.period) < nowMinutes;
-}
-
-/** SIH26003 (h): literacy-scaling audit — see the matching comment in src/app/help/page.tsx. */
-const SIZES = {
-  'non-literate': { clock: 72, label: 24, sub: 15 },
-  basic: { clock: 64, label: 20, sub: 14 },
-  fluent: { clock: 56, label: 20, sub: 14 },
-} as const;
+import BottomNav from '@/components/ui/BottomNav';
+import { orientationNow } from '@/lib/orientation';
 
 export default function TodayScreen() {
   const { person, loading } = usePerson();
@@ -49,86 +18,111 @@ export default function TodayScreen() {
 
   useEffect(() => {
     if (!person) return;
-    remindersForPerson(person.id).then((rs) =>
-      setReminders(
-        rs.sort((a, b) => {
-          const overdueDiff = Number(isOverdue(b)) - Number(isOverdue(a));
-          if (overdueDiff !== 0) return overdueDiff; // overdue reminders float to the top
-          return minutesSinceMidnight(a.hour, a.minute, a.period) - minutesSinceMidnight(b.hour, b.minute, b.period);
-        })
-      )
-    );
+    remindersForPerson(person.id).then((rs) => setReminders(sortReminders(rs)));
   }, [person]);
 
   if (loading || !person) return null;
 
-  const s = SIZES[person.literacy];
+  const now = orientationNow();
+  const showClock = person.literacy !== 'fluent';
+  const [hero, ...rest] = reminders;
+
+  function play(r: Reminder) {
+    if (r.audio_pack_id) playPackAudio(r.audio_pack_id);
+    else playCue(CUE_KEY[r.category], person!.language);
+  }
+
+  function renderRow(r: Reminder, big: boolean) {
+    const overdue = isOverdue(r);
+    const color = overdue ? 'var(--alert)' : CATEGORY_COLOR[r.category];
+    return (
+      <button
+        data-testid="reminder-row"
+        data-overdue={overdue}
+        onClick={() => play(r)}
+        className="shell hover-lift text-left w-full"
+      >
+        <span
+          className="core flex items-center gap-5 p-5"
+          style={{
+            borderColor: overdue ? 'var(--alert)' : 'var(--border)',
+            background: `radial-gradient(100% 140% at 0% 50%, color-mix(in srgb, ${color} 14%, transparent) 0%, transparent 60%), linear-gradient(180deg, var(--surface-2), var(--surface))`,
+          }}
+        >
+          {showClock ? (
+            <span className="shrink-0 rounded-full p-1" style={{ background: 'var(--bg-2)', boxShadow: `0 0 30px -10px ${color}` }}>
+              <AnalogClock hour={r.hour} minute={r.minute} size={big ? 104 : 80} />
+            </span>
+          ) : (
+            <span style={{ fontSize: big ? 34 : 28, color }} className="font-extrabold shrink-0 tabular-nums">
+              {formatTime(r)}
+            </span>
+          )}
+          <span className="flex-1 min-w-0 flex flex-col gap-1">
+            <span style={{ fontSize: 14, color, letterSpacing: '0.12em' }} className="font-bold uppercase flex items-center gap-2">
+              {overdue && <Icon name="warning" size={16} />}
+              {big ? (overdue ? 'Overdue — next up' : 'Next up') : overdue ? 'Overdue' : formatTime(r)}
+            </span>
+            <span style={{ fontSize: big ? 28 : 23 }} className="font-extrabold leading-tight">
+              {t(CUE_KEY[r.category], person!.language)}
+            </span>
+            <span style={{ fontSize: 17 }} className="muted">
+              {r.care_plan_text}
+            </span>
+            {!r.device_activated && (
+              <span style={{ fontSize: 14, color: 'var(--warn)' }} className="flex items-center gap-1 font-semibold">
+                <Icon name="warning" size={14} /> Not armed on this device
+              </span>
+            )}
+          </span>
+          <span className="btn btn-ghost btn-icon shrink-0" style={{ color }} aria-hidden="true">
+            <Icon name="listen" size={24} />
+          </span>
+        </span>
+      </button>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4">
-      <header className="flex items-center gap-3">
-        <BackButton href="/" label={t('common.back', person.language)} />
-        <h1 style={{ fontSize: 'var(--text-title)' }} className="font-black text-[var(--text)] flex-1">
-          {t('today.title', person.language)}
-        </h1>
-        <StatusBadge lang={person.language} />
-      </header>
+    <main className="h-[100dvh] flex flex-col">
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="max-w-3xl mx-auto px-5 pt-6 pb-8 flex flex-col gap-6">
+          <header className="flex items-center justify-between gap-3 rise">
+            <BackButton href="/" label={t('common.back', person.language)} />
+            <StatusBadge lang={person.language} />
+          </header>
 
-      <div className="flex flex-col gap-3">
-        {reminders.map((r) => {
-          const overdue = isOverdue(r);
-          return (
-            <button
-              key={r.id}
-              data-testid="reminder-row"
-              data-overdue={overdue}
-              onClick={() => {
-                if (r.audio_pack_id) playPackAudio(r.audio_pack_id);
-                else playCue(CUE_KEY[r.category], person.language);
-              }}
-              style={{
-                border: `var(--border-w) solid ${overdue ? 'var(--alert)' : 'var(--border)'}`,
-                borderRadius: 'var(--radius)',
-                minHeight: 'var(--touch-min)',
-                background: overdue ? '#FEF2F4' : 'var(--surface)',
-              }}
-              className="flex items-center gap-4 p-4 text-left"
-            >
-              {person.literacy !== 'fluent' ? (
-                <AnalogClock hour={r.hour} minute={r.minute} size={s.clock} />
-              ) : (
-                <span style={{ fontSize: 22 }} className="font-black w-20">
-                  {r.hour}:{String(r.minute).padStart(2, '0')} {r.period}
-                </span>
-              )}
-              <div className="flex-1">
-                {overdue && (
-                  <div style={{ fontSize: 12, color: 'var(--alert)' }} className="font-black uppercase tracking-wide flex items-center gap-1 mb-0.5">
-                    <Icon name="warning" size={14} /> Overdue
-                  </div>
-                )}
-                <div style={{ fontSize: s.label }} className="font-black">
-                  {t(CUE_KEY[r.category], person.language)}
-                </div>
-                <div style={{ fontSize: s.sub }} className="text-[var(--text-muted)]">
-                  {r.care_plan_text}
-                </div>
-              </div>
-              {!r.device_activated && (
-                <span title="Not armed on this device">
-                  <Icon name="warning" size={22} />
-                </span>
-              )}
-              <Icon name="listen" size={22} />
-            </button>
-          );
-        })}
-        {!reminders.length && (
-          <p style={{ fontSize: 16 }} className="text-[var(--text-muted)]">
-            No reminders set yet.
-          </p>
-        )}
+          <div className="flex flex-col gap-2 rise rise-1">
+            <span className="eyebrow self-start">
+              <Icon name="calendar" size={14} /> {now.weekday}, {now.day} {now.month}
+            </span>
+            <h1 className="title-xl">{t('today.title', person.language)}</h1>
+          </div>
+
+          {!reminders.length && (
+            <div className="panel p-8 text-center flex flex-col items-center gap-3 rise rise-2">
+              <span style={{ color: 'var(--accent)' }}>
+                <Icon name="clock" size={48} />
+              </span>
+              <p style={{ fontSize: 20 }} className="muted">
+                No reminders set yet.
+              </p>
+            </div>
+          )}
+
+          {hero && (
+            <div className="rise rise-2">
+              {renderRow(hero, true)}
+            </div>
+          )}
+          {rest.map((r, i) => (
+            <div key={r.id} className={`rise rise-${Math.min(i + 3, 6)}`}>
+              {renderRow(r, false)}
+            </div>
+          ))}
+        </div>
       </div>
+      <BottomNav lang={person.language} backHref="/" backLabel={t('common.back', person.language)} />
     </main>
   );
 }

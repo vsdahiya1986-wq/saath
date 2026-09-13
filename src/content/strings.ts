@@ -1,17 +1,8 @@
 /**
- * Canonical English UI/voice strings. Every fixed system string the app
- * ever displays or speaks lives here — one flat key -> English text map.
- *
- * `scripts/generate-audio.mjs` keeps its OWN copy of this list (it's a
- * plain Node script run only when Bhashini credentials are available, not
- * part of the app bundle) and produces, per language, cached audio files
- * plus a manifest.json with the Bhashini-translated text. Keep the two
- * lists in sync when you add a key.
- *
- * Until that script has been run with real Bhashini credentials, the `as`
- * (Assamese) manifest does not exist, and the app falls back to this
- * English text everywhere — see src/lib/i18n.ts. That is a real limitation,
- * not a hidden one: say so before you're asked.
+ * Canonical English UI/voice strings — one flat key -> English text map.
+ * `scripts/generate-audio.mjs` keeps its own copy for Bhashini generation;
+ * keep the two in sync. Keys without a generated audio file are spoken by
+ * the device's offline speech voice (see src/lib/audio.ts).
  */
 export const STRINGS: Record<string, string> = {
   'home.title': 'SAATH',
@@ -22,10 +13,13 @@ export const STRINGS: Record<string, string> = {
   'home.help.sub': 'Get help with something',
   'home.today': 'Today',
   'home.today.sub': "Today's reminders",
+  'home.circle': 'Circle',
+  'home.circle.sub': 'The people looking out for you',
+  'home.help.ok': 'No help needed right now',
 
-  'activity.familiar_pairs': 'Familiar Pairs',
-  'activity.sound_sight': 'Sound & Sight',
-  'activity.pattern_garden': 'Pattern Garden',
+  'activity.familiar_pairs': 'Today & Me',
+  'activity.sound_sight': 'Hear & Find',
+  'activity.pattern_garden': 'Sort the Home',
   'activity.my_next_step': 'My Next Step',
   'activity.together': 'Together Moment',
 
@@ -33,6 +27,7 @@ export const STRINGS: Record<string, string> = {
   'domain.attention': 'Attention & Concentration',
   'domain.routine': 'Daily Routine Recall',
   'domain.pattern': 'Pattern & Object Recognition',
+  'domain.emotion': 'Emotional Engagement',
 
   'status.offline': 'Working offline',
   'status.synced': 'Synced',
@@ -42,9 +37,9 @@ export const STRINGS: Record<string, string> = {
   'adaptive.baseline': 'Standard pace',
 
   'play.title': 'Choose an activity',
-  'play.pairs.intro': 'Find the two pictures that are the same. Take your time.',
-  'play.sound.intro': 'Listen to the sound, then choose the matching picture.',
-  'play.pattern.intro': 'Look at the shapes and choose what comes next.',
+  'play.pairs.intro': 'Let us talk about today. Choose the answer that feels right. There is no hurry.',
+  'play.sound.intro': 'Listen to the word, then tap the matching picture.',
+  'play.pattern.intro': 'Where does this belong? Tap the right basket.',
   'play.step.intro': 'Put the steps of your routine in order.',
   'play.together.intro': 'Let us look at this picture together.',
 
@@ -60,6 +55,7 @@ export const STRINGS: Record<string, string> = {
   'common.skip_btn': 'Skip',
   'common.stop_btn': 'Stop',
   'common.back': 'Back',
+  'common.home': 'Home',
   'common.continue': 'Continue',
   'common.save': 'Save',
   'common.cancel': 'Cancel',
@@ -69,7 +65,7 @@ export const STRINGS: Record<string, string> = {
   'help.need': 'I need someone',
   'help.sent_local': 'Your family has been told on this network.',
   'help.stored': 'Saved on this device. It will be sent when there is a connection.',
-  'help.stale_warning': "This may not show where it really is right now.",
+  'help.stale_warning': 'This may not show where it really is right now.',
 
   'today.title': "Today's reminders",
   'remind.medicine': 'It is time for your medicine.',
@@ -80,6 +76,11 @@ export const STRINGS: Record<string, string> = {
   'exit.pause': 'Pause',
   'exit.skip': 'Skip',
   'exit.stop': 'Stop',
+
+  'game.well_done': 'Well done. That was lovely.',
+  'game.gentle_end': 'That is completely fine. We can try again another time.',
+  'game.try_again': 'Not quite. Let us try another one.',
+  'game.good': 'Yes, that is right.',
 };
 
 export type StringKey = keyof typeof STRINGS;

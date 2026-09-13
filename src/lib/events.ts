@@ -49,6 +49,28 @@ export async function transition(id: string, next: FollowupState, note?: string)
   return item;
 }
 
+const TERMINAL: FollowupState[] = ['resolved', 'cancelled', 'expired'];
+
+/** Open (non-terminal) help requests for a person, most recent first. */
+export async function openFollowupsForPerson(personId: string): Promise<FollowupItem[]> {
+  const rows = await db.followups.where({ person_id: personId }).toArray();
+  return rows
+    .filter((f) => !TERMINAL.includes(f.state))
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+}
+
+/**
+ * Which of the two existing status strings (already shown on the Help
+ * screen itself, see src/app/help/page.tsx) fits a given follow-up state —
+ * reused here so the home screen's Help preview says the same thing in the
+ * same words, not a third, newly-invented phrasing of the same fact.
+ */
+export function helpStatusKey(state: FollowupState): 'help.sent_local' | 'help.stored' | null {
+  if (['circle_notified_local', 'submitted', 'delivered', 'acknowledged'].includes(state)) return 'help.sent_local';
+  if (['stored_locally', 'eligible', 'submitting', 'submission_unknown'].includes(state)) return 'help.stored';
+  return null;
+}
+
 export async function expireStale(): Promise<void> {
   const now = Date.now();
   const open = await db.followups.where('state').anyOf('stored_locally', 'circle_notified_local', 'eligible').toArray();

@@ -147,7 +147,7 @@ export default function PersonSetup() {
         onClick={save}
         disabled={!name.trim()}
         style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-        className="text-white font-black px-8 text-lg active:opacity-80 disabled:opacity-40 mt-2"
+        className="text-[var(--on-accent)] font-black px-8 text-lg active:opacity-80 disabled:opacity-40 mt-2"
       >
         Save profile
       </button>

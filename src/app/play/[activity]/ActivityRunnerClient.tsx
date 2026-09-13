@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { usePerson } from '@/lib/usePerson';
 import FamiliarPairs from '@/components/play/FamiliarPairs';
 import SoundAndSight from '@/components/play/SoundAndSight';
@@ -9,20 +10,22 @@ import type { Activity } from '@/lib/db';
 
 export default function ActivityRunnerClient({ activity }: { activity: Activity }) {
   const { person, loading } = usePerson();
+  const [run, setRun] = useState(0);
 
   if (loading || !person) return null;
+  const props = { person, onRestart: () => setRun((r) => r + 1) };
 
   switch (activity) {
     case 'familiar_pairs':
-      return <FamiliarPairs person={person} />;
+      return <FamiliarPairs key={run} {...props} />;
     case 'sound_sight':
-      return <SoundAndSight person={person} />;
+      return <SoundAndSight key={run} {...props} />;
     case 'pattern_garden':
-      return <PatternGarden person={person} />;
+      return <PatternGarden key={run} {...props} />;
     case 'my_next_step':
-      return <MyNextStep person={person} />;
+      return <MyNextStep key={run} {...props} />;
     case 'together':
-      return <TogetherMoment person={person} />;
+      return <TogetherMoment key={run} {...props} />;
     default:
       return null;
   }

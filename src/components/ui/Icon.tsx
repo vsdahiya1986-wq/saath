@@ -36,7 +36,23 @@ export type IconName =
   | 'mirror'
   | 'pankha'
   | 'keylock'
-  | 'jhola';
+  | 'jhola'
+  | 'people'
+  | 'profile'
+  | 'chart'
+  | 'sun'
+  | 'moon'
+  | 'sunset'
+  | 'rain'
+  | 'leaf'
+  | 'snow'
+  | 'heart'
+  | 'music'
+  | 'sparkle'
+  | 'arrow'
+  | 'refresh'
+  | 'calendar'
+  | 'shield';
 
 const PATHS: Record<IconName, ReactElement> = {
   play: (
@@ -55,7 +71,12 @@ const PATHS: Record<IconName, ReactElement> = {
       <path d="M4 9h16M8 3v4M16 3v4" strokeLinecap="round" />
     </>
   ),
-  listen: <path d="M8 5.5v13l11-6.5-11-6.5z" fill="currentColor" stroke="none" />,
+  listen: (
+    <>
+      <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor" strokeLinejoin="round" />
+      <path d="M15.5 9a4.2 4.2 0 0 1 0 6M18.3 6.3a8 8 0 0 1 0 11.4" strokeLinecap="round" />
+    </>
+  ),
   pause: (
     <>
       <rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor" stroke="none" />
@@ -244,9 +265,87 @@ const PATHS: Record<IconName, ReactElement> = {
       <path d="M9 9V7a3 3 0 0 1 6 0v2" strokeLinecap="round" />
     </>
   ),
+  /* The circle of people around a person — new for the home screen's Circle
+     card and the Circle roster link (Part 66). Generic two-person mark, not
+     tied to any one community, matching camera/mic/check's plain-utility
+     register rather than the NER household-object set (japi/diya/mora). */
+  people: (
+    <>
+      <circle cx="8.5" cy="8.5" r="3" />
+      <circle cx="16" cy="9.5" r="2.4" />
+      <path d="M3 20c.5-3.8 2.8-6 5.5-6s5 2.2 5.5 6" strokeLinecap="round" />
+      <path d="M14.5 14.3c2.2.2 3.9 2.1 4.3 5.7" strokeLinecap="round" opacity="0.75" />
+    </>
+  ),
+  profile: (
+    <>
+      <circle cx="12" cy="8.5" r="4" />
+      <path d="M4 20c.7-4.3 3.6-6.8 8-6.8s7.3 2.5 8 6.8" strokeLinecap="round" />
+    </>
+  ),
+  chart: (
+    <>
+      <path d="M4 20V10M11 20V4M18 20v-7" strokeLinecap="round" />
+      <path d="M3 20h18" strokeLinecap="round" />
+    </>
+  ),
+  sun: (
+    <>
+      <circle cx="12" cy="12" r="4.2" />
+      <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" strokeLinecap="round" />
+    </>
+  ),
+  moon: <path d="M20 14.5A8.2 8.2 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" strokeLinejoin="round" />,
+  sunset: (
+    <path d="M3 18h18M6.5 14.5a5.5 5.5 0 0 1 11 0M12 4v3M4.9 8.5l1.8 1.8M19.1 8.5l-1.8 1.8M8 21h8" strokeLinecap="round" />
+  ),
+  rain: (
+    <>
+      <path d="M7 14.5a4 4 0 1 1 .9-7.9A5 5 0 0 1 17.6 7.5 3.5 3.5 0 0 1 17 14.5H7z" strokeLinejoin="round" />
+      <path d="M8.5 17.5 7.5 20M12.5 17.5l-1 2.5M16.5 17.5l-1 2.5" strokeLinecap="round" />
+    </>
+  ),
+  leaf: (
+    <>
+      <path d="M5 19C5 11 10 5 20 5c0 10-6 15-14 15" strokeLinejoin="round" />
+      <path d="M5 19l8-8" strokeLinecap="round" />
+    </>
+  ),
+  snow: <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.5l2.5-2M9.5 19.5 12 17.5l2.5 2" strokeLinecap="round" strokeLinejoin="round" />,
+  heart: (
+    <path d="M12 20s-7-4.4-9-9.2C1.8 7.4 4 4.5 7 4.5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3 0 5.2 2.9 4 6.3C19 15.6 12 20 12 20z" strokeLinejoin="round" />
+  ),
+  music: (
+    <>
+      <path d="M9 18V6l10-2v12" strokeLinejoin="round" />
+      <circle cx="6.8" cy="18" r="2.2" />
+      <circle cx="16.8" cy="16" r="2.2" />
+    </>
+  ),
+  sparkle: (
+    <>
+      <path d="M11 3l1.8 5.4L18 10l-5.2 1.6L11 17l-1.8-5.4L4 10l5.2-1.6L11 3z" strokeLinejoin="round" />
+      <path d="M18.5 15.5v4M16.5 17.5h4" strokeLinecap="round" />
+    </>
+  ),
+  arrow: <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />,
+  refresh: <path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5" strokeLinecap="round" strokeLinejoin="round" />,
+  calendar: (
+    <>
+      <rect x="4" y="5" width="16" height="15" rx="2.5" />
+      <path d="M4 9.5h16M8 3v4M16 3v4" strokeLinecap="round" />
+      <circle cx="12" cy="14.5" r="1.4" fill="currentColor" stroke="none" />
+    </>
+  ),
+  shield: (
+    <>
+      <path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" strokeLinejoin="round" />
+      <path d="M8.5 12l2.5 2.5 4.5-5" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  ),
 };
 
-export default function Icon({ name, size = 32 }: { name: IconName; size?: number }) {
+export default function Icon({ name, size = 32, strokeWidth = 2 }: { name: IconName; size?: number; strokeWidth?: number }) {
   return (
     <svg
       width={size}
@@ -254,7 +353,7 @@ export default function Icon({ name, size = 32 }: { name: IconName; size?: numbe
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.8}
+      strokeWidth={strokeWidth}
       aria-hidden="true"
     >
       {PATHS[name]}

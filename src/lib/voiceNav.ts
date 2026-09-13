@@ -1,4 +1,4 @@
-import { playCue } from './audio';
+import { queueAutoCue } from './audio';
 import type { Lang } from './db';
 
 export type VoiceNavHandlers = {
@@ -77,6 +77,6 @@ export function attachVoiceNav(root: HTMLElement, h: VoiceNavHandlers): () => vo
 }
 
 /** Auto-announce on every screen change. Cached audio => works offline. */
-export async function announce(cueKey: string, lang: Lang) {
-  await playCue(cueKey, lang);
+export function announce(cueKey: string, lang: Lang) {
+  queueAutoCue(cueKey, lang);
 }

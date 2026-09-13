@@ -113,7 +113,7 @@ export default function Roster() {
                   border: 'var(--border-w) solid var(--border)',
                   borderRadius: 8,
                   background: days.includes(i) ? 'var(--accent)' : 'transparent',
-                  color: days.includes(i) ? 'white' : 'var(--text)',
+                  color: days.includes(i) ? 'var(--on-accent)' : 'var(--text)',
                 }}
               >
                 {d}
@@ -121,7 +121,7 @@ export default function Roster() {
             ))}
           </div>
         </div>
-        <button onClick={addMember} disabled={!name.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-white font-black disabled:opacity-40">
+        <button onClick={addMember} disabled={!name.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Add to circle
         </button>
       </section>

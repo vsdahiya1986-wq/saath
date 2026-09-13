@@ -93,7 +93,7 @@ export default function HandoffScreen() {
             </option>
           ))}
         </select>
-        <button onClick={send} disabled={!from || !to} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-white font-black disabled:opacity-40">
+        <button onClick={send} disabled={!from || !to} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Send
         </button>
       </section>

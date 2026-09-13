@@ -80,7 +80,7 @@ export default function VoiceLegacy() {
         onClick={exportAll}
         disabled={!entries.length}
         style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
-        className="text-white font-black disabled:opacity-40 mt-2"
+        className="text-[var(--on-accent)] font-black disabled:opacity-40 mt-2"
       >
         Give the family a copy
       </button>
