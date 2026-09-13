@@ -13,6 +13,13 @@ const CACHE_VERSION = 'saath-v1';
 // production/export always precaches the generated manifest instead.
 const FALLBACK_PRECACHE_URLS = ['/', '/manifest.json', '/icon.svg'];
 
+// Hosts that redirect /page.html -> /page yield "redirected" responses, which
+// browsers refuse to use for a navigation. Store and serve a clean copy.
+async function unredirect(res) {
+  if (!res || !res.redirected) return res;
+  return new Response(await res.blob(), { status: res.status, statusText: res.statusText, headers: res.headers });
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
     (async () => {
@@ -23,7 +30,21 @@ self.addEventListener('install', (event) => {
       // Cache each URL independently — one missing/renamed file must not
       // abort caching of everything else.
       await Promise.all(
-        urls.map((url) => cache.add(url).catch((err) => console.warn('[sw] precache failed', url, err)))
+        urls.map(async (url) => {
+          // Retry: fetching ~300 files at once can drop one transiently, and a
+          // silently missing file would only be discovered offline.
+          for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+              const res = await fetch(url, { cache: 'no-store' });
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              await cache.put(url, await unredirect(res));
+              return;
+            } catch (err) {
+              if (attempt === 3) console.warn('[sw] precache failed', url, err);
+              else await new Promise((r) => setTimeout(r, 400 * attempt));
+            }
+          }
+        })
       );
       self.skipWaiting();
     })()
@@ -60,12 +81,16 @@ self.addEventListener('fetch', (event) => {
           return fresh;
         } catch {
           const cache = await caches.open(CACHE_VERSION);
-          return (
-            (await cache.match(request)) ||
-            (await cache.match(url.pathname)) ||
-            (await cache.match('/')) ||
-            Response.error()
-          );
+          const path = url.pathname.replace(/\/$/, '') || '/';
+          // Static export stores /play as /play.html; never fall back to the home shell
+          // for a real route, or the wrong screen would hydrate.
+          const hit =
+            (await cache.match(path === '/' ? '/index.html' : `${path}.html`)) ||
+            (await cache.match(request, { ignoreSearch: true })) ||
+            (await cache.match(path, { ignoreSearch: true })) ||
+            (await cache.match('/index.html')) ||
+            (await cache.match('/'));
+          return hit ? unredirect(hit) : Response.error();
         }
       })()
     );
@@ -81,7 +106,8 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     (async () => {
       const cache = await caches.open(CACHE_VERSION);
-      const cached = await cache.match(request);
+      // ignoreSearch: client navigation fetches /play.txt?_rsc=… but the precache holds /play.txt.
+      const cached = (await cache.match(request)) || (await cache.match(url.pathname, { ignoreSearch: true }));
       const network = fetch(request)
         .then((res) => {
           if (res.ok) cache.put(request, res.clone());

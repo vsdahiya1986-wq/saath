@@ -31,6 +31,30 @@
     "file": "home_today_sub.wav",
     "text": "আজিৰ স্মাৰকসমূহ"
   },
+  "home.circle": {
+    "file": "home_circle.wav",
+    "text": "বৃত্ত"
+  },
+  "home.circle.sub": {
+    "file": "home_circle_sub.wav",
+    "text": "মানুহবোৰে আপোনাক বিচাৰি আছে"
+  },
+  "home.help.ok": {
+    "file": "home_help_ok.wav",
+    "text": "এই মুহূৰ্তত কোনো সহায়ৰ প্ৰয়োজন নাই"
+  },
+  "activity.familiar_pairs": {
+    "file": "activity_familiar_pairs.wav",
+    "text": "আজি আৰু মই"
+  },
+  "activity.sound_sight": {
+    "file": "activity_sound_sight.wav",
+    "text": "শুনক আৰু বিচাৰক"
+  },
+  "activity.pattern_garden": {
+    "file": "activity_pattern_garden.wav",
+    "text": "ঘৰটো ছ 'ৰ্ট কৰক"
+  },
   "activity.my_next_step": {
     "file": "activity_my_next_step.wav",
     "text": "মোৰ পৰৱৰ্তী পদক্ষেপ"
@@ -55,6 +79,10 @@
     "file": "domain_pattern.wav",
     "text": "আৰ্হি আৰু বস্তু চিনাক্তকৰণ"
   },
+  "domain.emotion": {
+    "file": "domain_emotion.wav",
+    "text": "আবেগিক সম্পৰ্ক"
+  },
   "status.offline": {
     "file": "status_offline.wav",
     "text": "অফলাইনত কাম কৰা"
@@ -78,6 +106,18 @@
   "play.title": {
     "file": "play_title.wav",
     "text": "এটা কাৰ্য্যকলাপ বাছনি কৰক"
+  },
+  "play.pairs.intro": {
+    "file": "play_pairs_intro.wav",
+    "text": "আজিৰ বিষয়ে কথা পাতিম। সঠিক অনুভৱ হোৱা উত্তৰটো বাছনি কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
+  },
+  "play.sound.intro": {
+    "file": "play_sound_intro.wav",
+    "text": "শব্দটো শুনক, তাৰ পিছত মিল খোৱা ছবিখন টিপক।"
+  },
+  "play.pattern.intro": {
+    "file": "play_pattern_intro.wav",
+    "text": "এইটো ক \"ত আছে? সোঁফালৰ বাকচত টেপ কৰক।"
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",
@@ -130,6 +170,10 @@
   "common.back": {
     "file": "common_back.wav",
     "text": "পিছফালে"
+  },
+  "common.home": {
+    "file": "common_home.wav",
+    "text": "ঘৰ"
   },
   "common.continue": {
     "file": "common_continue.wav",
@@ -198,5 +242,21 @@
   "exit.stop": {
     "file": "exit_stop.wav",
     "text": "ৰাখক"
+  },
+  "game.well_done": {
+    "file": "game_well_done.wav",
+    "text": "ভাল হৈছে। সেইটো সুন্দৰ আছিল।"
+  },
+  "game.gentle_end": {
+    "file": "game_gentle_end.wav",
+    "text": "সেইটো সম্পূৰ্ণৰূপে ঠিক আছে। আমি আকৌ এবাৰ চেষ্টা কৰিব পাৰো।"
+  },
+  "game.try_again": {
+    "file": "game_try_again.wav",
+    "text": "একেবাৰে নহয়। আমি আন এটা চেষ্টা কৰো।"
+  },
+  "game.good": {
+    "file": "game_good.wav",
+    "text": "হয়, ঠিকেই কৈছো।"
   }
 }

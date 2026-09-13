@@ -54,7 +54,10 @@ function playSrc(src: string, gen: number): Promise<void> {
 }
 
 function pickVoice(lang: Lang): SpeechSynthesisVoice | null | undefined {
-  const voices = window.speechSynthesis.getVoices();
+  // On-device voices first: network voices (e.g. Chrome's "Google …") go silent offline.
+  const all = window.speechSynthesis.getVoices();
+  const local = all.filter((v) => v.localService);
+  const voices = navigator.onLine ? [...local, ...all.filter((v) => !v.localService)] : local;
   if (lang === 'as') return voices.find((v) => v.lang.toLowerCase().startsWith('as')) ?? voices.find((v) => v.lang.toLowerCase().startsWith('bn')) ?? null;
   return voices.find((v) => v.lang === 'en-IN') ?? voices.find((v) => v.lang.toLowerCase().startsWith('en')) ?? undefined;
 }

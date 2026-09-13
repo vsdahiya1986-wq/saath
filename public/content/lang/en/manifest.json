@@ -31,16 +31,28 @@
     "file": "home_today_sub.wav",
     "text": "Today's reminders"
   },
+  "home.circle": {
+    "file": "home_circle.wav",
+    "text": "Circle"
+  },
+  "home.circle.sub": {
+    "file": "home_circle_sub.wav",
+    "text": "The people looking out for you"
+  },
+  "home.help.ok": {
+    "file": "home_help_ok.wav",
+    "text": "No help needed right now"
+  },
   "activity.familiar_pairs": {
-    "file": null,
+    "file": "activity_familiar_pairs.wav",
     "text": "Today & Me"
   },
   "activity.sound_sight": {
-    "file": null,
+    "file": "activity_sound_sight.wav",
     "text": "Hear & Find"
   },
   "activity.pattern_garden": {
-    "file": null,
+    "file": "activity_pattern_garden.wav",
     "text": "Sort the Home"
   },
   "activity.my_next_step": {
@@ -67,6 +79,10 @@
     "file": "domain_pattern.wav",
     "text": "Pattern & Object Recognition"
   },
+  "domain.emotion": {
+    "file": "domain_emotion.wav",
+    "text": "Emotional Engagement"
+  },
   "status.offline": {
     "file": "status_offline.wav",
     "text": "Working offline"
@@ -92,15 +108,15 @@
     "text": "Choose an activity"
   },
   "play.pairs.intro": {
-    "file": null,
+    "file": "play_pairs_intro.wav",
     "text": "Let us talk about today. Choose the answer that feels right. There is no hurry."
   },
   "play.sound.intro": {
-    "file": null,
+    "file": "play_sound_intro.wav",
     "text": "Listen to the word, then tap the matching picture."
   },
   "play.pattern.intro": {
-    "file": null,
+    "file": "play_pattern_intro.wav",
     "text": "Where does this belong? Tap the right basket."
   },
   "play.step.intro": {
@@ -154,6 +170,10 @@
   "common.back": {
     "file": "common_back.wav",
     "text": "Back"
+  },
+  "common.home": {
+    "file": "common_home.wav",
+    "text": "Home"
   },
   "common.continue": {
     "file": "common_continue.wav",
@@ -222,5 +242,21 @@
   "exit.stop": {
     "file": "exit_stop.wav",
     "text": "Stop"
+  },
+  "game.well_done": {
+    "file": "game_well_done.wav",
+    "text": "Well done. That was lovely."
+  },
+  "game.gentle_end": {
+    "file": "game_gentle_end.wav",
+    "text": "That is completely fine. We can try again another time."
+  },
+  "game.try_again": {
+    "file": "game_try_again.wav",
+    "text": "Not quite. Let us try another one."
+  },
+  "game.good": {
+    "file": "game_good.wav",
+    "text": "Yes, that is right."
   }
 }

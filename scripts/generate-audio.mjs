@@ -60,9 +60,9 @@ const STRINGS = {
   'adaptive.learned': 'Adapting to you',
   'adaptive.baseline': 'Standard pace',
   'play.title': 'Choose an activity',
-  'play.pairs.intro': 'Find the two pictures that are the same. Take your time.',
-  'play.sound.intro': 'Listen to the sound, then choose the matching picture.',
-  'play.pattern.intro': 'Look at the shapes and choose what comes next.',
+  'play.pairs.intro': 'Let us talk about today. Choose the answer that feels right. There is no hurry.',
+  'play.sound.intro': 'Listen to the word, then tap the matching picture.',
+  'play.pattern.intro': 'Where does this belong? Tap the right basket.',
   'play.step.intro': 'Put the steps of your routine in order.',
   'play.together.intro': 'Let us look at this picture together.',
   'cue.repeat': 'Let me say that again.',
@@ -94,6 +94,11 @@ const STRINGS = {
   'exit.pause': 'Pause',
   'exit.skip': 'Skip',
   'exit.stop': 'Stop',
+  'common.home': 'Home',
+  'game.well_done': 'Well done. That was lovely.',
+  'game.gentle_end': 'That is completely fine. We can try again another time.',
+  'game.try_again': 'Not quite. Let us try another one.',
+  'game.good': 'Yes, that is right.',
 };
 
 async function tts(text, lang) {
