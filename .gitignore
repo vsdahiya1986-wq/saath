@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/test-photos
 /test-results
 /playwright-report
 

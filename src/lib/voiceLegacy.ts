@@ -21,6 +21,7 @@ export async function listLegacy(personId: string): Promise<LegacyEntry[]> {
   const withdrawn = packs.filter((p) => p.state !== 'withdrawn');
   const entries: LegacyEntry[] = [];
   for (const p of withdrawn) {
+    if (!p.media.audio_key) continue; // photo-only packs have no recording to preserve
     const member = byId.get(p.recorded_by);
     entries.push({
       packId: p.id,

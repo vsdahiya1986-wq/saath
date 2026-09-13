@@ -30,6 +30,19 @@ async function walk(dir) {
   return files;
 }
 
+// The Next.js client prefetches route segments by a flat, dot-joined name
+// (inspector/cst/__next.inspector.cst.__PAGE__.txt), but `output: "export"`
+// writes them nested (inspector/cst/__next.inspector/cst/__PAGE__.txt). With
+// no server rewrite (static hosts, the Capacitor WebView) those prefetches 404.
+// Write a flat copy next to each nested one so they resolve, online or offline.
+for (const file of await walk(OUT_DIR)) {
+  const rel = relative(OUT_DIR, file).split(sep).join('/');
+  const m = rel.match(/^(.*?)(__next\.[^/]+)\/(.+)$/);
+  if (!m) continue;
+  const flat = `${m[1]}${m[2]}.${m[3].split('/').join('.')}`;
+  await writeFile(join(OUT_DIR, ...flat.split('/')), await readFile(file));
+}
+
 const allFiles = await walk(OUT_DIR);
 const urls = [];
 for (const file of allFiles) {

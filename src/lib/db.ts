@@ -56,7 +56,7 @@ export interface ContentPack {
   kind: 'object' | 'place' | 'routine' | 'reminiscence';
   title: string; // encrypted at rest
   is_current_location: boolean;
-  media: { photo?: string; place_photo?: string; audio_key: string; steps?: string[] }; // steps: ordered, caregiver-authored, kind === 'routine' only
+  media: { photo?: string; place_photo?: string; audio_key?: string; steps?: string[] }; // steps: ordered, caregiver-authored, kind === 'routine' only
   recorded_by: string; // circle member id
   language: Lang;
   approved_by?: string;

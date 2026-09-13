@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { getPerson, db, Person, Activity, Difficulty, TrialEvent, packsForPerson, ContentPack, CueType } from '@/lib/db';
 import { decide, Decision, MODEL_VERSION } from '@/lib/model';
+import { lastDifficulty } from '@/lib/activityHelpers';
 import { ACTIVITIES, DOMAIN_COLOR, activityInfo } from '@/content/activities';
 import { t } from '@/lib/i18n';
 import BackButton from '@/components/ui/BackButton';
@@ -40,6 +41,17 @@ export default function EvidenceInspector() {
       setPacks(await packsForPerson(id));
     });
   }, []);
+
+  useEffect(() => {
+    if (!person) return;
+    let cancelled = false;
+    lastDifficulty(person.id, activity).then((d) => {
+      if (!cancelled) setDifficulty(d);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [person, activity]);
 
   useEffect(() => {
     if (!person) return;

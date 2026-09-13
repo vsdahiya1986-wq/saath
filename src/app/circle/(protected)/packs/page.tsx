@@ -60,7 +60,7 @@ export default function PackStudio() {
   }
 
   async function createPack() {
-    if (!personId || !title.trim() || !recordedKey) return;
+    if (!personId || !title.trim() || (!recordedKey && !photoFile)) return;
     let photoKey: string | undefined;
     if (photoFile) {
       photoKey = uuid();
@@ -74,7 +74,7 @@ export default function PackStudio() {
       kind,
       title: title.trim(),
       is_current_location: isCurrentLocation,
-      media: { photo: photoKey, audio_key: recordedKey, steps },
+      media: { photo: photoKey, audio_key: recordedKey ?? undefined, steps },
       recorded_by: recordedBy,
       language: 'as',
       approved_by: recordedBy || 'self',
@@ -211,7 +211,7 @@ export default function PackStudio() {
 
         <button
           onClick={createPack}
-          disabled={!title.trim() || !recordedKey}
+          disabled={!title.trim() || (!recordedKey && !photoFile)}
           style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
           className="text-[var(--on-accent)] font-black text-lg disabled:opacity-40"
         >
@@ -239,9 +239,11 @@ export default function PackStudio() {
                 {p.kind} · {p.state} · used in {p.permitted_uses.join(', ')}
               </div>
             </div>
-            <button onClick={() => playPackAudio(p.media.audio_key)} style={{ minWidth: 40, minHeight: 40 }}>
-              <Icon name="listen" size={20} />
-            </button>
+            {p.media.audio_key && (
+              <button onClick={() => playPackAudio(p.media.audio_key)} aria-label="Listen" style={{ minWidth: 40, minHeight: 40 }}>
+                <Icon name="listen" size={20} />
+              </button>
+            )}
             {p.state !== 'withdrawn' && (
               <button onClick={() => withdraw(p)} style={{ fontSize: 12, color: 'var(--alert)' }}>
                 Withdraw

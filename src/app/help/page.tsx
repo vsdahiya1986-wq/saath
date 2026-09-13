@@ -4,7 +4,7 @@ import { usePerson } from '@/lib/usePerson';
 import { db, packsForPerson, getBlob, FollowupItem, FollowupState } from '@/lib/db';
 import { createHelpRequest } from '@/lib/events';
 import { routeHelpRequest } from '@/lib/alerts';
-import { playPackAudio, playCue } from '@/lib/audio';
+import { playPackAudio, playCue, speak } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/ui/Icon';
 import StatusBadge from '@/components/ui/StatusBadge';
@@ -14,7 +14,7 @@ import BottomNav from '@/components/ui/BottomNav';
 interface PromptCard {
   id: string;
   title: string;
-  audioKey: string;
+  audioKey?: string;
   photoUrl?: string;
   stale: boolean;
 }
@@ -123,7 +123,7 @@ export default function HelpScreen() {
 
           <div className="flex flex-col gap-4">
             {cards.map((c, i) => (
-              <button key={c.id} onClick={() => playPackAudio(c.audioKey)} className={`shell hover-lift text-left rise rise-${Math.min(i + 3, 6)}`}>
+              <button key={c.id} onClick={() => (c.audioKey ? playPackAudio(c.audioKey) : speak(c.title, person.language))} className={`shell hover-lift text-left rise rise-${Math.min(i + 3, 6)}`}>
                 <span className="core flex items-center gap-4 p-4">
                   {c.photoUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element

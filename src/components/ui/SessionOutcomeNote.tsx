@@ -36,7 +36,11 @@ export default function SessionOutcomeNote({
       </span>
       <p style={{ fontSize: 16 }} className={same ? 'muted' : ''}>
         {same ? (
-          <>Next time we&apos;ll keep the same pace — not enough new evidence yet to change anything.</>
+          preview.mode === 'learned' ? (
+            <>Next time we&apos;ll keep this level and help — it suits you right now.</>
+          ) : (
+            <>Next time we&apos;ll keep the same pace — not enough new evidence yet to change anything.</>
+          )
         ) : (
           <>
             Next time{diffChanged ? ` we may try level ${preview.chosenDifficulty}` : ''}

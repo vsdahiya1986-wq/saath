@@ -39,17 +39,24 @@ async function buildPool(person: Person): Promise<{ pool: Item[]; family: boolea
     if (blob) pool.push({ id: p.id, label: p.title, photoUrl: URL.createObjectURL(blob), audioKey: p.media.audio_key });
   }
   const family = pool.length > 0;
-  for (const o of shuffle(HOME_OBJECTS)) pool.push({ id: o.id, label: o.label, icon: o.icon });
-  return { pool, family };
+  return { pool: [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, icon: o.icon }))], family };
 }
 
+/**
+ * Family pictures are used as targets first (personalisation), in random
+ * order. Distractors are the same kind as the target — photos among photos,
+ * drawings among drawings — so a photo is never the obvious odd one out.
+ */
 function buildRounds(pool: Item[], difficulty: Difficulty): Round[] {
   const n = Math.min(CHOICES_FOR[difficulty], pool.length);
-  const targets = pool.slice(0, ROUNDS_FOR[difficulty]);
-  return targets.map((target) => ({
-    target,
-    choices: shuffle([target, ...shuffle(pool.filter((p) => p.id !== target.id)).slice(0, n - 1)]),
-  }));
+  const photos = pool.filter((p) => p.photoUrl);
+  const drawings = pool.filter((p) => !p.photoUrl);
+  const targets = [...photos, ...drawings].slice(0, ROUNDS_FOR[difficulty]);
+  return shuffle(targets).map((target) => {
+    const same = shuffle((target.photoUrl ? photos : drawings).filter((p) => p.id !== target.id));
+    const other = shuffle((target.photoUrl ? drawings : photos).filter((p) => p.id !== target.id));
+    return { target, choices: shuffle([target, ...[...same, ...other].slice(0, n - 1)]) };
+  });
 }
 
 export default function SoundAndSight({ person, onRestart }: { person: Person; onRestart: () => void }) {
@@ -84,9 +91,11 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
 
   function sayTarget(interrupt: boolean) {
     if (!round || visualOnly) return;
-    if (round.target.audioKey) playPackAudio(round.target.audioKey);
-    else if (interrupt) speak(`Find the ${round.target.label}`, lang);
-    else queueSpeak(`Find the ${round.target.label}`, lang);
+    const t = round.target;
+    const line = t.photoUrl ? `Find ${t.label}` : `Find the ${t.label}`;
+    if (t.audioKey) playPackAudio(t.audioKey);
+    else if (interrupt) speak(line, lang);
+    else queueSpeak(line, lang);
   }
 
   useEffect(() => {
@@ -105,7 +114,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
     if (!round || locked.current || !session.isPlaying()) return;
     if (id === round.target.id) {
       setPicked(id);
-      speak(`Yes, that is the ${round.target.label}.`, lang);
+      speak(round.target.photoUrl ? `Yes, that is ${round.target.label}.` : `Yes, that is the ${round.target.label}.`, lang);
       locked.current = true;
       setTimeout(() => {
         wrongThisRound.current = 0;

@@ -45,7 +45,10 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
         if (isCancelled()) return;
         if (blob) setPhotoUrl(URL.createObjectURL(blob));
         if (chosen.media.audio_key) playPackAudio(chosen.media.audio_key);
-        else queueAutoCue('play.together.intro', lang);
+        else {
+          queueAutoCue('play.together.intro', lang);
+          queueSpeak(`${chosen.title}. Who is here? What do you remember about this?`, lang);
+        }
       }
     },
   });
@@ -104,7 +107,13 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
             </div>
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
-            <button onClick={() => playPackAudio(pack.media.audio_key)} className="btn btn-ghost btn-xl" style={{ color: 'var(--accent)' }}>
+            <button
+              onClick={() =>
+                pack.media.audio_key ? playPackAudio(pack.media.audio_key) : speak(`${pack.title}. Who is here? What do you remember about this?`, lang)
+              }
+              className="btn btn-ghost btn-xl"
+              style={{ color: 'var(--accent)' }}
+            >
               <Icon name="listen" size={28} /> Listen
             </button>
             <button onClick={() => session.finish('completed')} className="btn btn-primary btn-xl">

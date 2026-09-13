@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
 import { db, Activity, CueType, Difficulty } from './db';
 
@@ -20,8 +20,12 @@ export type TrialOutcome = 'completed' | 'not_completed' | 'skipped' | 'withdraw
  */
 export function useActivityTrial(personId: string, activity: Activity, activityVersion: string) {
   const trialId = useRef(uuid());
-  const startedAt = useRef(Date.now());
+  const startedAt = useRef(0);
   const logged = useRef(false);
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
 
   const logTrial = useCallback(
     async (opts: {
