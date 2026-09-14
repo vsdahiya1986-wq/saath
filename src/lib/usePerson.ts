@@ -14,6 +14,10 @@ export async function setActivePersonId(id: string): Promise<void> {
   await Preferences.set({ key: ACTIVE_PERSON_KEY, value: id });
 }
 
+export async function clearActivePersonId(): Promise<void> {
+  await Preferences.remove({ key: ACTIVE_PERSON_KEY });
+}
+
 export function usePerson() {
   const [person, setPerson] = useState<Person | null>(null);
   const [loading, setLoading] = useState(true);

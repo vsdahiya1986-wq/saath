@@ -160,7 +160,7 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
               </button>
             </div>
             <p style={{ fontSize: 17 }} className="muted text-center">
-              A family member can add real photos and voices in Pack Studio.{' '}
+              A family member can add real photos and voice notes in the Memory Garden.{' '}
               <button onClick={() => router.push('/circle/packs')} className="underline underline-offset-4" style={{ minHeight: 60 }}>
                 Open
               </button>

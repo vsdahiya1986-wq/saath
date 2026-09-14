@@ -10,6 +10,8 @@ import { isOverdue } from '@/lib/reminders';
 
 interface CircleCounts {
   personName: string | null;
+  isDemo: boolean;
+  persons: number;
   packsApproved: number;
   packsTotal: number;
   recordings: number;
@@ -24,8 +26,9 @@ interface CircleCounts {
 type Stat = { value: string | null; label: string };
 
 const LINKS: { href: string; label: string; desc: string; icon: IconName; color: string; stat: (c: CircleCounts) => Stat; wide?: boolean }[] = [
-  { href: '/circle/setup', label: 'Person profile', desc: 'Create or edit the person this device is for', icon: 'profile', color: '#065f46', stat: (c) => ({ value: c.personName, label: c.personName ? 'profile set up' : 'Not set up yet' }) },
-  { href: '/circle/packs', label: 'Pack Studio', desc: 'Photos, prompts, routines — approve what plays', icon: 'camera', color: '#b45309', stat: (c) => ({ value: String(c.packsApproved), label: `of ${c.packsTotal} packs approved` }) },
+  { href: '/circle/people', label: 'People on this device', desc: 'Switch between the people this device cares for', icon: 'people', color: '#0f766e', stat: (c) => ({ value: String(c.persons), label: c.persons === 1 ? 'person' : 'people' }) },
+  { href: '/circle/setup', label: 'Person profile', desc: 'Edit the person who is active now', icon: 'profile', color: '#065f46', stat: (c) => ({ value: c.personName, label: c.personName ? 'profile set up' : 'Not set up yet' }) },
+  { href: '/circle/packs', label: 'Memory Garden', desc: 'Family photos with voice notes', icon: 'photo', color: '#b45309', stat: (c) => ({ value: String(c.packsApproved), label: `of ${c.packsTotal} memories approved` }) },
   { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#6d28d9', stat: (c) => ({ value: String(c.members), label: c.members === 1 ? 'member' : 'members' }) },
   { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` }) },
   { href: '/circle/board', label: 'Circle Board', desc: 'Trends, activity levels, who is carrying this', icon: 'chart', color: '#9d174d', stat: (c) => ({ value: String(c.trials), label: 'sessions recorded' }) },
@@ -42,8 +45,9 @@ export default function CircleHome() {
     (async () => {
       const id = await getActivePersonId();
       if (!id) return;
-      const [person, packs, members, reminders, trials, handoffs] = await Promise.all([
+      const [person, persons, packs, members, reminders, trials, handoffs] = await Promise.all([
         getPerson(id),
+        db.persons.count(),
         packsForPerson(id),
         membersForPerson(id),
         remindersForPerson(id),
@@ -53,6 +57,8 @@ export default function CircleHome() {
       const weekAgo = Date.now() - 7 * 864e5;
       setCounts({
         personName: person?.display_name ?? null,
+        isDemo: !!person?.is_demo,
+        persons,
         packsApproved: packs.filter((p) => p.state === 'approved').length,
         packsTotal: packs.length,
         recordings: packs.filter((p) => p.state !== 'withdrawn' && p.media.audio_key).length,
@@ -80,9 +86,14 @@ export default function CircleHome() {
               <span style={{ fontSize: 15, letterSpacing: '0.08em' }} className="font-bold uppercase muted">
                 Caring for
               </span>
-              <span style={{ fontSize: 30 }} className="font-extrabold">
+              <span style={{ fontSize: 30, overflowWrap: 'anywhere' }} className="font-extrabold">
                 {counts?.personName ?? '…'}
               </span>
+              {counts?.isDemo && (
+                <span className="chip self-start mt-1" style={{ color: 'var(--accent-warm)' }}>
+                  DEMO DATA
+                </span>
+              )}
             </div>
             <div className="flex flex-col">
               <span style={{ fontSize: 36, color: 'var(--accent)' }} className="font-extrabold tabular-nums leading-none">
@@ -100,6 +111,9 @@ export default function CircleHome() {
                 reminders overdue today
               </span>
             </div>
+            <Link href="/circle/people" className="btn btn-ghost">
+              <Icon name="people" size={22} /> Switch person
+            </Link>
           </div>
 
           {LINKS.map((l) => {
@@ -117,7 +131,7 @@ export default function CircleHome() {
                 </span>
                 <span className="mt-auto flex items-baseline gap-2 flex-wrap">
                   {stat?.value && (
-                    <span style={{ fontSize: 30, color: l.color }} className="font-extrabold tabular-nums leading-none break-all">
+                    <span style={{ fontSize: 30, color: l.color, overflowWrap: 'anywhere' }} className="font-extrabold tabular-nums leading-none">
                       {stat.value}
                     </span>
                   )}
@@ -138,8 +152,9 @@ export default function CircleHome() {
                 Data & privacy
               </span>
               <span style={{ fontSize: 16 }} className="muted">
-                Names, care-plan text, photos and recordings are AES-256 encrypted at rest on this device. Nothing syncs unless a backend is
-                configured for the deployment (it is not in this demo build) — and even then only coded gameplay data, never identifying fields.
+                Names, care-plan text, photos and recordings are AES-256 encrypted at rest on this device, and every record belongs to one
+                person. Nothing syncs unless a backend is configured for the deployment (it is not in this demo build) — and even then only
+                coded gameplay data, never identifying fields.
               </span>
             </div>
           </section>

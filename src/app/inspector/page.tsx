@@ -430,10 +430,10 @@ export default function EvidenceInspector() {
         </section>
 
         <section className="flex flex-col gap-4">
-          <h2 className="title-lg">Content pack versions</h2>
+          <h2 className="title-lg">Memory Garden versions</h2>
           {!packs.length && (
             <p className="muted" style={{ fontSize: 18 }}>
-              No family packs on this device yet.
+              Nothing in the Memory Garden yet.
             </p>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

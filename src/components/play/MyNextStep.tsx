@@ -131,7 +131,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
       progress={{ current: placed.length + 1, total: steps.length }}
       onListen={() => speak(question, lang)}
       onHelp={onHelp}
-      notice={family ? `Your family's own routine: ${title}` : title ? `${title} — a family can add their own in Pack Studio.` : undefined}
+      notice={family ? `Your family's own routine: ${title}` : title ? `${title} — a family can add their own in the Memory Garden.` : undefined}
       prompt={
         <p style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
           {question}

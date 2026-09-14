@@ -37,7 +37,7 @@ export default function FailureTheatre() {
     const packs = await packsForPerson(personId, 'approved');
     const stale = packs.find((p) => p.is_current_location);
     if (!stale) {
-      push('No is_current_location pack exists yet — create one in Pack Studio first.');
+      push('No is_current_location pack exists yet — add one in the Memory Garden first.');
       return;
     }
     await putPack({ ...stale, state: 'stale', review_by: new Date(Date.now() - 864e5).toISOString() });

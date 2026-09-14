@@ -33,6 +33,8 @@ export interface Person {
   care_config: CareConfig;
   consent_ref: string;
   created_at: string;
+  /** DEMO DATA marker — true only for the fictional personas created by src/lib/demoSeed.ts. */
+  is_demo?: boolean;
 }
 
 export interface CircleMember {

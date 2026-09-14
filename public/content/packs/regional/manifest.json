@@ -36,7 +36,7 @@
     {
       "id": "reg_morning_routine",
       "title": "Morning routine",
-      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
       "steps": [
         { "id": "wake", "icon": "clock", "label": "Wake up" },
         { "id": "medicine", "icon": "tumbler", "label": "Take medicine" },
@@ -47,7 +47,7 @@
     {
       "id": "reg_afternoon_routine",
       "title": "Afternoon routine",
-      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
       "steps": [
         { "id": "rest", "icon": "stool", "label": "Sit and rest" },
         { "id": "tea", "icon": "kettle", "label": "Have tea" },
@@ -58,7 +58,7 @@
     {
       "id": "reg_evening_routine",
       "title": "Evening routine",
-      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via Pack Studio.",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
       "steps": [
         { "id": "wash_up", "icon": "kettle", "label": "Wash up" },
         { "id": "dinner", "icon": "thali", "label": "Have dinner" },

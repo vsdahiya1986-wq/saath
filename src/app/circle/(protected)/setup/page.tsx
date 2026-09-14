@@ -2,15 +2,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { v4 as uuid } from 'uuid';
-import { putPerson, Person, Literacy, Lang, Nav, Difficulty, CueType } from '@/lib/db';
+import { putPerson, getPerson, Person, Literacy, Lang, Nav, Difficulty, CueType } from '@/lib/db';
 import { getActivePersonId, setActivePersonId } from '@/lib/usePerson';
 import BackButton from '@/components/ui/BackButton';
 
 const ALL_CUES: CueType[] = ['none', 'repeat_audio', 'highlight', 'reduce_choices', 'demonstrate'];
 
+/** Person profile (SIH26003 h, f). `?new=1` adds another person to this shared device instead of editing the active one. */
 export default function PersonSetup() {
   const router = useRouter();
   const [existingId, setExistingId] = useState<string | null>(null);
+  const [isNew, setIsNew] = useState(false);
   const [name, setName] = useState('');
   const [language, setLanguage] = useState<Lang>('as');
   const [literacy, setLiteracy] = useState<Literacy>('non-literate');
@@ -18,14 +20,39 @@ export default function PersonSetup() {
   const [maxDifficulty, setMaxDifficulty] = useState<Difficulty>(2);
   const [sensoryMode, setSensoryMode] = useState<'both' | 'visual_only' | 'audio_supported'>('both');
   const [consentRef, setConsentRef] = useState('');
+  const [createdAt, setCreatedAt] = useState<string | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
 
   useEffect(() => {
-    getActivePersonId().then(setExistingId);
+    let cancelled = false;
+    getActivePersonId().then(async (id) => {
+      if (cancelled) return;
+      if (new URLSearchParams(window.location.search).get('new') === '1') {
+        setIsNew(true);
+        return;
+      }
+      setExistingId(id);
+      const p = id ? await getPerson(id) : undefined;
+      if (cancelled || !p) return;
+      // Edit mode loads the saved profile, so saving never silently resets it to defaults.
+      setName(p.display_name);
+      setLanguage(p.language);
+      setLiteracy(p.literacy);
+      setNavigation(p.navigation);
+      setMaxDifficulty(p.care_config.max_difficulty);
+      setSensoryMode(p.care_config.sensory_mode);
+      setConsentRef(p.consent_ref);
+      setCreatedAt(p.created_at);
+      setIsDemo(!!p.is_demo);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   async function save() {
     if (!name.trim()) return;
-    const id = existingId ?? uuid();
+    const id = isNew ? uuid() : (existingId ?? uuid());
     const person: Person = {
       id,
       display_name: name.trim(),
@@ -43,7 +70,8 @@ export default function PersonSetup() {
         clinical_stage_supplied: false,
       },
       consent_ref: consentRef.trim(),
-      created_at: new Date().toISOString(),
+      created_at: isNew ? new Date().toISOString() : (createdAt ?? new Date().toISOString()),
+      is_demo: !isNew && isDemo ? true : undefined,
     };
     await putPerson(person);
     await setActivePersonId(id);
@@ -52,10 +80,10 @@ export default function PersonSetup() {
 
   return (
     <main className="min-h-screen bg-[var(--bg)] p-5 flex flex-col gap-4 max-w-md mx-auto">
-      <header className="flex items-center gap-3">
-        <BackButton href="/circle" label="Back to Circle" />
-        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]">
-          Person profile
+      <header className="flex flex-col items-start gap-3">
+        <BackButton href={isNew ? '/circle/people' : '/circle'} label={isNew ? 'Back to people' : 'Back to Circle'} />
+        <h1 style={{ fontSize: 26 }} className="font-black text-[var(--text)]" data-testid="setup-title">
+          {isNew ? 'Add a new person' : 'Person profile'}
         </h1>
       </header>
 

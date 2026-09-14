@@ -71,7 +71,7 @@ export default function VoiceLegacy() {
         ))}
         {!entries.length && (
           <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">
-            No recordings yet — every prompt made in Pack Studio will appear here.
+            No recordings yet — every voice note saved in the Memory Garden will appear here.
           </p>
         )}
       </div>
