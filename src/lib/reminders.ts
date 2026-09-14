@@ -63,10 +63,10 @@ export const CUE_KEY: Record<Reminder['category'], string> = {
  * DOMAIN_COLOR / --accent-warm tokens rather than invented fresh.
  */
 export const CATEGORY_COLOR: Record<Reminder['category'], string> = {
-  medicine: '#c4b5fd',
-  hydration: '#7dd3fc',
-  activity: '#5eead4',
-  appointment: '#fcd34d',
+  medicine: '#6d28d9',
+  hydration: '#0369a1',
+  activity: '#065f46',
+  appointment: '#b45309',
 };
 
 /**

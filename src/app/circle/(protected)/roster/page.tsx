@@ -108,8 +108,8 @@ export default function Roster() {
                 key={d}
                 onClick={() => toggleDay(i)}
                 style={{
-                  minWidth: 40,
-                  minHeight: 40,
+                  minWidth: 60,
+                  minHeight: 60,
                   border: 'var(--border-w) solid var(--border)',
                   borderRadius: 8,
                   background: days.includes(i) ? 'var(--accent)' : 'transparent',
@@ -121,7 +121,7 @@ export default function Roster() {
             ))}
           </div>
         </div>
-        <button onClick={addMember} disabled={!name.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
+        <button onClick={addMember} disabled={!name.trim()} style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Add to circle
         </button>
       </section>
@@ -137,7 +137,7 @@ export default function Roster() {
                 On call: {m.on_call_days.map((d) => DAY_LABELS[d]).join(', ') || 'none set'} · load {m.load_count}
               </div>
             </div>
-            <button onClick={() => removeMember(m.id)} style={{ fontSize: 12, color: 'var(--alert)' }}>
+            <button onClick={() => removeMember(m.id)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--alert)', minHeight: 60, padding: '0 14px' }}>
               Remove
             </button>
           </div>
@@ -148,5 +148,5 @@ export default function Roster() {
   );
 }
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
-const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 } as const;
+const cardStyle = { background: 'var(--surface)', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-card)', borderRadius: 'var(--radius)', padding: 16 } as const;
+const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 16 } as const;

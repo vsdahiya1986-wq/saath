@@ -64,7 +64,7 @@ export default function PersonSetup() {
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 18 }}
+          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 18 }}
         />
       </label>
 
@@ -138,7 +138,7 @@ export default function PersonSetup() {
             value={consentRef}
             onChange={(e) => setConsentRef(e.target.value)}
             placeholder="e.g. consent form ID"
-            style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 }}
+            style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 16 }}
           />
         </label>
       </fieldset>
@@ -146,7 +146,7 @@ export default function PersonSetup() {
       <button
         onClick={save}
         disabled={!name.trim()}
-        style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
+        style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
         className="text-[var(--on-accent)] font-black px-8 text-lg active:opacity-80 disabled:opacity-40 mt-2"
       >
         Save profile
@@ -158,7 +158,7 @@ export default function PersonSetup() {
 const selectStyle = {
   border: 'var(--border-w) solid var(--border)',
   borderRadius: 'var(--radius)',
-  minHeight: 48,
+  minHeight: 60,
   padding: '0 12px',
   fontSize: 16,
 } as const;

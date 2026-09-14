@@ -18,18 +18,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#060a13",
+  themeColor: "#065f46",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${jakarta.variable} h-full`}>
       <body className="min-h-full flex flex-col bg-[var(--bg)]">
-        <div className="aurora" aria-hidden="true" />
-        <div className="grain" aria-hidden="true" />
         <RegisterServiceWorker />
         <AudioRouteGuard />
-        <div className="app-root flex-1 flex flex-col min-h-full">{children}</div>
+        {children}
       </body>
     </html>
   );

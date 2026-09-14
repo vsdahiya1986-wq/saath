@@ -93,7 +93,7 @@ export default function HandoffScreen() {
             </option>
           ))}
         </select>
-        <button onClick={send} disabled={!from || !to} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
+        <button onClick={send} disabled={!from || !to} style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Send
         </button>
       </section>
@@ -119,12 +119,12 @@ export default function HandoffScreen() {
                 {h.state}
               </span>
               {h.state === 'sent' && (
-                <button onClick={() => markReceived(h)} style={{ fontSize: 12, color: 'var(--accent)' }}>
+                <button onClick={() => markReceived(h)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--accent)', minHeight: 60, padding: '0 14px' }}>
                   Mark received
                 </button>
               )}
               {h.state === 'received' && (
-                <button onClick={() => markAccepted(h)} style={{ fontSize: 12, color: 'var(--accent)' }}>
+                <button onClick={() => markAccepted(h)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--accent)', minHeight: 60, padding: '0 14px' }}>
                   Accept
                 </button>
               )}
@@ -136,6 +136,6 @@ export default function HandoffScreen() {
   );
 }
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
-const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 } as const;
+const cardStyle = { background: 'var(--surface)', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-card)', borderRadius: 'var(--radius)', padding: 16 } as const;
+const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 16 } as const;
 const h2Style = { fontSize: 17, fontWeight: 900 } as const;

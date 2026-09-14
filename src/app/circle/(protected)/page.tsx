@@ -12,24 +12,29 @@ interface CircleCounts {
   personName: string | null;
   packsApproved: number;
   packsTotal: number;
+  recordings: number;
   members: number;
   remindersTotal: number;
   remindersOverdue: number;
   trials: number;
+  sessionsThisWeek: number;
   handoffsPending: number;
 }
 
-const LINKS: { href: string; label: string; desc: string; icon: IconName; color: string; stat: (c: CircleCounts) => string | null; wide?: boolean }[] = [
-  { href: '/circle/setup', label: 'Person profile', desc: 'Create or edit the person this device is for', icon: 'profile', color: '#5eead4', stat: (c) => (c.personName ? `Set up for ${c.personName}` : 'Not set up yet') },
-  { href: '/circle/packs', label: 'Pack Studio', desc: 'Photos, prompts, routines — approve what plays', icon: 'camera', color: '#fcd34d', stat: (c) => (c.packsTotal ? `${c.packsApproved} of ${c.packsTotal} approved` : 'No packs yet') },
-  { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#c4b5fd', stat: (c) => (c.members ? `${c.members} ${c.members === 1 ? 'member' : 'members'}` : 'No one added yet') },
-  { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#7dd3fc', stat: (c) => (c.remindersTotal ? `${c.remindersTotal} set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` : 'None set yet') },
-  { href: '/circle/board', label: 'Circle Board', desc: 'Activity levels, freshness, who is carrying this', icon: 'chart', color: '#f9a8d4', stat: (c) => (c.trials ? `${c.trials} session${c.trials === 1 ? '' : 's'} recorded` : 'No sessions yet') },
-  { href: '/circle/handoff', label: 'Handoff', desc: 'Send configuration to another device', icon: 'skip', color: '#93c5fd', stat: (c) => (c.handoffsPending ? `${c.handoffsPending} pending` : null) },
-  { href: '/circle/legacy', label: 'Voice Legacy', desc: "The family's own recordings, permanently", icon: 'mic', color: '#fda4af', stat: () => null },
-  { href: '/inspector', label: 'Evidence Inspector', desc: 'Jury view — how the model decides, in plain words', icon: 'sparkle', color: '#5eead4', stat: () => 'Open the model’s reasoning', wide: true },
+type Stat = { value: string | null; label: string };
+
+const LINKS: { href: string; label: string; desc: string; icon: IconName; color: string; stat: (c: CircleCounts) => Stat; wide?: boolean }[] = [
+  { href: '/circle/setup', label: 'Person profile', desc: 'Create or edit the person this device is for', icon: 'profile', color: '#065f46', stat: (c) => ({ value: c.personName, label: c.personName ? 'profile set up' : 'Not set up yet' }) },
+  { href: '/circle/packs', label: 'Pack Studio', desc: 'Photos, prompts, routines — approve what plays', icon: 'camera', color: '#b45309', stat: (c) => ({ value: String(c.packsApproved), label: `of ${c.packsTotal} packs approved` }) },
+  { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#6d28d9', stat: (c) => ({ value: String(c.members), label: c.members === 1 ? 'member' : 'members' }) },
+  { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` }) },
+  { href: '/circle/board', label: 'Circle Board', desc: 'Trends, activity levels, who is carrying this', icon: 'chart', color: '#9d174d', stat: (c) => ({ value: String(c.trials), label: 'sessions recorded' }) },
+  { href: '/circle/handoff', label: 'Handoff', desc: 'Send configuration to another device', icon: 'skip', color: '#1d4ed8', stat: (c) => ({ value: String(c.handoffsPending), label: 'handoffs pending' }) },
+  { href: '/circle/legacy', label: 'Voice Legacy', desc: "The family's own recordings, permanently", icon: 'mic', color: '#9f1239', stat: (c) => ({ value: String(c.recordings), label: 'voice recordings kept' }) },
+  { href: '/inspector', label: 'Evidence Inspector', desc: 'How the model decides, in plain words', icon: 'sparkle', color: '#065f46', stat: () => ({ value: null, label: 'Open the model’s reasoning' }), wide: true },
 ];
 
+/** Circle hub (SIH26003 f): caregiver/worker tools as a dense 2-column bento, each tile with a live count. */
 export default function CircleHome() {
   const [counts, setCounts] = useState<CircleCounts | null>(null);
 
@@ -42,71 +47,89 @@ export default function CircleHome() {
         packsForPerson(id),
         membersForPerson(id),
         remindersForPerson(id),
-        db.trials.where({ person_id: id }).count(),
+        db.trials.where({ person_id: id }).toArray(),
         db.handoffs.where({ person_id: id }).toArray(),
       ]);
+      const weekAgo = Date.now() - 7 * 864e5;
       setCounts({
         personName: person?.display_name ?? null,
         packsApproved: packs.filter((p) => p.state === 'approved').length,
         packsTotal: packs.length,
+        recordings: packs.filter((p) => p.state !== 'withdrawn' && p.media.audio_key).length,
         members: members.length,
         remindersTotal: reminders.length,
         remindersOverdue: reminders.filter(isOverdue).length,
-        trials,
+        trials: trials.filter((x) => !x.synthetic).length,
+        sessionsThisWeek: trials.filter((x) => !x.synthetic && new Date(x.created_at).getTime() >= weekAgo).length,
         handoffsPending: handoffs.filter((h) => h.state !== 'accepted').length,
       });
     })();
   }, []);
 
   return (
-    <main className="h-[100dvh] flex flex-col">
-      <div className="flex-1 min-h-0 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-5 pt-6 pb-8 flex flex-col gap-6">
-          <header className="rise">
-            <BackButton href="/" label="Back" />
-          </header>
-          <div className="flex flex-col gap-3 rise rise-1">
-            <span className="eyebrow self-start">
-              <Icon name="people" size={14} /> For family & health workers
-            </span>
-            <h1 className="title-xl">Circle</h1>
+    <main className="flex-1 min-h-0 flex flex-col">
+      <header className="shrink-0 w-full max-w-5xl mx-auto px-5 pt-2 pb-3 flex flex-col items-start gap-3">
+        <BackButton href="/" label="Back" />
+        <h1 className="title-xl">Circle</h1>
+      </header>
+
+      <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-5xl mx-auto px-5 pb-4">
+        <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: 'minmax(180px, auto)' }}>
+          <div className="core col-span-2 p-5 flex flex-wrap items-center gap-x-8 gap-y-3" style={{ borderTop: '6px solid var(--accent)' }} data-testid="circle-summary">
+            <div className="flex flex-col">
+              <span style={{ fontSize: 15, letterSpacing: '0.08em' }} className="font-bold uppercase muted">
+                Caring for
+              </span>
+              <span style={{ fontSize: 30 }} className="font-extrabold">
+                {counts?.personName ?? '…'}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span style={{ fontSize: 36, color: 'var(--accent)' }} className="font-extrabold tabular-nums leading-none">
+                {counts ? counts.sessionsThisWeek : '…'}
+              </span>
+              <span style={{ fontSize: 16 }} className="muted">
+                sessions in the last 7 days
+              </span>
+            </div>
+            <div className="flex flex-col">
+              <span style={{ fontSize: 36, color: counts?.remindersOverdue ? 'var(--alert)' : 'var(--accent)' }} className="font-extrabold tabular-nums leading-none">
+                {counts ? counts.remindersOverdue : '…'}
+              </span>
+              <span style={{ fontSize: 16 }} className="muted">
+                reminders overdue today
+              </span>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {LINKS.map((l, i) => {
-              const stat = counts ? l.stat(counts) : null;
-              return (
-                <Link key={l.href} href={l.href} className={`shell hover-lift rise rise-${Math.min(i + 2, 6)} ${l.wide ? 'sm:col-span-2' : ''}`}>
-                  <span
-                    className="core p-5 flex flex-col gap-3 h-full"
-                    style={{ background: `radial-gradient(100% 120% at 100% 0%, color-mix(in srgb, ${l.color} 12%, transparent), transparent 60%), linear-gradient(180deg, var(--surface-2), var(--surface))` }}
-                  >
-                    <span className="flex items-center gap-3">
-                      <span className="flex items-center justify-center rounded-full shrink-0" style={{ width: 52, height: 52, color: l.color, background: `color-mix(in srgb, ${l.color} 14%, transparent)`, border: `1.5px solid color-mix(in srgb, ${l.color} 35%, transparent)` }}>
-                        <Icon name={l.icon} size={26} />
-                      </span>
-                      <span style={{ fontSize: 23 }} className="font-extrabold flex-1">
-                        {l.label}
-                      </span>
-                      <span className="muted">
-                        <Icon name="arrow" size={24} />
-                      </span>
+          {LINKS.map((l) => {
+            const stat = counts ? l.stat(counts) : null;
+            return (
+              <Link key={l.href} href={l.href} className={`core hover-lift p-4 flex flex-col gap-2 ${l.wide ? 'col-span-2' : ''}`} style={{ borderTop: `6px solid ${l.color}` }}>
+                <span className="flex items-center justify-center rounded-full shrink-0" style={{ width: 52, height: 52, color: l.color, background: `color-mix(in srgb, ${l.color} 12%, var(--surface))` }}>
+                  <Icon name={l.icon} size={26} />
+                </span>
+                <span style={{ fontSize: 22, overflowWrap: 'anywhere' }} className="font-extrabold leading-tight">
+                  {l.label}
+                </span>
+                <span style={{ fontSize: 16 }} className="muted">
+                  {l.desc}
+                </span>
+                <span className="mt-auto flex items-baseline gap-2 flex-wrap">
+                  {stat?.value && (
+                    <span style={{ fontSize: 30, color: l.color }} className="font-extrabold tabular-nums leading-none break-all">
+                      {stat.value}
                     </span>
-                    <span style={{ fontSize: 17 }} className="muted">
-                      {l.desc}
-                    </span>
-                    {stat && (
-                      <span style={{ fontSize: 16, color: l.color, borderTop: '1px solid var(--hairline)' }} className="font-bold pt-3 mt-auto">
-                        {stat}
-                      </span>
-                    )}
+                  )}
+                  <span style={{ fontSize: 16, color: l.color }} className="font-bold">
+                    {stat ? stat.label : '…'}
                   </span>
-                </Link>
-              );
-            })}
-          </div>
+                </span>
+              </Link>
+            );
+          })}
 
-          <section className="panel p-5 flex gap-4 items-start">
+          <section className="core col-span-2 p-5 flex gap-4 items-start">
             <span style={{ color: 'var(--accent)' }}>
               <Icon name="shield" size={30} />
             </span>
@@ -116,8 +139,7 @@ export default function CircleHome() {
               </span>
               <span style={{ fontSize: 16 }} className="muted">
                 Names, care-plan text, photos and recordings are AES-256 encrypted at rest on this device. Nothing syncs unless a backend is
-                configured for the deployment (it is not in this demo build) — and even then only coded gameplay data, never identifying
-                fields. Consent is recorded per person in the profile screen, not inferred.
+                configured for the deployment (it is not in this demo build) — and even then only coded gameplay data, never identifying fields.
               </span>
             </div>
           </section>

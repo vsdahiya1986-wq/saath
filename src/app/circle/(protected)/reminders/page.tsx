@@ -132,7 +132,7 @@ export default function ReminderScheduler() {
           </div>
           <AnalogClock hour={hour} minute={minute} size={56} />
         </div>
-        <button onClick={add} disabled={!carePlanText.trim()} style={{ minHeight: 52, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
+        <button onClick={add} disabled={!carePlanText.trim()} style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }} className="text-[var(--on-accent)] font-black disabled:opacity-40">
           Schedule
         </button>
       </section>
@@ -149,7 +149,7 @@ export default function ReminderScheduler() {
                 {r.care_plan_text} · {r.device_activated ? 'armed' : 'NOT armed'} · v{r.version}
               </div>
             </div>
-            <button onClick={() => remove(r)} style={{ fontSize: 12, color: 'var(--alert)' }}>
+            <button onClick={() => remove(r)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--alert)', minHeight: 60, padding: '0 14px' }}>
               Remove
             </button>
           </div>
@@ -160,5 +160,5 @@ export default function ReminderScheduler() {
   );
 }
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
-const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 } as const;
+const cardStyle = { background: 'var(--surface)', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-card)', borderRadius: 'var(--radius)', padding: 16 } as const;
+const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 16 } as const;

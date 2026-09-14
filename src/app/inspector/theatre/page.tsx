@@ -74,7 +74,7 @@ export default function FailureTheatre() {
           <BackButton href="/inspector" label="Back to Evidence Inspector" />
         </header>
         <section className="flex flex-col gap-3 rise rise-1">
-          <span className="eyebrow self-start" style={{ color: 'var(--warn)', background: 'var(--accent-warm-soft)', borderColor: 'rgba(252,211,77,0.35)' }}>
+          <span className="eyebrow self-start" style={{ color: 'var(--warn)', background: 'var(--accent-warm-soft)' }}>
             <Icon name="warning" size={14} /> Demo mode
           </span>
           <h1 className="title-xl">Failure Theatre</h1>

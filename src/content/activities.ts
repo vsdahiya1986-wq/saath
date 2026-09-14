@@ -66,9 +66,9 @@ export function activityInfo(a: Activity): ActivityInfo {
 }
 
 export const DOMAIN_COLOR: Record<string, string> = {
-  'domain.memory': '#5eead4',
-  'domain.attention': '#c4b5fd',
-  'domain.pattern': '#fcd34d',
-  'domain.routine': '#7dd3fc',
-  'domain.emotion': '#f9a8d4',
+  'domain.memory': '#065f46',
+  'domain.attention': '#6d28d9',
+  'domain.pattern': '#92400e',
+  'domain.routine': '#0369a1',
+  'domain.emotion': '#9d174d',
 };

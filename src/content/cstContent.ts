@@ -10,9 +10,9 @@ export interface HomeObject {
 export type CategoryId = 'kitchen' | 'getting_ready' | 'around_house';
 
 export const CATEGORIES: Record<CategoryId, { label: string; icon: IconName; color: string }> = {
-  kitchen: { label: 'Kitchen', icon: 'kettle', color: '#fcd34d' },
-  getting_ready: { label: 'Getting ready', icon: 'mirror', color: '#c4b5fd' },
-  around_house: { label: 'Around the house', icon: 'home', color: '#7dd3fc' },
+  kitchen: { label: 'Kitchen', icon: 'kettle', color: '#b45309' },
+  getting_ready: { label: 'Getting ready', icon: 'mirror', color: '#6d28d9' },
+  around_house: { label: 'Around the house', icon: 'home', color: '#0369a1' },
 };
 
 /** Everyday North-East Indian household objects (original line art, no photographs). */

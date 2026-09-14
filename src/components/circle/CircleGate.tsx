@@ -11,6 +11,8 @@ const noopSubscribe = () => () => {};
  * Wraps every /circle/* page except /circle/login, and /inspector/*.
  * The server snapshot is `null` ("not yet known") so server and first client
  * render match; the client then reads the PIN session from sessionStorage.
+ * It owns the full viewport height: the status row sits on top and the page
+ * scrolls inside, so a full-height page never produces a second scrollbar.
  */
 export default function CircleGate({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -23,11 +25,11 @@ export default function CircleGate({ children }: { children: ReactNode }) {
 
   if (!unlocked) return null;
   return (
-    <>
-      <div className="flex justify-end p-3 pb-0">
+    <div className="h-[100dvh] flex flex-col">
+      <div className="shrink-0 flex justify-end px-4 pt-3">
         <StatusBadge lang={person?.language} />
       </div>
-      {children}
-    </>
+      <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">{children}</div>
+    </div>
   );
 }

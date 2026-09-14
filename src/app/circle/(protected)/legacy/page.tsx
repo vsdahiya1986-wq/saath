@@ -79,7 +79,7 @@ export default function VoiceLegacy() {
       <button
         onClick={exportAll}
         disabled={!entries.length}
-        style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
+        style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
         className="text-[var(--on-accent)] font-black disabled:opacity-40 mt-2"
       >
         Give the family a copy

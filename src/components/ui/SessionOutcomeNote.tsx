@@ -29,7 +29,7 @@ export default function SessionOutcomeNote({
     <div
       className="panel flex items-start gap-3 p-4 text-left max-w-md w-full"
       data-testid={same ? undefined : 'session-outcome-note'}
-      style={{ borderColor: same ? 'var(--border)' : 'rgba(94,234,212,0.45)' }}
+      style={{ borderLeft: `8px solid ${same ? 'var(--card-border)' : 'var(--accent)'}` }}
     >
       <span style={{ color: same ? 'var(--text-muted)' : 'var(--accent)' }} className="mt-0.5 shrink-0">
         <Icon name={same ? 'refresh' : 'sparkle'} size={22} />

@@ -25,6 +25,7 @@ function isStale(reviewBy?: string, state?: string): boolean {
   return new Date(reviewBy).getTime() < Date.now();
 }
 
+/** Help (SIH26003 f, g, h): one large "I need someone" action with an honest, offline-aware delivery status. */
 export default function HelpScreen() {
   const { person, loading } = usePerson();
   const [cards, setCards] = useState<PromptCard[]>([]);
@@ -73,43 +74,36 @@ export default function HelpScreen() {
   return (
     <main className="h-[100dvh] flex flex-col">
       <div className="flex-1 min-h-0 overflow-y-auto">
-        <div className="max-w-3xl mx-auto px-5 pt-6 pb-8 flex flex-col gap-6">
-          <header className="flex items-center justify-between gap-3 rise">
+        <div className="w-full max-w-3xl mx-auto px-5 pt-5 pb-6 flex flex-col gap-5">
+          <header className="flex items-center justify-between gap-3">
             <BackButton href="/" label={t('common.back', person.language)} />
             <StatusBadge lang={person.language} />
           </header>
 
-          <h1 className="title-xl rise rise-1">{t('help.title', person.language)}</h1>
+          <h1 className="title-xl">{t('help.title', person.language)}</h1>
 
-          <div className="flex flex-col items-center gap-5 py-4 rise rise-2">
-            <div className="relative flex items-center justify-center">
-              <span className="absolute rounded-full breathe" style={{ inset: -18, background: 'radial-gradient(circle, rgba(251,113,133,0.35), transparent 70%)' }} />
-              <button
-                onClick={needSomeone}
-                disabled={sending}
-                aria-label={t('help.need', person.language)}
-                className="relative flex flex-col items-center justify-center gap-3 rounded-full font-extrabold transition-transform active:scale-95"
-                style={{
-                  width: 'min(72vw, 280px)',
-                  height: 'min(72vw, 280px)',
-                  background: 'radial-gradient(circle at 35% 30%, #fecdd3 0%, #fb7185 45%, #e11d48 100%)',
-                  color: 'var(--on-alert)',
-                  fontSize: 28,
-                  boxShadow: '0 30px 80px -20px rgba(244,63,94,0.8), inset 0 2px 0 rgba(255,255,255,0.4)',
-                  transitionTimingFunction: 'var(--ease-spring)',
-                  transitionDuration: '500ms',
-                }}
-              >
-                <Icon name={sending ? 'clock' : 'people'} size={64} strokeWidth={2.2} />
-                <span className="px-6 text-center leading-tight">{t('help.need', person.language)}</span>
-              </button>
-            </div>
+          <div className="flex flex-col items-center gap-5 py-2">
+            <button
+              onClick={needSomeone}
+              disabled={sending}
+              aria-label={t('help.need', person.language)}
+              className="flex flex-col items-center justify-center gap-3 rounded-full font-extrabold transition-transform active:scale-95"
+              style={{
+                width: 'min(72vw, 280px)',
+                height: 'min(72vw, 280px)',
+                background: 'var(--alert)',
+                color: 'var(--on-alert)',
+                fontSize: 28,
+                border: '6px solid var(--surface)',
+                boxShadow: 'var(--shadow-raised)',
+              }}
+            >
+              <Icon name={sending ? 'clock' : 'people'} size={64} strokeWidth={2.2} />
+              <span className="px-6 text-center leading-tight">{t('help.need', person.language)}</span>
+            </button>
 
             {status && (
-              <div
-                className="panel flex items-center gap-3 px-5 py-4 max-w-md"
-                style={{ borderColor: sent ? 'var(--ok)' : 'var(--warn)' }}
-              >
+              <div className="panel flex items-center gap-3 px-5 py-4 max-w-md" style={{ borderLeft: `8px solid ${sent ? 'var(--ok)' : 'var(--warn)'}` }}>
                 <span style={{ color: sent ? 'var(--ok)' : 'var(--warn)' }}>
                   <Icon name={sent ? 'check' : 'shield'} size={28} />
                 </span>
@@ -121,38 +115,40 @@ export default function HelpScreen() {
             )}
           </div>
 
-          <div className="flex flex-col gap-4">
-            {cards.map((c, i) => (
-              <button key={c.id} onClick={() => (c.audioKey ? playPackAudio(c.audioKey) : speak(c.title, person.language))} className={`shell hover-lift text-left rise rise-${Math.min(i + 3, 6)}`}>
-                <span className="core flex items-center gap-4 p-4">
-                  {c.photoUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={c.photoUrl} alt={c.title} className="object-cover" style={{ width: 72, height: 72, borderRadius: 16 }} />
-                  ) : (
-                    <span style={{ color: 'var(--accent)' }}>
-                      <Icon name="photo" size={56} />
-                    </span>
-                  )}
-                  <span style={{ fontSize: 24 }} className="font-extrabold flex-1">
-                    {c.title}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {cards.map((c) => (
+              <button
+                key={c.id}
+                onClick={() => (c.audioKey ? playPackAudio(c.audioKey) : speak(c.title, person.language))}
+                className="core hover-lift flex items-center gap-4 p-4 text-left"
+              >
+                {c.photoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={c.photoUrl} alt={c.title} className="object-cover" style={{ width: 72, height: 72, borderRadius: 14 }} />
+                ) : (
+                  <span style={{ color: 'var(--accent)' }}>
+                    <Icon name="photo" size={56} />
                   </span>
-                  {c.stale && (
-                    <span title={t('help.stale_warning', person.language)} style={{ color: 'var(--warn)' }}>
-                      <Icon name="warning" size={30} />
-                    </span>
-                  )}
-                  <span className="btn btn-ghost btn-icon" style={{ color: 'var(--accent)' }} aria-hidden="true">
-                    <Icon name="listen" size={24} />
+                )}
+                <span style={{ fontSize: 23 }} className="font-extrabold flex-1">
+                  {c.title}
+                </span>
+                {c.stale && (
+                  <span title={t('help.stale_warning', person.language)} style={{ color: 'var(--warn)' }}>
+                    <Icon name="warning" size={30} />
                   </span>
+                )}
+                <span className="btn btn-ghost btn-icon" style={{ color: 'var(--accent)' }} aria-hidden="true">
+                  <Icon name="listen" size={24} />
                 </span>
               </button>
             ))}
-            {!cards.length && (
-              <p style={{ fontSize: 18 }} className="muted text-center">
-                No help prompts have been approved yet.
-              </p>
-            )}
           </div>
+          {!cards.length && (
+            <p style={{ fontSize: 18 }} className="muted text-center">
+              No help prompts have been approved yet.
+            </p>
+          )}
         </div>
       </div>
       <BottomNav lang={person.language} backHref="/" backLabel={t('common.back', person.language)} />

@@ -231,5 +231,5 @@ const ACTIVITY_LEVEL_LABEL: Record<string, string> = {
   high: 'High participation',
 };
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
+const cardStyle = { background: 'var(--surface)', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-card)', borderRadius: 'var(--radius)', padding: 16 } as const;
 const h2Style = { fontSize: 17, fontWeight: 900, marginBottom: 8 } as const;

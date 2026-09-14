@@ -354,6 +354,7 @@ export default function Icon({ name, size = 32, strokeWidth = 2 }: { name: IconN
       fill="none"
       stroke="currentColor"
       strokeWidth={strokeWidth}
+      style={{ flexShrink: 0 }}
       aria-hidden="true"
     >
       {PATHS[name]}

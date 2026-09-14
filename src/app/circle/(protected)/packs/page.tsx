@@ -153,7 +153,7 @@ export default function PackStudio() {
         <label className="flex flex-col gap-1">
           <span style={{ fontSize: 14 }}>Photo</span>
           <label
-            style={{ border: 'var(--border-w) dashed var(--border)', borderRadius: 'var(--radius)', minHeight: 56 }}
+            style={{ border: 'var(--border-w) dashed var(--border)', borderRadius: 'var(--radius)', minHeight: 60 }}
             className="flex items-center justify-center gap-2 cursor-pointer"
           >
             <Icon name="camera" size={24} />
@@ -193,7 +193,7 @@ export default function PackStudio() {
           <button
             onClick={toggleRecord}
             style={{
-              minHeight: 48,
+              minHeight: 60,
               border: `var(--border-w) solid ${recording ? 'var(--alert)' : 'var(--border)'}`,
               borderRadius: 'var(--radius)',
             }}
@@ -203,7 +203,7 @@ export default function PackStudio() {
             <span style={{ fontSize: 15 }}>{recording ? 'Stop recording' : recordedKey ? 'Re-record' : 'Record prompt'}</span>
           </button>
           {recordedKey && !recording && (
-            <button onClick={() => playPackAudio(recordedKey)} style={{ minHeight: 48, minWidth: 48, border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }}>
+            <button onClick={() => playPackAudio(recordedKey)} style={{ minHeight: 60, minWidth: 60, border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)' }}>
               <Icon name="listen" size={20} />
             </button>
           )}
@@ -212,7 +212,7 @@ export default function PackStudio() {
         <button
           onClick={createPack}
           disabled={!title.trim() || (!recordedKey && !photoFile)}
-          style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
+          style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
           className="text-[var(--on-accent)] font-black text-lg disabled:opacity-40"
         >
           Approve pack
@@ -240,12 +240,12 @@ export default function PackStudio() {
               </div>
             </div>
             {p.media.audio_key && (
-              <button onClick={() => playPackAudio(p.media.audio_key)} aria-label="Listen" style={{ minWidth: 40, minHeight: 40 }}>
+              <button onClick={() => playPackAudio(p.media.audio_key)} aria-label="Listen" style={{ minWidth: 60, minHeight: 60 }}>
                 <Icon name="listen" size={20} />
               </button>
             )}
             {p.state !== 'withdrawn' && (
-              <button onClick={() => withdraw(p)} style={{ fontSize: 12, color: 'var(--alert)' }}>
+              <button onClick={() => withdraw(p)} style={{ fontSize: 16, fontWeight: 700, color: 'var(--alert)', minHeight: 60, padding: '0 14px' }}>
                 Withdraw
               </button>
             )}
@@ -257,6 +257,6 @@ export default function PackStudio() {
   );
 }
 
-const cardStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', padding: 16 } as const;
-const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 48, padding: '0 12px', fontSize: 16 } as const;
+const cardStyle = { background: 'var(--surface)', border: '1px solid var(--card-border)', boxShadow: 'var(--shadow-card)', borderRadius: 'var(--radius)', padding: 16 } as const;
+const inputStyle = { border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', minHeight: 60, padding: '0 12px', fontSize: 16 } as const;
 const selectStyle = inputStyle;

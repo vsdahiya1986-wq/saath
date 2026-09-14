@@ -59,7 +59,7 @@ export default function CircleLogin() {
         value={pin}
         onChange={(e) => setPinValue(e.target.value)}
         maxLength={8}
-        style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', fontSize: 24, minHeight: 56 }}
+        style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', fontSize: 24, minHeight: 60 }}
         className="text-center w-48 tracking-widest"
         aria-label="PIN"
         autoFocus
@@ -73,7 +73,7 @@ export default function CircleLogin() {
           onChange={(e) => setConfirm(e.target.value)}
           maxLength={8}
           placeholder="Confirm"
-          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', fontSize: 24, minHeight: 56 }}
+          style={{ border: 'var(--border-w) solid var(--border)', borderRadius: 'var(--radius)', fontSize: 24, minHeight: 60 }}
           className="text-center w-48 tracking-widest"
           aria-label="Confirm PIN"
         />
@@ -85,7 +85,7 @@ export default function CircleLogin() {
 
       <button
         onClick={mode === 'create' ? submitCreate : submitEnter}
-        style={{ minHeight: 56, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
+        style={{ minHeight: 60, background: 'var(--accent)', borderRadius: 'var(--radius)' }}
         className="text-[var(--on-accent)] font-black px-8 text-lg active:opacity-80"
       >
         {mode === 'create' ? 'Set PIN' : 'Continue'}

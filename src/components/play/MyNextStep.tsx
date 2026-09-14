@@ -147,16 +147,17 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
               key={s.id}
               className="panel flex items-center gap-4 px-4 py-3 transition-all"
               style={{
-                borderColor: done ? 'rgba(74,222,128,0.55)' : isNext ? 'var(--accent)' : 'var(--border)',
+                borderColor: done ? 'var(--ok)' : isNext ? 'var(--accent)' : 'var(--control-border)',
+                borderWidth: 2,
                 borderStyle: done ? 'solid' : 'dashed',
-                background: done ? 'linear-gradient(90deg, rgba(74,222,128,0.12), transparent)' : undefined,
+                background: done ? 'var(--ok-soft)' : 'var(--surface)',
                 transitionTimingFunction: 'var(--ease-spring)',
                 transitionDuration: '500ms',
               }}
             >
               <span
                 className="flex items-center justify-center rounded-full font-extrabold shrink-0"
-                style={{ width: 44, height: 44, fontSize: 20, background: done ? 'var(--ok)' : 'var(--surface-3)', color: done ? '#052e16' : 'var(--text-muted)' }}
+                style={{ width: 44, height: 44, fontSize: 20, background: done ? 'var(--ok)' : 'var(--surface-3)', color: done ? 'var(--on-accent)' : 'var(--text-muted)' }}
               >
                 {done ? <Icon name="check" size={24} strokeWidth={3} /> : i + 1}
               </span>
