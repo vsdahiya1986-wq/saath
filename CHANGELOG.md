@@ -71,7 +71,50 @@ Also in this phase: `partOfDayIndex` evening now ends at 19:59 per the kit's sta
 `pickVoice` returns null for Assamese rather than mispronounce — so those cues are currently
 **silent** in Assamese. Run `npm run generate-audio`. No Assamese text was invented in code.
 
+## Phase 2 — Removals and renames (2026-09-18)
+
+**R1 — Failure Theatre removed.** `/inspector/theatre` deleted with its pack-expiry, lost-response
+and duplicate-sync demos (nothing else referenced them). Its one useful control became **No-Signal
+Mode** (F3, brought forward so no capability was lost for a phase): a caregiver-facing switch on the
+Circle screen. `sync.ts`'s `forcedOffline` is now persisted in `localStorage` so it survives demo
+reloads, and `StatusBadge` reports `online | offline | simulated` with a `data-state` attribute — a
+simulated outage must never be mistaken for a real one.
+
+**R2 — Handoff removed.** `/circle/handoff` deleted, link and `handoffsPending` count removed. The
+`handoffs` Dexie table and its `deletePerson()` cleanup are kept, commented as unused since Sept
+2026, because dropping a table needs a migration and risks data loss for no gain.
+⚠️ **Deviation from the kit:** it said to remove the "Pending handoffs" section from the Circle
+Board. That section has always read `db.followups` — help requests and missed check-ins, which are a
+real caregiver signal under clause (f). Deleting it would have destroyed working functionality, so it
+is **renamed to "Open follow-ups"** instead, which is what it actually shows.
+
+**R3 — Voice Legacy merged into Memory Garden.** `/circle/legacy` deleted; an **Export recordings**
+button in Memory Garden reuses `exportLegacyZip()`. `voiceLegacy.ts` and `zip.ts` are therefore
+**kept** — the export shipped.
+
+**R4 — Routes renamed to match the visible names.** `/play/today_me`, `/play/hear_find`,
+`/play/sort_home`, `/play/next_step`, `/play/together`.
+Chosen approach: **stored ids are unchanged; the slug maps only at the route layer.** No Dexie
+migration, so existing trial history and every `model.ts` query keep working untouched. Old URLs are
+still generated as pages that client-side `router.replace()` to the new slug — `output: "export"`
+rules out `next.config` redirects, which need a server.
+
+**R5 — Dead assets.** Deleted `public/{file,globe,next,vercel,window}.svg` (unreferenced; `icon.svg`
+is ours and kept). `README.md` was still the verbatim create-next-app template — replaced with a real
+one covering `npm run preview`, the gates, and the Assamese audio rule. Did not chase `knip`.
+
+**R6 — The floating purple widget is not ours.** No `Manage` string anywhere in `src/`, and the only
+fixed-position panel in the codebase is GameFrame's pause overlay. It is a browser extension on the
+test machine; no code changed.
+
+**R7 — Copy clean-up.** `SessionOutcomeNote` told the elder "we may try level 3" — now "a little
+more" / "gentler", since a level number reads like a grade. Removed-feature wording updated in
+`BUILD_CHECKLIST.md` and a pass note added atop `SAATH_MASTER_FINAL.md` (history sections left
+intact). Verified no score, streak or difficulty number reaches an elder-facing screen.
+
+Gates: lint clean · tsc clean · 72 unit tests · **15** Playwright tests (added the R4 redirect test).
+
 ### Roadmap (not started)
 
-Phases 2–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: removals, demo readiness, two new games,
-caregiver layer, accessibility pass, deploy. B7–B11 are Phase 6.
+Phases 3–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: demo readiness (F1–F3 — F3 landed early with
+R1), two new games, caregiver layer, accessibility pass, deploy. B7–B11 are Phase 6.

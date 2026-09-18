@@ -46,7 +46,10 @@ export default function CircleBoard() {
   const [trends, setTrends] = useState<ConditionSeries[]>([]);
   const [burden, setBurden] = useState<BurdenRow[]>([]);
   const [onCall, setOnCall] = useState<OnCall | null>(null);
-  const [pendingHandoffs, setPendingHandoffs] = useState<FollowupItem[]>([]);
+  // R2: this section was labelled "Pending handoffs" but has always read
+  // db.followups — help requests and missed check-ins, which are a real
+  // caregiver signal (clause f). Renamed rather than deleted with Handoff.
+  const [followups, setFollowups] = useState<FollowupItem[]>([]);
 
   useEffect(() => {
     getActivePersonId().then(async (id) => {
@@ -56,7 +59,7 @@ export default function CircleBoard() {
       setTrends(await conditionTrends(id));
       setBurden(await burdenReport(id));
       setOnCall(await pickOnCall(id));
-      setPendingHandoffs(await db.followups.where({ person_id: id }).toArray());
+      setFollowups(await db.followups.where({ person_id: id }).toArray());
     });
   }, []);
 
@@ -68,7 +71,7 @@ export default function CircleBoard() {
     );
   }
 
-  const openFollowups = pendingHandoffs.filter((f) => !['resolved', 'cancelled', 'expired'].includes(f.state));
+  const openFollowups = followups.filter((f) => !['resolved', 'cancelled', 'expired'].includes(f.state));
   const { trend, basis } = overallTrend(trends);
   const trendStyle = TREND_STYLE[trend];
 
@@ -152,7 +155,7 @@ export default function CircleBoard() {
       </section>
 
       <section style={cardStyle}>
-        <h2 style={h2Style}>Pending handoffs</h2>
+        <h2 style={h2Style}>Open follow-ups</h2>
         {openFollowups.length ? (
           openFollowups.map((f) => (
             <div key={f.id} style={{ fontSize: 14 }} className="flex justify-between">

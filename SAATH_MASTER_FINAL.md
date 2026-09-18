@@ -1,4 +1,10 @@
 # SAATH — Complete Build Guide
+
+> **Sept 2026 fix pass:** Handoff (F11), the Voice Legacy screen and Failure Theatre were
+> removed — see `CHANGELOG.md` Phase 2 (R1–R3). Recording export moved into Memory Garden and
+> simulated offline became caregiver-facing **No-Signal Mode** in Circle. The history sections
+> below are left as they were written.
+
 ## SIH26003 · AI-Based Cognitive Gaming and Memory Assistance Platform for Elderly Dementia Patients in NER
 ### Ministry of Development of North Eastern Region (MDoNER) · Software · MedTech/BioTech/HealthTech
 

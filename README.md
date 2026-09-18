@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SAATH
 
-## Getting Started
+An offline-first memory companion for elderly people living with dementia in India's North Eastern
+Region. Smart India Hackathon 2026 entry for **SIH26003** (Ministry of Development of North Eastern
+Region).
 
-First, run the development server:
+The elder plays short, errorless Cognitive Stimulation Therapy activities; an on-device
+Beta-Binomial engine adapts the difficulty and the help cue and explains every change in plain
+words; reminders ring for medicine, water, activity and clinic visits; and a Circle of consented
+family, neighbours and the ASHA worker share the caring work.
+
+SAATH is a cognitive-stimulation and care-coordination aid. It does not diagnose, detect, stage or
+treat dementia, and it makes no clinical claims.
+
+<!-- Live URL badge goes here after the Vercel deploy (B6). -->
+
+## Running it
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run preview     # production build, served at http://localhost:4180
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Demo and screenshots always from `npm run preview` or the Vercel URL**, never from `next dev`:
+the dev server's chunks are not content-hashed, and Turbopack has crashed mid-demo before.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run dev         # development only
+npm run lint        # eslint
+npx tsc --noEmit    # typecheck
+npm test            # vitest unit tests
+npx playwright test # e2e against the static export
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Assamese audio
 
-## Learn More
+UI strings live in `src/content/strings.ts`, and `scripts/generate-audio.mjs` keeps its own copy of
+the same key list — the two must stay in sync (`tests/content.test.ts` enforces it). Voice files are
+generated through Bhashini:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run generate-audio   # needs Bhashini credentials in .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Keys with no generated file fall back to the device's speech voice. For Assamese there is usually no
+such voice, so an ungenerated cue stays **silent** rather than mispronounce. No Assamese text is
+written by hand in code.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Layout
 
-## Deploy on Vercel
+```
+src/app/          routes (Next.js app router, output: "export")
+src/components/   play/ activity screens · ui/ shared elder-facing controls
+src/lib/          db (Dexie + AES-256-GCM), model (the engine), audio, sync, i18n
+src/content/      strings, activity metadata, CST content
+public/content/   generated language manifests, regional packs
+docs/saath-kit/   the Sept 2026 fix-pass brief
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`AGENTS.md` holds the working rules. `CHANGELOG.md` records what each pass changed.

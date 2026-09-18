@@ -44,13 +44,13 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] Circle Board: engagement ledger + trend analytics (Part 18) + rotation/burden panel (Part 19) — verified live in browser
 - [ ] i18n: English strings complete and live; Assamese is English-fallback until `scripts/generate-audio.mjs` is run with real Bhashini credentials (script is written and path-corrected to `public/content/lang/`)
 - [x] Circle roster — verified live in browser
-- [x] Handoff sender/receiver (3-state: sent/received/accepted) — built, not yet browser-verified
+- [~] Handoff sender/receiver — **removed Sept 2026 (R2)**: unfinished, not in the requirement list; multi-person on one device covers the real ASHA workflow. Dexie table kept to avoid a destructive migration.
 
 ## Tier 3 — Differentiators — MOSTLY DONE
-- [x] Voice Legacy (`src/lib/voiceLegacy.ts`) + `/circle/legacy` UI + real (hand-rolled, store-only) ZIP export
+- [x] Recording export (`src/lib/voiceLegacy.ts`, hand-rolled store-only ZIP) — **merged into Memory Garden Sept 2026 (R3)**; the separate `/circle/legacy` screen was removed.
 - [x] Evidence Inspector (`/inspector`) — posterior ranking, sample sizes, learned-vs-baseline, changed-vs-baseline, predeclared config — verified live in browser against a real logged trial, numbers check out by hand
 - [x] CST Protocol Map (`/inspector/cst`)
-- [x] Failure Theatre (`/inspector/theatre`) — all four buttons verified live in browser (offline toggle, expire pack, lost-response simulation, duplicate-sync simulation)
+- [x] Simulated offline — **moved out of Failure Theatre Sept 2026 (R1)** into caregiver-facing **No-Signal Mode** in Circle (F3). `/inspector/theatre` and its pack-expiry, lost-response and duplicate-sync demos were removed.
 - [x] LAN alert routing (`src/lib/alerts.ts`) — code complete; two-physical-device demo not yet run
 - [x] About/Licences screen (`/about/licenses`) — real dependency list with actual versions/licenses pulled from installed packages (SQLCipher entry dropped — we don't ship it)
 - [x] Supabase migration SQL + RLS policies + `src/lib/sync.ts` idempotent upsert sync — code complete, untestable without a real Supabase project

@@ -3,6 +3,13 @@ import type { IconName } from '@/components/ui/Icon';
 
 export interface ActivityInfo {
   activity: Activity;
+  /**
+   * URL segment, so a judge reading the address bar sees the screen's name (R4).
+   * Deliberately separate from `activity`, which stays the stored id in every
+   * trial row — mapping at the route layer means no Dexie migration and no risk
+   * to existing history or the engine's queries.
+   */
+  slug: string;
   icon: IconName;
   labelKey: string;
   domainKey: string;
@@ -16,6 +23,7 @@ export interface ActivityInfo {
 export const ACTIVITIES: ActivityInfo[] = [
   {
     activity: 'familiar_pairs',
+    slug: 'today_me',
     icon: 'sun',
     labelKey: 'activity.familiar_pairs',
     domainKey: 'domain.memory',
@@ -25,6 +33,7 @@ export const ACTIVITIES: ActivityInfo[] = [
   },
   {
     activity: 'sound_sight',
+    slug: 'hear_find',
     icon: 'listen',
     labelKey: 'activity.sound_sight',
     domainKey: 'domain.attention',
@@ -34,6 +43,7 @@ export const ACTIVITIES: ActivityInfo[] = [
   },
   {
     activity: 'pattern_garden',
+    slug: 'sort_home',
     icon: 'basket',
     labelKey: 'activity.pattern_garden',
     domainKey: 'domain.pattern',
@@ -43,6 +53,7 @@ export const ACTIVITIES: ActivityInfo[] = [
   },
   {
     activity: 'my_next_step',
+    slug: 'next_step',
     icon: 'clock',
     labelKey: 'activity.my_next_step',
     domainKey: 'domain.routine',
@@ -52,6 +63,7 @@ export const ACTIVITIES: ActivityInfo[] = [
   },
   {
     activity: 'together',
+    slug: 'together',
     icon: 'heart',
     labelKey: 'activity.together',
     domainKey: 'domain.emotion',
@@ -64,6 +76,24 @@ export const ACTIVITIES: ActivityInfo[] = [
 export function activityInfo(a: Activity): ActivityInfo {
   return ACTIVITIES.find((x) => x.activity === a)!;
 }
+
+export function slugFor(a: Activity): string {
+  return activityInfo(a).slug;
+}
+
+/** The stored activity id for a URL segment, or undefined if it is not one of ours. */
+export function activityForSlug(slug: string): Activity | undefined {
+  return ACTIVITIES.find((x) => x.slug === slug)?.activity;
+}
+
+/**
+ * R4: the pre-rename URLs, kept as redirects so any link already shared still
+ * works. `output: "export"` rules out next.config redirects (they need a
+ * server), so these are real pages that replace themselves client-side.
+ */
+export const LEGACY_SLUGS: Record<string, string> = Object.fromEntries(
+  ACTIVITIES.filter((a) => a.activity !== a.slug).map((a) => [a.activity, a.slug])
+);
 
 export const DOMAIN_COLOR: Record<string, string> = {
   'domain.memory': '#065f46',

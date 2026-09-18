@@ -4,6 +4,7 @@ import Link from 'next/link';
 import BackButton from '@/components/ui/BackButton';
 import BottomNav from '@/components/ui/BottomNav';
 import Icon, { IconName } from '@/components/ui/Icon';
+import NoSignalMode from '@/components/circle/NoSignalMode';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { isOverdue } from '@/lib/reminders';
@@ -20,7 +21,6 @@ interface CircleCounts {
   remindersOverdue: number;
   trials: number;
   sessionsThisWeek: number;
-  handoffsPending: number;
 }
 
 type Stat = { value: string | null; label: string };
@@ -32,8 +32,9 @@ const LINKS: { href: string; label: string; desc: string; icon: IconName; color:
   { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#6d28d9', stat: (c) => ({ value: String(c.members), label: c.members === 1 ? 'member' : 'members' }) },
   { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` }) },
   { href: '/circle/board', label: 'Circle Board', desc: 'Trends, activity levels, who is carrying this', icon: 'chart', color: '#9d174d', stat: (c) => ({ value: String(c.trials), label: 'sessions recorded' }) },
-  { href: '/circle/handoff', label: 'Handoff', desc: 'Send configuration to another device', icon: 'skip', color: '#1d4ed8', stat: (c) => ({ value: String(c.handoffsPending), label: 'handoffs pending' }) },
-  { href: '/circle/legacy', label: 'Voice Legacy', desc: "The family's own recordings, permanently", icon: 'mic', color: '#9f1239', stat: (c) => ({ value: String(c.recordings), label: 'voice recordings kept' }) },
+  // R2: Handoff removed — unfinished, not in the requirement list, and multi-person
+  // on one device covers the real ASHA workflow.
+  // R3: Voice Legacy folded into Memory Garden, which now has the export button.
   { href: '/inspector', label: 'Evidence Inspector', desc: 'How the model decides, in plain words', icon: 'sparkle', color: '#065f46', stat: () => ({ value: null, label: 'Open the model’s reasoning' }), wide: true },
 ];
 
@@ -45,14 +46,13 @@ export default function CircleHome() {
     (async () => {
       const id = await getActivePersonId();
       if (!id) return;
-      const [person, persons, packs, members, reminders, trials, handoffs] = await Promise.all([
+      const [person, persons, packs, members, reminders, trials] = await Promise.all([
         getPerson(id),
         db.persons.count(),
         packsForPerson(id),
         membersForPerson(id),
         remindersForPerson(id),
         db.trials.where({ person_id: id }).toArray(),
-        db.handoffs.where({ person_id: id }).toArray(),
       ]);
       const weekAgo = Date.now() - 7 * 864e5;
       setCounts({
@@ -67,7 +67,6 @@ export default function CircleHome() {
         remindersOverdue: reminders.filter(isOverdue).length,
         trials: trials.filter((x) => !x.synthetic).length,
         sessionsThisWeek: trials.filter((x) => !x.synthetic && new Date(x.created_at).getTime() >= weekAgo).length,
-        handoffsPending: handoffs.filter((h) => h.state !== 'accepted').length,
       });
     })();
   }, []);
@@ -142,6 +141,8 @@ export default function CircleHome() {
               </Link>
             );
           })}
+
+          <NoSignalMode />
 
           <section className="core col-span-2 p-5 flex gap-4 items-start">
             <span style={{ color: 'var(--accent)' }}>

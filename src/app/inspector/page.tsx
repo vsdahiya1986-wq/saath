@@ -142,9 +142,6 @@ export default function EvidenceInspector() {
             <Link href="/inspector/cst" className="btn btn-ghost" style={{ fontSize: 18 }}>
               <Icon name="shield" size={20} /> CST Protocol Map
             </Link>
-            <Link href="/inspector/theatre" className="btn btn-ghost" style={{ fontSize: 18 }}>
-              <Icon name="warning" size={20} /> Failure Theatre
-            </Link>
           </div>
         </header>
 

@@ -129,6 +129,7 @@ export interface Reminder {
   native_notification_id?: number;
 }
 
+/** unused since Sept 2026 (R2) — kept to avoid a destructive migration */
 export interface Handoff {
   id: string;
   person_id: string;
@@ -169,7 +170,7 @@ export class SaathDB extends Dexie {
       trials: 'id, person_id, activity, synced_at, [person_id+activity]',
       followups: 'id, person_id, state',
       reminders: 'id, person_id, category',
-      handoffs: 'id, person_id, state',
+      handoffs: 'id, person_id, state', // unused since Sept 2026 (R2) — kept to avoid a destructive migration
       audit: 'id, at',
       blobs: 'key',
     });

@@ -43,7 +43,9 @@ export default function SessionOutcomeNote({
           )
         ) : (
           <>
-            Next time{diffChanged ? ` we may try level ${preview.chosenDifficulty}` : ''}
+            {/* R7: never a difficulty number to the elder — "level 3" means nothing
+                to them and reads like a grade. The direction is what matters. */}
+            Next time{diffChanged ? (preview.chosenDifficulty > playedDifficulty ? ' we may try a little more' : ' we may take it gentler') : ''}
             {diffChanged && cueChanged ? ' with ' : cueChanged ? ' we may try ' : ''}
             {cueChanged ? CUE_LABEL[preview.chosenCue] : ''} — based on how this session went.
           </>

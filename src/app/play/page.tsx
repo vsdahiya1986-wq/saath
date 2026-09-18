@@ -50,7 +50,7 @@ export default function PlayPicker() {
                 tag={a.cstSession}
                 color={DOMAIN_COLOR[a.domainKey]}
                 person={person}
-                onSelect={() => router.push(`/play/${a.activity}`)}
+                onSelect={() => router.push(`/play/${a.slug}`)}
               />
             ))}
           </div>

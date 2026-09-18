@@ -12,17 +12,47 @@ function getClient(): SupabaseClient | null {
   return client;
 }
 
-/** True simulated-offline switch for Failure Theatre — see /inspector/theatre. */
-let forcedOffline = false;
-export function setForcedOffline(v: boolean) {
-  forcedOffline = v;
+/**
+ * No-Signal Mode (F3): the caregiver-facing simulated-offline switch, set from
+ * Circle. Replaces the internal Failure Theatre toggle removed in R1. Persisted
+ * so it survives the reloads of a live demo.
+ */
+const NO_SIGNAL_KEY = 'saath_no_signal';
+const listeners = new Set<() => void>();
+
+function readStored(): boolean {
+  try {
+    return localStorage.getItem(NO_SIGNAL_KEY) === '1';
+  } catch {
+    return false; // private mode / blocked storage: simply not in No-Signal Mode
+  }
 }
-export function isForcedOffline() {
+
+let forcedOffline: boolean | null = null;
+
+export function isForcedOffline(): boolean {
+  if (forcedOffline === null) forcedOffline = typeof window === 'undefined' ? false : readStored();
   return forcedOffline;
 }
 
+export function setForcedOffline(v: boolean) {
+  forcedOffline = v;
+  try {
+    localStorage.setItem(NO_SIGNAL_KEY, v ? '1' : '0');
+  } catch {
+    // Not persisting is survivable; the switch still works for this session.
+  }
+  listeners.forEach((cb) => cb());
+}
+
+/** Lets a badge re-render the moment the switch is flipped. */
+export function subscribeForcedOffline(cb: () => void) {
+  listeners.add(cb);
+  return () => listeners.delete(cb);
+}
+
 export async function syncTrials(): Promise<{ pushed: number; skipped: number; reason?: string }> {
-  if (forcedOffline) return { pushed: 0, skipped: 0, reason: 'simulated offline (Failure Theatre)' };
+  if (isForcedOffline()) return { pushed: 0, skipped: 0, reason: 'No-Signal Mode is on — nothing leaves this device' };
 
   const sb = getClient();
   if (!sb) return { pushed: 0, skipped: 0, reason: 'Supabase not configured' };

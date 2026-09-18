@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { ContentPack, putPack, packsForPerson, putBlob, getBlob, membersForPerson, CircleMember } from '@/lib/db';
 import { VoiceRecorder, playPackAudio } from '@/lib/audio';
+import { exportLegacyZip } from '@/lib/voiceLegacy';
 import Icon from '@/components/ui/Icon';
 import BackButton from '@/components/ui/BackButton';
 
@@ -114,6 +115,18 @@ export default function MemoryGarden() {
     setPermittedUses((cur) => (cur.includes(use) ? cur.filter((u) => u !== use) : [...cur, use]));
   }
 
+  /** R3: "Give the family a copy" — the one control the Voice Legacy screen had. */
+  async function exportRecordings() {
+    if (!personId) return;
+    const zip = await exportLegacyZip(personId);
+    const url = URL.createObjectURL(zip);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'saath-recordings.zip';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
   if (!personId) {
     return (
       <main className="flex-1 flex items-center justify-center p-6 text-center">
@@ -132,6 +145,11 @@ export default function MemoryGarden() {
           <p style={{ fontSize: 18 }} className="muted">
             Family photos with voice notes. They appear in Together Moment for shared reminiscence, and in the games when marked for play.
           </p>
+          {/* R3: the separate Voice Legacy screen was folded in here — this is the one
+              control it had that the family actually needs. */}
+          <button onClick={exportRecordings} data-testid="export-recordings" className="btn btn-ghost" style={{ minHeight: 64 }}>
+            <Icon name="mic" size={22} /> Export recordings
+          </button>
         </header>
 
         <section className="core p-5 flex gap-4 items-start" style={{ borderLeft: '8px solid var(--accent-warm)' }} data-testid="reminiscence-evidence">

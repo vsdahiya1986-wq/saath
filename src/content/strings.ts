@@ -32,6 +32,7 @@ export const STRINGS: Record<string, string> = {
   'status.offline': 'Working offline',
   'status.synced': 'Synced',
   'status.syncing': 'Syncing…',
+  'status.no_signal': 'No-Signal Mode',
 
   'adaptive.same': 'Same pace as last time',
   'adaptive.easier': 'A gentler round today',

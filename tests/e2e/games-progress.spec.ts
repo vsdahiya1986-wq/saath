@@ -12,7 +12,7 @@ import { test, expect, Page } from '@playwright/test';
  */
 
 const TAP_BUDGET = 20;
-const STEPPED = ['familiar_pairs', 'sound_sight', 'pattern_garden', 'my_next_step'];
+const STEPPED = ['today_me', 'hear_find', 'sort_home', 'next_step'];
 
 /** Every activity's answer control, plus the finish button for the talk-only one. */
 const CHOICE =
@@ -79,19 +79,32 @@ test.describe('activity screens', () => {
   });
 
   test('keep the person in the activity when they skip one step (B4)', async ({ page }) => {
-    await page.goto('/play/pattern_garden');
+    await page.goto('/play/sort_home');
     await expect(page.locator(CHOICE).first()).toBeEnabled({ timeout: 15_000 });
 
     await page.getByRole('button', { name: 'Skip this one' }).click();
     await page.waitForTimeout(2_000);
 
     // Still in the activity, one step further on — not back at /play.
-    await expect(page).toHaveURL(/\/play\/pattern_garden/);
+    await expect(page).toHaveURL(/\/play\/sort_home/);
     await expect(page.locator('[aria-label^="Step "]')).toHaveAttribute('aria-label', /Step 2 of/);
   });
 
+  /** R4: the renamed routes keep the old links working. */
+  test('redirect pre-rename activity URLs to their new slug', async ({ page }) => {
+    for (const [old, slug] of [
+      ['familiar_pairs', 'today_me'],
+      ['sound_sight', 'hear_find'],
+      ['pattern_garden', 'sort_home'],
+      ['my_next_step', 'next_step'],
+    ]) {
+      await page.goto(`/play/${old}`);
+      await expect(page).toHaveURL(new RegExp(`/play/${slug}$`), { timeout: 10_000 });
+    }
+  });
+
   test('show the elder a friendly adaptive line, never the engine text (B5)', async ({ page }) => {
-    await page.goto('/play/pattern_garden');
+    await page.goto('/play/sort_home');
     const badge = page.getByTestId('adaptive-badge');
     await expect(badge).toBeVisible();
     await expect(badge).toHaveText(/Same pace as last time|A gentler round today|A little more today|With a little help today/);

@@ -57,6 +57,7 @@ const STRINGS = {
   'status.offline': 'Working offline',
   'status.synced': 'Synced',
   'status.syncing': 'Syncing…',
+  'status.no_signal': 'No-Signal Mode',
   'adaptive.same': 'Same pace as last time',
   'adaptive.easier': 'A gentler round today',
   'adaptive.harder': 'A little more today',
