@@ -37,6 +37,8 @@ export interface Person {
   is_demo?: boolean;
   /** SAMPLE marker — true only for Aita's Day, created by src/lib/sampleData.ts (F1). */
   is_sample?: boolean;
+  /** Printed on the Visit Card (F11). A band, never a birth date. */
+  age_band?: '60-69' | '70-79' | '80+';
 }
 
 export interface CircleMember {
@@ -147,6 +149,37 @@ export interface ReminderLog {
   outcome: 'done' | 'snoozed' | 'missed';
 }
 
+/**
+ * Care Note (F8): a 30-second log by a circle member. The chips are coded;
+ * the optional line of text is free text, so it is encrypted at rest.
+ */
+export type CareChip = 'meals' | 'sleep' | 'mood' | 'fall';
+
+export interface CareNote {
+  id: string;
+  person_id: string;
+  chips: CareChip[];
+  text?: string; // encrypted at rest
+  by: string; // the member's name, as shown when it was written
+  created_at: string;
+}
+
+/**
+ * Circle Nudge (F7). Ids are derived from what triggered them, so re-running
+ * the check never duplicates one. `detail` carries the time or name the fixed
+ * card text needs.
+ */
+export interface Nudge {
+  id: string;
+  person_id: string;
+  kind: 'medicine_missed' | 'quiet_days' | 'help_pressed' | 'steadier_help';
+  detail?: string;
+  created_at: string;
+  state: 'open' | 'acknowledged' | 'resolved';
+  acknowledged_by?: string;
+  note?: string; // encrypted at rest
+}
+
 /** unused since Sept 2026 (R2) — kept to avoid a destructive migration */
 export interface Handoff {
   id: string;
@@ -177,6 +210,8 @@ export class SaathDB extends Dexie {
   reminders!: Table<Reminder>;
   handoffs!: Table<Handoff>;
   reminder_logs!: Table<ReminderLog>;
+  care_notes!: Table<CareNote>;
+  nudges!: Table<Nudge>;
   audit!: Table<AuditRecord>;
   blobs!: Table<{ key: string; blob: Blob; mime: string; at: string }>;
 
@@ -243,7 +278,7 @@ export async function deletePerson(id: string): Promise<void> {
   const packs = await db.packs.where({ person_id: id }).toArray();
   const blobKeys = packs.flatMap((p) => [p.media.photo, p.media.place_photo, p.media.audio_key].filter((k): k is string => !!k));
 
-  await db.transaction('rw', [db.persons, db.members, db.packs, db.trials, db.followups, db.reminders, db.handoffs, db.reminder_logs, db.blobs, db.audit], async () => {
+  await db.transaction('rw', [db.persons, db.members, db.packs, db.trials, db.followups, db.reminders, db.handoffs, db.reminder_logs, db.care_notes, db.nudges, db.blobs, db.audit], async () => {
     await db.persons.delete(id);
     await db.members.where({ person_id: id }).delete();
     await db.packs.where({ person_id: id }).delete();
@@ -252,6 +287,8 @@ export async function deletePerson(id: string): Promise<void> {
     await db.reminders.where({ person_id: id }).delete();
     await db.handoffs.where({ person_id: id }).delete();
     await db.reminder_logs.where({ person_id: id }).delete();
+    await db.care_notes.where({ person_id: id }).delete();
+    await db.nudges.where({ person_id: id }).delete();
     await db.blobs.bulkDelete(blobKeys);
     await db.audit.put({ id: crypto.randomUUID(), actor: 'system', action: 'delete_person', scope: id, at: new Date().toISOString() });
   });
@@ -319,6 +356,17 @@ export async function getReminder(id: string): Promise<Reminder | undefined> {
 export async function remindersForPerson(personId: string): Promise<Reminder[]> {
   const rows = await db.reminders.where({ person_id: personId }).toArray();
   return Promise.all(rows.map(decryptReminder));
+}
+
+export async function putCareNote(n: CareNote): Promise<void> {
+  await db.care_notes.put({ ...n, text: n.text ? await encryptText(n.text) : undefined });
+}
+
+/** Newest first. */
+export async function careNotesForPerson(personId: string): Promise<CareNote[]> {
+  const rows = await db.care_notes.where({ person_id: personId }).toArray();
+  rows.sort((a, b) => b.created_at.localeCompare(a.created_at));
+  return Promise.all(rows.map(async (r) => ({ ...r, text: r.text ? await decryptText(r.text) : undefined })));
 }
 
 /** Photos and voice recordings — encrypted the same way as sensitive text. */

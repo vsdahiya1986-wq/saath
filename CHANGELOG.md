@@ -195,7 +195,70 @@ cycles through them).
 
 Gates: lint clean · tsc clean · **104** unit tests · **24** Playwright tests.
 
+## Phase 5 — Caregiver layer (2026-09-18)
+
+**F7 — Circle Nudges** (`src/lib/nudges.ts`, `src/components/circle/NudgeList.tsx`). `nudgeCandidates()` is
+pure. It turns reminder logs, trials and help requests into `medicine_missed`, `quiet_days` (2 days without a
+completed activity, never for a profile younger than that), `help_pressed` and `steadier_help` (help cue in
+≥60 % of ≥5 sessions in 7 days). Ids are derived from the triggering row, so `refreshNudges()` is idempotent
+and never re-opens an acknowledged nudge. The card text is the kit's fixed copy. Nudges are shown at the top of
+Circle and on the Board, with the member on call today from `pickOnCall()`, **Acknowledge** and **Add note**
+(the note is encrypted).
+Not a second state machine: help requests keep their delivery states in `events.ts`. A nudge is only the
+caregiver card on top of one, with two one-way updates.
+
+**F8 — Care Note** (`CareNoteCard.tsx`). Four chips plus an optional encrypted line, stamped with the time and
+the member. The member is picked once and remembered on the device (`CircleMe.tsx`), so a note is two taps:
+a chip, then Save. Shown on the Board timeline and the Visit Card.
+
+**F9 — Ghor Tiles.** The People screen already switched people in one tap. Its tiles now carry a large
+initial, and Home shows **Switch** next to the name when the device has more than one person.
+
+**F10 — Trend Lines** (`src/lib/trends.ts`, `TrendLines.tsx`). One line per activity, grouped by domain,
+7 / 30 / 90 days, drawn as inline SVG. Each line uses only the trials at that activity's most common
+difficulty-and-cue condition in the window. Below 5 such trials it prints "Not enough comparable sessions
+yet." A clear drop is flagged "worth a check-in". The Board shows completion only; the Inspector adds median
+response time and the condition. The Board's overall banner said **"Declining"** — now **"Worth a check-in"**,
+no longer red. The demo-persona blurb no longer says "declining" either.
+
+**F11 — Visit Card** (`/circle/visit`). First name, age band, last 30 days: sessions completed, reminders
+done out of due, areas practised, the last 5 care notes, open nudges, and the non-diagnostic footer.
+`window.print()` with a black-on-white 14pt print stylesheet in `globals.css`.
+
+Data: `CareNote` / `Nudge` types and typed tables on the v2 stores declared in Phase 3 — **no new migration**.
+`deletePerson()` now clears both, so `clearSample()` does too. `Person.age_band` is optional, and the profile
+form has a selector for it.
+Sample: Aita gets age band 70–79, 3 care notes and the one open `medicine_missed` nudge, stored under the
+same id `refreshNudges()` derives, so it is never doubled.
+
+Also fixed: saving a sample person from the profile form silently dropped `is_sample`, which removed the
+SAMPLE chip. It is now preserved the same way `is_demo` already was.
+
+⚠️ **Deviations — please check:**
+- **Aita's sample history is denser.** The kit says "2–3 sessions/day". With one activity per session, spread
+  over 6 games, no activity reached the 5 like-for-like trials F10 requires — **every trend line was empty**.
+  A session is now one sitting of two activities (still 2–3 sittings a day). With that, 3 of 6 lines draw and
+  one shows "worth a check-in" from the planned day 8–9 dip. The other three honestly say "not enough".
+- **Sample trials count for Trend Lines and Nudges.** They are `synthetic: true`, which the engine and sync
+  still ignore. But the sample person's screens would otherwise be permanently empty, so `evidenceTrials()`
+  admits synthetic rows **only** for `is_sample` people. Real people never see synthetic evidence.
+- **Domain trends are grouped, not merged.** "Per cognitive domain" is shown as each domain's activities
+  together. Blending two activities into one line would break the like-for-like rule.
+- **Circle strings are not in `strings.ts`.** `circle.*` and `note.*` keys were not added. Every Circle screen
+  is English-only caregiver UI with hard-coded copy, so the keys would have no reader.
+- **Care notes do not sync.** `sync.ts` only syncs coded trial data, and a care note holds free text.
+
+Tests: `tests/nudges.test.ts` (10: each kind fires on its trigger and not before, fixed wording,
+idempotent refresh), `tests/trends.test.ts` (6: under-5 → no line, like-for-like only, window, check-in
+flag, synthetic only for sample), sample-data assertions for notes, the nudge and their cleanup, and
+`tests/e2e/caregiver.spec.ts` (4: acknowledge a nudge; care note in two taps reaching Board and Visit Card;
+no conclusion words on trend screens; Switch from Home).
+
+Gates: lint clean · tsc clean · **120** unit tests · **28** Playwright tests.
+One full run hit Playwright's 120 s web-server timeout while OneDrive was syncing `.next` (the build also once
+failed with `EPERM` on a `.next` file). Both were environmental: the build takes about 22 s normally, and the
+two tests that failed during that slow run pass alone and in a clean full run.
+
 ### Roadmap (not started)
 
-Phases 5–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: the caregiver layer, the accessibility pass, deploy. B7–B11 are Phase 6.
-`loadSample()`'s care-notes and nudge rows wait on F7/F8 in Phase 5.
+Phases 6–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: the accessibility pass, deploy. B7–B11 are Phase 6.

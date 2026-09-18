@@ -22,6 +22,8 @@ export default function PersonSetup() {
   const [consentRef, setConsentRef] = useState('');
   const [createdAt, setCreatedAt] = useState<string | null>(null);
   const [isDemo, setIsDemo] = useState(false);
+  const [isSample, setIsSample] = useState(false);
+  const [ageBand, setAgeBand] = useState<Person['age_band']>(undefined);
 
   useEffect(() => {
     let cancelled = false;
@@ -44,6 +46,8 @@ export default function PersonSetup() {
       setConsentRef(p.consent_ref);
       setCreatedAt(p.created_at);
       setIsDemo(!!p.is_demo);
+      setIsSample(!!p.is_sample);
+      setAgeBand(p.age_band);
     });
     return () => {
       cancelled = true;
@@ -72,6 +76,8 @@ export default function PersonSetup() {
       consent_ref: consentRef.trim(),
       created_at: isNew ? new Date().toISOString() : (createdAt ?? new Date().toISOString()),
       is_demo: !isNew && isDemo ? true : undefined,
+      is_sample: !isNew && isSample ? true : undefined,
+      age_band: ageBand,
     };
     await putPerson(person);
     await setActivePersonId(id);
@@ -101,6 +107,16 @@ export default function PersonSetup() {
         <select value={language} onChange={(e) => setLanguage(e.target.value as Lang)} style={selectStyle}>
           <option value="as">Assamese</option>
           <option value="en">English</option>
+        </select>
+      </label>
+
+      <label className="flex flex-col gap-1">
+        <span style={{ fontSize: 15 }}>Age band</span>
+        <select value={ageBand ?? ''} onChange={(e) => setAgeBand((e.target.value || undefined) as Person['age_band'])} style={selectStyle}>
+          <option value="">Not given</option>
+          <option value="60-69">60–69</option>
+          <option value="70-79">70–79</option>
+          <option value="80+">80 or over</option>
         </select>
       </label>
 

@@ -25,6 +25,9 @@ describe("Aita's Day (F1)", () => {
     expect(await db.members.where({ person_id: SAMPLE_PERSON_ID }).count()).toBe(3);
     expect(await db.packs.where({ person_id: SAMPLE_PERSON_ID }).count()).toBe(2);
     expect(await db.reminder_logs.where({ person_id: SAMPLE_PERSON_ID }).count()).toBeGreaterThan(50);
+    expect(await db.care_notes.where({ person_id: SAMPLE_PERSON_ID }).count()).toBe(3);
+    const nudges = await db.nudges.where({ person_id: SAMPLE_PERSON_ID }).toArray();
+    expect(nudges.map((n) => [n.kind, n.state])).toEqual([['medicine_missed', 'open']]);
   });
 
   it('is labelled as a sample everywhere it could be mistaken for a person', async () => {
@@ -63,7 +66,7 @@ describe("Aita's Day (F1)", () => {
     await clearSample();
 
     expect(await sampleLoaded()).toBe(false);
-    for (const table of [db.persons, db.trials, db.reminders, db.reminder_logs, db.members, db.packs, db.blobs]) {
+    for (const table of [db.persons, db.trials, db.reminders, db.reminder_logs, db.members, db.packs, db.care_notes, db.nudges, db.blobs]) {
       expect(await table.count()).toBe(0);
     }
   });

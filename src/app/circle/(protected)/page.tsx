@@ -6,6 +6,8 @@ import BottomNav from '@/components/ui/BottomNav';
 import Icon, { IconName } from '@/components/ui/Icon';
 import NoSignalMode from '@/components/circle/NoSignalMode';
 import SampleDataCard from '@/components/circle/SampleDataCard';
+import NudgeList from '@/components/circle/NudgeList';
+import CareNoteCard from '@/components/circle/CareNoteCard';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { isOverdue } from '@/lib/reminders';
@@ -32,6 +34,7 @@ const LINKS: { href: string; label: string; desc: string; icon: IconName; color:
   { href: '/circle/packs', label: 'Memory Garden', desc: 'Family photos with voice notes', icon: 'photo', color: '#b45309', stat: (c) => ({ value: String(c.packsApproved), label: `of ${c.packsTotal} memories approved` }) },
   { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#6d28d9', stat: (c) => ({ value: String(c.members), label: c.members === 1 ? 'member' : 'members' }) },
   { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` }) },
+  { href: '/circle/visit', label: 'Visit Card', desc: 'One printable page for the doctor or ASHA', icon: 'calendar', color: '#334155', stat: () => ({ value: null, label: 'Print or save as PDF' }) },
   { href: '/circle/board', label: 'Circle Board', desc: 'Trends, activity levels, who is carrying this', icon: 'chart', color: '#9d174d', stat: (c) => ({ value: String(c.trials), label: 'sessions recorded' }) },
   // R2: Handoff removed — unfinished, not in the requirement list, and multi-person
   // on one device covers the real ASHA workflow.
@@ -42,11 +45,13 @@ const LINKS: { href: string; label: string; desc: string; icon: IconName; color:
 /** Circle hub (SIH26003 f): caregiver/worker tools as a dense 2-column bento, each tile with a live count. */
 export default function CircleHome() {
   const [counts, setCounts] = useState<CircleCounts | null>(null);
+  const [personId, setPersonId] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       const id = await getActivePersonId();
       if (!id) return;
+      setPersonId(id);
       const [person, persons, packs, members, reminders, trials] = await Promise.all([
         getPerson(id),
         db.persons.count(),
@@ -81,6 +86,8 @@ export default function CircleHome() {
 
       <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-5xl mx-auto px-5 pb-4">
         <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: 'minmax(180px, auto)' }}>
+          <NudgeList personId={personId} />
+
           <div className="core col-span-2 p-5 flex flex-wrap items-center gap-x-8 gap-y-3" style={{ borderTop: '6px solid var(--accent)' }} data-testid="circle-summary">
             <div className="flex flex-col">
               <span style={{ fontSize: 15, letterSpacing: '0.08em' }} className="font-bold uppercase muted">
@@ -117,6 +124,8 @@ export default function CircleHome() {
           </div>
 
           <SampleDataCard onChange={() => location.reload()} />
+
+          <CareNoteCard personId={personId} />
 
           {LINKS.map((l) => {
             const stat = counts ? l.stat(counts) : null;

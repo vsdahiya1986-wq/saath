@@ -364,3 +364,12 @@ textarea {
     transition-duration: 1ms !important;
   }
 }
+
+/* Visit Card (F11): one black-on-white page, nothing interactive, ≥14pt. */
+@media print {
+  .no-print { display: none !important; }
+  body, .visit-card { background: #fff !important; color: #000 !important; }
+  .visit-card { font-size: 14pt; max-width: none; padding: 0; }
+  .visit-card * { color: #000 !important; box-shadow: none !important; }
+  @page { margin: 16mm; }
+}

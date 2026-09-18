@@ -112,7 +112,14 @@ export default function PeopleOnDevice() {
                 style={{ borderTop: `6px solid ${active ? 'var(--accent)' : person.is_demo ? 'var(--accent-warm)' : 'var(--card-border)'}` }}
               >
                 <div className="flex items-start gap-3">
-                  <IconTile icon="profile" size={34} fg={person.is_demo ? 'var(--accent-warm)' : 'var(--accent)'} />
+                  {/* F9 Ghor Tile: a big initial, recognisable without reading the name. */}
+                  <span
+                    aria-hidden="true"
+                    className="flex items-center justify-center rounded-full shrink-0 font-extrabold"
+                    style={{ width: 72, height: 72, fontSize: 36, color: '#fff', background: person.is_demo || person.is_sample ? 'var(--accent-warm)' : 'var(--accent)' }}
+                  >
+                    {person.display_name.trim().charAt(0).toUpperCase()}
+                  </span>
                   <div className="min-w-0 flex-1">
                     <div style={{ fontSize: 23, overflowWrap: 'anywhere' }} className="font-extrabold leading-tight">
                       {person.display_name}
@@ -162,7 +169,7 @@ export default function PeopleOnDevice() {
             Demo personas
           </h2>
           <p style={{ fontSize: 17 }} className="muted">
-            Two fictional people with 8 weeks of generated session history — one improving, one declining — so the Circle Board trends and
+            Two fictional people with 8 weeks of generated session history — one improving, one finding things harder over time — so the Circle Board trends and
             Evidence Inspector can be demonstrated. Clearly marked DEMO DATA; not real patients.
           </p>
           <div className="flex flex-wrap gap-3">

@@ -20,6 +20,7 @@ interface HomePreview {
   nextReminder: Reminder | null;
   helpKey: 'help.sent_local' | 'help.stored' | null;
   playedToday: number;
+  persons: number;
 }
 
 /** Home (SIH26003 h, e, f): a 2x2 bento that fills the screen, every card showing live device data. */
@@ -44,11 +45,13 @@ export default function PersonHome() {
         openFollowupsForPerson(person.id),
         db.trials.where({ person_id: person.id }).toArray(),
       ]);
+      const persons = await db.persons.count();
       if (cancelled) return;
       setPreview({
         circleCount: members.length,
         nextReminder: sortReminders(reminders)[0] ?? null,
         helpKey: openHelp[0] ? helpStatusKey(openHelp[0].state) : null,
+        persons,
         playedToday: new Set(trials.filter((x) => !x.synthetic && new Date(x.created_at) >= startOfDay).map((x) => x.activity)).size,
       });
     })();
@@ -101,7 +104,15 @@ export default function PersonHome() {
     <main className="h-[100dvh] flex flex-col">
       <header className="shrink-0 w-full max-w-5xl mx-auto px-5 pt-5 pb-3 flex items-start justify-between gap-3">
         <div className="min-w-0 flex flex-col gap-1">
-          <h1 className="title-xl break-words">{person.display_name}</h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="title-xl break-words">{person.display_name}</h1>
+            {/* F9: one device, several people — the switch is one tap away. */}
+            {(preview?.persons ?? 0) > 1 && (
+              <button onClick={() => router.push('/circle/people')} className="btn btn-ghost" data-testid="switch-person">
+                <Icon name="people" size={20} /> Switch
+              </button>
+            )}
+          </div>
           {/* F1: the Sample chip is permanent while a sample person is active, so
               no screenshot can pass fictional data off as a real person's. */}
           {person.is_sample && (

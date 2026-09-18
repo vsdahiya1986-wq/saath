@@ -4,7 +4,10 @@ import { getActivePersonId } from '@/lib/usePerson';
 import { computeLedger, EngagementLedger } from '@/lib/engagement';
 import { conditionTrends, ConditionSeries } from '@/lib/analytics';
 import { burdenReport, pickOnCall, BurdenRow, OnCall } from '@/lib/rotation';
-import { db, FollowupItem } from '@/lib/db';
+import { careNotesForPerson, CareNote, db, FollowupItem, getPerson, Person, TrialEvent } from '@/lib/db';
+import NudgeList from '@/components/circle/NudgeList';
+import TrendLines from '@/components/circle/TrendLines';
+import { CHIP_LABEL } from '@/components/circle/CareNoteCard';
 import BackButton from '@/components/ui/BackButton';
 
 type OverallTrend = 'improving' | 'stable' | 'declining' | 'insufficient';
@@ -36,7 +39,8 @@ function overallTrend(trends: ConditionSeries[]): { trend: OverallTrend; basis: 
 const TREND_STYLE: Record<OverallTrend, { label: string; color: string; icon: string }> = {
   improving: { label: 'Improving', color: 'var(--ok)', icon: '▲' },
   stable: { label: 'Stable', color: 'var(--accent)', icon: '▬' },
-  declining: { label: 'Declining', color: 'var(--alert)', icon: '▼' },
+  // F10 wording rule: describe, never conclude — no "decline" on screen.
+  declining: { label: 'Worth a check-in', color: 'var(--accent-warm)', icon: '▼' },
   insufficient: { label: 'Not enough data yet', color: 'var(--text-muted)', icon: '—' },
 };
 
@@ -50,6 +54,9 @@ export default function CircleBoard() {
   // db.followups — help requests and missed check-ins, which are a real
   // caregiver signal (clause f). Renamed rather than deleted with Handoff.
   const [followups, setFollowups] = useState<FollowupItem[]>([]);
+  const [person, setPerson] = useState<Person | null>(null);
+  const [trials, setTrials] = useState<TrialEvent[]>([]);
+  const [notes, setNotes] = useState<CareNote[]>([]);
 
   useEffect(() => {
     getActivePersonId().then(async (id) => {
@@ -60,6 +67,9 @@ export default function CircleBoard() {
       setBurden(await burdenReport(id));
       setOnCall(await pickOnCall(id));
       setFollowups(await db.followups.where({ person_id: id }).toArray());
+      setPerson((await getPerson(id)) ?? null);
+      setTrials(await db.trials.where({ person_id: id }).toArray());
+      setNotes(await careNotesForPerson(id));
     });
   }, []);
 
@@ -87,9 +97,11 @@ export default function CircleBoard() {
         These are activity observations under stated conditions. They are not a clinical measure.
       </p>
 
+      <NudgeList personId={personId} />
+
       <section
         data-testid="overall-trend"
-        style={{ border: `var(--border-w) solid ${trendStyle.color}`, borderRadius: 'var(--radius)', padding: 16, background: trend === 'declining' ? 'var(--alert-soft)' : trend === 'improving' ? 'var(--ok-soft)' : 'var(--surface)' }}
+        style={{ border: `var(--border-w) solid ${trendStyle.color}`, borderRadius: 'var(--radius)', padding: 16, background: trend === 'improving' ? 'var(--ok-soft)' : 'var(--surface)' }}
         className="flex items-center gap-4"
       >
         <span style={{ fontSize: 36, color: trendStyle.color, lineHeight: 1 }} aria-hidden="true">
@@ -171,56 +183,27 @@ export default function CircleBoard() {
       </section>
 
       <section style={cardStyle}>
-        <h2 style={h2Style}>Trend analytics</h2>
-        {trends.length ? (
-          <div className="flex flex-col gap-3">
-            {trends.map((s, i) => (
-              <div key={i}>
-                <p style={{ fontSize: 13 }} className="font-black">
-                  {s.activity} · difficulty {s.difficulty} · {s.cue} cue
-                </p>
-                {s.interpretable ? (
-                  <div className="flex items-end gap-2 mt-1">
-                    <span style={{ fontSize: 10 }} className="text-[var(--text-muted)] pb-0.5">
-                      100%
-                    </span>
-                    <div className="flex items-end gap-1 h-16" style={{ borderBottom: '1px solid var(--border)' }}>
-                      {s.points.map((p, j) => {
-                        const isLatest = j === s.points.length - 1;
-                        return (
-                          <div key={j} className="flex flex-col items-center justify-end h-full">
-                            {isLatest && p.supportedCompletionRate != null && (
-                              <span style={{ fontSize: 10, color: 'var(--accent-press)' }} className="font-black mb-0.5">
-                                {Math.round(p.supportedCompletionRate * 100)}%
-                              </span>
-                            )}
-                            <div
-                              title={`${p.weekStart}: n=${p.n}${p.supportedCompletionRate != null ? `, ${Math.round(p.supportedCompletionRate * 100)}% completion` : ', below minimum n'}`}
-                              style={{
-                                width: 14,
-                                height: p.supportedCompletionRate != null ? `${Math.max(6, p.supportedCompletionRate * 60)}px` : '4px',
-                                background: p.supportedCompletionRate == null ? 'var(--surface-3)' : isLatest ? 'var(--accent-press)' : 'var(--accent)',
-                                borderRadius: 2,
-                              }}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ) : (
-                  <div style={{ background: 'var(--surface-2)', borderRadius: 8, padding: 10 }}>
-                    <p style={{ fontSize: 12 }} className="text-[var(--text-muted)]">
-                      {s.note}
-                    </p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+        <h2 style={h2Style}>Trend lines</h2>
+        {person && <TrendLines person={person} trials={trials} simple />}
+      </section>
+
+      <section style={cardStyle}>
+        <h2 style={h2Style}>Care notes</h2>
+        {notes.length ? (
+          notes.map((n) => (
+            <div key={n.id} style={{ fontSize: 14 }} className="flex flex-col py-1" data-testid="care-note-row">
+              <span className="font-bold">
+                {n.chips.map((c) => CHIP_LABEL[c]).join(', ')}
+                {n.text ? ` — ${n.text}` : ''}
+              </span>
+              <span className="text-[var(--text-muted)]">
+                {new Date(n.created_at).toLocaleString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' })} · {n.by}
+              </span>
+            </div>
+          ))
         ) : (
           <p style={{ fontSize: 14 }} className="text-[var(--text-muted)]">
-            No comparable trial data yet.
+            No care notes yet.
           </p>
         )}
       </section>

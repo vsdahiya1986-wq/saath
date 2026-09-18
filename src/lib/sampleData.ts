@@ -7,6 +7,8 @@ import {
   putPack,
   putReminder,
   putBlob,
+  putCareNote,
+  CareNote,
   Activity,
   CircleMember,
   ContentPack,
@@ -17,6 +19,7 @@ import {
   TrialEvent,
 } from './db';
 import { MODEL_VERSION } from './model';
+import { clock } from './nudges';
 
 /**
  * "Aita's Day" — the sample profile (F1). A populated app in one tap, so
@@ -69,9 +72,11 @@ export function buildSampleTrials(now = Date.now()): TrialEvent[] {
     const dip = isDipDay(daysAgo);
     const sessions = 2 + Math.floor(rnd() * 2); // 2-3 a day
 
-    for (let s = 0; s < sessions; s++) {
+    // A session is one sitting of two activities, so each activity gathers
+    // enough like-for-like trials for Trend Lines (F10) to draw.
+    for (let s = 0; s < sessions * 2; s++) {
       const at = new Date(now - daysAgo * 864e5);
-      at.setHours(9 + s * 4, Math.floor(rnd() * 50), 0, 0);
+      at.setHours(9 + Math.floor(s / 2) * 4, (s % 2) * 25 + Math.floor(rnd() * 20), 0, 0);
 
       const roll = rnd();
       const outcome: TrialEvent['outcome'] = roll < (dip ? 0.45 : 0.7) ? 'completed' : roll < (dip ? 0.85 : 0.9) ? 'not_completed' : 'skipped';
@@ -150,6 +155,7 @@ export async function loadSample(now = Date.now()): Promise<string> {
     literacy: 'non-literate',
     navigation: 'visual',
     is_sample: true,
+    age_band: '70-79',
     care_config: {
       max_difficulty: 3,
       allowed_cues: ['none', 'repeat_audio', 'highlight'],
@@ -205,8 +211,24 @@ export async function loadSample(now = Date.now()): Promise<string> {
     });
   }
 
+  for (const { daysAgo, ...n } of SAMPLE_CARE_NOTES) {
+    await putCareNote({ ...n, id: `${SAMPLE_PERSON_ID}-note-${daysAgo}`, person_id: SAMPLE_PERSON_ID, created_at: new Date(now - daysAgo * 864e5).toISOString() });
+  }
+
+  // The one open nudge the kit asks for, stored under the id refreshNudges()
+  // would derive from the day-3 missed medicine log, so it is never doubled.
+  const medLog = `${SAMPLE_PERSON_ID}-reminder-0-log-3`;
+  const medDue = (await db.reminder_logs.get(medLog))!.due_at;
+  await db.nudges.put({ id: `nudge-med-${medLog}`, person_id: SAMPLE_PERSON_ID, kind: 'medicine_missed', detail: clock(medDue), created_at: medDue, state: 'open' });
+
   return SAMPLE_PERSON_ID;
 }
+
+const SAMPLE_CARE_NOTES: (Pick<CareNote, 'chips' | 'text' | 'by'> & { daysAgo: number })[] = [
+  { daysAgo: 6, chips: ['meals'], text: 'Ate well at lunch, asked for more rice.', by: 'Rupa' },
+  { daysAgo: 4, chips: ['sleep'], by: 'Bhaskar' },
+  { daysAgo: 1, chips: ['mood'], text: 'Cheerful after the tea garden photos.', by: 'Junali' },
+];
 
 /**
  * 14 days of adherence, with exactly two misses (F7/F10 feed on these): the

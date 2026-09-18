@@ -45,6 +45,11 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] Reminder scheduler (4 categories) + `src/lib/reminders.ts` native alarms + reboot re-arm (`rearmAll`) — code complete, UI verified in browser; actual AlarmManager firing needs a real Android build to test
 - [x] Voice-guided navigation (`src/lib/voiceNav.ts`) — full gesture contract implemented; NOT yet wired into every screen or eyes-closed tested
 - [x] Circle Board: engagement ledger + trend analytics (Part 18) + rotation/burden panel (Part 19) — verified live in browser
+- [x] **Circle Nudges** (F7, Sept 2026) — missed medicine, two quiet days, help pressed, steadier help; Acknowledge + Add note; on Circle and Circle Board. `tests/nudges.test.ts`.
+- [x] **Care Note** (F8) — four chips + optional encrypted line, stamped with time and member; Board timeline and Visit Card.
+- [x] **Ghor Tiles** (F9) — big initial tiles on People; Home shows **Switch** when the device has more than one person.
+- [x] **Trend Lines** (F10) — like-for-like SVG lines, 7/30/90 days, "Not enough comparable sessions yet" below 5; Board (simple) and Inspector (full). `tests/trends.test.ts`.
+- [x] **Visit Card** (F11) — `/circle/visit`, `window.print()` + print stylesheet, non-diagnostic footer.
 - [ ] i18n: English strings complete and live; Assamese is English-fallback until `scripts/generate-audio.mjs` is run with real Bhashini credentials (script is written and path-corrected to `public/content/lang/`)
 - [x] Circle roster — verified live in browser
 - [~] Handoff sender/receiver — **removed Sept 2026 (R2)**: unfinished, not in the requirement list; multi-person on one device covers the real ASHA workflow. Dexie table kept to avoid a destructive migration.

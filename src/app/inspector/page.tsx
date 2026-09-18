@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
+import TrendLines from '@/components/circle/TrendLines';
 import { getPerson, db, Person, Activity, Difficulty, TrialEvent, packsForPerson, ContentPack, CueType } from '@/lib/db';
 import { decide, Decision, MODEL_VERSION } from '@/lib/model';
 import { lastDifficulty } from '@/lib/activityHelpers';
@@ -32,6 +33,7 @@ export default function EvidenceInspector() {
   const [decision, setDecision] = useState<Decision | null>(null);
   const [trials, setTrials] = useState<TrialEvent[]>([]);
   const [packs, setPacks] = useState<ContentPack[]>([]);
+  const [allTrials, setAllTrials] = useState<TrialEvent[]>([]);
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function EvidenceInspector() {
       const p = await getPerson(id);
       setPerson(p ?? null);
       setPacks(await packsForPerson(id));
+      setAllTrials(await db.trials.where({ person_id: id }).toArray());
     });
   }, []);
 
@@ -379,6 +382,17 @@ export default function EvidenceInspector() {
             </section>
           </>
         )}
+
+        <section className="flex flex-col gap-4">
+          <h2 className="title-lg">Trend lines</h2>
+          <p style={{ fontSize: 16 }} className="muted">
+            Each line compares like with like: one activity, at its most common level and type of help in the window. Below five such sessions,
+            no line is drawn.
+          </p>
+          <div className="panel p-5">
+            <TrendLines person={person} trials={allTrials} />
+          </div>
+        </section>
 
         <section className="flex flex-col gap-4">
           <h2 className="title-lg">Session timeline · {t(info.labelKey)}</h2>
