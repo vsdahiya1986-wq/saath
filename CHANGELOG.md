@@ -154,9 +154,48 @@ The reminder e2e test pins the clock with `page.clock.setFixedTime` — "is this
 time of day and the form only offers quarter-hours, so a wall-clock run was not reproducible (it
 passed alone and failed once in a full run before this).
 
+## Phase 4 — Two new games and Today's Three (2026-09-18)
+
+**F4 — Saah Pat · Tea Leaf** (`src/components/play/SaahPat.tsx`, `TeaSprig.tsx`, `src/lib/saahPat.ts`).
+Visual cancellation: tap every "two leaves and a bud" sprig. Grid sizes from the spec (6/2, 9/3, 12/4,
+16/5); difficulty 3–4 bring in the three-leaf look-alike. A wrong tap dims and says "Not this one"; after
+`targets + 4` wrong taps the rest are revealed and the round completes. 2 rounds per session. Only a repeat
+tap on an already-found sprig counts as a perseverative error. The four sprigs are original SVG line art
+that differ by silhouette, drawn in one stroke colour so colour is never the only cue.
+Bug fixed before commit: the Help "highlight" cue set the same flag as the give-up reveal, which blocks
+taps — so asking for help would have frozen the round. It now has its own `hinted` state.
+
+**F5 — Apon Mukh · Dear Faces** (`src/components/play/AponMukh.tsx`, `src/lib/aponMukh.ts`).
+The 12 Sept `FamiliarPairs` card-matcher no longer exists — that file is now the "Today & Me" orientation
+game — so there was nothing to reuse and this is new. It deals approved Memory Garden photos first and
+fills gaps with regional objects. 3/4/5/6 pairs; a mismatch flips back after 1.2 s; a match shows its caption
+and plays the family's recording if there is one, otherwise speaks the caption. After `pairs × 4` mismatches
+everything turns face up and the round completes.
+
+**F6 — Aajir Tini · Today's Three** (`pickAajirTini` in `src/lib/rotation.ts`). The Play screen shows three
+activities from three different domains, least recently played first, with "All activities" underneath.
+Synthetic (sample/demo) trials are ignored so made-up history never steers a real suggestion.
+
+Wiring: `Activity` union, runner switch, `ACTIVITIES` (CST sessions 6 and 12), and `loadSample()` now seeds
+both new games. Names show the English gloss as the kit asks: "Saah Pat · Tea Leaf", "Apon Mukh · Dear Faces".
+New string keys: `activity.saah_pat`, `activity.apon_mukh`, `play.saah_pat.intro`, `play.apon_mukh.intro`,
+`game.not_this_one`, `play.today_three`, `play.all_activities` — kept in sync with `generate-audio.mjs`.
+
+⚠️ **Deviations from the kit:**
+- Intro keys follow the existing `play.<x>.intro` convention, not `activity.<x>.intro`.
+- The kit's `tea_sprigs` manifest block was not added. The sprigs are drawn in code, so nothing would read it.
+- `demoSeed.ts` (the Inspector's improving and declining personas) still seeds only the original four games;
+  its tests pin those counts.
+- ⚠️ As in Phase 1, the new keys have no Assamese audio yet. Run `npm run generate-audio` before the demo.
+
+Tests: `tests/phase4.test.ts` (12 unit tests: the Today's Three picker returns 3 distinct activities from
+3 domains, grid and target counts, deck pair counts, give-up budgets) and 4 e2e tests (both games complete
+in EN and AS by tapping arbitrary tiles in turn — tapping one tile again does nothing by design, so the test
+cycles through them).
+
+Gates: lint clean · tsc clean · **104** unit tests · **24** Playwright tests.
+
 ### Roadmap (not started)
 
-Phases 4–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: two new games (Saah Pat, Apon Mukh) and the
-Aajir Tini daily set, the caregiver layer, the accessibility pass, deploy. B7–B11 are Phase 6.
-`loadSample()`'s `SAMPLE_ACTIVITIES` needs the two new games added when they land, and its care-notes
-and nudge rows wait on F7/F8 in Phase 5.
+Phases 5–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: the caregiver layer, the accessibility pass, deploy. B7–B11 are Phase 6.
+`loadSample()`'s care-notes and nudge rows wait on F7/F8 in Phase 5.

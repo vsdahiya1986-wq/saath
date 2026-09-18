@@ -22,6 +22,10 @@ export const STRINGS: Record<string, string> = {
   'activity.pattern_garden': 'Sort the Home',
   'activity.my_next_step': 'My Next Step',
   'activity.together': 'Together Moment',
+  'activity.saah_pat': 'Saah Pat · Tea Leaf',
+  'activity.apon_mukh': 'Apon Mukh · Dear Faces',
+  'play.today_three': "Today's three",
+  'play.all_activities': 'All activities',
 
   'domain.memory': 'Memory',
   'domain.attention': 'Attention & Concentration',
@@ -45,6 +49,9 @@ export const STRINGS: Record<string, string> = {
   'play.pattern.intro': 'Where does this belong? Tap the right basket.',
   'play.step.intro': 'Put the steps of your routine in order.',
   'play.together.intro': 'Let us look at this picture together.',
+  'play.saah_pat.intro': 'Find the sprigs with two leaves and a bud. Tap each one you see. There is no hurry.',
+  'play.apon_mukh.intro': 'Turn over two cards and find the pairs.',
+  'game.not_this_one': 'Not this one.',
 
   'cue.repeat': 'Let me say that again.',
   'cue.highlight': 'Look here.',

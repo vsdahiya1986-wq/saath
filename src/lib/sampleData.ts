@@ -49,8 +49,8 @@ function pick<T>(rnd: () => number, xs: readonly T[]): T {
   return xs[Math.floor(rnd() * xs.length)];
 }
 
-/** Every scored activity that exists today. Phase 4's two new games join this. */
-const SAMPLE_ACTIVITIES: Activity[] = ['familiar_pairs', 'sound_sight', 'pattern_garden', 'my_next_step'];
+/** Every scored activity — Together Moment is never scored, so it is not here. */
+const SAMPLE_ACTIVITIES: Activity[] = ['familiar_pairs', 'sound_sight', 'pattern_garden', 'my_next_step', 'saah_pat', 'apon_mukh'];
 
 /** Days 8 and 9 back are the dip Trend Lines (F10) will show. */
 function isDipDay(daysAgo: number): boolean {

@@ -1,4 +1,5 @@
-import { db, membersForPerson } from './db';
+import { db, membersForPerson, Activity } from './db';
+import { ACTIVITIES, ActivityInfo } from '@/content/activities';
 
 export interface OnCall {
   memberId: string;
@@ -59,4 +60,56 @@ export async function burdenReport(personId: string): Promise<BurdenRow[]> {
     load: r.load_count ?? 0,
     share: Math.round(((r.load_count ?? 0) / total) * 100),
   }));
+}
+
+// ---------------------------------------------------------------------------
+// Aajir Tini · Today's Three (F6)
+// ---------------------------------------------------------------------------
+
+export const AAJIR_TINI_COUNT = 3;
+
+/**
+ * Three suggested activities for today, from three *different* cognitive
+ * domains, preferring the ones least recently played — the same
+ * least-recently-used fairness this file already applies to circle members,
+ * pointed at activities instead of people.
+ *
+ * Pure so it is testable: pass the person's trials in, get three back.
+ */
+export function pickAajirTini(lastPlayed: Map<Activity, number>, count = AAJIR_TINI_COUNT): ActivityInfo[] {
+  // Never played sorts first (0), then oldest first.
+  const byStaleness = [...ACTIVITIES].sort((a, b) => (lastPlayed.get(a.activity) ?? 0) - (lastPlayed.get(b.activity) ?? 0));
+
+  const chosen: ActivityInfo[] = [];
+  const domains = new Set<string>();
+  for (const info of byStaleness) {
+    if (chosen.length >= count) break;
+    if (domains.has(info.domainKey)) continue;
+    chosen.push(info);
+    domains.add(info.domainKey);
+  }
+
+  // Fewer domains than slots (only possible if the activity list shrinks):
+  // fill the rest by staleness rather than return a short list.
+  for (const info of byStaleness) {
+    if (chosen.length >= count) break;
+    if (!chosen.includes(info)) chosen.push(info);
+  }
+  return chosen;
+}
+
+/** When each activity was last played by this person, ignoring seeded rows. */
+export async function lastPlayedMap(personId: string): Promise<Map<Activity, number>> {
+  const trials = await db.trials.where({ person_id: personId }).toArray();
+  const map = new Map<Activity, number>();
+  for (const t of trials) {
+    if (t.synthetic) continue; // invented history must not steer a real suggestion
+    const at = new Date(t.created_at).getTime();
+    if (at > (map.get(t.activity) ?? 0)) map.set(t.activity, at);
+  }
+  return map;
+}
+
+export async function aajirTiniFor(personId: string): Promise<ActivityInfo[]> {
+  return pickAajirTini(await lastPlayedMap(personId));
 }

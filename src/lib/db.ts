@@ -5,7 +5,7 @@ export type Lang = 'as' | 'en';
 export type Literacy = 'non-literate' | 'basic' | 'fluent';
 export type Nav = 'visual' | 'voice-guided';
 export type CueType = 'none' | 'repeat_audio' | 'highlight' | 'reduce_choices' | 'demonstrate';
-export type Activity = 'familiar_pairs' | 'sound_sight' | 'pattern_garden' | 'my_next_step' | 'together';
+export type Activity = 'familiar_pairs' | 'sound_sight' | 'pattern_garden' | 'my_next_step' | 'together' | 'saah_pat' | 'apon_mukh';
 export type Difficulty = 1 | 2 | 3 | 4;
 
 /**

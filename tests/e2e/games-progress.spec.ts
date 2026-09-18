@@ -51,6 +51,28 @@ async function tapUntilDone(page: Page, activity: string) {
   await expect(done, `${activity} did not reach its completion screen within ${TAP_BUDGET} taps`).toBeVisible();
 }
 
+/**
+ * F4/F5: grid games where re-tapping one tile is deliberately a no-op, so the
+ * taps cycle across the grid. Still arbitrary — never aimed at the answer.
+ */
+const GRID_GAMES: Record<string, string> = { saah_pat: '[data-testid="sprig-tile"]', apon_mukh: '[data-testid="memory-card"]' };
+
+async function cycleUntilDone(page: Page, activity: string) {
+  await page.goto(`/play/${activity}`);
+  const done = page.getByTestId('activity-complete');
+  const tiles = page.locator(GRID_GAMES[activity]);
+  await expect(tiles.first()).toBeEnabled({ timeout: 15_000 });
+
+  for (let tap = 0; tap < 80 && !(await done.isVisible()); tap++) {
+    const n = await tiles.count();
+    if (n === 0) break;
+    await tiles.nth(tap % n).click({ timeout: 2_000 }).catch(() => {});
+    await page.waitForTimeout(700); // Apon Mukh flips a mismatch back after 1.2s
+  }
+
+  await expect(done, `${activity} did not reach its completion screen`).toBeVisible({ timeout: 5_000 });
+}
+
 for (const language of ['en', 'as'] as const) {
   test.describe(`every activity completes in ${language}`, () => {
     test.beforeEach(async ({ page }) => {
@@ -60,6 +82,13 @@ for (const language of ['en', 'as'] as const) {
     for (const activity of [...STEPPED, 'together']) {
       test(activity, async ({ page }) => {
         await tapUntilDone(page, activity);
+      });
+    }
+
+    for (const activity of Object.keys(GRID_GAMES)) {
+      test(activity, async ({ page }) => {
+        test.setTimeout(120_000); // up to pairs × 4 mismatches, each flipping back
+        await cycleUntilDone(page, activity);
       });
     }
   });

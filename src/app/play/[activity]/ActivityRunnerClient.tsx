@@ -6,6 +6,8 @@ import SoundAndSight from '@/components/play/SoundAndSight';
 import PatternGarden from '@/components/play/PatternGarden';
 import MyNextStep from '@/components/play/MyNextStep';
 import TogetherMoment from '@/components/play/TogetherMoment';
+import SaahPat from '@/components/play/SaahPat';
+import AponMukh from '@/components/play/AponMukh';
 import type { Activity } from '@/lib/db';
 
 export default function ActivityRunnerClient({ activity }: { activity: Activity }) {
@@ -26,6 +28,10 @@ export default function ActivityRunnerClient({ activity }: { activity: Activity 
       return <MyNextStep key={run} {...props} />;
     case 'together':
       return <TogetherMoment key={run} {...props} />;
+    case 'saah_pat':
+      return <SaahPat key={run} {...props} />;
+    case 'apon_mukh':
+      return <AponMukh key={run} {...props} />;
     default:
       return null;
   }
