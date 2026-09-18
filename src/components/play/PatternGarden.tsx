@@ -4,6 +4,7 @@ import type { CueType, Difficulty, Person } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
 import { CATEGORIES, CategoryId, HOME_OBJECTS, HomeObject, shuffle } from '@/content/cstContent';
+import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
 import GameFrame from './GameFrame';
@@ -63,29 +64,48 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item?.id, session.phase === 'playing']);
 
+  /** Drops the item into its basket, says why it belongs there, and moves on. */
+  function accept(revealed: boolean) {
+    if (!item) return;
+    const cat = item.category;
+    locked.current = true;
+    setCorrectCat(cat);
+    const where = CATEGORIES[cat].label.toLowerCase();
+    speak(revealed ? `The ${item.label.toLowerCase()} goes in ${where}.` : `Yes. The ${item.label.toLowerCase()} goes in ${where}.`, lang);
+    setTimeout(() => {
+      setPlaced((p) => [...p, item]);
+      setCorrectCat(null);
+      setHint(false);
+      wrongThisRound.current = 0;
+      locked.current = false;
+      if (index + 1 >= items.length) session.finish('completed');
+      else setIndex(index + 1);
+    }, 1500);
+  }
+
   function choose(cat: CategoryId) {
     if (!item || locked.current || !session.isPlaying()) return;
     if (cat === item.category) {
-      locked.current = true;
-      setCorrectCat(cat);
-      speak(`Yes. The ${item.label.toLowerCase()} goes in ${CATEGORIES[cat].label.toLowerCase()}.`, lang);
-      setTimeout(() => {
-        setPlaced((p) => [...p, item]);
-        setCorrectCat(null);
-        setHint(false);
-        wrongThisRound.current = 0;
-        locked.current = false;
-        if (index + 1 >= items.length) session.finish('completed');
-        else setIndex(index + 1);
-      }, 1500);
+      accept(false);
       return;
     }
     setWrongCat(cat);
     setTimeout(() => setWrongCat(null), 600);
-    playCue('game.try_again', lang);
+    session.addError();
+    setHint(true);
+    if (onWrongAnswer(wrongThisRound.current) === 'reveal') {
+      accept(true);
+      return;
+    }
     wrongThisRound.current += 1;
-    if (wrongThisRound.current >= 2) setHint(true);
-    if (session.addError() >= items.length * 3) session.finish('not_completed');
+    playCue('game.look_again', lang);
+  }
+
+  /** B4: skip this item only — show where it belongs and move on. */
+  function skipStep() {
+    if (!item || locked.current || !session.isPlaying()) return;
+    session.skipOne();
+    accept(true);
   }
 
   async function onHelp() {
@@ -115,6 +135,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
       progress={{ current: index + 1, total: items.length }}
       onListen={() => speak(question, lang)}
       onHelp={onHelp}
+      onSkipStep={skipStep}
       prompt={
         item && (
           <div className="flex items-center gap-5" key={item.id}>

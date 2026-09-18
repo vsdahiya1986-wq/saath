@@ -132,6 +132,16 @@ export function useCstSession({
     [log, router]
   );
 
+  /**
+   * B4: "Skip" used to end the whole activity. Skipping one step stays in the
+   * activity — the caller advances, or finishes if that was the last step.
+   * Skipped is recorded but is never counted as a cognitive failure.
+   */
+  const skipOne = useCallback(() => {
+    if (phaseRef.current !== 'playing') return;
+    log('skipped');
+  }, [log]);
+
   /** Returns the cue to apply now; each press escalates one step. */
   const requestHelp = useCallback(async (): Promise<CueType> => {
     if (phaseRef.current !== 'playing') return 'none';
@@ -169,6 +179,7 @@ export function useCstSession({
     addError,
     finish,
     leave,
+    skipOne,
     requestHelp,
     togglePause,
     isPlaying: () => phaseRef.current === 'playing',

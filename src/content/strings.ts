@@ -33,8 +33,10 @@ export const STRINGS: Record<string, string> = {
   'status.synced': 'Synced',
   'status.syncing': 'Syncing…',
 
-  'adaptive.learned': 'Adapting to you',
-  'adaptive.baseline': 'Standard pace',
+  'adaptive.same': 'Same pace as last time',
+  'adaptive.easier': 'A gentler round today',
+  'adaptive.harder': 'A little more today',
+  'adaptive.with_help': 'With a little help today',
 
   'play.title': 'Choose an activity',
   'play.pairs.intro': 'Let us talk about today. Choose the answer that feels right. There is no hurry.',
@@ -74,12 +76,12 @@ export const STRINGS: Record<string, string> = {
   'remind.appointment': 'You have a clinic appointment.',
 
   'exit.pause': 'Pause',
-  'exit.skip': 'Skip',
-  'exit.stop': 'Stop',
+  'exit.skip_one': 'Skip this one',
+  'exit.end': 'End',
 
   'game.well_done': 'Well done. That was lovely.',
   'game.gentle_end': 'That is completely fine. We can try again another time.',
-  'game.try_again': 'Not quite. Let us try another one.',
+  'game.look_again': 'Let us look again.',
   'game.good': 'Yes, that is right.',
 };
 

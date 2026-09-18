@@ -19,10 +19,15 @@ export const SEASONS: { name: string; icon: IconName; months: number[] }[] = [
   { name: 'Winter', icon: 'snow', months: [11, 0] },
 ];
 
+/**
+ * The single source of the day's boundaries (01_BUGS.md B1): morning 05:00–11:59,
+ * afternoon 12:00–16:59, evening 17:00–19:59, night 20:00–04:59. Uses the
+ * device's own local time, which is what the person's day actually follows.
+ */
 export function partOfDayIndex(hour: number): number {
   if (hour >= 5 && hour < 12) return 0;
   if (hour >= 12 && hour < 17) return 1;
-  if (hour >= 17 && hour < 21) return 2;
+  if (hour >= 17 && hour < 20) return 2;
   return 3;
 }
 

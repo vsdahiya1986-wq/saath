@@ -5,6 +5,7 @@ import { useCstSession } from '@/lib/useCstSession';
 import { playCue, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
 import { MONTHS, PARTS, SEASONS, WEEKDAYS, orientationNow, partOfDayIndex } from '@/lib/orientation';
 import { shuffle } from '@/content/cstContent';
+import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
 import AnalogClock from '@/components/ui/AnalogClock';
 import GameFrame from './GameFrame';
@@ -132,20 +133,38 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
     }, 1800);
   }
 
+  /** Marks the answer right on screen, says why, and moves on. */
+  function accept(revealed: boolean) {
+    if (!q) return;
+    setPicked(q.answerId);
+    const answer = q.choices.find((c) => c.id === q.answerId);
+    speak(revealed ? `This one is ${answer?.label ?? q.answerId}.` : q.affirm, lang);
+    advance();
+  }
+
   function choose(id: string) {
     if (!q || locked.current || !session.isPlaying()) return;
     if (id === q.answerId) {
-      setPicked(id);
-      speak(q.affirm, lang);
-      advance();
+      accept(false);
       return;
     }
     setWrongId(id);
     setTimeout(() => setWrongId(null), 600);
-    playCue('game.try_again', lang);
+    session.addError();
+    setHint(true);
+    if (onWrongAnswer(wrongThisRound.current) === 'reveal') {
+      accept(true);
+      return;
+    }
     wrongThisRound.current += 1;
-    if (wrongThisRound.current >= 2) setHint(true);
-    if (session.addError() >= questions.length * 3) session.finish('not_completed');
+    playCue('game.look_again', lang);
+  }
+
+  /** B4: skip this question only — show its answer and move on. */
+  function skipStep() {
+    if (!q || locked.current || !session.isPlaying()) return;
+    session.skipOne();
+    accept(true);
   }
 
   async function onHelp() {
@@ -176,6 +195,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
       progress={{ current: index + 1, total: questions.length }}
       onListen={() => q && speak(q.question, lang)}
       onHelp={onHelp}
+      onSkipStep={skipStep}
       prompt={
         q && (
           <div className="flex items-center gap-4">

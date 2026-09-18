@@ -21,6 +21,7 @@ export default function GameFrame({
   prompt,
   onListen,
   onHelp,
+  onSkipStep,
   doneTitle,
   doneExtra,
   onRestart,
@@ -34,6 +35,8 @@ export default function GameFrame({
   prompt?: ReactNode;
   onListen?: () => void;
   onHelp?: () => void;
+  /** Skips the current step only (B4). Omitted by activities with no steps. */
+  onSkipStep?: () => void;
   doneTitle?: string;
   doneExtra?: ReactNode;
   onRestart: () => void;
@@ -91,7 +94,10 @@ export default function GameFrame({
 
       {phase === 'done' ? (
         <div className="flex-1 min-h-0 overflow-y-auto">
-          <div className="max-w-xl mx-auto px-6 py-8 flex flex-col items-center gap-6 text-center">
+          <div
+            data-testid={completed ? 'activity-complete' : 'activity-ended'}
+            className="max-w-xl mx-auto px-6 py-8 flex flex-col items-center gap-6 text-center"
+          >
             <div
               className="rise flex items-center justify-center rounded-full"
               style={{
@@ -159,8 +165,8 @@ export default function GameFrame({
             person={person}
             paused={phase === 'paused'}
             onPauseToggle={session.togglePause}
-            onSkip={() => session.leave('skipped', '/play')}
-            onStop={() => session.leave('withdrawn', '/')}
+            onSkipOne={onSkipStep}
+            onEnd={() => session.leave('withdrawn', '/')}
           />
 
           {phase === 'paused' && (
@@ -175,8 +181,8 @@ export default function GameFrame({
               <button onClick={session.togglePause} className="btn btn-primary btn-xl">
                 <Icon name="play" size={26} /> {t('common.continue', lang)}
               </button>
-              <button onClick={() => session.leave('withdrawn', '/')} className="btn btn-ghost" style={{ color: 'var(--alert)', borderColor: 'var(--alert)' }}>
-                <Icon name="stop" size={22} /> {t('exit.stop', lang)}
+              <button onClick={() => session.leave('withdrawn', '/')} className="btn btn-ghost">
+                <Icon name="stop" size={22} /> {t('exit.end', lang)}
               </button>
             </div>
           )}

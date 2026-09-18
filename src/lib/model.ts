@@ -24,6 +24,8 @@ export interface Decision {
   mode: 'baseline' | 'learned';
   chosenCue: CueType;
   chosenDifficulty: Difficulty;
+  /** The difficulty this decision started from, so a UI can say what changed (B5). */
+  fromDifficulty: Difficulty;
   ranking: CueEstimate[];
   changedFromBaseline: boolean;
   baselineCue: CueType;
@@ -66,6 +68,7 @@ export async function decide(opts: {
       mode: 'baseline',
       chosenCue: helpCue,
       chosenDifficulty: difficulty,
+      fromDifficulty: difficulty,
       ranking: [],
       changedFromBaseline: false,
       baselineCue,
@@ -100,6 +103,7 @@ export async function decide(opts: {
       mode: 'baseline',
       chosenCue: baselineCue,
       chosenDifficulty: difficulty,
+      fromDifficulty: difficulty,
       ranking,
       changedFromBaseline: false,
       baselineCue,
@@ -134,6 +138,7 @@ export async function decide(opts: {
     mode: 'learned',
     chosenCue,
     chosenDifficulty,
+    fromDifficulty: difficulty,
     ranking,
     changedFromBaseline: chosenCue !== baselineCue || chosenDifficulty !== difficulty,
     baselineCue,

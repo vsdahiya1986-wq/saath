@@ -345,6 +345,9 @@ const PATHS: Record<IconName, ReactElement> = {
   ),
 };
 
+/** Runtime view of the icon set, so JSON content can be checked against it. */
+export const ICON_NAMES = Object.keys(PATHS) as IconName[];
+
 export default function Icon({ name, size = 32, strokeWidth = 2 }: { name: IconName; size?: number; strokeWidth?: number }) {
   return (
     <svg

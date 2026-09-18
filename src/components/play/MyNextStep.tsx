@@ -6,12 +6,18 @@ import { useCstSession } from '@/lib/useCstSession';
 import { loadRegionalManifest, pickRegionalRoutine } from '@/lib/regionalPacks';
 import { playCue, playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
 import { shuffle } from '@/content/cstContent';
+import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
 import GameFrame from './GameFrame';
 
 /** "My Next Step" — CST Session 4, Everyday Practical Life: order a familiar daily routine. */
 
-const STEPS_FOR: Record<Difficulty, number> = { 1: 3, 2: 3, 3: 4, 4: 4 };
+/**
+ * B3: slot count is the step count, so a 4-step routine never renders 3 slots.
+ * Difficulty 1 shortens the routine to its first 2 steps rather than dropping
+ * the last step of a 4-step one and asking for an order that isn't the routine.
+ */
+const STEPS_FOR: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 4, 4: 4 };
 
 interface Step {
   id: string;
@@ -46,6 +52,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
   const [hint, setHint] = useState(false);
   const [reduced, setReduced] = useState(false);
   const wrongThisStep = useRef(0);
+  const locked = useRef(false);
 
   const session = useCstSession({
     person,
@@ -85,24 +92,55 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     return tiles.filter((t) => t.id === nextCorrect.id || t.id === other.id);
   }, [tiles, reduced, nextCorrect]);
 
+  /** Places the step that actually comes next, says it, and moves the routine on. */
+  function accept(revealed: boolean) {
+    if (!nextCorrect) return;
+    const step = nextCorrect;
+    const newPlaced = [...placed, step];
+    setPlaced(newPlaced);
+    setTiles((ts) => ts.filter((s) => s.id !== step.id));
+    setHint(false);
+    wrongThisStep.current = 0;
+    speak(revealed ? `Next comes ${step.label}.` : step.label, lang);
+    if (newPlaced.length === steps.length) {
+      locked.current = true;
+      setTimeout(() => session.finish('completed'), 900);
+    }
+  }
+
+  /** Tap-to-undo (B3): a placed step goes back to the options, no drag anywhere. */
+  function unplace(i: number) {
+    if (locked.current || !session.isPlaying()) return;
+    const returning = placed.slice(i);
+    setPlaced(placed.slice(0, i));
+    setTiles((ts) => [...returning, ...ts]);
+    wrongThisStep.current = 0;
+    setHint(false);
+  }
+
   function tap(tile: Step) {
-    if (!session.isPlaying() || !nextCorrect) return;
+    if (locked.current || !session.isPlaying() || !nextCorrect) return;
     if (tile.id === nextCorrect.id) {
-      const newPlaced = [...placed, tile];
-      setPlaced(newPlaced);
-      setTiles((ts) => ts.filter((s) => s.id !== tile.id));
-      setHint(false);
-      wrongThisStep.current = 0;
-      speak(tile.label, lang);
-      if (newPlaced.length === steps.length) setTimeout(() => session.finish('completed'), 900);
+      accept(false);
       return;
     }
     setWrongId(tile.id);
     setTimeout(() => setWrongId(null), 600);
-    playCue('game.try_again', lang);
+    session.addError();
+    setHint(true);
+    if (onWrongAnswer(wrongThisStep.current) === 'reveal') {
+      accept(true);
+      return;
+    }
     wrongThisStep.current += 1;
-    if (wrongThisStep.current >= 2) setHint(true);
-    if (session.addError() >= Math.max(6, steps.length * 3)) session.finish('not_completed');
+    playCue('game.look_again', lang);
+  }
+
+  /** B4: skip this step only — place the one that comes next and move on. */
+  function skipStep() {
+    if (!nextCorrect || locked.current || !session.isPlaying()) return;
+    session.skipOne();
+    accept(true);
   }
 
   async function onHelp() {
@@ -131,6 +169,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
       progress={{ current: placed.length + 1, total: steps.length }}
       onListen={() => speak(question, lang)}
       onHelp={onHelp}
+      onSkipStep={skipStep}
       notice={family ? `Your family's own routine: ${title}` : title ? `${title} — a family can add their own in the Memory Garden.` : undefined}
       prompt={
         <p style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
@@ -162,17 +201,19 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
                 {done ? <Icon name="check" size={24} strokeWidth={3} /> : i + 1}
               </span>
               {done ? (
-                <span className="flex items-center gap-3 rise" style={{ fontSize: 22 }}>
+                <button
+                  onClick={() => unplace(i)}
+                  data-testid="placed-step"
+                  aria-label={`Remove ${done.label}`}
+                  className="flex items-center gap-3 rise text-left flex-1"
+                  style={{ fontSize: 22, minHeight: 64 }}
+                >
                   <span style={{ color: 'var(--ok)' }}>
                     <Icon name={done.icon} size={28} />
                   </span>
                   <span className="font-bold">{done.label}</span>
-                </span>
-              ) : (
-                <span className="muted" style={{ fontSize: 19 }}>
-                  {isNext ? 'Next step…' : ' '}
-                </span>
-              )}
+                </button>
+              ) : null /* B3: an empty slot carries only its faint number — no "Next step…" placeholder */}
             </li>
           );
         })}

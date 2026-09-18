@@ -5,6 +5,7 @@ import { getBlob, packsForPerson } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
 import { HOME_OBJECTS, shuffle } from '@/content/cstContent';
+import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
 import GameFrame from './GameFrame';
 
@@ -110,28 +111,46 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
     return round.choices.filter((c) => c.id === round.target.id || c.id === other.id);
   }, [round, reduced]);
 
+  /** Marks the target picture on screen, names it, and moves on. */
+  function accept(revealed: boolean) {
+    if (!round) return;
+    const { label, photoUrl } = round.target;
+    setPicked(round.target.id);
+    speak(revealed ? `This one is ${label}.` : photoUrl ? `Yes, that is ${label}.` : `Yes, that is the ${label}.`, lang);
+    locked.current = true;
+    setTimeout(() => {
+      wrongThisRound.current = 0;
+      locked.current = false;
+      setPicked(null);
+      setHint(false);
+      if (index + 1 >= rounds.length) session.finish('completed');
+      else setIndex(index + 1);
+    }, 1700);
+  }
+
   function choose(id: string) {
     if (!round || locked.current || !session.isPlaying()) return;
     if (id === round.target.id) {
-      setPicked(id);
-      speak(round.target.photoUrl ? `Yes, that is ${round.target.label}.` : `Yes, that is the ${round.target.label}.`, lang);
-      locked.current = true;
-      setTimeout(() => {
-        wrongThisRound.current = 0;
-        locked.current = false;
-        setPicked(null);
-        setHint(false);
-        if (index + 1 >= rounds.length) session.finish('completed');
-        else setIndex(index + 1);
-      }, 1700);
+      accept(false);
       return;
     }
     setWrongId(id);
     setTimeout(() => setWrongId(null), 600);
-    playCue('game.try_again', lang);
+    session.addError();
+    setHint(true);
+    if (onWrongAnswer(wrongThisRound.current) === 'reveal') {
+      accept(true);
+      return;
+    }
     wrongThisRound.current += 1;
-    if (wrongThisRound.current >= 2) setHint(true);
-    if (session.addError() >= rounds.length * 3) session.finish('not_completed');
+    playCue('game.look_again', lang);
+  }
+
+  /** B4: skip this round only — show its answer and move on. */
+  function skipStep() {
+    if (!round || locked.current || !session.isPlaying()) return;
+    session.skipOne();
+    accept(true);
   }
 
   async function onHelp() {
@@ -164,6 +183,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
       progress={{ current: index + 1, total: rounds.length }}
       onListen={visualOnly ? undefined : () => sayTarget(true)}
       onHelp={onHelp}
+      onSkipStep={skipStep}
       notice={family ? 'Includes pictures from your family.' : visualOnly ? 'Visual mode — read the word, then find its picture.' : undefined}
       prompt={
         round && (
@@ -171,15 +191,21 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
             <span style={{ fontSize: 16 }} className="muted font-semibold">
               {visualOnly ? 'Find this picture' : 'Listen, then find'}
             </span>
-            {hideWord ? (
-              <span style={{ fontSize: 28 }} className="font-extrabold flex items-center gap-3">
-                <Icon name="listen" size={30} /> …
-              </span>
-            ) : (
-              <span style={{ fontSize: 34, letterSpacing: '-0.02em' }} className="font-extrabold glow-text leading-tight">
-                {round.target.label}
-              </span>
-            )}
+            {/*
+              B2: this used to render a bare "…" for a non-literate profile, on the
+              theory that the word should be heard and not read. But the default
+              profile IS non-literate, and when no voice is available (no Bhashini
+              file, autoplay blocked, no Assamese TTS) the person was left with
+              nothing to go on at all. The word is always shown now — reading it is
+              optional, guessing blind is not.
+            */}
+            <span
+              style={{ fontSize: hideWord ? 30 : 34, letterSpacing: '-0.02em' }}
+              className="font-extrabold glow-text leading-tight flex items-center gap-3"
+            >
+              {hideWord && <Icon name="listen" size={30} />}
+              {round.target.label}
+            </span>
           </div>
         )
       }
