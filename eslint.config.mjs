@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Capacitor copies the built bundle in here; linting minified output is noise.
+    "android/app/src/main/assets/public/**",
   ]),
 ]);
 
