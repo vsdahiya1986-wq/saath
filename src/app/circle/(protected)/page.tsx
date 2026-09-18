@@ -11,7 +11,7 @@ import CareNoteCard from '@/components/circle/CareNoteCard';
 import TextSizeControl from '@/components/ui/TextSizeControl';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
-import { isOverdue } from '@/lib/reminders';
+import { todayStatuses } from '@/lib/reminders';
 import { evidenceTrials } from '@/lib/trends';
 
 interface CircleCounts {
@@ -35,7 +35,7 @@ const LINKS: { href: string; label: string; desc: string; icon: IconName; color:
   { href: '/circle/setup', label: 'Person profile', desc: 'Edit the person who is active now', icon: 'profile', color: '#065f46', stat: (c) => ({ value: c.personName, label: c.personName ? 'profile set up' : 'Not set up yet' }) },
   { href: '/circle/packs', label: 'Memory Garden', desc: 'Family photos with voice notes', icon: 'photo', color: '#b45309', stat: (c) => ({ value: String(c.packsApproved), label: `of ${c.packsTotal} memories approved` }) },
   { href: '/circle/roster', label: 'Circle roster', desc: 'Who is in the circle, on-call days', icon: 'people', color: '#6d28d9', stat: (c) => ({ value: String(c.members), label: c.members === 1 ? 'member' : 'members' }) },
-  { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} overdue` : ''}` }) },
+  { href: '/circle/reminders', label: 'Reminders', desc: 'Medicine, hydration, activity, appointments', icon: 'clock', color: '#0369a1', stat: (c) => ({ value: String(c.remindersTotal), label: `set${c.remindersOverdue ? ` · ${c.remindersOverdue} missed today` : ''}` }) },
   { href: '/circle/visit', label: 'Visit Card', desc: 'One printable page for the doctor or ASHA', icon: 'calendar', color: '#334155', stat: () => ({ value: null, label: 'Print or save as PDF' }) },
   { href: '/circle/board', label: 'Circle Board', desc: 'Trends, activity levels, who is carrying this', icon: 'chart', color: '#9d174d', stat: (c) => ({ value: String(c.trials), label: 'sessions recorded' }) },
   // R2: Handoff removed — unfinished, not in the requirement list, and multi-person
@@ -74,7 +74,7 @@ export default function CircleHome() {
         recordings: packs.filter((p) => p.state !== 'withdrawn' && p.media.audio_key).length,
         members: members.length,
         remindersTotal: reminders.length,
-        remindersOverdue: reminders.filter(isOverdue).length,
+        remindersOverdue: (await todayStatuses(id)).filter((x) => x.status === 'missed').length,
         trials: own.length,
         sessionsThisWeek: own.filter((x) => new Date(x.created_at).getTime() >= weekAgo).length,
       });
@@ -119,7 +119,7 @@ export default function CircleHome() {
                 {counts ? counts.remindersOverdue : '…'}
               </span>
               <span style={{ fontSize: 16 }} className="muted">
-                reminders overdue today
+                reminders missed today
               </span>
             </div>
             <Link href="/circle/people" className="btn btn-ghost">

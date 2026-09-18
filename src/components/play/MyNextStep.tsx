@@ -65,6 +65,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
   const [family, setFamily] = useState(false);
   const [wrongId, setWrongId] = useState<string | null>(null);
   const [hint, setHint] = useState(false);
+  const [retry, setRetry] = useState(false);
   const [reduced, setReduced] = useState(false);
   const wrongThisStep = useRef(0);
   const locked = useRef(false);
@@ -118,6 +119,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     setPlaced(newPlaced);
     setTiles((ts) => ts.filter((s) => s.id !== step.id));
     setHint(false);
+    setRetry(false);
     wrongThisStep.current = 0;
     sayStep(step, revealed);
     if (newPlaced.length === steps.length) {
@@ -134,6 +136,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     setTiles((ts) => [...returning, ...ts]);
     wrongThisStep.current = 0;
     setHint(false);
+    setRetry(false);
   }
 
   function tap(tile: Step) {
@@ -152,6 +155,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     }
     wrongThisStep.current += 1;
     playCue('game.look_again', lang);
+    setRetry(true);
   }
 
   /** B4: skip this step only — place the one that comes next and move on. */
@@ -180,6 +184,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
 
   return (
     <GameFrame
+      retry={retry}
       person={person}
       activity="my_next_step"
       session={session}

@@ -1,8 +1,4 @@
 {
-  "home.title": {
-    "file": "home_title.wav",
-    "text": "SAATH"
-  },
   "home_intro": {
     "file": "home_intro.wav",
     "text": "This is your memory companion. Choose Play, Help, or Today."
@@ -11,37 +7,21 @@
     "file": "home_play.wav",
     "text": "Play"
   },
-  "home.play.sub": {
-    "file": "home_play_sub.wav",
-    "text": "A familiar activity"
-  },
   "home.help": {
     "file": "home_help.wav",
     "text": "Help"
-  },
-  "home.help.sub": {
-    "file": "home_help_sub.wav",
-    "text": "Get help with something"
   },
   "home.today": {
     "file": "home_today.wav",
     "text": "Today"
   },
-  "home.today.sub": {
-    "file": "home_today_sub.wav",
-    "text": "Today's reminders"
-  },
   "home.circle": {
     "file": "home_circle.wav",
     "text": "Circle"
   },
-  "home.circle.sub": {
-    "file": "home_circle_sub.wav",
-    "text": "The people looking out for you"
-  },
   "home.help.ok": {
     "file": "home_help_ok.wav",
-    "text": "No help needed right now"
+    "text": "No help is needed now"
   },
   "activity.familiar_pairs": {
     "file": "activity_familiar_pairs.wav",
@@ -73,7 +53,7 @@
   },
   "play.today_three": {
     "file": "play_today_three.wav",
-    "text": "Today's three"
+    "text": "Three for today"
   },
   "play.all_activities": {
     "file": "play_all_activities.wav",
@@ -85,7 +65,7 @@
   },
   "rest.title": {
     "file": "rest_title.wav",
-    "text": "Shall we rest for a while?"
+    "text": "Do you want to rest now?"
   },
   "rest.rest_now": {
     "file": "rest_rest_now.wav",
@@ -93,7 +73,7 @@
   },
   "rest.one_more": {
     "file": "rest_one_more.wav",
-    "text": "One more"
+    "text": "Play one more"
   },
   "domain.memory": {
     "file": "domain_memory.wav",
@@ -117,35 +97,31 @@
   },
   "status.offline": {
     "file": "status_offline.wav",
-    "text": "Working offline"
+    "text": "No internet connection"
   },
   "status.synced": {
     "file": "status_synced.wav",
-    "text": "Synced"
-  },
-  "status.syncing": {
-    "file": "status_syncing.wav",
-    "text": "Syncing…"
+    "text": "Saved"
   },
   "status.no_signal": {
     "file": "status_no_signal.wav",
-    "text": "No-Signal Mode"
+    "text": "Test: no internet"
   },
   "adaptive.same": {
     "file": "adaptive_same.wav",
-    "text": "Same pace as last time"
+    "text": "The same as last time"
   },
   "adaptive.easier": {
     "file": "adaptive_easier.wav",
-    "text": "A gentler round today"
+    "text": "A little easier today"
   },
   "adaptive.harder": {
     "file": "adaptive_harder.wav",
-    "text": "A little more today"
+    "text": "A little harder today"
   },
   "adaptive.with_help": {
     "file": "adaptive_with_help.wav",
-    "text": "With a little help today"
+    "text": "With some help today"
   },
   "play.title": {
     "file": "play_title.wav",
@@ -153,7 +129,7 @@
   },
   "play.pairs.intro": {
     "file": "play_pairs_intro.wav",
-    "text": "Let us talk about today. Choose the answer that feels right. There is no hurry."
+    "text": "Let us talk about today. Choose the answer you think is correct. There is no hurry."
   },
   "play.sound.intro": {
     "file": "play_sound_intro.wav",
@@ -161,7 +137,7 @@
   },
   "play.pattern.intro": {
     "file": "play_pattern_intro.wav",
-    "text": "Where does this belong? Tap the right basket."
+    "text": "Tap the basket where this belongs."
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",
@@ -173,19 +149,15 @@
   },
   "play.saah_pat.intro": {
     "file": "play_saah_pat_intro.wav",
-    "text": "Find the sprigs with two leaves and a bud. Tap each one you see. There is no hurry."
+    "text": "Find the tea shoots with two leaves and one bud. Tap each one you see. There is no hurry."
   },
   "play.apon_mukh.intro": {
     "file": "play_apon_mukh_intro.wav",
-    "text": "Turn over two cards and find the pairs."
+    "text": "Tap two cards to see the pictures. Find the two that match."
   },
   "game.not_this_one": {
     "file": "game_not_this_one.wav",
     "text": "Not this one."
-  },
-  "cue.repeat": {
-    "file": "cue_repeat.wav",
-    "text": "Let me say that again."
   },
   "cue.highlight": {
     "file": "cue_highlight.wav",
@@ -195,37 +167,17 @@
     "file": "cue_reduce.wav",
     "text": "Let us try with fewer choices."
   },
-  "cue.demonstrate": {
-    "file": "cue_demonstrate.wav",
-    "text": "Watch how it is done, then you try."
-  },
   "common.pause": {
     "file": "common_pause.wav",
     "text": "Paused. Tap to continue, or choose Stop."
-  },
-  "common.stop": {
-    "file": "common_stop.wav",
-    "text": "We can stop here. That is completely fine."
   },
   "common.open": {
     "file": "common_open.wav",
     "text": "Open"
   },
-  "common.pause_btn": {
-    "file": "common_pause_btn.wav",
-    "text": "Pause"
-  },
-  "common.skip_btn": {
-    "file": "common_skip_btn.wav",
-    "text": "Skip"
-  },
-  "common.stop_btn": {
-    "file": "common_stop_btn.wav",
-    "text": "Stop"
-  },
   "common.back": {
     "file": "common_back.wav",
-    "text": "Back"
+    "text": "Go back"
   },
   "common.home": {
     "file": "common_home.wav",
@@ -234,14 +186,6 @@
   "common.continue": {
     "file": "common_continue.wav",
     "text": "Continue"
-  },
-  "common.save": {
-    "file": "common_save.wav",
-    "text": "Save"
-  },
-  "common.cancel": {
-    "file": "common_cancel.wav",
-    "text": "Cancel"
   },
   "a11y.listen": {
     "file": "a11y_listen.wav",
@@ -257,7 +201,7 @@
   },
   "help.sent_local": {
     "file": "help_sent_local.wav",
-    "text": "Your family has been told on this network."
+    "text": "Your family has been told."
   },
   "help.stored": {
     "file": "help_stored.wav",
@@ -265,7 +209,7 @@
   },
   "help.stale_warning": {
     "file": "help_stale_warning.wav",
-    "text": "This may not show where it really is right now."
+    "text": "This photo may show an old place."
   },
   "today.title": {
     "file": "today_title.wav",
@@ -277,11 +221,11 @@
   },
   "remind.hydration": {
     "file": "remind_hydration.wav",
-    "text": "Time for a glass of water."
+    "text": "It is time for a glass of water."
   },
   "remind.activity": {
     "file": "remind_activity.wav",
-    "text": "Time for your daily activity."
+    "text": "It is time for your daily activity."
   },
   "remind.appointment": {
     "file": "remind_appointment.wav",
@@ -297,23 +241,23 @@
   },
   "exit.pause": {
     "file": "exit_pause.wav",
-    "text": "Pause"
+    "text": "Stop for a moment"
   },
   "exit.skip_one": {
     "file": "exit_skip_one.wav",
-    "text": "Skip this one"
+    "text": "Skip this step"
   },
   "exit.end": {
     "file": "exit_end.wav",
-    "text": "End"
+    "text": "Finish"
   },
   "game.well_done": {
     "file": "game_well_done.wav",
-    "text": "Well done. That was lovely."
+    "text": "Well done. That was good."
   },
   "game.gentle_end": {
     "file": "game_gentle_end.wav",
-    "text": "That is completely fine. We can try again another time."
+    "text": "That is fine. We can try again another day."
   },
   "game.look_again": {
     "file": "game_look_again.wav",
@@ -329,7 +273,7 @@
   },
   "q.today_me.season": {
     "file": "q_today_me_season.wav",
-    "text": "Which season are we in?"
+    "text": "Which season is it now?"
   },
   "q.today_me.weekday": {
     "file": "q_today_me_weekday.wav",
@@ -337,7 +281,7 @@
   },
   "q.today_me.month": {
     "file": "q_today_me_month.wav",
-    "text": "Which month are we in?"
+    "text": "Which month is it now?"
   },
   "opt.period.morning": {
     "file": "opt_period_morning.wav",
@@ -365,7 +309,7 @@
   },
   "opt.season.monsoon": {
     "file": "opt_season_monsoon.wav",
-    "text": "Monsoon"
+    "text": "Rainy season"
   },
   "opt.season.autumn": {
     "file": "opt_season_autumn.wav",
@@ -501,7 +445,7 @@
   },
   "item.reg_mirror": {
     "file": "item_reg_mirror.wav",
-    "text": "Mirror"
+    "text": "Hand mirror"
   },
   "item.reg_slipper": {
     "file": "item_reg_slipper.wav",
@@ -549,7 +493,7 @@
   },
   "item.reg_claypot": {
     "file": "item_reg_claypot.wav",
-    "text": "Clay water pot"
+    "text": "Earthen water pot"
   },
   "item.reg_areca": {
     "file": "item_reg_areca.wav",
@@ -565,7 +509,7 @@
   },
   "item.reg_xorai": {
     "file": "item_reg_xorai.wav",
-    "text": "Xorai"
+    "text": "Brass offering tray"
   },
   "item.reg_net": {
     "file": "item_reg_net.wav",
@@ -589,7 +533,7 @@
   },
   "step.reg_morning_routine.wash": {
     "file": "step_reg_morning_routine_wash.wav",
-    "text": "Wash up"
+    "text": "Wash your face"
   },
   "step.reg_morning_routine.breakfast": {
     "file": "step_reg_morning_routine_breakfast.wav",
@@ -621,7 +565,7 @@
   },
   "step.reg_evening_routine.wash_up": {
     "file": "step_reg_evening_routine_wash_up.wav",
-    "text": "Wash up"
+    "text": "Wash your hands"
   },
   "step.reg_evening_routine.dinner": {
     "file": "step_reg_evening_routine_dinner.wav",
@@ -645,7 +589,7 @@
   },
   "step.reg_prayer_routine.sit": {
     "file": "step_reg_prayer_routine_sit.wav",
-    "text": "Sit down"
+    "text": "Sit on the mat"
   },
   "step.reg_prayer_routine.pray": {
     "file": "step_reg_prayer_routine_pray.wav",
@@ -681,7 +625,7 @@
   },
   "together.childhood.q": {
     "file": "together_childhood_q.wav",
-    "text": "Tell me about the house you grew up in."
+    "text": "Tell me about the house where you lived as a child."
   },
   "together.childhood.follow": {
     "file": "together_childhood_follow.wav",
@@ -721,11 +665,11 @@
   },
   "together.music.follow": {
     "file": "together_music_follow.wav",
-    "text": "Can you hum a little of it?"
+    "text": "Can you sing a little of it?"
   },
   "together.work.theme": {
     "file": "together_work_theme.wav",
-    "text": "Work"
+    "text": "Work with your hands"
   },
   "together.work.q": {
     "file": "together_work_q.wav",
@@ -753,7 +697,7 @@
   },
   "together.tea_time.q": {
     "file": "together_tea_time_q.wav",
-    "text": "How do you like your tea?"
+    "text": "Do you like your tea with milk or without milk?"
   },
   "together.tea_time.follow": {
     "file": "together_tea_time_follow.wav",
@@ -765,7 +709,7 @@
   },
   "together.friends.q": {
     "file": "together_friends_q.wav",
-    "text": "Tell me about a good friend from your younger days."
+    "text": "Tell me about a good friend from when you were young."
   },
   "together.friends.follow": {
     "file": "together_friends_follow.wav",
@@ -789,19 +733,19 @@
   },
   "q.next_step.after": {
     "file": "q_next_step_after.wav",
-    "text": "What comes next?"
+    "text": "What do you do next?"
   },
   "q.apon_mukh.find_pairs": {
     "file": "q_apon_mukh_find_pairs.wav",
-    "text": "Find the pairs"
+    "text": "Find the two cards that match"
   },
   "q.saah_pat.find_sprigs": {
     "file": "q_saah_pat_find_sprigs.wav",
-    "text": "Find every sprig like this one"
+    "text": "Find every tea shoot like this one"
   },
   "q.saah_pat.left": {
     "file": "q_saah_pat_left.wav",
-    "text": "still to find"
+    "text": "Tea shoots still to find"
   },
   "q.saah_pat.all_found": {
     "file": "q_saah_pat_all_found.wav",
@@ -833,7 +777,7 @@
   },
   "game.here_all": {
     "file": "game_here_all.wav",
-    "text": "Here they all are."
+    "text": "Here are all the pairs."
   },
   "game.here_others": {
     "file": "game_here_others.wav",
@@ -849,19 +793,19 @@
   },
   "next.same": {
     "file": "next_same.wav",
-    "text": "Next time we'll keep the same pace."
+    "text": "Next time it will be the same."
   },
   "next.more": {
     "file": "next_more.wav",
-    "text": "Next time, a little more."
+    "text": "Next time it will be a little harder."
   },
   "next.gentler": {
     "file": "next_gentler.wav",
-    "text": "Next time, a gentler round."
+    "text": "Next time it will be a little easier."
   },
   "next.with_help": {
     "file": "next_with_help.wav",
-    "text": "Next time, with a little help."
+    "text": "Next time there will be some help."
   },
   "together.who": {
     "file": "together_who.wav",
@@ -877,7 +821,7 @@
   },
   "together.done": {
     "file": "together_done.wav",
-    "text": "Done talking"
+    "text": "Finish talking"
   },
   "together.tell_more": {
     "file": "together_tell_more.wav",
@@ -901,23 +845,15 @@
   },
   "play.subtitle": {
     "file": "play_subtitle.wav",
-    "text": "Short, gentle sessions. There are no wrong answers — just try your best."
+    "text": "Short, easy games. There are no wrong answers."
   },
   "reminder.overdue": {
     "file": "reminder_overdue.wav",
-    "text": "Overdue"
-  },
-  "reminder.next": {
-    "file": "reminder_next.wav",
-    "text": "Next"
+    "text": "Past the time"
   },
   "reminder.next_up": {
     "file": "reminder_next_up.wav",
-    "text": "Next up"
-  },
-  "reminder.later": {
-    "file": "reminder_later.wav",
-    "text": "Later today"
+    "text": "Coming next"
   },
   "reminder.none": {
     "file": "reminder_none.wav",
@@ -929,26 +865,46 @@
   },
   "reminder.not_armed": {
     "file": "reminder_not_armed.wav",
-    "text": "Not armed on this device"
+    "text": "Reminders are not set up on this phone."
+  },
+  "reminder.now": {
+    "file": "reminder_now.wav",
+    "text": "Now"
+  },
+  "reminder.snoozed": {
+    "file": "reminder_snoozed.wav",
+    "text": "Again in 10 minutes"
+  },
+  "reminder.done_state": {
+    "file": "reminder_done_state.wav",
+    "text": "Done for today"
+  },
+  "reminder.more_later": {
+    "file": "reminder_more_later.wav",
+    "text": "more reminders later today"
+  },
+  "reminder.all_done": {
+    "file": "reminder_all_done.wav",
+    "text": "All reminders are done for today."
   },
   "today.is": {
     "file": "today_is.wav",
-    "text": "Today is"
+    "text": "Today"
   },
   "today.played": {
     "file": "today_played.wav",
-    "text": "Played today"
+    "text": "Games played today"
   },
   "today.nothing_yet": {
     "file": "today_nothing_yet.wav",
-    "text": "Nothing yet today"
+    "text": "No games played yet today."
   },
   "home.circle.one": {
     "file": "home_circle_one.wav",
-    "text": "person looking out for you"
+    "text": "person who cares for you"
   },
   "home.circle.many": {
     "file": "home_circle_many.wav",
-    "text": "people looking out for you"
+    "text": "people who care for you"
   }
 }

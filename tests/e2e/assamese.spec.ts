@@ -46,5 +46,5 @@ test('the Home date line and reminder word are not English on an Assamese profil
   const main = page.locator('main');
   await expect(main).not.toContainText(/Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday/);
   await expect(main).not.toContainText(/January|February|March|April|May|June|July|August|September|October|November|December/);
-  await expect(main).not.toContainText(/Overdue|season/);
+  await expect(main).not.toContainText(/Overdue|Past the time|season/);
 });

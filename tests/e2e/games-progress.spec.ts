@@ -111,7 +111,7 @@ test.describe('activity screens', () => {
     await page.goto('/play/sort_home');
     await expect(page.locator(CHOICE).first()).toBeEnabled({ timeout: 15_000 });
 
-    await page.getByRole('button', { name: 'Skip this one' }).click();
+    await page.getByTestId('exit-skip-one').click();
     await page.waitForTimeout(2_000);
 
     // Still in the activity, one step further on — not back at /play.
@@ -136,7 +136,7 @@ test.describe('activity screens', () => {
     await page.goto('/play/sort_home');
     const badge = page.getByTestId('adaptive-badge');
     await expect(badge).toBeVisible();
-    await expect(badge).toHaveText(/Same pace as last time|A gentler round today|A little more today|With a little help today/);
+    await expect(badge).toHaveText(/The same as last time|A little easier today|A little harder today|With some help today/);
     await expect(badge).not.toHaveAttribute('title', /.+/);
     await expect(page.getByText(/Insufficient comparable evidence|posterior mean/)).toHaveCount(0);
   });

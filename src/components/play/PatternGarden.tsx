@@ -38,6 +38,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
   const [correctCat, setCorrectCat] = useState<CategoryId | null>(null);
   const [wrongCat, setWrongCat] = useState<CategoryId | null>(null);
   const [hint, setHint] = useState(false);
+  const [retry, setRetry] = useState(false);
   const [reduced, setReduced] = useState(false);
   const wrongThisRound = useRef(0);
   const locked = useRef(false);
@@ -77,6 +78,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
       setPlaced((p) => [...p, item]);
       setCorrectCat(null);
       setHint(false);
+      setRetry(false);
       wrongThisRound.current = 0;
       locked.current = false;
       if (index + 1 >= items.length) session.finish('completed');
@@ -100,6 +102,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
     }
     wrongThisRound.current += 1;
     playCue('game.look_again', lang);
+    setRetry(true);
   }
 
   /** B4: skip this item only — show where it belongs and move on. */
@@ -129,6 +132,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
 
   return (
     <GameFrame
+      retry={retry}
       person={person}
       activity="pattern_garden"
       session={session}

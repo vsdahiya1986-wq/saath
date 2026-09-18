@@ -91,6 +91,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
   const [picked, setPicked] = useState<string | null>(null);
   const [wrongId, setWrongId] = useState<string | null>(null);
   const [hint, setHint] = useState(false);
+  const [retry, setRetry] = useState(false);
   const [reduced, setReduced] = useState(false);
   const wrongThisRound = useRef(0);
   const locked = useRef(false);
@@ -129,6 +130,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
       wrongThisRound.current = 0;
       setPicked(null);
       setHint(false);
+      setRetry(false);
       locked.current = false;
       if (index + 1 >= questions.length) session.finish('completed');
       else setIndex(index + 1);
@@ -160,6 +162,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
     }
     wrongThisRound.current += 1;
     playCue('game.look_again', lang);
+    setRetry(true);
   }
 
   /** B4: skip this question only — show its answer and move on. */
@@ -190,6 +193,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
 
   return (
     <GameFrame
+      retry={retry}
       person={person}
       activity="familiar_pairs"
       session={session}

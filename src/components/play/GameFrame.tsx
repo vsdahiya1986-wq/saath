@@ -26,6 +26,7 @@ export default function GameFrame({
   doneExtra,
   onRestart,
   notice,
+  retry,
   children,
 }: {
   person: Person;
@@ -41,6 +42,8 @@ export default function GameFrame({
   doneExtra?: ReactNode;
   onRestart: () => void;
   notice?: ReactNode;
+  /** 07 C4: after a first wrong answer, say so on screen too — the spoken cue may not play. */
+  retry?: boolean;
   children: ReactNode;
 }) {
   const router = useRouter();
@@ -140,6 +143,11 @@ export default function GameFrame({
                 <div className="core p-5 flex items-center gap-4" style={{ borderLeft: `8px solid ${color}` }}>
                   <div className="flex-1 min-w-0" aria-live="polite">
                     {prompt}
+                    {retry && (
+                      <p data-testid="retry-message" role="status" style={{ fontSize: 20, color: 'var(--accent-warm)' }} className="font-bold mt-2">
+                        {t('game.look_again', lang)}
+                      </p>
+                    )}
                   </div>
                   {onListen && (
                     <button onClick={onListen} aria-label={t('a11y.listen', lang)} className="btn btn-ghost btn-icon shrink-0" style={{ width: 76, height: 76, color }}>
@@ -166,7 +174,7 @@ export default function GameFrame({
             paused={phase === 'paused'}
             onPauseToggle={session.togglePause}
             onSkipOne={onSkipStep}
-            onEnd={() => session.leave('withdrawn', '/')}
+            onEnd={() => session.leave('withdrawn', '/play')}
           />
 
           {phase === 'paused' && (
@@ -181,7 +189,7 @@ export default function GameFrame({
               <button onClick={session.togglePause} className="btn btn-primary btn-xl">
                 <Icon name="play" size={26} /> {t('common.continue', lang)}
               </button>
-              <button onClick={() => session.leave('withdrawn', '/')} className="btn btn-ghost">
+              <button onClick={() => session.leave('withdrawn', '/play')} className="btn btn-ghost">
                 <Icon name="stop" size={22} /> {t('exit.end', lang)}
               </button>
             </div>

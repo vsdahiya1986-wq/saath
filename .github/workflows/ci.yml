@@ -1,0 +1,25 @@
+# The five gates (07_TRANSLATION_AND_REMAINING.md). The translation gate is
+# offline: it checks the committed Assamese against docs/i18n-review.json and
+# needs no Bhashini key — translating is a local, keyed step (`npm run translate`).
+name: gates
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+      - run: npm run verify-translations
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test

@@ -131,14 +131,47 @@ export function selectMissed(reminders: Reminder[], answeredIds: Set<string>, no
   });
 }
 
-/** Today's reminders that are due now and still unanswered (drives the due card). */
-export function selectDue(reminders: Reminder[], answeredIds: Set<string>, now = new Date()): Reminder[] {
-  return sortReminders(
-    reminders.filter((r) => {
-      if (answeredIds.has(r.id)) return false;
-      const elapsedMin = (now.getTime() - dueAt(r, now).getTime()) / 60_000;
-      return elapsedMin >= 0 && elapsedMin <= MISSED_AFTER_MIN;
-    })
+/** "Not now" brings the reminder back after this long (07 B1). */
+export const SNOOZE_MIN = 10;
+
+export type ReminderStatus = 'upcoming' | 'due' | 'snoozed' | 'done' | 'missed';
+
+/**
+ * Where one reminder stands today, from today's log rows for it. Pure, so the
+ * boundaries are testable. The latest answer wins: Done after a missed sweep
+ * still counts as done, and a snooze returns once its ten minutes are up.
+ * Missed is only ever a row the sweep wrote after 30 unanswered minutes.
+ */
+export function reminderStatus(r: Reminder, todaysLogs: ReminderLog[], now = new Date()): ReminderStatus {
+  const mine = todaysLogs.filter((l) => l.reminder_id === r.id).sort((a, b) => (a.responded_at ?? a.due_at).localeCompare(b.responded_at ?? b.due_at));
+  const last = mine.at(-1);
+  if (last?.outcome === 'done') return 'done';
+  if (last?.outcome === 'missed') return 'missed';
+  if (last?.outcome === 'snoozed') {
+    return now.getTime() - new Date(last.responded_at!).getTime() < SNOOZE_MIN * 60_000 ? 'snoozed' : 'due';
+  }
+  const elapsedMin = (now.getTime() - dueAt(r, now).getTime()) / 60_000;
+  if (elapsedMin < 0) return 'upcoming';
+  return elapsedMin <= MISSED_AFTER_MIN ? 'due' : 'missed';
+}
+
+/** The word the person sees for each status — plain, never alarming (07 B2). */
+export const STATUS_KEY: Record<ReminderStatus, string> = {
+  due: 'reminder.now',
+  snoozed: 'reminder.snoozed',
+  upcoming: 'reminder.next_up',
+  missed: 'reminder.overdue',
+  done: 'reminder.done_state',
+};
+
+/** Order for the person's screen: what needs them now, then what is next, then the rest. */
+const STATUS_ORDER: Record<ReminderStatus, number> = { due: 0, snoozed: 1, upcoming: 2, missed: 3, done: 4 };
+
+export function orderForToday(rows: { reminder: Reminder; status: ReminderStatus }[]) {
+  return [...rows].sort(
+    (a, b) =>
+      STATUS_ORDER[a.status] - STATUS_ORDER[b.status] ||
+      minutesSinceMidnight(a.reminder.hour, a.reminder.minute, a.reminder.period) - minutesSinceMidnight(b.reminder.hour, b.reminder.minute, b.reminder.period),
   );
 }
 
@@ -188,12 +221,16 @@ export async function sweepMissed(personId: string, now = new Date()): Promise<n
   return missed.length;
 }
 
-/** Today's unanswered, currently-due reminders, after sweeping the stale ones. */
-export async function dueNow(personId: string, now = new Date()): Promise<Reminder[]> {
+/** Every reminder with today's status, after sweeping the stale ones. */
+export async function todayStatuses(personId: string, now = new Date()) {
   await sweepMissed(personId, now);
-  const reminders = await remindersForPerson(personId);
-  const logged = new Set((await logsForToday(personId, now)).map((l) => l.reminder_id));
-  return selectDue(reminders, logged, now);
+  const [reminders, logs] = await Promise.all([remindersForPerson(personId), logsForToday(personId, now)]);
+  return orderForToday(reminders.map((reminder) => ({ reminder, status: reminderStatus(reminder, logs, now) })));
+}
+
+/** Today's reminders that need an answer now (drives the due card). */
+export async function dueNow(personId: string, now = new Date()): Promise<Reminder[]> {
+  return (await todayStatuses(personId, now)).filter((x) => x.status === 'due').map((x) => x.reminder);
 }
 
 export type RingCapability = 'native' | 'web' | 'in_app' | 'permission_needed';

@@ -5,9 +5,9 @@ import { usePerson, setActivePersonId } from '@/lib/usePerson';
 import { loadSample } from '@/lib/sampleData';
 import { announce } from '@/lib/voiceNav';
 import { t } from '@/lib/i18n';
-import { db, membersForPerson, remindersForPerson, Reminder } from '@/lib/db';
+import { db, membersForPerson, Reminder } from '@/lib/db';
 import { openFollowupsForPerson, helpStatusKey } from '@/lib/events';
-import { CUE_KEY, sortReminders, formatTime, isOverdue } from '@/lib/reminders';
+import { CUE_KEY, STATUS_KEY, formatTime, ReminderStatus, todayStatuses } from '@/lib/reminders';
 import { ACTIVITIES, ActivityInfo } from '@/content/activities';
 import { aajirTiniFor } from '@/lib/rotation';
 import BentoTile from '@/components/ui/BentoTile';
@@ -19,7 +19,8 @@ import { localDate, optKey, orientationNow } from '@/lib/orientation';
 
 interface HomePreview {
   circleCount: number;
-  nextReminder: Reminder | null;
+  /** First in today's order: due, then snoozed, then upcoming — so a Done one never shows as late. */
+  nextReminder: { reminder: Reminder; status: ReminderStatus } | null;
   helpKey: 'help.sent_local' | 'help.stored' | null;
   playedToday: number;
   persons: number;
@@ -45,7 +46,7 @@ export default function PersonHome() {
       startOfDay.setHours(0, 0, 0, 0);
       const [members, reminders, openHelp, trials] = await Promise.all([
         membersForPerson(person.id),
-        remindersForPerson(person.id),
+        todayStatuses(person.id),
         openFollowupsForPerson(person.id),
         db.trials.where({ person_id: person.id }).toArray(),
       ]);
@@ -53,7 +54,7 @@ export default function PersonHome() {
       if (cancelled) return;
       setPreview({
         circleCount: members.length,
-        nextReminder: sortReminders(reminders)[0] ?? null,
+        nextReminder: reminders[0] ?? null,
         helpKey: openHelp[0] ? helpStatusKey(openHelp[0].state) : null,
         persons,
         three,
@@ -103,7 +104,8 @@ export default function PersonHome() {
 
   const lang = person.language;
   const now = orientationNow();
-  const r = preview?.nextReminder ?? null;
+  const next = preview?.nextReminder ?? null;
+  const r = next?.reminder ?? null;
 
   return (
     <main className="h-[100dvh] flex flex-col">
@@ -143,7 +145,7 @@ export default function PersonHome() {
             labelKey="home.play"
             person={person}
             stat={String(ACTIVITIES.length)}
-            detail={preview ? `${t('play.today_three', lang)}: ${preview.three.map((a) => t(a.labelKey, lang)).join(' · ')}` : '…'}
+            detail={preview ? `${t('play.today_three', lang)}: ${preview.three.map((a) => t(a.labelKey, lang)).join(', ')}` : '…'}
             onSelect={() => router.push('/play')}
           />
           <BentoTile
@@ -152,7 +154,7 @@ export default function PersonHome() {
             labelKey="home.today"
             person={person}
             stat={preview ? (r ? formatTime(r) : '—') : '…'}
-            detail={preview ? (r ? `${t(isOverdue(r) ? 'reminder.overdue' : 'reminder.next', lang)} · ${t(CUE_KEY[r.category], lang)}` : t('reminder.none', lang)) : '…'}
+            detail={preview ? (next ? (next.status === 'done' ? t('reminder.all_done', lang) : `${t(STATUS_KEY[next.status], lang)} · ${t(CUE_KEY[next.reminder.category], lang)}`) : t('reminder.none', lang)) : '…'}
             onSelect={() => router.push('/today')}
           />
           <BentoTile

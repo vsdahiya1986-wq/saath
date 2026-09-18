@@ -129,7 +129,7 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
       onSkipStep={skipStep}
       prompt={
         <div className="flex items-center gap-5">
-          <span style={{ color: 'var(--accent)' }}>
+          <span style={{ color: 'var(--accent-warm)' }}>
             <TeaSprig kind="two_and_bud" size={72} />
           </span>
           <div className="flex flex-col gap-1 min-w-0">
@@ -138,7 +138,7 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
             </span>
             <span style={{ fontSize: 19 }} className="muted" data-testid="saah-pat-remaining">
               {/* The count is a numeral beside the phrase, never spliced into a sentence. */}
-              {remaining.length ? `${remaining.length} · ${t('q.saah_pat.left', lang)}` : t('q.saah_pat.all_found', lang)}
+              {remaining.length ? `${t('q.saah_pat.left', lang)}: ${remaining.length}` : t('q.saah_pat.all_found', lang)}
             </span>
           </div>
         </div>

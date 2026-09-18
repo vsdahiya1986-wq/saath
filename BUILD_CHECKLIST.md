@@ -55,6 +55,9 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] **B7** — language no longer falls back to English after navigation; `<html lang>` follows the person.
 - [x] **B9** — v1 → v2 upgrade test (`tests/db-migration.test.ts`).
 - [x] **Roadmap** (F14/F15) — Bol · Speak and Circle Message listed as not built, in README and on the About screen.
+- [x] **Verified Assamese** (07, Sept 2026) — English de-idiomed, every string round-trip verified (224/227 pass; 3 fall back to English, listed in `docs/i18n-review.md`); fifth gate `npm run verify-translations` in CI.
+- [x] **Reminder actions** (07 B1) — Done / Not now on due cards, Done on missed; Not now returns in 10 minutes; only a missed row nudges.
+- [x] **Calm Today** (07 B2) — sample seeded relative to load time, 4 reminders, next three shown; no red or ⚠ on the person's screen.
 - [x] **Regional content** (04_CONTENT §1, Sept 2026) — 24 objects, 5 routines, 10 new icons; content tests extended.
 - [x] **PPT screenshots** — `npm run screenshots` → `docs/screenshots/` (14 shots, 1280 × 800, reviewed by eye).
 - [ ] **Push + Vercel deploy + live URL in README** — needs the owner's go-ahead and Vercel login.

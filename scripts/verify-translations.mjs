@@ -1,0 +1,197 @@
+// node scripts/verify-translations.mjs           — the gate (offline, runs in CI)
+// node scripts/verify-translations.mjs --run     — translate + verify (needs BHASHINI_API_KEY)
+//
+// 07_TRANSLATION_AND_REMAINING.md §1.4: with no native reviewer before the
+// deadline, every Assamese string is checked by machine instead:
+//   1. EN → AS with engine A (Bhashini translation, en→as).
+//   2. AS → EN with engine B, a different model (Bhashini's as→en; see ENGINE_B).
+//   3. Compare the round trip with the original: meaning (sentence-embedding
+//      cosine) and words (token overlap).
+//   4. Denylist: concepts that must never reach this screen, in either language.
+//   5. Length: Assamese more than LEN_MAX × the English is flagged — it clips.
+// A FAIL keeps the English on screen and has no Assamese audio. English is
+// honest; wrong Assamese is not.
+//
+// --run writes docs/i18n-review.json (read by generate-audio.mjs, which only
+// voices PASS translations) and docs/i18n-review.md (for people).
+// The gate re-checks what actually ships: every Assamese string in the
+// manifest must have a PASS record for exactly this English and this Assamese.
+import fs from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
+import { STRINGS } from '../src/content/strings.ts';
+import { fixApostrophes } from './lib/fixApostrophes.mjs';
+
+const REVIEW_JSON = 'docs/i18n-review.json';
+const REVIEW_MD = 'docs/i18n-review.md';
+const AS_MANIFEST = 'public/content/lang/as/manifest.json';
+
+export const SIM_MIN = 0.75;
+export const LEXICAL_MIN = 0.5;
+export const LEN_MAX = 1.8;
+
+/** Seeded from 07 §1.4; extend as new failures are found. Substring match. */
+export const DENY_AS = ['অস্ত্ৰ', 'সৈন্য', 'যুদ্ধ', 'আক্ৰমণ', 'মৃত্যু', 'ৰোগ', 'পাগল'];
+/** The same concepts in the round-tripped English — catches a synonym the Assamese list misses. */
+export const DENY_EN = /\b(weapons?|armed|soldiers?|war|attack\w*|death|dead|die|disease\w*|mad|crazy|insane)\b/i;
+
+// IndicTrans2 (07 §1.3) is the intended engine B, but its Hugging Face models
+// are gated (401 without an accepted licence and a token) and need PyTorch.
+// Until then engine B is Bhashini's as→en model — a separately trained model
+// from the en→as one (IndicTrans2 itself ships them as two models), not the
+// same model run backwards.
+const ENGINE_A = 'Bhashini translation en→as';
+const ENGINE_B = 'Bhashini translation as→en';
+
+const STOP = new Set('a an the is are am to of in on at for it this that and or you your we us let be do does will there here'.split(' '));
+const tokens = (s) => new Set(s.toLowerCase().normalize('NFKD').replace(/[^a-z\s]/g, ' ').split(/\s+/).filter((w) => w && !STOP.has(w)));
+
+/** Share of the original's content words that survived the round trip. */
+export function lexical(en, back) {
+  const a = tokens(en);
+  if (!a.size) return 1;
+  const b = tokens(back);
+  return [...a].filter((w) => b.has(w)).length / a.size;
+}
+
+export function denied(en, as, back) {
+  const hit = DENY_AS.find((w) => as.includes(w));
+  if (hit) return `Assamese contains ${hit}`;
+  const m = back.match(DENY_EN);
+  if (m && !DENY_EN.test(en)) return `round trip says "${m[0]}"`;
+  return null;
+}
+
+export function verdictFor({ en, as, back, sim }) {
+  const deny = denied(en, as, back);
+  const lex = lexical(en, back);
+  // Divergence needs both signals: a one-word label can round-trip as a
+  // different form of the same word ("Play" → "will play"), which dents the
+  // embedding score while the words still match.
+  const fail = !!deny || (sim < SIM_MIN && lex < LEXICAL_MIN);
+  return { lexical: Number(lex.toFixed(2)), deny, long: as.length > LEN_MAX * en.length, verdict: fail ? 'FAIL' : 'PASS' };
+}
+
+async function bhashini(text, src, tgt) {
+  const res = await fetch('https://dhruva-api.bhashini.gov.in/services/inference/pipeline', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: process.env.BHASHINI_API_KEY },
+    body: JSON.stringify({
+      pipelineTasks: [{ taskType: 'translation', config: { language: { sourceLanguage: src, targetLanguage: tgt } } }],
+      inputData: { input: [{ source: text }] },
+    }),
+  });
+  if (!res.ok) throw new Error(`Bhashini ${res.status}: ${await res.text()}`);
+  const out = (await res.json()).pipelineResponse?.[0]?.output?.[0]?.target;
+  if (!out) throw new Error('empty translation');
+  return fixApostrophes(out);
+}
+
+async function run() {
+  if (!process.env.BHASHINI_API_KEY) {
+    console.error('Missing BHASHINI_API_KEY — cannot translate. Nothing was changed; the English fallback stays active.');
+    process.exit(1);
+  }
+  const { pipeline } = await import('@huggingface/transformers');
+  const embed = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', { dtype: 'q8' });
+  const vec = async (s) => (await embed(s, { pooling: 'mean', normalize: true })).data;
+  const cosine = (a, b) => a.reduce((s, x, i) => s + x * b[i], 0);
+
+  // Incremental: an entry whose English is unchanged and that did not error is
+  // kept as is. `--all` re-translates everything from scratch.
+  const previous = process.argv.includes('--all') ? {} : (JSON.parse(await fs.readFile(REVIEW_JSON, 'utf8').catch(() => 'null'))?.entries ?? {});
+  const entries = {};
+  for (const [key, en] of Object.entries(STRINGS)) {
+    const prev = previous[key];
+    if (prev && prev.en === en && !prev.error) {
+      entries[key] = prev;
+      continue;
+    }
+    try {
+      const as = await bhashini(en, 'en', 'as');
+      const back = await bhashini(as, 'as', 'en');
+      const sim = Number(cosine(await vec(en), await vec(back)).toFixed(2));
+      entries[key] = { en, as, back, sim, ...verdictFor({ en, as, back, sim }) };
+    } catch (e) {
+      entries[key] = { en, as: null, back: null, sim: null, lexical: null, deny: null, long: false, verdict: 'FAIL', error: e.message };
+    }
+    const r = entries[key];
+    console.log(`${r.verdict}  ${key}  ${r.sim ?? '-'}  ${r.as ?? r.error}`);
+  }
+
+  const review = { generated_at: new Date().toISOString(), engine_a: ENGINE_A, engine_b: ENGINE_B, thresholds: { SIM_MIN, LEXICAL_MIN, LEN_MAX }, entries };
+  await fs.writeFile(REVIEW_JSON, JSON.stringify(review, null, 2) + '\n');
+  await fs.writeFile(REVIEW_MD, markdown(review));
+  const fails = Object.values(entries).filter((e) => e.verdict === 'FAIL').length;
+  const n = Object.keys(entries).length;
+  console.log(`\n${n - fails}/${n} verified (${Math.round(((n - fails) / n) * 100)}%). ${fails} fall back to English. Now run npm run generate-audio.`);
+}
+
+const cell = (s) => String(s ?? '—').replace(/\|/g, '\\|');
+
+function markdown({ generated_at, engine_a, engine_b, thresholds, entries }) {
+  const all = Object.entries(entries);
+  const fails = all.filter(([, e]) => e.verdict === 'FAIL');
+  const long = all.filter(([, e]) => e.long && e.verdict === 'PASS');
+  const row = ([k, e]) => `| \`${k}\` | ${cell(e.en)} | ${cell(e.as)} | ${cell(e.back)} | ${e.sim ?? '—'} | ${e.lexical ?? '—'} | ${e.verdict}${e.deny ? ` (${cell(e.deny)})` : ''}${e.error ? ` (${cell(e.error)})` : ''}${e.long ? ' · LONG' : ''} |`;
+  const head = '| key | English | Assamese | round-trip English | similarity | word overlap | verdict |\n| --- | --- | --- | --- | --- | --- | --- |';
+  return `# Assamese translation review
+
+Generated ${generated_at} by \`node scripts/verify-translations.mjs --run\`. Do not edit by hand.
+
+- Engine A: ${engine_a}. Engine B: ${engine_b}. IndicTrans2 is the intended engine B but its models are gated; see the script header.
+- FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < ${thresholds.SIM_MIN}) and words (overlap < ${thresholds.LEXICAL_MIN}).
+- A FAIL shows its English on screen and has no Assamese audio. LONG = more than ${thresholds.LEN_MAX}× the English length (may clip).
+
+**${all.length - fails.length}/${all.length} verified (${Math.round(((all.length - fails.length) / all.length) * 100)}%). ${fails.length} fall back to English.**
+
+## Needs human review (${fails.length})
+
+${fails.length ? `${head}\n${fails.map(row).join('\n')}` : 'None.'}
+
+## Passed but long — check for clipping (${long.length})
+
+${long.length ? `${head}\n${long.map(row).join('\n')}` : 'None.'}
+
+## Every key
+
+${head}
+${all.map(row).join('\n')}
+`;
+}
+
+/** Offline: what ships in the Assamese manifest must be exactly what was verified. */
+async function gate() {
+  const review = JSON.parse(await fs.readFile(REVIEW_JSON, 'utf8').catch(() => 'null'));
+  const manifest = JSON.parse(await fs.readFile(AS_MANIFEST, 'utf8'));
+  const problems = [];
+  if (!review) problems.push(`${REVIEW_JSON} is missing — run with --run first.`);
+
+  for (const [key, en] of Object.entries(STRINGS)) {
+    const shown = manifest[key]?.text;
+    if (shown === undefined) {
+      problems.push(`${key}: not in the Assamese manifest (run generate-audio)`);
+      continue;
+    }
+    const hit = DENY_AS.find((w) => shown.includes(w));
+    if (hit) problems.push(`${key}: shows denylisted ${hit}`);
+    if (shown === en) continue; // English fallback: honest by definition
+    const r = review?.entries[key];
+    if (!r || r.verdict !== 'PASS') problems.push(`${key}: shows Assamese that did not pass verification`);
+    else if (r.en !== en) problems.push(`${key}: English changed since it was verified — re-run --run`);
+    else if (r.as !== shown) problems.push(`${key}: shows Assamese that differs from the verified text`);
+  }
+
+  if (problems.length) {
+    console.error(`verify-translations: ${problems.length} problem(s)\n  ${problems.join('\n  ')}`);
+    process.exit(1);
+  }
+  const shownAs = Object.keys(STRINGS).filter((k) => manifest[k].text !== STRINGS[k]).length;
+  console.log(`verify-translations: OK — ${shownAs} Assamese strings, all verified; ${Object.keys(STRINGS).length - shownAs} English fallback.`);
+}
+
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  (process.argv.includes('--run') ? run() : gate()).catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });
+}

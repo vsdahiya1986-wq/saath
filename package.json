@@ -15,7 +15,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "generate-audio": "node --env-file=.env.local scripts/generate-audio.mjs"
+    "translate": "node --no-warnings --env-file=.env.local scripts/verify-translations.mjs --run",
+    "generate-audio": "node --env-file=.env.local scripts/generate-audio.mjs",
+    "verify-translations": "node --no-warnings scripts/verify-translations.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.1",
@@ -35,6 +37,7 @@
     "uuid": "^14.0.2"
   },
   "devDependencies": {
+    "@huggingface/transformers": "^4.3.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^7.0.1",

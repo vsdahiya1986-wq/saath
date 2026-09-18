@@ -20,6 +20,7 @@ import {
 } from './db';
 import { MODEL_VERSION } from './model';
 import { clock } from './nudges';
+import { dueAt } from './reminders';
 
 /**
  * "Aita's Day" — the sample profile (F1). A populated app in one tap, so
@@ -101,16 +102,27 @@ export function buildSampleTrials(now = Date.now()): TrialEvent[] {
   return rows;
 }
 
-const SAMPLE_REMINDERS: Omit<Reminder, 'id' | 'person_id' | 'version' | 'device_activated'>[] = [
-  { category: 'medicine', care_plan_text: 'Blood pressure tablet, one, after breakfast.', hour: 8, minute: 0, period: 'AM' },
-  { category: 'hydration', care_plan_text: 'A glass of water.', hour: 9, minute: 0, period: 'AM' },
-  { category: 'hydration', care_plan_text: 'A glass of water.', hour: 11, minute: 0, period: 'AM' },
-  { category: 'hydration', care_plan_text: 'A glass of water.', hour: 1, minute: 0, period: 'PM' },
-  { category: 'hydration', care_plan_text: 'A glass of water.', hour: 3, minute: 0, period: 'PM' },
-  { category: 'hydration', care_plan_text: 'A glass of water.', hour: 5, minute: 0, period: 'PM' },
-  { category: 'activity', care_plan_text: 'Short walk in the courtyard with Rupa.', hour: 5, minute: 30, period: 'PM' },
-  { category: 'appointment', care_plan_text: 'Clinic visit with Dr Saikia. Take the blue folder.', hour: 10, minute: 0, period: 'AM' },
+/**
+ * 07 B2: seeded relative to load time, never at fixed clock times — at a fixed
+ * 08:00-17:30 schedule, a sample loaded in the evening greeted the person with
+ * eight overdue cards. Today reads: one taken a little earlier (logged done),
+ * one due now, and two later. Index 0 stays the medicine, which the history
+ * and the seeded Circle nudge refer to.
+ */
+const SAMPLE_REMINDERS: { category: Reminder['category']; care_plan_text: string; offsetMin: number }[] = [
+  { category: 'medicine', care_plan_text: 'Blood pressure tablet, one, after food.', offsetMin: -5 },
+  { category: 'hydration', care_plan_text: 'A glass of water.', offsetMin: -60 },
+  { category: 'activity', care_plan_text: 'Short walk in the courtyard with Rupa.', offsetMin: 120 },
+  { category: 'appointment', care_plan_text: 'Clinic visit with Dr Saikia. Take the blue folder.', offsetMin: 300 },
 ];
+
+/** Minutes after midnight → the 12-hour fields a Reminder stores, rounded to 5 minutes and kept inside today. */
+export function clockFields(minuteOfDay: number): Pick<Reminder, 'hour' | 'minute' | 'period'> {
+  const m = Math.min(Math.max(Math.round(minuteOfDay / 5) * 5, 0), 23 * 60 + 55);
+  const h24 = Math.floor(m / 60);
+  return { hour: h24 % 12 === 0 ? 12 : h24 % 12, minute: m % 60, period: h24 < 12 ? 'AM' : 'PM' };
+}
+
 
 const SAMPLE_MEMBERS: Omit<CircleMember, 'id' | 'person_id' | 'load_count'>[] = [
   { name: 'Rupa', role: 'family', consented: true, on_call_days: [1, 3, 5] },
@@ -172,8 +184,11 @@ export async function loadSample(now = Date.now()): Promise<string> {
 
   await db.trials.bulkPut(buildSampleTrials(now));
 
-  const reminders: Reminder[] = SAMPLE_REMINDERS.map((r, i) => ({
+  const nowDate = new Date(now);
+  const nowMin = nowDate.getHours() * 60 + nowDate.getMinutes();
+  const reminders: Reminder[] = SAMPLE_REMINDERS.map(({ offsetMin, ...r }, i) => ({
     ...r,
+    ...clockFields(nowMin + offsetMin),
     id: `${SAMPLE_PERSON_ID}-reminder-${i}`,
     person_id: SAMPLE_PERSON_ID,
     version: 1,
@@ -182,6 +197,17 @@ export async function loadSample(now = Date.now()): Promise<string> {
   for (const r of reminders) await putReminder(r);
 
   await db.reminder_logs.bulkPut(buildSampleReminderLogs(reminders, now));
+  // The glass of water an hour ago was taken: today's only past card is calm.
+  const water = reminders[1];
+  await db.reminder_logs.put({
+    id: `${water.id}-log-0`,
+    person_id: SAMPLE_PERSON_ID,
+    reminder_id: water.id,
+    category: water.category,
+    due_at: dueAt(water, nowDate).toISOString(),
+    responded_at: new Date(dueAt(water, nowDate).getTime() + 4 * 60_000).toISOString(),
+    outcome: 'done',
+  });
 
   for (const [i, m] of SAMPLE_MEMBERS.entries()) {
     await putMember({ ...m, id: `${SAMPLE_PERSON_ID}-member-${i}`, person_id: SAMPLE_PERSON_ID, load_count: 0 });
@@ -237,7 +263,7 @@ const SAMPLE_CARE_NOTES: (Pick<CareNote, 'chips' | 'text' | 'by'> & { daysAgo: n
 export function buildSampleReminderLogs(reminders: Reminder[], now = Date.now()): ReminderLog[] {
   const rows: ReminderLog[] = [];
   const medicine = reminders.find((r) => r.category === 'medicine');
-  const water = reminders.find((r) => r.category === 'hydration' && r.hour === 3);
+  const water = reminders.find((r) => r.category === 'hydration');
 
   for (let daysAgo = SAMPLE_DAYS; daysAgo >= 1; daysAgo--) {
     for (const r of reminders) {

@@ -172,7 +172,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
                   )}
                 </>
               ) : (
-                <span style={{ color: 'var(--accent-2)' }}>
+                <span style={{ color: 'var(--accent-warm)' }}>
                   <Icon name="cardback" size={66} />
                 </span>
               )}

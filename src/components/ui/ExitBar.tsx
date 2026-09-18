@@ -45,7 +45,7 @@ export default function ExitBar({
         <span>{paused ? t('common.continue', lang) : t('exit.pause', lang)}</span>
       </button>
       {onSkipOne && (
-        <button
+        <button data-testid="exit-skip-one"
           onClick={() => {
             playCue('exit.skip_one', lang);
             onSkipOne();
@@ -57,7 +57,7 @@ export default function ExitBar({
           <span>{t('exit.skip_one', lang)}</span>
         </button>
       )}
-      <button
+      <button data-testid="exit-end"
         onClick={() => {
           playCue('exit.end', lang);
           onEnd();

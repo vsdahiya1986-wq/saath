@@ -5,6 +5,17 @@ export type Lang = 'as' | 'en';
 export type Literacy = 'non-literate' | 'basic' | 'fluent';
 export type Nav = 'visual' | 'voice-guided';
 export type CueType = 'none' | 'repeat_audio' | 'highlight' | 'reduce_choices' | 'demonstrate';
+/**
+ * Stored activity ids. The first four predate the Sept 2026 renames and are
+ * kept on purpose (07 D2): migrating stored trials this close to the deadline
+ * risks history for no user-visible gain. Screens show the human name from
+ * `ACTIVITIES` (content/activities.ts); only the URL slug changed (R4):
+ *   familiar_pairs → Today & Me      (/play/today_me)
+ *   sound_sight    → Hear & Find     (/play/hear_find)
+ *   pattern_garden → Sort the Home   (/play/sort_home)
+ *   my_next_step   → My Next Step    (/play/next_step)
+ *   together, saah_pat, apon_mukh    — id and slug match.
+ */
 export type Activity = 'familiar_pairs' | 'sound_sight' | 'pattern_garden' | 'my_next_step' | 'together' | 'saah_pat' | 'apon_mukh';
 export type Difficulty = 1 | 2 | 3 | 4;
 

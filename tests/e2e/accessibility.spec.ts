@@ -86,7 +86,7 @@ test('F13: after ten minutes of play the next activity offers a rest, and One mo
   });
 
   await page.goto('/play/today_me');
-  await expect(page.getByTestId('rest-pause')).toContainText('Shall we rest for a while?');
+  await expect(page.getByTestId('rest-pause')).toContainText('Do you want to rest now?');
   await page.getByTestId('rest-one-more').click();
   await expect(page.getByTestId('rest-pause')).toHaveCount(0);
   await expect(page.locator('[data-testid="orientation-choice"]').first()).toBeVisible();

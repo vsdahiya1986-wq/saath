@@ -17,12 +17,12 @@
     { "id": "reg_thali", "icon": "thali", "label": "Thali (plate)" },
     { "id": "reg_broom", "icon": "broom", "label": "Jharu (broom)" },
     { "id": "reg_ghoti", "icon": "ghoti", "label": "Ghoti (water pot)" },
-    { "id": "reg_mirror", "icon": "mirror", "label": "Mirror" },
+    { "id": "reg_mirror", "icon": "mirror", "label": "Hand mirror" },
     { "id": "reg_pankha", "icon": "pankha", "label": "Pankha (hand fan)" },
     { "id": "reg_keylock", "icon": "keylock", "label": "Lock and key" },
     { "id": "reg_jhola", "icon": "jhola", "label": "Cloth bag" },
     { "id": "reg_gamosa", "icon": "gamosa", "label": "Gamosa (woven towel)" },
-    { "id": "reg_xorai", "icon": "xorai", "label": "Xorai (offering tray)" },
+    { "id": "reg_xorai", "icon": "xorai", "label": "Xorai (brass offering tray)" },
     { "id": "reg_dhekia", "icon": "fern", "label": "Dhekia (fern greens)" },
     { "id": "reg_claypot", "icon": "claypot", "label": "Clay water pot" },
     { "id": "reg_net", "icon": "net", "label": "Fishing net" },
@@ -48,7 +48,7 @@
       "steps": [
         { "id": "wake", "icon": "clock", "label": "Wake up" },
         { "id": "medicine", "icon": "tumbler", "label": "Take medicine" },
-        { "id": "wash", "icon": "kettle", "label": "Wash up" },
+        { "id": "wash", "icon": "kettle", "label": "Wash your face" },
         { "id": "breakfast", "icon": "basket", "label": "Have breakfast" }
       ]
     },
@@ -68,7 +68,7 @@
       "title": "Evening routine",
       "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
       "steps": [
-        { "id": "wash_up", "icon": "kettle", "label": "Wash up" },
+        { "id": "wash_up", "icon": "kettle", "label": "Wash your hands" },
         { "id": "dinner", "icon": "thali", "label": "Have dinner" },
         { "id": "lock_up", "icon": "keylock", "label": "Lock the door" },
         { "id": "sleep", "icon": "lamp", "label": "Turn off the lamp" }
@@ -80,7 +80,7 @@
       "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
       "steps": [
         { "id": "light", "icon": "lamp", "label": "Light the lamp" },
-        { "id": "sit", "icon": "stool", "label": "Sit down" },
+        { "id": "sit", "icon": "stool", "label": "Sit on the mat" },
         { "id": "pray", "icon": "xorai", "label": "Say the prayer" },
         { "id": "put_out", "icon": "lamp", "label": "Put out the lamp" }
       ]

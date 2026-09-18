@@ -30,7 +30,7 @@ export default function StatusBadge({ lang = 'en' }: { lang?: Lang }) {
   const online = state === 'online';
   const color = online ? 'var(--ok)' : 'var(--accent-warm)';
   return (
-    <div data-testid="status-badge" data-state={state} className="chip shrink-0" style={{ color }}>
+    <div data-testid="status-badge" data-state={state} className="chip" style={{ color }}>
       <span className="relative flex" style={{ width: 10, height: 10 }}>
         <span className="absolute inset-0 rounded-full breathe" style={{ background: color, opacity: 0.5 }} />
         <span className="relative rounded-full" style={{ width: 10, height: 10, background: color }} />

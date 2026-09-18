@@ -35,16 +35,20 @@ npx playwright test # e2e against the static export
 ### Assamese audio
 
 UI strings live in `src/content/strings.ts`, and `scripts/generate-audio.mjs` keeps its own copy of
-the same key list — the two must stay in sync (`tests/content.test.ts` enforces it). Voice files are
-generated through Bhashini:
+the same key list — the two must stay in sync (`tests/content.test.ts` enforces it). Assamese is
+produced and checked by machine, because no native reviewer is available (fix pack 07):
 
 ```bash
-npm run generate-audio   # needs Bhashini credentials in .env.local
+npm run translate            # Bhashini EN→AS, round-trip AS→EN, verdict per key → docs/i18n-review.{json,md}
+npm run generate-audio       # voices only the Assamese that passed; unchanged text reuses its file
+npm run verify-translations  # the offline gate (also in CI): what ships must be exactly what passed
 ```
 
-Keys with no generated file fall back to the device's speech voice. For Assamese there is usually no
-such voice, so an ungenerated cue stays **silent** rather than mispronounce. No Assamese text is
-written by hand in code.
+A key **fails** on a denylisted concept (weapon, war, death, disease, …) in either language, or when the
+round trip diverges in both meaning (sentence-embedding similarity < 0.75) and words (overlap < 0.5).
+A failed key shows its English on screen and has no Assamese audio — English is honest, wrong Assamese
+is not. `docs/i18n-review.md` lists every key, with the failures under "Needs human review" at the top.
+No Assamese text is written by hand in code.
 
 ## SIH26003 clause map
 
@@ -65,6 +69,24 @@ written by hand in code.
 | (g) offline | service worker + IndexedDB + No-Signal Mode | offline e2e; device test (B11) not yet run |
 | (h) mobile / elderly UI | Easy View, 64 px targets, Rest Pause, Back/Home everywhere | `tests/e2e/accessibility.spec.ts` |
 | secure data | AES-256-GCM fields and blobs | code + Circle privacy panel |
+
+## Activity ids
+
+Stored trials keep the ids the activities had before the September 2026 renames. The route slug and the
+on-screen name changed; the stored id did not, so no history was migrated (fix pack 07 D2). Every screen
+shows the human name.
+
+| Stored id | Name on screen | Route |
+| --- | --- | --- |
+| `familiar_pairs` | Today & Me | `/play/today_me` |
+| `sound_sight` | Hear & Find | `/play/hear_find` |
+| `pattern_garden` | Sort the Home | `/play/sort_home` |
+| `my_next_step` | My Next Step | `/play/next_step` |
+| `saah_pat` | Saah Pat · Tea Leaf | `/play/saah_pat` |
+| `apon_mukh` | Apon Mukh · Dear Faces | `/play/apon_mukh` |
+| `together` | Together Moment | `/play/together` |
+
+Old slugs (`/play/familiar_pairs` …) still redirect.
 
 ## Roadmap (not built)
 

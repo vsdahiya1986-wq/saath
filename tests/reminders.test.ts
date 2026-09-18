@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import 'fake-indexeddb/auto';
-import { db, putReminder, Reminder } from '@/lib/db';
-import { MISSED_AFTER_MIN, dueAt, selectDue, selectMissed, sweepMissed, logReminderResponse } from '@/lib/reminders';
+import { db, putReminder, Reminder, ReminderLog } from '@/lib/db';
+import { MISSED_AFTER_MIN, SNOOZE_MIN, dueAt, dueNow, reminderStatus, selectMissed, sweepMissed, logReminderResponse, todayStatuses } from '@/lib/reminders';
 
 const PERSON = 'person-reminders';
 
@@ -50,22 +50,37 @@ describe('the missed boundary', () => {
   });
 });
 
-describe('what counts as due now', () => {
+/** A log row for r1 answered `outcome` at `minutesAfterDue`. */
+function log(outcome: ReminderLog['outcome'], minutesAfterDue: number): ReminderLog {
+  return { id: `${outcome}${minutesAfterDue}`, person_id: PERSON, reminder_id: 'r1', category: 'medicine', due_at: at(0).toISOString(), responded_at: at(minutesAfterDue).toISOString(), outcome };
+}
+
+describe('reminderStatus (07 B1)', () => {
   const r = reminder();
-  const none = new Set<string>();
 
-  it('is due from its own minute until the missed boundary', () => {
-    expect(selectDue([r], none, at(0))).toHaveLength(1);
-    expect(selectDue([r], none, at(MISSED_AFTER_MIN))).toHaveLength(1);
+  it('is upcoming before its time and due from its own minute to the missed boundary', () => {
+    expect(reminderStatus(r, [], at(-1))).toBe('upcoming');
+    expect(reminderStatus(r, [], at(0))).toBe('due');
+    expect(reminderStatus(r, [], at(MISSED_AFTER_MIN))).toBe('due');
+    expect(reminderStatus(r, [], at(MISSED_AFTER_MIN + 1))).toBe('missed');
   });
 
-  it('is not due before its time, or once it is missed', () => {
-    expect(selectDue([r], none, at(-1))).toEqual([]);
-    expect(selectDue([r], none, at(MISSED_AFTER_MIN + 1))).toEqual([]);
+  it('Done ends it for the day', () => {
+    expect(reminderStatus(r, [log('done', 3)], at(20))).toBe('done');
   });
 
-  it('drops out as soon as it is answered', () => {
-    expect(selectDue([r], new Set([r.id]), at(5))).toEqual([]);
+  it(`Not now keeps it quiet for ${SNOOZE_MIN} minutes, then it is due again`, () => {
+    expect(reminderStatus(r, [log('snoozed', 3)], at(3 + SNOOZE_MIN - 1))).toBe('snoozed');
+    expect(reminderStatus(r, [log('snoozed', 3)], at(3 + SNOOZE_MIN))).toBe('due');
+  });
+
+  it('a snoozed reminder is never swept as missed — Not now was a press', () => {
+    expect(selectMissed([r], new Set(['r1']), at(MISSED_AFTER_MIN + 60))).toEqual([]);
+    expect(reminderStatus(r, [log('snoozed', 3)], at(MISSED_AFTER_MIN + 60))).toBe('due');
+  });
+
+  it('Done after the sweep wrote missed still counts as done', () => {
+    expect(reminderStatus(r, [log('missed', MISSED_AFTER_MIN + 1), log('done', 45)], at(50))).toBe('done');
   });
 
   it('reads a PM reminder off the 24-hour clock, not the 12-hour one', () => {
@@ -102,5 +117,14 @@ describe('sweepMissed', () => {
     expect(logs).toHaveLength(1);
     expect(logs[0].outcome).toBe('done');
     expect(logs[0].responded_at).toBeTruthy();
+  });
+
+  it('Not now brings the card back after ten minutes, through dueNow', async () => {
+    const r = reminder();
+    await putReminder(r);
+    await logReminderResponse(r, 'snoozed', at(2));
+    expect(await dueNow(PERSON, at(5))).toEqual([]);
+    expect((await dueNow(PERSON, at(2 + SNOOZE_MIN))).map((x) => x.id)).toEqual(['r1']);
+    expect((await todayStatuses(PERSON, at(2 + SNOOZE_MIN)))[0].status).toBe('due');
   });
 });

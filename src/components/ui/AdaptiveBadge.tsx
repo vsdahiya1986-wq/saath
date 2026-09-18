@@ -22,7 +22,7 @@ function friendlyKey(d: Decision): string {
 export default function AdaptiveBadge({ decision, lang }: { decision: Decision; lang: Lang }) {
   const learned = decision.mode === 'learned';
   return (
-    <div data-testid="adaptive-badge" className="chip shrink-0" style={{ color: learned ? 'var(--accent)' : 'var(--text-muted)' }}>
+    <div data-testid="adaptive-badge" className="chip" style={{ color: learned ? 'var(--accent)' : 'var(--text-muted)' }}>
       <Icon name={learned ? 'sparkle' : 'circle'} size={14} />
       {t(friendlyKey(decision), lang)}
     </div>

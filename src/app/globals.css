@@ -257,10 +257,11 @@ html[data-text-scale='1.3'] { zoom: 1.3; }
   background: var(--ok-soft);
   animation: pop 500ms var(--ease-spring);
 }
+/* 07 C5: errorless — "not this one" is quiet, never alarm red. Green is kept for the reveal. */
 .tile.is-wrong {
-  border-color: var(--alert);
+  border-color: var(--control-border);
   border-width: 4px;
-  animation: nudge 480ms var(--ease-spring);
+  opacity: 0.7;
 }
 .tile.is-hint {
   border-color: var(--accent-warm);
@@ -282,7 +283,10 @@ html[data-text-scale='1.3'] { zoom: 1.3; }
   font-weight: 700;
   border: 2px solid currentColor;
   background: var(--surface);
-  white-space: nowrap;
+  /* 07 B3: Assamese runs longer than English — a chip wraps, never pushes the page sideways. */
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
 }
 
 /* ---------- Motion: transform/opacity only, disabled under reduced motion ---------- */

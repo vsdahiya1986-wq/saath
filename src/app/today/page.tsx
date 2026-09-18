@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePerson } from '@/lib/usePerson';
-import { db, Reminder, remindersForPerson } from '@/lib/db';
+import { db, Reminder } from '@/lib/db';
 import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
-import { CUE_KEY, CATEGORY_COLOR, isOverdue, sortReminders, formatTime, dueNow, logReminderResponse } from '@/lib/reminders';
+import { CUE_KEY, CATEGORY_COLOR, STATUS_KEY, formatTime, logReminderResponse, ReminderStatus, todayStatuses } from '@/lib/reminders';
 import ReminderDueCard from '@/components/ui/ReminderDueCard';
 import { ACTIVITIES } from '@/content/activities';
 import AnalogClock from '@/components/ui/AnalogClock';
@@ -14,6 +14,8 @@ import StatusBadge from '@/components/ui/StatusBadge';
 import BackButton from '@/components/ui/BackButton';
 import BottomNav from '@/components/ui/BottomNav';
 import { optKey, orientationNow } from '@/lib/orientation';
+
+const VISIBLE = 3;
 
 /** Literacy tiers (SIH26003 h): analog clock faces for non-literate/basic, digits for fluent. */
 const SIZES = {
@@ -26,9 +28,11 @@ const SIZES = {
 export default function TodayScreen() {
   const router = useRouter();
   const { person, loading } = usePerson();
-  const [reminders, setReminders] = useState<Reminder[] | null>(null);
+  const [rows, setRows] = useState<{ reminder: Reminder; status: ReminderStatus }[] | null>(null);
   const [playedToday, setPlayedToday] = useState<string[]>([]);
-  const [due, setDue] = useState<Reminder[]>([]);
+  // The full-screen due card appears once per visit; after an answer the
+  // list below carries on, so answering one never pops up the next.
+  const [cardDismissed, setCardDismissed] = useState(false);
 
   useEffect(() => {
     if (!person) return;
@@ -36,13 +40,11 @@ export default function TodayScreen() {
     (async () => {
       const startOfDay = new Date();
       startOfDay.setHours(0, 0, 0, 0);
-      const [rs, trials] = await Promise.all([remindersForPerson(person.id), db.trials.where({ person_id: person.id }).toArray()]);
-      if (cancelled) return;
-      setReminders(sortReminders(rs));
       // F2: the in-app fallback — whenever Today is open, anything due shows as
       // a full-screen card even if the device itself could not ring.
-      const dueList = await dueNow(person.id);
-      if (!cancelled) setDue(dueList);
+      const [statuses, trials] = await Promise.all([todayStatuses(person.id), db.trials.where({ person_id: person.id }).toArray()]);
+      if (cancelled) return;
+      setRows(statuses);
       const acts = [...new Set(trials.filter((x) => !x.synthetic && new Date(x.created_at) >= startOfDay).map((x) => x.activity))];
       setPlayedToday(acts.map((a) => t(ACTIVITIES.find((i) => i.activity === a)!.labelKey, person.language)));
     })();
@@ -56,73 +58,89 @@ export default function TodayScreen() {
   const s = SIZES[person.literacy];
   const lang = person.language;
   const now = orientationNow();
-  const [hero, ...rest] = reminders ?? [];
+  // 07 B2: never a wall of cards — the next three, and a count of the rest.
+  const visible = (rows ?? []).slice(0, VISIBLE);
+  const laterCount = (rows ?? []).slice(VISIBLE).filter((x) => x.status === 'upcoming').length;
+  const firstDue = cardDismissed ? undefined : rows?.find((x) => x.status === 'due')?.reminder;
 
   function play(r: Reminder) {
     if (r.audio_pack_id) playPackAudio(r.audio_pack_id);
     else playCue(CUE_KEY[r.category], lang);
   }
 
-  /** Every due card is answered, and every answer is logged (F2 step 4). */
-  async function answerDue(r: Reminder, outcome: 'done' | 'snoozed') {
+  /** Every answer is logged (F2 step 4); the list re-reads its status from the log. */
+  async function answer(r: Reminder, outcome: 'done' | 'snoozed') {
     await logReminderResponse(r, outcome);
-    setDue((rest) => rest.filter((x) => x.id !== r.id));
+    setCardDismissed(true);
+    setRows(await todayStatuses(person!.id));
   }
 
-  function reminderTile(r: Reminder, big: boolean) {
-    const overdue = isOverdue(r);
-    const color = overdue ? 'var(--alert)' : CATEGORY_COLOR[r.category];
+  /**
+   * 07 B1/B2: a card with its own controls, not one giant button. Calm for the
+   * person: no red, no pink, no warning triangle — the time and a plain word
+   * say where it stands. Circle keeps the stronger status view for caregivers.
+   */
+  function reminderCard({ reminder: r, status }: { reminder: Reminder; status: ReminderStatus }, big: boolean) {
+    const color = CATEGORY_COLOR[r.category];
     return (
-      <button
+      <div
         key={r.id}
         data-testid="reminder-row"
-        data-overdue={overdue}
-        onClick={() => play(r)}
-        className={`core hover-lift text-left min-h-0 ${big ? 'col-span-2 flex items-center gap-5 p-5' : 'flex flex-col gap-3 p-4'}`}
-        style={{ borderTop: `6px solid ${color}`, background: overdue ? 'var(--alert-soft)' : 'var(--surface)' }}
+        data-status={status}
+        className={`core min-h-0 ${big ? 'col-span-2 p-5' : 'p-4'} flex flex-col gap-3`}
+        style={{ borderTop: `6px solid ${color}`, opacity: status === 'done' ? 0.75 : 1 }}
       >
-        {person!.literacy !== 'fluent' ? (
-          <span className="shrink-0">
-            <AnalogClock hour={r.hour} minute={r.minute} size={big ? s.clock : Math.round(s.clock * 0.75)} />
-          </span>
-        ) : (
-          <span style={{ fontSize: big ? 36 : 28, color }} className="font-extrabold tabular-nums shrink-0">
-            {formatTime(r)}
-          </span>
-        )}
-        <span className="flex-1 min-w-0 flex flex-col gap-1">
-          <span style={{ fontSize: 15, color, letterSpacing: '0.08em' }} className="font-bold uppercase flex items-center gap-2">
-            {overdue && <Icon name="warning" size={16} />}
-            {big ? (overdue ? `${t('reminder.overdue', lang)} · ${t('reminder.next_up', lang)}` : t('reminder.next_up', lang)) : t(overdue ? 'reminder.overdue' : 'reminder.later', lang)} · {formatTime(r)}
-          </span>
-          <span style={{ fontSize: big ? s.label + 4 : s.label }} className="font-extrabold leading-tight">
-            {t(CUE_KEY[r.category], lang)}
-          </span>
-          <span style={{ fontSize: 17 }} className="muted">
-            {r.care_plan_text}
-          </span>
-          {!r.device_activated && (
-            <span style={{ fontSize: 15, color: 'var(--warn)' }} className="flex items-center gap-1 font-semibold">
-              <Icon name="warning" size={14} /> {t('reminder.not_armed', lang)}
+        <div className={`flex gap-4 ${big ? 'items-center' : 'flex-col'}`}>
+          {person!.literacy !== 'fluent' ? (
+            <span className="shrink-0">
+              <AnalogClock hour={r.hour} minute={r.minute} size={big ? s.clock : Math.round(s.clock * 0.75)} />
+            </span>
+          ) : (
+            <span style={{ fontSize: big ? 36 : 28, color }} className="font-extrabold tabular-nums shrink-0">
+              {formatTime(r)}
             </span>
           )}
-        </span>
-        <span className="btn btn-ghost btn-icon shrink-0 self-start" style={{ color }} aria-hidden="true">
-          <Icon name="listen" size={24} />
-        </span>
-      </button>
+          <span className="flex-1 min-w-0 flex flex-col gap-1" style={{ overflowWrap: 'anywhere' }}>
+            <span style={{ fontSize: 15, letterSpacing: '0.04em', color: status === 'missed' ? 'var(--accent-warm)' : color }} className="font-bold flex items-center gap-2">
+              {status === 'done' && <Icon name="check" size={16} strokeWidth={3} />}
+              {t(STATUS_KEY[status], lang)} · {formatTime(r)}
+            </span>
+            <span style={{ fontSize: big ? s.label + 4 : s.label }} className="font-extrabold leading-tight">
+              {t(CUE_KEY[r.category], lang)}
+            </span>
+            <span style={{ fontSize: 17 }} className="muted">
+              {r.care_plan_text}
+            </span>
+            {!r.device_activated && (
+              <span style={{ fontSize: 15 }} className="muted font-semibold">
+                {t('reminder.not_armed', lang)}
+              </span>
+            )}
+          </span>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {(status === 'due' || status === 'missed') && (
+            <button onClick={() => answer(r, 'done')} data-testid="reminder-row-done" className="btn btn-primary">
+              <Icon name="check" size={22} strokeWidth={2.6} /> {t('remind.done', lang)}
+            </button>
+          )}
+          {status === 'due' && (
+            <button onClick={() => answer(r, 'snoozed')} data-testid="reminder-row-not-now" className="btn btn-ghost">
+              {t('remind.not_now', lang)}
+            </button>
+          )}
+          <button onClick={() => play(r)} aria-label={t('a11y.listen', lang)} className="btn btn-ghost btn-icon" style={{ color }}>
+            <Icon name="listen" size={24} />
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
     <main className="h-[100dvh] flex flex-col">
-      {due[0] && (
-        <ReminderDueCard
-          person={person}
-          reminder={due[0]}
-          onDone={() => answerDue(due[0], 'done')}
-          onNotNow={() => answerDue(due[0], 'snoozed')}
-        />
+      {firstDue && (
+        <ReminderDueCard person={person} reminder={firstDue} onDone={() => answer(firstDue, 'done')} onNotNow={() => answer(firstDue, 'snoozed')} />
       )}
       <header className="shrink-0 w-full max-w-5xl mx-auto px-5 pt-5 pb-3 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
@@ -134,7 +152,7 @@ export default function TodayScreen() {
 
       <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-5xl mx-auto px-5 pb-4">
         <div className="grid grid-cols-2 gap-4 min-h-full" style={{ gridAutoRows: 'minmax(190px, 1fr)' }}>
-          {reminders !== null && !hero && (
+          {rows !== null && !rows.length && (
             <div className="core col-span-2 p-5 flex items-center gap-5" style={{ borderTop: '6px solid var(--tint-today)' }}>
               <span style={{ color: 'var(--tint-today)' }}>
                 <Icon name="clock" size={56} />
@@ -149,8 +167,12 @@ export default function TodayScreen() {
               </div>
             </div>
           )}
-          {hero && reminderTile(hero, true)}
-          {rest.map((r) => reminderTile(r, false))}
+          {visible.map((row, i) => reminderCard(row, i === 0))}
+          {laterCount > 0 && (
+            <p data-testid="reminders-later" style={{ fontSize: 18 }} className="col-span-2 muted font-semibold">
+              {laterCount} {t('reminder.more_later', lang)}
+            </p>
+          )}
 
           <div className="core p-4 flex flex-col gap-2 min-h-0" data-testid="today-orientation" style={{ borderTop: '6px solid var(--accent-warm)' }}>
             <span style={{ fontSize: 15, color: 'var(--accent-warm)', letterSpacing: '0.08em' }} className="font-bold uppercase">

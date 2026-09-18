@@ -39,7 +39,7 @@ test('capture', async ({ page }) => {
   await setLanguage(page, 'en');
 
   await page.goto('/');
-  await expect(page.getByText(/Today's three:/)).toBeVisible();
+  await expect(page.getByText(/Three for today:/)).toBeVisible();
   await settle(page);
   await shot(page, '01-home-en');
 

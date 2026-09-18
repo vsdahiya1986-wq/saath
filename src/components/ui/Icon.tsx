@@ -178,31 +178,36 @@ const PATHS: Record<IconName, ReactElement> = {
       <path d="M12 6.5v9.8M9 9l1.3 7.3M15 9l-1.3 7.3" strokeLinecap="round" opacity="0.6" />
     </>
   ),
+  /* 07 C6: was a bowl-like half-circle. A kettle: round body, lid and knob, spout, arched handle. */
   kettle: (
     <>
-      <path d="M5 13a7 5 0 0 0 14 0z" strokeLinejoin="round" />
-      <path d="M12 8v-.5M18 12l3-2M4 10l3 2" strokeLinecap="round" />
-      <path d="M10 13v3M14 13v3" strokeLinecap="round" />
+      <path d="M6 19h12a1 1 0 0 0 1-1c0-3.9-3.1-7-7-7s-7 3.1-7 7a1 1 0 0 0 1 1z" strokeLinejoin="round" />
+      <path d="M9.5 11.4a2.5 1.2 0 0 1 5 0M12 9.2v1" strokeLinecap="round" />
+      <path d="M18.4 14.5 21 12" strokeLinecap="round" />
+      <path d="M8 11.8C8 8.5 9.8 6 12 6s4 2.5 4 5.8" />
     </>
   ),
   /* mora — a rounded, woven bamboo stool (barrel silhouette, horizontal weave lines). */
+  /* 07 C6: the straight barrel read as a database glyph. A mora pinches at the waist. */
   stool: (
     <>
-      <path
-        d="M6.5 8.5c0-1.9 2.5-3 5.5-3s5.5 1.1 5.5 3v8c0 1.9-2.5 3-5.5 3s-5.5-1.1-5.5-3v-8z"
-        strokeLinejoin="round"
-      />
-      <path d="M6.5 8.5c0 1.9 2.5 3 5.5 3s5.5-1.1 5.5-3" />
-      <path d="M7 12.5h10M7 16h10" opacity="0.5" />
+      <ellipse cx="12" cy="5.5" rx="7" ry="2" />
+      <path d="M5 5.5c0 3.5 4.5 4.8 4.5 6.5S5 15 5 18.5M19 5.5c0 3.5-4.5 4.8-4.5 6.5s4.5 3 4.5 6.5" />
+      <path d="M5 18.5c0 1.1 3.1 2 7 2s7-.9 7-2" />
+      <path d="M9.5 12h5M7.2 8.6l9.6 0M7.2 15.4h9.6" opacity="0.5" />
     </>
   ),
   triangle: <path d="M12 4 21 20H3L12 4z" strokeLinejoin="round" />,
   square: <rect x="5" y="5" width="14" height="14" rx="1" />,
   star: <path d="M12 3l2.6 6.2 6.7.5-5.1 4.4 1.7 6.5L12 17l-5.9 3.6 1.7-6.5-5.1-4.4 6.7-.5L12 3z" strokeLinejoin="round" />,
+  /* 07 C6: the crossed square read as a broken-image placeholder. A deliberate
+     card back instead: a woven border and a centre diamond, gamosa-style. */
   cardback: (
     <>
       <rect x="3" y="3" width="18" height="18" rx="3" />
-      <path d="M3 3l18 18M21 3 3 21" strokeWidth={1} opacity={0.5} />
+      <rect x="5.5" y="5.5" width="13" height="13" rx="1.5" opacity="0.55" />
+      <path d="M12 8.5 15.5 12 12 15.5 8.5 12z" strokeLinejoin="round" />
+      <path d="M7 3v2.5M10 3v2.5M14 3v2.5M17 3v2.5M7 18.5V21M10 18.5V21M14 18.5V21M17 18.5V21" opacity="0.55" />
     </>
   ),
   back: <path d="M15 5 7 12l8 7" strokeLinecap="round" strokeLinejoin="round" />,

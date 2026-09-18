@@ -46,8 +46,8 @@ describe('Circle Nudges (F7)', () => {
     expect(kinds({})).toEqual([]);
   });
 
-  it('medicine_missed: a missed medicine log, not a missed water or a done dose', () => {
-    expect(kinds({ logs: [log('medicine', 'done'), log('hydration', 'missed')] })).toEqual([]);
+  it('medicine_missed: a missed medicine log — not a done or snoozed dose, not a missed water', () => {
+    expect(kinds({ logs: [log('medicine', 'done'), log('medicine', 'snoozed'), log('hydration', 'missed')] })).toEqual([]);
     expect(kinds({ logs: [log('medicine', 'missed')] })).toEqual(['medicine_missed']);
   });
 

@@ -1,8 +1,4 @@
 {
-  "home.title": {
-    "file": "home_title.wav",
-    "text": "সাথ"
-  },
   "home_intro": {
     "file": "home_intro.wav",
     "text": "এয়া আপোনাৰ স্মৃতিৰ সংগী। প্লে, হেল্প, বা টুডে বাছনি কৰক।"
@@ -11,37 +7,21 @@
     "file": "home_play.wav",
     "text": "খেলিব"
   },
-  "home.play.sub": {
-    "file": "home_play_sub.wav",
-    "text": "এটা পৰিচিত কাৰ্য্যকলাপ"
-  },
   "home.help": {
     "file": "home_help.wav",
     "text": "সহায় কৰক"
-  },
-  "home.help.sub": {
-    "file": "home_help_sub.wav",
-    "text": "কিবা এটাৰ বাবে সহায় লওক"
   },
   "home.today": {
     "file": "home_today.wav",
     "text": "আজি"
   },
-  "home.today.sub": {
-    "file": "home_today_sub.wav",
-    "text": "আজিৰ স্মাৰকসমূহ"
-  },
   "home.circle": {
     "file": "home_circle.wav",
     "text": "বৃত্ত"
   },
-  "home.circle.sub": {
-    "file": "home_circle_sub.wav",
-    "text": "মানুহবোৰে আপোনাক বিচাৰি আছে"
-  },
   "home.help.ok": {
     "file": "home_help_ok.wav",
-    "text": "এই মুহূৰ্তত কোনো সহায়ৰ প্ৰয়োজন নাই"
+    "text": "এতিয়া কোনো সহায়ৰ প্ৰয়োজন নাই"
   },
   "activity.familiar_pairs": {
     "file": "activity_familiar_pairs.wav",
@@ -64,8 +44,8 @@
     "text": "একেলগে মুহূৰ্ত"
   },
   "activity.saah_pat": {
-    "file": "activity_saah_pat.wav",
-    "text": "চাহ পাত · চাহ পাত"
+    "file": null,
+    "text": "Saah Pat · Tea Leaf"
   },
   "activity.apon_mukh": {
     "file": "activity_apon_mukh.wav",
@@ -73,7 +53,7 @@
   },
   "play.today_three": {
     "file": "play_today_three.wav",
-    "text": "আজিৰ তিনিটা"
+    "text": "আজিৰ বাবে তিনিটা"
   },
   "play.all_activities": {
     "file": "play_all_activities.wav",
@@ -85,7 +65,7 @@
   },
   "rest.title": {
     "file": "rest_title.wav",
-    "text": "আমি অলপ সময় বিশ্ৰাম কৰিমনে?"
+    "text": "আপুনি এতিয়া বিশ্ৰাম কৰিব বিচাৰে নেকি?"
   },
   "rest.rest_now": {
     "file": "rest_rest_now.wav",
@@ -93,7 +73,7 @@
   },
   "rest.one_more": {
     "file": "rest_one_more.wav",
-    "text": "আন এটা"
+    "text": "আন এটা বজোৱা"
   },
   "domain.memory": {
     "file": "domain_memory.wav",
@@ -117,35 +97,31 @@
   },
   "status.offline": {
     "file": "status_offline.wav",
-    "text": "অফলাইনত কাম কৰা"
+    "text": "ইণ্টাৰনেট সংযোগ নাই"
   },
   "status.synced": {
     "file": "status_synced.wav",
-    "text": "সমন্বয় কৰা হৈছে"
-  },
-  "status.syncing": {
-    "file": "status_syncing.wav",
-    "text": "সমীকৰণ কৰা হৈছে"
+    "text": "সংৰক্ষণ কৰা হৈছে"
   },
   "status.no_signal": {
     "file": "status_no_signal.wav",
-    "text": "সংকেতবিহীন অৱস্থা"
+    "text": "পৰীক্ষাঃ ইণ্টাৰনেট নাই"
   },
   "adaptive.same": {
     "file": "adaptive_same.wav",
-    "text": "যোৱা বাৰৰ দৰে একেই গতি"
+    "text": "যোৱা বাৰৰ দৰে একেই"
   },
   "adaptive.easier": {
     "file": "adaptive_easier.wav",
-    "text": "আজি এক কোমল ৰাউণ্ড"
+    "text": "আজি অলপ সহজ হ'ল"
   },
   "adaptive.harder": {
     "file": "adaptive_harder.wav",
-    "text": "আজি অলপ বেছি"
+    "text": "আজি অলপ কঠিন"
   },
   "adaptive.with_help": {
     "file": "adaptive_with_help.wav",
-    "text": "আজি অলপ সহায়ৰে"
+    "text": "আজি কিছু সহায়ৰ সৈতে"
   },
   "play.title": {
     "file": "play_title.wav",
@@ -153,7 +129,7 @@
   },
   "play.pairs.intro": {
     "file": "play_pairs_intro.wav",
-    "text": "আজিৰ বিষয়ে কথা পাতিম। সঠিক অনুভৱ হোৱা উত্তৰটো বাছনি কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
+    "text": "আজিৰ বিষয়ে কথা পাতিম। আপুনি সঠিক বুলি ভবা উত্তৰটো বাছনি কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
   },
   "play.sound.intro": {
     "file": "play_sound_intro.wav",
@@ -161,7 +137,7 @@
   },
   "play.pattern.intro": {
     "file": "play_pattern_intro.wav",
-    "text": "এইটো ক'ত আছে? সোঁফালৰ বাকচত টেপ কৰক।"
+    "text": "এইটো য'ত আছে সেই বাকচত টেপ কৰক।"
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",
@@ -173,19 +149,15 @@
   },
   "play.saah_pat.intro": {
     "file": "play_saah_pat_intro.wav",
-    "text": "দুটা পাত আৰু এটা কুঁহি থকা ডালবোৰ বিচাৰি উলিয়াওক। আপুনি দেখা প্ৰতিটো টেপ কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
+    "text": "দুটা পাত আৰু এটা কুঁহি থকা চাহৰ ডালবোৰ বিচাৰি উলিয়াওক। আপুনি দেখা প্ৰতিটো টেপ কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
   },
   "play.apon_mukh.intro": {
     "file": "play_apon_mukh_intro.wav",
-    "text": "দুটা কাৰ্ড ঘূৰাই যোৰাবোৰ বিচাৰি উলিয়াওক।"
+    "text": "ছবিবোৰ চাবলৈ দুটা কাৰ্ড টেপ কৰক। মিল খোৱা দুয়োজনক বিচাৰি উলিয়াওক।"
   },
   "game.not_this_one": {
     "file": "game_not_this_one.wav",
     "text": "এইটো নহয়।"
-  },
-  "cue.repeat": {
-    "file": "cue_repeat.wav",
-    "text": "সেই কথা পুনৰ কওঁ।"
   },
   "cue.highlight": {
     "file": "cue_highlight.wav",
@@ -195,37 +167,17 @@
     "file": "cue_reduce.wav",
     "text": "আমি কম বিকল্পৰ সৈতে চেষ্টা কৰো।"
   },
-  "cue.demonstrate": {
-    "file": "cue_demonstrate.wav",
-    "text": "এইটো কেনেকৈ কৰা হয় চাওক, তাৰ পিছত আপুনি চেষ্টা কৰক।"
-  },
   "common.pause": {
     "file": "common_pause.wav",
     "text": "থমকি ৰয়। অব্যাহত ৰাখিবলৈ টেপ কৰক, বা ষ্টপ বাছনি কৰক।"
-  },
-  "common.stop": {
-    "file": "common_stop.wav",
-    "text": "আমি ইয়াতেই থমকি ৰ'ব পাৰো। সেইটো সম্পূৰ্ণৰূপে ঠিক আছে।"
   },
   "common.open": {
     "file": "common_open.wav",
     "text": "খোলক"
   },
-  "common.pause_btn": {
-    "file": "common_pause_btn.wav",
-    "text": "ৰৈ থাকক"
-  },
-  "common.skip_btn": {
-    "file": "common_skip_btn.wav",
-    "text": "স্কিপ কৰক"
-  },
-  "common.stop_btn": {
-    "file": "common_stop_btn.wav",
-    "text": "ৰাখক"
-  },
   "common.back": {
     "file": "common_back.wav",
-    "text": "পিছফালে"
+    "text": "উভতি যাওক"
   },
   "common.home": {
     "file": "common_home.wav",
@@ -234,14 +186,6 @@
   "common.continue": {
     "file": "common_continue.wav",
     "text": "অব্যাহত ৰাখক"
-  },
-  "common.save": {
-    "file": "common_save.wav",
-    "text": "সংৰক্ষণ কৰক"
-  },
-  "common.cancel": {
-    "file": "common_cancel.wav",
-    "text": "বাতিল কৰক"
   },
   "a11y.listen": {
     "file": "a11y_listen.wav",
@@ -257,7 +201,7 @@
   },
   "help.sent_local": {
     "file": "help_sent_local.wav",
-    "text": "আপোনাৰ পৰিয়ালক এই নেটৱৰ্কত কোৱা হৈছে।"
+    "text": "আপোনাৰ পৰিয়ালক জনোৱা হৈছে।"
   },
   "help.stored": {
     "file": "help_stored.wav",
@@ -265,7 +209,7 @@
   },
   "help.stale_warning": {
     "file": "help_stale_warning.wav",
-    "text": "এইটোৱে হয়তো এই মুহূৰ্তত প্ৰকৃততে ক'ত আছে দেখুৱাব নোৱাৰে।"
+    "text": "এই ফটোখনে এটা পুৰণি ঠাই দেখুৱাব পাৰে।"
   },
   "today.title": {
     "file": "today_title.wav",
@@ -277,11 +221,11 @@
   },
   "remind.hydration": {
     "file": "remind_hydration.wav",
-    "text": "এক গিলাচ পানী খোৱাৰ সময়।"
+    "text": "এতিয়া এক গিলাচ পানী খোৱাৰ সময়।"
   },
   "remind.activity": {
     "file": "remind_activity.wav",
-    "text": "আপোনাৰ দৈনন্দিন কাম-কাজৰ বাবে সময়।"
+    "text": "এইটো আপোনাৰ দৈনন্দিন কাম-কাজৰ সময়।"
   },
   "remind.appointment": {
     "file": "remind_appointment.wav",
@@ -296,24 +240,24 @@
     "text": "এতিয়া নহয়"
   },
   "exit.pause": {
-    "file": "exit_pause.wav",
-    "text": "ৰৈ থাকক"
+    "file": null,
+    "text": "Stop for a moment"
   },
   "exit.skip_one": {
     "file": "exit_skip_one.wav",
-    "text": "এইটো এৰি দিয়ক"
+    "text": "এই পদক্ষেপটো বাদ দিয়ক"
   },
   "exit.end": {
     "file": "exit_end.wav",
-    "text": "শেষ কৰক"
+    "text": "সমাপ্ত কৰক"
   },
   "game.well_done": {
     "file": "game_well_done.wav",
-    "text": "ভাল হৈছে। সেইটো সুন্দৰ আছিল।"
+    "text": "ভাল হৈছে। সেইটো ভাল আছিল।"
   },
   "game.gentle_end": {
     "file": "game_gentle_end.wav",
-    "text": "সেইটো সম্পূৰ্ণৰূপে ঠিক আছে। আমি আকৌ এবাৰ চেষ্টা কৰিব পাৰো।"
+    "text": "সেইটো ঠিকেই আছে। আমি আন এটা দিনত পুনৰ চেষ্টা কৰিব পাৰোঁ।"
   },
   "game.look_again": {
     "file": "game_look_again.wav",
@@ -329,7 +273,7 @@
   },
   "q.today_me.season": {
     "file": "q_today_me_season.wav",
-    "text": "আমি কোনটো ঋতুত আছো?"
+    "text": "এতিয়া কোনটো ঋতু?"
   },
   "q.today_me.weekday": {
     "file": "q_today_me_weekday.wav",
@@ -337,7 +281,7 @@
   },
   "q.today_me.month": {
     "file": "q_today_me_month.wav",
-    "text": "আমি কোন মাহত আছো?"
+    "text": "এতিয়া কোন মাহ?"
   },
   "opt.period.morning": {
     "file": "opt_period_morning.wav",
@@ -365,7 +309,7 @@
   },
   "opt.season.monsoon": {
     "file": "opt_season_monsoon.wav",
-    "text": "মৌচুমী বতাহ"
+    "text": "বৰষুণৰ ঋতু"
   },
   "opt.season.autumn": {
     "file": "opt_season_autumn.wav",
@@ -501,7 +445,7 @@
   },
   "item.reg_mirror": {
     "file": "item_reg_mirror.wav",
-    "text": "আইনা"
+    "text": "হাতৰ আইনা"
   },
   "item.reg_slipper": {
     "file": "item_reg_slipper.wav",
@@ -565,7 +509,7 @@
   },
   "item.reg_xorai": {
     "file": "item_reg_xorai.wav",
-    "text": "চোৰাই"
+    "text": "ব্ৰাছ অফাৰিং ট্ৰে"
   },
   "item.reg_net": {
     "file": "item_reg_net.wav",
@@ -589,7 +533,7 @@
   },
   "step.reg_morning_routine.wash": {
     "file": "step_reg_morning_routine_wash.wav",
-    "text": "ধুই পেলাওক"
+    "text": "আপোনাৰ মুখখন ধুই লওক"
   },
   "step.reg_morning_routine.breakfast": {
     "file": "step_reg_morning_routine_breakfast.wav",
@@ -621,7 +565,7 @@
   },
   "step.reg_evening_routine.wash_up": {
     "file": "step_reg_evening_routine_wash_up.wav",
-    "text": "ধুই পেলাওক"
+    "text": "হাত ধোৱা"
   },
   "step.reg_evening_routine.dinner": {
     "file": "step_reg_evening_routine_dinner.wav",
@@ -645,7 +589,7 @@
   },
   "step.reg_prayer_routine.sit": {
     "file": "step_reg_prayer_routine_sit.wav",
-    "text": "বহক"
+    "text": "চটাত বহি থাকক"
   },
   "step.reg_prayer_routine.pray": {
     "file": "step_reg_prayer_routine_pray.wav",
@@ -681,7 +625,7 @@
   },
   "together.childhood.q": {
     "file": "together_childhood_q.wav",
-    "text": "তুমি ডাঙৰ হোৱা ঘৰৰ বিষয়ে মোক কোৱা।"
+    "text": "আপুনি শৈশৱত বাস কৰা ঘৰটোৰ বিষয়ে মোক কওক।"
   },
   "together.childhood.follow": {
     "file": "together_childhood_follow.wav",
@@ -721,11 +665,11 @@
   },
   "together.music.follow": {
     "file": "together_music_follow.wav",
-    "text": "আপুনি ইয়াৰ পৰা অলপ শব্দ কৰিব পাৰিবনে?"
+    "text": "আপুনি ইয়াৰ পৰা অলপ গান গাব পাৰিবনে?"
   },
   "together.work.theme": {
     "file": "together_work_theme.wav",
-    "text": "কৰ্ম"
+    "text": "আপোনাৰ হাতেৰে কাম কৰক"
   },
   "together.work.q": {
     "file": "together_work_q.wav",
@@ -753,7 +697,7 @@
   },
   "together.tea_time.q": {
     "file": "together_tea_time_q.wav",
-    "text": "আপোনাৰ চাহ কেনেকুৱা ভাল লাগে?"
+    "text": "আপুনি গাখীৰৰ সৈতে চাহ ভাল পায় নে গাখীৰ অবিহনে?"
   },
   "together.tea_time.follow": {
     "file": "together_tea_time_follow.wav",
@@ -765,7 +709,7 @@
   },
   "together.friends.q": {
     "file": "together_friends_q.wav",
-    "text": "মোক তোমাৰ কম বয়সৰ এজন ভাল বন্ধুৰ বিষয়ে কোৱা।"
+    "text": "মোক তোমাৰ সৰুৰে পৰা এজন ভাল বন্ধুৰ বিষয়ে কোৱা।"
   },
   "together.friends.follow": {
     "file": "together_friends_follow.wav",
@@ -789,19 +733,19 @@
   },
   "q.next_step.after": {
     "file": "q_next_step_after.wav",
-    "text": "তাৰ পাছত কি হ'ব?"
+    "text": "পৰৱৰ্তী সময়ত আপুনি কি কৰিব?"
   },
   "q.apon_mukh.find_pairs": {
     "file": "q_apon_mukh_find_pairs.wav",
-    "text": "যোৰাবোৰ বিচাৰি উলিয়াওক"
+    "text": "মিল খোৱা দুটা কাৰ্ড বিচাৰি উলিয়াওক"
   },
   "q.saah_pat.find_sprigs": {
     "file": "q_saah_pat_find_sprigs.wav",
-    "text": "এনেধৰণৰ প্ৰতিটো ডাল বিচাৰি উলিয়াওক"
+    "text": "এনেধৰণৰ প্ৰতিটো চাহৰ শ্বুট বিচাৰি উলিয়াওক"
   },
   "q.saah_pat.left": {
-    "file": "q_saah_pat_left.wav",
-    "text": "এতিয়াও বিচাৰিব লাগিব"
+    "file": null,
+    "text": "Tea shoots still to find"
   },
   "q.saah_pat.all_found": {
     "file": "q_saah_pat_all_found.wav",
@@ -833,7 +777,7 @@
   },
   "game.here_all": {
     "file": "game_here_all.wav",
-    "text": "ইয়াত সকলো আছে।"
+    "text": "ইয়াত সকলো যুটি আছে।"
   },
   "game.here_others": {
     "file": "game_here_others.wav",
@@ -849,19 +793,19 @@
   },
   "next.same": {
     "file": "next_same.wav",
-    "text": "পৰৱৰ্তী সময়ত আমি একে গতি বজাই ৰাখিম।"
+    "text": "পৰৱৰ্তী সময়ত একেই হ'ব।"
   },
   "next.more": {
     "file": "next_more.wav",
-    "text": "পৰৱৰ্তী সময়ত, অলপ বেছি।"
+    "text": "পৰৱৰ্তী সময়ত ই অলপ কঠিন হ'ব।"
   },
   "next.gentler": {
     "file": "next_gentler.wav",
-    "text": "পৰৱৰ্তী সময়ত, এটা কোমল ৰাউণ্ড।"
+    "text": "পৰৱৰ্তী সময়ত এয়া অলপ সহজ হ'ব।"
   },
   "next.with_help": {
     "file": "next_with_help.wav",
-    "text": "পৰৱৰ্তী সময়ত, অলপ সহায়ৰ সৈতে।"
+    "text": "পৰৱৰ্তী সময়ত কিছু সহায় হ'ব।"
   },
   "together.who": {
     "file": "together_who.wav",
@@ -877,7 +821,7 @@
   },
   "together.done": {
     "file": "together_done.wav",
-    "text": "কথা-বতৰা শেষ"
+    "text": "কথা কোৱা শেষ কৰক"
   },
   "together.tell_more": {
     "file": "together_tell_more.wav",
@@ -901,23 +845,15 @@
   },
   "play.subtitle": {
     "file": "play_subtitle.wav",
-    "text": "চুটি, কোমল অধিৱেশন। কোনো ভুল উত্তৰ নাই-কেৱল আপোনাৰ সৰ্বশ্ৰেষ্ঠ চেষ্টা কৰক।"
+    "text": "চুটি, সহজ খেল। কোনো ভুল উত্তৰ নাই।"
   },
   "reminder.overdue": {
     "file": "reminder_overdue.wav",
-    "text": "অতিৰিক্ত"
-  },
-  "reminder.next": {
-    "file": "reminder_next.wav",
-    "text": "পৰৱৰ্তী"
+    "text": "সময় পাৰ হৈ গৈছে"
   },
   "reminder.next_up": {
     "file": "reminder_next_up.wav",
-    "text": "পৰৱৰ্তী"
-  },
-  "reminder.later": {
-    "file": "reminder_later.wav",
-    "text": "পিছদিনা আজি"
+    "text": "পৰৱৰ্তী আহি আছে"
   },
   "reminder.none": {
     "file": "reminder_none.wav",
@@ -929,26 +865,46 @@
   },
   "reminder.not_armed": {
     "file": "reminder_not_armed.wav",
-    "text": "এই ডিভাইচত অস্ত্ৰধাৰ নাই"
+    "text": "এই ফোনত ৰিমাইণ্ডাৰ আপ কৰা নাই।"
+  },
+  "reminder.now": {
+    "file": "reminder_now.wav",
+    "text": "এতিয়া"
+  },
+  "reminder.snoozed": {
+    "file": "reminder_snoozed.wav",
+    "text": "10 মিনিটৰ ভিতৰত পুনৰ"
+  },
+  "reminder.done_state": {
+    "file": "reminder_done_state.wav",
+    "text": "আজিৰ বাবে কৰা হৈছে"
+  },
+  "reminder.more_later": {
+    "file": "reminder_more_later.wav",
+    "text": "আজি পিছত অধিক ৰিমাইণ্ডাৰ"
+  },
+  "reminder.all_done": {
+    "file": "reminder_all_done.wav",
+    "text": "আজিৰ বাবে সকলো ৰিমাইণ্ডাৰ কৰা হৈছে।"
   },
   "today.is": {
     "file": "today_is.wav",
-    "text": "আজি হৈছে"
+    "text": "আজি"
   },
   "today.played": {
     "file": "today_played.wav",
-    "text": "আজি খেলা হৈছিল"
+    "text": "আজি খেলা খেলসমূহ"
   },
   "today.nothing_yet": {
     "file": "today_nothing_yet.wav",
-    "text": "আজিও একো নাই"
+    "text": "আজিও কোনো খেল খেলা হোৱা নাই।"
   },
   "home.circle.one": {
     "file": "home_circle_one.wav",
-    "text": "আপোনাক বিচাৰি থকা ব্যক্তি"
+    "text": "আপোনাৰ যত্ন লোৱা ব্যক্তি"
   },
   "home.circle.many": {
     "file": "home_circle_many.wav",
-    "text": "মানুহে আপোনাক বিচাৰি আছে"
+    "text": "আপোনাৰ যত্ন লোৱা লোকসকল"
   }
 }

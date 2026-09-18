@@ -74,6 +74,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
   const [picked, setPicked] = useState<string | null>(null);
   const [wrongId, setWrongId] = useState<string | null>(null);
   const [hint, setHint] = useState(false);
+  const [retry, setRetry] = useState(false);
   const [reduced, setReduced] = useState(false);
   const wrongThisRound = useRef(0);
   const locked = useRef(false);
@@ -131,6 +132,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
       locked.current = false;
       setPicked(null);
       setHint(false);
+      setRetry(false);
       if (index + 1 >= rounds.length) session.finish('completed');
       else setIndex(index + 1);
     }, 1700);
@@ -152,6 +154,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
     }
     wrongThisRound.current += 1;
     playCue('game.look_again', lang);
+    setRetry(true);
   }
 
   /** B4: skip this round only — show its answer and move on. */
@@ -184,6 +187,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
 
   return (
     <GameFrame
+      retry={retry}
       person={person}
       activity="sound_sight"
       session={session}

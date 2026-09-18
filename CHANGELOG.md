@@ -431,6 +431,66 @@ Build note: a `.next` file stayed locked (EBUSY) through four build attempts whi
 running — OneDrive again. Renaming the locked file freed it. Failed builds partly clear `out/`, so the
 preview server at :4180 served an incomplete site until the rebuild.
 
+## Fix pack 07 — verified Assamese and everything still open (2026-09-18/19)
+
+Source: `07_TRANSLATION_AND_REMAINING.md`.
+
+### Part 0 check
+The live test that said A1 was "not started" ran on `:4180` while failed builds (the OneDrive EBUSY lock)
+had half-emptied `out/`. A1 had landed in `8c68947` with 8 passing Assamese tests. D1's `is_demo` belongs to
+the two Inspector demo personas; Aita (the sample) has always been `is_sample`.
+
+### Part 1 — Assamese: de-idiom, translate, verify
+- **1.2:** 64 English strings rewritten to be literal (the document's 9, plus an audit of every string).
+  The worst new find: "Tap the **right** basket" had been translated as the right-*hand* basket. 16 keys that
+  no code used were deleted instead of translated.
+- **1.3/1.4:** `scripts/verify-translations.mjs`. Engine A is Bhashini EN→AS. Engine B is Bhashini AS→EN, a
+  separately trained model. The round trip is compared by meaning (all-MiniLM-L6-v2 embeddings, cosine) and
+  by words (content-word overlap). There is a denylist in both languages (অস্ত্ৰ, সৈন্য, যুদ্ধ, আক্ৰমণ,
+  মৃত্যু, ৰোগ, পাগল; weapon, war, death, disease, mad…), and a 1.8× length flag.
+  FAIL = a denylist hit, or divergence on **both** meaning (< 0.75) and words (< 0.5). Both signals are
+  required because one-word labels round-trip as other forms of the same word. Results are written to
+  `docs/i18n-review.md` and `.json`.
+- `generate-audio.mjs` no longer translates. It voices only PASS text; a FAIL shows English with no Assamese
+  audio. Unchanged text reuses its recording (45 orphaned recordings were deleted).
+- **Fifth gate:** `npm run verify-translations`, offline. What ships in the Assamese manifest must be
+  exactly what passed, for exactly the current English. Added to the new `.github/workflows/ci.yml`
+  (there was no CI before).
+- **1.5 result:** a full re-translation of every key, then a second English pass on the failures, then
+  re-verification. **224/227 verified (99%); 3 fall back to English.**
+
+### Part 2
+- **A1:** done in `8c68947`; still covered by `assamese.spec.ts` (8) and `i18n-content.test.ts`.
+- **B1:** `reminderStatus()` — upcoming / due / snoozed / done / missed, derived from today's log.
+  - "Not now" returns after 10 minutes. It counts as a press, so it is never swept as missed.
+  - Done after a missed sweep still counts. Only a missed row nudges.
+  - Today's cards stop being one button: Done and Not now on a due card, Done on a missed card, each at
+    least 64 px, plus Listen.
+  - Home's next reminder and Circle's count ("reminders missed today") now use the same statuses. Before, a
+    reminder marked Done still showed as overdue.
+- **B2:** the sample seeds 4 reminders relative to load time: medicine due now, water an hour ago (logged
+  done), a walk in two hours, a clinic visit in five. The 14-day history is kept, with both historical misses
+  and the Circle nudge. Today shows the next three plus "N more reminders later today". The person's screen
+  has no red, no pink and no ⚠; lateness is a word in amber next to the time.
+- **B3:** at 360 px the status badge pushed `/today` sideways. Chips now wrap (`white-space: normal`,
+  `overflow-wrap: anywhere`) and the badges may shrink. The audit covers 11 screens × 3 widths on the
+  Assamese profile.
+- **C1:** done in Phase A. **C2:** Today's three are separated by commas; `·` only appears inside a name.
+  **C3:** End → `/play`, matching `05_TESTS_AND_DONE`; the pause overlay's Stop matches.
+  **C4:** `retry-message` shows "Let us look again." under the question after a first wrong answer.
+  **C5:** not-this-one is a muted grey outline — no crimson, no shake.
+  **C6:** new kettle, mora and card-back icons; the Saah Pat exemplar is in the tile colour.
+  **C7:** Help has been ≥ 64 px since Phase 6 (`--touch-min`); the F12 audit measures it in every game.
+- **D1:** no rename (see Part 0). The clear-sample test now walks **every** Dexie table, so a new table
+  cannot be forgotten. **D2:** id→name→route table in the README and on the `Activity` union; no screen
+  renders a raw id.
+- **E1:** No-Signal Mode e2e: persists across reload, badge `simulated`, a full session and a Care Note
+  complete under it, badge clears when turned off. **E2:** Trend Lines and the Visit Card
+  (`caregiver.spec.ts`), Rest Pause (`accessibility.spec.ts`). **E3 (B11 device test): not run** — it needs
+  a phone.
+
+Gates: lint · tsc · **178** unit · **51** Playwright (one worker, low memory) · verify-translations — all green.
+
 ### Roadmap (not started)
 
 All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).
