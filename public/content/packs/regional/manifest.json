@@ -3,7 +3,7 @@
   "reviewer": "not yet reviewed by a clinician or cultural advisor — placeholder only",
   "review_date": null,
   "licence": "n/a — original vector shapes drawn for this project, no third-party assets",
-  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. Several icons (japi, diya, mora, and this expansion pass's ghoti/pankha) are drawn as common everyday NER-regional shapes rather than sterile international clip-art, but they are still original line art, not photographs — the household is still prompted to replace each one with their own photographed object, never presented as 'what NER people recognise'. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to. Expanded from 6 to 16 objects and 1 to 3 routines (SIH26003 rebuild pass) specifically so Familiar Pairs / Sound & Sight / My Next Step don't show the identical fixed set every single session before any family content exists — this is a content-authoring fix, not a game-logic change.",
+  "note": "These are deliberately generic icon+label items, not photographs of real NER household objects. Several icons (japi, diya, mora, and this expansion pass's ghoti/pankha) are drawn as common everyday NER-regional shapes rather than sterile international clip-art, but they are still original line art, not photographs — the household is still prompted to replace each one with their own photographed object, never presented as 'what NER people recognise'. A real deployment needs an actual reviewed regional photo/sound library sourced with proper provenance and licensing, which this hackathon build does not have access to. Expanded from 6 to 16 objects and 1 to 3 routines (SIH26003 rebuild pass) specifically so Familiar Pairs / Sound & Sight / My Next Step don't show the identical fixed set every single session before any family content exists — this is a content-authoring fix, not a game-logic change. Sept 2026 content pass (04_CONTENT §1): 24 objects and 5 routines. The kit's 'Bamboo stool' and 'Hand fan' were already here as Mora and Pankha, so Weaving loom and Rice pot were added instead.",
   "objects": [
     { "id": "reg_tumbler", "icon": "tumbler", "label": "Steel tumbler" },
     { "id": "reg_lamp", "icon": "lamp", "label": "Diya (oil lamp)" },
@@ -20,7 +20,15 @@
     { "id": "reg_mirror", "icon": "mirror", "label": "Mirror" },
     { "id": "reg_pankha", "icon": "pankha", "label": "Pankha (hand fan)" },
     { "id": "reg_keylock", "icon": "keylock", "label": "Lock and key" },
-    { "id": "reg_jhola", "icon": "jhola", "label": "Cloth bag" }
+    { "id": "reg_jhola", "icon": "jhola", "label": "Cloth bag" },
+    { "id": "reg_gamosa", "icon": "gamosa", "label": "Gamosa (woven towel)" },
+    { "id": "reg_xorai", "icon": "xorai", "label": "Xorai (offering tray)" },
+    { "id": "reg_dhekia", "icon": "fern", "label": "Dhekia (fern greens)" },
+    { "id": "reg_claypot", "icon": "claypot", "label": "Clay water pot" },
+    { "id": "reg_net", "icon": "net", "label": "Fishing net" },
+    { "id": "reg_areca", "icon": "areca", "label": "Areca nut plate" },
+    { "id": "reg_loom", "icon": "loom", "label": "Weaving loom" },
+    { "id": "reg_ricepot", "icon": "ricepot", "label": "Rice pot" }
   ],
   "patterns": [
     { "id": "reg_triangle", "icon": "triangle", "label": "Triangle" },
@@ -64,6 +72,28 @@
         { "id": "dinner", "icon": "thali", "label": "Have dinner" },
         { "id": "lock_up", "icon": "keylock", "label": "Lock the door" },
         { "id": "sleep", "icon": "lamp", "label": "Turn off the lamp" }
+      ]
+    },
+    {
+      "id": "reg_prayer_routine",
+      "title": "Evening prayer",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
+      "steps": [
+        { "id": "light", "icon": "lamp", "label": "Light the lamp" },
+        { "id": "sit", "icon": "stool", "label": "Sit down" },
+        { "id": "pray", "icon": "xorai", "label": "Say the prayer" },
+        { "id": "put_out", "icon": "lamp", "label": "Put out the lamp" }
+      ]
+    },
+    {
+      "id": "reg_bath_routine",
+      "title": "Bath time",
+      "note": "Generic fallback only — a real routine should be recorded and approved by the family/care team for this specific person via the Memory Garden.",
+      "steps": [
+        { "id": "fetch", "icon": "ghoti", "label": "Fetch water" },
+        { "id": "wash", "icon": "soap", "label": "Soap and wash" },
+        { "id": "dry", "icon": "gamosa", "label": "Dry with the gamosa" },
+        { "id": "dress", "icon": "shirt", "label": "Change clothes" }
       ]
     }
   ]

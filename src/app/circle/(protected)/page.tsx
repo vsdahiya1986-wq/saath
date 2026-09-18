@@ -12,6 +12,7 @@ import TextSizeControl from '@/components/ui/TextSizeControl';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { isOverdue } from '@/lib/reminders';
+import { evidenceTrials } from '@/lib/trends';
 
 interface CircleCounts {
   personName: string | null;
@@ -62,6 +63,8 @@ export default function CircleHome() {
         db.trials.where({ person_id: id }).toArray(),
       ]);
       const weekAgo = Date.now() - 7 * 864e5;
+      // Same rule as Trend Lines: sample rows count only for the sample person.
+      const own = person ? evidenceTrials(person, trials) : [];
       setCounts({
         personName: person?.display_name ?? null,
         isDemo: !!person?.is_demo,
@@ -72,8 +75,8 @@ export default function CircleHome() {
         members: members.length,
         remindersTotal: reminders.length,
         remindersOverdue: reminders.filter(isOverdue).length,
-        trials: trials.filter((x) => !x.synthetic).length,
-        sessionsThisWeek: trials.filter((x) => !x.synthetic && new Date(x.created_at).getTime() >= weekAgo).length,
+        trials: own.length,
+        sessionsThisWeek: own.filter((x) => new Date(x.created_at).getTime() >= weekAgo).length,
       });
     })();
   }, []);
@@ -108,7 +111,7 @@ export default function CircleHome() {
                 {counts ? counts.sessionsThisWeek : '…'}
               </span>
               <span style={{ fontSize: 16 }} className="muted">
-                sessions in the last 7 days
+                {counts?.sessionsThisWeek === 1 ? 'session' : 'sessions'} in the last 7 days
               </span>
             </div>
             <div className="flex flex-col">

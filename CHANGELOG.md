@@ -302,6 +302,51 @@ until `npm run generate-audio` is run).
 
 Gates: lint clean · tsc clean · **124** unit tests · **33** Playwright tests.
 
+## Phase 7 — Release preparation (2026-09-18)
+
+**Screenshots.** `npm run screenshots` (`playwright.screenshots.config.ts`, `scripts/screenshots/capture.spec.ts`)
+captures the 14 PPT shots at 1280 × 800 from the static export into `docs/screenshots/`. The clock is pinned to
+08:05, so Aita's 08:00 medicine is due for shot 09 and every run is reproducible. It is not a gate, and
+Vitest now excludes `scripts/screenshots/**` because it had been collecting the spec.
+Every shot was checked by eye. That review found and fixed:
+- **Circle said "1 sessions in the last 7 days"** for Aita. Circle's counts, and the Board's engagement
+  ledger, skipped sample trials while Trend Lines counted them. Both now use the same `evidenceTrials()`
+  rule, so it shows 33. Singular "session" is fixed too.
+- **Visit Card print** showed the on-screen sync badge, and `CircleGate`'s full-height scroll box would have
+  clipped a card longer than one screen. The badge is now `no-print`, and the print stylesheet releases
+  the box.
+- **The fishing-net icon I drew read as a wastebasket.** It is now a hooped hand net.
+- The Inspector shot now shows the decision and its reason, not just the controls.
+
+**Today's Three on Home (F6 gap from Phase 4).** The kit puts it on the Home Play card, but Phase 4 only
+added it to the Play screen. Home's Play card now names today's three.
+
+**Regional content (04_CONTENT §1 — never assigned to a phase, so not done until now).** 16 → 24 objects
+and 3 → 5 routines (Evening prayer, Bath time), with 10 new line icons. ⚠️ The kit's "Bamboo stool" and
+"Hand fan" already existed as Mora and Pankha, so **Weaving loom** and **Rice pot** were added instead. The
+three games that read the in-code `HOME_OBJECTS` list get the same 8 objects, each with a Sort the Home
+basket.
+New content tests (§5): ≥ 24 objects and ≥ 5 routines; every routine has 3–4 steps with unique ids;
+`HOME_OBJECTS` matches the manifest; every literal `t()` key exists in `STRINGS`; no clinical-claim words
+in `src/` outside comments.
+Not done from §5: the `tea_sprigs` check. That manifest block was skipped in Phase 4 because the sprigs
+are drawn in code.
+
+**README:** SIH26003 clause map (every row names its proof), plus the roadmap from Phase 6.
+
+Gates: lint clean · tsc clean · **145** unit tests · **33** Playwright tests.
+⚠️ `a due reminder shows the card in-app` failed once in one full run. It passed in a second full run and
+3/3 times in isolation, and I could not reproduce it. Watch it in CI.
+
+**Not done — needs the owner:**
+- **Push** `fix/sih-final` (7 phase commits, nothing pushed since Phase 0) and merge to `master`.
+- **Vercel deploy.** No Vercel CLI or project is linked on this machine. `output: "export"` deploys as-is
+  from the Vercel dashboard, and there is nothing to configure. The README has a placeholder for the URL.
+- **`npm run generate-audio`** (Bhashini credentials). Until it runs, the newer strings are silent in
+  Assamese and render as English text, visible in `02-home-as.png` ("Today's three:").
+- **2-minute screen recording** for the README — best done by a person at demo pace.
+- **B11** airplane-mode test on a real device.
+
 ### Roadmap (not started)
 
-Phase 7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: production build, full test run, Vercel deploy, PPT screenshots. B11 needs a device.
+All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).

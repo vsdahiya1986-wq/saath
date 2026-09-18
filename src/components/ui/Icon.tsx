@@ -52,7 +52,17 @@ export type IconName =
   | 'arrow'
   | 'refresh'
   | 'calendar'
-  | 'shield';
+  | 'shield'
+  | 'gamosa'
+  | 'xorai'
+  | 'fern'
+  | 'claypot'
+  | 'net'
+  | 'areca'
+  | 'loom'
+  | 'ricepot'
+  | 'soap'
+  | 'shirt';
 
 const PATHS: Record<IconName, ReactElement> = {
   play: (
@@ -263,6 +273,71 @@ const PATHS: Record<IconName, ReactElement> = {
     <>
       <path d="M6 9h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 9z" strokeLinejoin="round" />
       <path d="M9 9V7a3 3 0 0 1 6 0v2" strokeLinecap="round" />
+    </>
+  ),
+  /* 04_CONTENT §1: eight more household items and two routine steps, same
+     outline register as the set above. Shape carries identity, not colour. */
+  gamosa: (
+    <>
+      <rect x="4" y="5" width="16" height="14" rx="1" />
+      <path d="M4 8h16M4 16h16" />
+      <path d="M6 19v2M9 19v2M12 19v2M15 19v2M18 19v2" strokeLinecap="round" />
+    </>
+  ),
+  xorai: (
+    <>
+      <path d="M5 8h14l-2 3H7L5 8z" strokeLinejoin="round" />
+      <path d="M12 3v5M10 5l2-2 2 2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 11v6M8 21h8M9 17h6l1 4H8l1-4z" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  ),
+  fern: (
+    <>
+      <path d="M12 21C12 13 9 7 6 4" strokeLinecap="round" />
+      <path d="M11 16l-4 1M10 12l-4 0M9 9l-3-1M11 16l2-3M10 12l3-2M9 9l2-3" strokeLinecap="round" />
+    </>
+  ),
+  claypot: (
+    <>
+      <path d="M9 4h6M10 4v2c-4 1-6 4-6 8a8 7 0 0 0 16 0c0-4-2-7-6-8V4" strokeLinecap="round" strokeLinejoin="round" />
+    </>
+  ),
+  net: (
+    <>
+      <circle cx="10" cy="10" r="7" />
+      <path d="M15 15l6 6" strokeLinecap="round" />
+      <path d="M5 7l8 8M4 11l6 6M7 4l9 9M10 3l7 7M4 13l9-9M7 16l9-9" opacity="0.5" />
+    </>
+  ),
+  areca: (
+    <>
+      <ellipse cx="12" cy="15" rx="9" ry="4" />
+      <circle cx="9.5" cy="12" r="2" />
+      <circle cx="14.5" cy="12" r="2" />
+    </>
+  ),
+  loom: (
+    <>
+      <path d="M4 4v17M20 4v17M4 6h16M4 18h16" strokeLinecap="round" />
+      <path d="M8 6v12M12 6v12M16 6v12" opacity="0.6" />
+    </>
+  ),
+  ricepot: (
+    <>
+      <path d="M5 10h14v5a6 6 0 0 1-6 6h-2a6 6 0 0 1-6-6v-5z" strokeLinejoin="round" />
+      <path d="M3 10h18M10 7h4" strokeLinecap="round" />
+    </>
+  ),
+  soap: (
+    <>
+      <rect x="4" y="11" width="16" height="9" rx="3" />
+      <circle cx="9" cy="6" r="2" />
+      <circle cx="15" cy="5" r="1.5" />
+    </>
+  ),
+  shirt: (
+    <>
+      <path d="M9 3l3 2 3-2 5 3-2 4-2-1v12H8V9l-2 1-2-4 5-3z" strokeLinejoin="round" />
     </>
   ),
   /* The circle of people around a person — new for the home screen's Circle

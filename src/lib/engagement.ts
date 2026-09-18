@@ -1,4 +1,5 @@
 import { db } from './db';
+import { evidenceTrials } from './trends';
 
 export type ActivityLevel = 'no_data' | 'low' | 'steady' | 'high';
 
@@ -18,7 +19,8 @@ const WEEK = 7 * 864e5;
 
 export async function computeLedger(personId: string): Promise<EngagementLedger> {
   const all = await db.trials.where({ person_id: personId }).toArray();
-  const rows = all.filter((r) => !r.synthetic).sort((a, b) => a.created_at.localeCompare(b.created_at));
+  const person = await db.persons.get(personId);
+  const rows = evidenceTrials(person ?? {}, all).sort((a, b) => a.created_at.localeCompare(b.created_at));
 
   if (!rows.length) {
     return {

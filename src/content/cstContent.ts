@@ -33,6 +33,14 @@ export const HOME_OBJECTS: HomeObject[] = [
   { id: 'reg_stool', icon: 'stool', label: 'Mora stool', category: 'around_house' },
   { id: 'reg_pankha', icon: 'pankha', label: 'Hand fan', category: 'around_house' },
   { id: 'reg_basket', icon: 'basket', label: 'Bamboo basket', category: 'around_house' },
+  { id: 'reg_dhekia', icon: 'fern', label: 'Dhekia greens', category: 'kitchen' },
+  { id: 'reg_claypot', icon: 'claypot', label: 'Clay water pot', category: 'kitchen' },
+  { id: 'reg_areca', icon: 'areca', label: 'Areca nut plate', category: 'kitchen' },
+  { id: 'reg_ricepot', icon: 'ricepot', label: 'Rice pot', category: 'kitchen' },
+  { id: 'reg_gamosa', icon: 'gamosa', label: 'Gamosa', category: 'getting_ready' },
+  { id: 'reg_xorai', icon: 'xorai', label: 'Xorai', category: 'around_house' },
+  { id: 'reg_net', icon: 'net', label: 'Fishing net', category: 'around_house' },
+  { id: 'reg_loom', icon: 'loom', label: 'Weaving loom', category: 'around_house' },
 ];
 
 /**

@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ICON_NAMES } from '@/components/ui/Icon';
 import { STRINGS } from '@/content/strings';
+import { HOME_OBJECTS } from '@/content/cstContent';
 
 const manifest = JSON.parse(fs.readFileSync(path.join('public', 'content', 'packs', 'regional', 'manifest.json'), 'utf8'));
 
@@ -80,5 +81,60 @@ describe('strings.ts and generate-audio.mjs', () => {
 
   it('has no duplicate keys in the audio script', () => {
     expect(new Set(scriptKeys).size).toBe(scriptKeys.length);
+  });
+});
+
+/** 04_CONTENT §1 and §5: counts, routine shape, and the in-code object list kept in step. */
+describe('regional content (04_CONTENT)', () => {
+  it('has at least 24 objects and 5 routines', () => {
+    expect(manifest.objects.length).toBeGreaterThanOrEqual(24);
+    expect(manifest.routines.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it('gives every routine 3–4 steps with ids unique inside it', () => {
+    for (const r of manifest.routines) {
+      expect(r.steps.length).toBeGreaterThanOrEqual(3);
+      expect(r.steps.length).toBeLessThanOrEqual(4);
+      expect(new Set(r.steps.map((s: Item) => s.id)).size).toBe(r.steps.length);
+    }
+  });
+
+  it('only uses objects in the games that the manifest also lists', () => {
+    const ids = new Set(manifest.objects.map((o: Item) => o.id));
+    for (const o of HOME_OBJECTS) expect(ids, o.id).toContain(o.id);
+    expect(HOME_OBJECTS.length).toBe(manifest.objects.length);
+  });
+});
+
+function sourceFiles(dir: string): string[] {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const p = path.join(dir, e.name);
+    return e.isDirectory() ? sourceFiles(p) : /\.(ts|tsx)$/.test(e.name) ? [p] : [];
+  });
+}
+
+describe('source text (04_CONTENT §5)', () => {
+  const files = sourceFiles('src').map((f) => ({ f, text: fs.readFileSync(f, 'utf8') }));
+
+  it('every literal t() key exists in STRINGS', () => {
+    const missing: string[] = [];
+    for (const { f, text } of files) {
+      for (const m of text.matchAll(/\bt\(\s*'([a-z_]+(?:\.[a-z_]+)+)'/g)) if (!(m[1] in STRINGS)) missing.push(`${f}: ${m[1]}`);
+    }
+    expect(missing).toEqual([]);
+  });
+
+  it('never makes a clinical claim outside comments', () => {
+    const forbidden = /diagnose|detect dementia|clinically proven|validated|\bcure\b|score your memory|decline detected/i;
+    const hits: string[] = [];
+    for (const { f, text } of files) {
+      text.split('\n').forEach((line, i) => {
+        const code = line.trim();
+        if (code.startsWith('//') || code.startsWith('*') || code.startsWith('/*') || code.startsWith('{/*')) return;
+        // "does not diagnose" is the required disclaimer, not a claim.
+        if (forbidden.test(code.replace(/(does not|never) diagnose/gi, ''))) hits.push(`${f}:${i + 1}: ${code.slice(0, 80)}`);
+      });
+    }
+    expect(hits).toEqual([]);
   });
 });

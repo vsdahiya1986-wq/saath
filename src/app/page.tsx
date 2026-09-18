@@ -8,7 +8,8 @@ import { t } from '@/lib/i18n';
 import { db, membersForPerson, remindersForPerson, Reminder } from '@/lib/db';
 import { openFollowupsForPerson, helpStatusKey } from '@/lib/events';
 import { CUE_KEY, sortReminders, formatTime, isOverdue } from '@/lib/reminders';
-import { ACTIVITIES } from '@/content/activities';
+import { ACTIVITIES, ActivityInfo } from '@/content/activities';
+import { aajirTiniFor } from '@/lib/rotation';
 import BentoTile from '@/components/ui/BentoTile';
 import BottomNav from '@/components/ui/BottomNav';
 import StatusBadge from '@/components/ui/StatusBadge';
@@ -22,6 +23,8 @@ interface HomePreview {
   helpKey: 'help.sent_local' | 'help.stored' | null;
   playedToday: number;
   persons: number;
+  /** F6: Aajir Tini, named on the Play card. */
+  three: ActivityInfo[];
 }
 
 /** Home (SIH26003 h, e, f): a 2x2 bento that fills the screen, every card showing live device data. */
@@ -46,13 +49,14 @@ export default function PersonHome() {
         openFollowupsForPerson(person.id),
         db.trials.where({ person_id: person.id }).toArray(),
       ]);
-      const persons = await db.persons.count();
+      const [persons, three] = await Promise.all([db.persons.count(), aajirTiniFor(person.id)]);
       if (cancelled) return;
       setPreview({
         circleCount: members.length,
         nextReminder: sortReminders(reminders)[0] ?? null,
         helpKey: openHelp[0] ? helpStatusKey(openHelp[0].state) : null,
         persons,
+        three,
         playedToday: new Set(trials.filter((x) => !x.synthetic && new Date(x.created_at) >= startOfDay).map((x) => x.activity)).size,
       });
     })();
@@ -139,7 +143,7 @@ export default function PersonHome() {
             labelKey="home.play"
             person={person}
             stat={String(ACTIVITIES.length)}
-            detail={preview ? `activities ready today · ${preview.playedToday} played so far` : '…'}
+            detail={preview ? `${t('play.today_three', lang)}: ${preview.three.map((a) => t(a.labelKey, lang)).join(' · ')}` : '…'}
             onSelect={() => router.push('/play')}
           />
           <BentoTile

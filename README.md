@@ -46,6 +46,26 @@ Keys with no generated file fall back to the device's speech voice. For Assamese
 such voice, so an ungenerated cue stays **silent** rather than mispronounce. No Assamese text is
 written by hand in code.
 
+## SIH26003 clause map
+
+| Clause | Where it is satisfied | Proof |
+| --- | --- | --- |
+| (a) memory | Apon Mukh · Dear Faces | `tests/e2e/games-progress.spec.ts` |
+| (a) attention | Saah Pat · Tea Leaf | `tests/e2e/games-progress.spec.ts` |
+| (a) routine recall | My Next Step | `tests/e2e/games-progress.spec.ts` |
+| (a) pattern / object | Sort the Home | `tests/e2e/games-progress.spec.ts` |
+| (a) orientation | Today & Me | `tests/e2e/games-progress.spec.ts` |
+| (a) emotional engagement | Together Moment | e2e completes; content by hand |
+| (b) adaptive AI | `src/lib/model.ts`, Evidence Inspector, in-game badge | `tests/model.test.ts` |
+| (c) multilingual + voice | EN/AS strings, cached Bhashini audio, spoken cues | `tests/e2e/accessibility.spec.ts` (B7) |
+| (d) cultural themes | regional manifest (24 objects, 5 routines), tea sprigs | `tests/content.test.ts` |
+| (e) reminders | Ghonta: medicine, water, activity, clinic | `tests/reminders.test.ts` + e2e |
+| (f) caregiver dashboards | Circle, Circle Board, Trend Lines, Care Note, Ghor Tiles, Visit Card | `tests/e2e/caregiver.spec.ts` + unit |
+| (f) alerts | Circle Nudges | `tests/nudges.test.ts` |
+| (g) offline | service worker + IndexedDB + No-Signal Mode | offline e2e; device test (B11) not yet run |
+| (h) mobile / elderly UI | Easy View, 64 px targets, Rest Pause, Back/Home everywhere | `tests/e2e/accessibility.spec.ts` |
+| secure data | AES-256-GCM fields and blobs | code + Circle privacy panel |
+
 ## Roadmap (not built)
 
 These are planned and **not in the app**. The About screen (`/about/licenses`) says the same.

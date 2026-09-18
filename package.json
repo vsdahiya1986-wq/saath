@@ -9,6 +9,7 @@
     "postbuild": "node scripts/generate-sw-precache.mjs",
     "start": "next start",
     "preview": "next build && npx serve out -l 4180",
+    "screenshots": "playwright test -c playwright.screenshots.config.ts",
     "lint": "eslint",
     "android": "next build && npx cap sync android && npx cap open android",
     "test": "vitest run",

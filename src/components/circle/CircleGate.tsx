@@ -26,7 +26,7 @@ export default function CircleGate({ children }: { children: ReactNode }) {
   if (!unlocked) return null;
   return (
     <div className="h-[100dvh] flex flex-col">
-      <div className="shrink-0 flex justify-end px-4 pt-3">
+      <div className="no-print shrink-0 flex justify-end px-4 pt-3">
         <StatusBadge lang={person?.language} />
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col">{children}</div>
