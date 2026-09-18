@@ -17,5 +17,9 @@ export default defineConfig({
   },
   use: {
     baseURL: 'http://localhost:3000',
+    // `a due reminder shows the card in-app` failed once in a full run and
+    // could not be reproduced in 45 runs after. Keep the evidence next time;
+    // no retries, which would hide it.
+    trace: 'retain-on-failure',
   },
 });

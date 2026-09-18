@@ -337,6 +337,9 @@ are drawn in code.
 Gates: lint clean · tsc clean · **145** unit tests · **33** Playwright tests.
 ⚠️ `a due reminder shows the card in-app` failed once in one full run. It passed in a second full run and
 3/3 times in isolation, and I could not reproduce it. Watch it in CI.
+Follow-up: the one failure left no trace to diagnose. I ran 45 more attempts (the file 5× serially and 4×
+under 4 parallel workers) and all passed. There is no guessed fix. `playwright.config.ts` now keeps a trace on
+failure (`trace: 'retain-on-failure'`, no retries), so the next occurrence can be diagnosed.
 
 **Not done — needs the owner:**
 - **Push** `fix/sih-final` (7 phase commits, nothing pushed since Phase 0) and merge to `master`.
