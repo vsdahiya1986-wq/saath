@@ -15,6 +15,20 @@ export default function Licenses() {
         components only and acknowledge them appropriately. Every dependency, its licence, and its copyright notice
         is listed here.
       </p>
+      <section style={cardStyle} data-testid="roadmap">
+        <h2 style={{ fontSize: 18 }} className="font-black">
+          Roadmap — not built yet
+        </h2>
+        <ul style={{ fontSize: 14 }} className="list-disc pl-5 flex flex-col gap-1">
+          <li>
+            <strong>Bol · Speak</strong> — answer by voice in Assamese through Bhashini speech recognition. Waiting on testing with native
+            speakers.
+          </li>
+          <li>
+            <strong>Circle Message</strong> — a WhatsApp note to the circle when the device is online. Waiting on Meta business verification.
+          </li>
+        </ul>
+      </section>
       <div className="flex flex-col gap-3">
         {licenses.map((l) => (
           <div key={l.name} style={cardStyle}>

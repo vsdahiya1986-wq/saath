@@ -7,7 +7,7 @@
  * with cataracts; those effects cut contrast and break familiarity.
  * Cards get soft shadow elevation instead of flat black borders; anything
  * tappable keeps a clearly visible edge (>= 3:1 against its background).
- * Minimum touch target: 60px.
+ * Minimum touch target: 64px (F12).
  */
 :root {
   color-scheme: light;
@@ -43,7 +43,7 @@
   --text-body: 20px;
   --text-action: 26px;
   --text-title: 32px;
-  --touch-min: 60px;
+  --touch-min: 64px; /* F12 */
   --radius: 18px;
   --radius-lg: 22px;
   --border-w: 2px;
@@ -93,9 +93,14 @@ textarea {
 }
 
 :focus-visible {
-  outline: 3px solid var(--accent);
+  outline: 3px solid #f59e0b; /* F12: amber, the kit's focus colour, everywhere */
   outline-offset: 3px;
 }
+
+/* F12 Easy View: A / A+ / A++, set per person by usePerson. Native zoom scales
+   the inline pixel sizes too, which the type tokens alone would not reach. */
+html[data-text-scale='1.15'] { zoom: 1.15; }
+html[data-text-scale='1.3'] { zoom: 1.3; }
 
 /* ---------- Surfaces: soft elevation, no flat black borders ---------- */
 .shell {
@@ -148,8 +153,9 @@ textarea {
   color: var(--accent);
 }
 
-/* ---------- Buttons (all >= 60px) ---------- */
+/* ---------- Buttons (all >= 64px, F12) ---------- */
 .btn {
+  min-width: var(--touch-min);
   display: inline-flex;
   align-items: center;
   justify-content: center;

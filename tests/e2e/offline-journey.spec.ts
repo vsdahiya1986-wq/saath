@@ -34,6 +34,9 @@ test('setup, then an offline "I need someone" request stays honestly local', asy
 
   await page.getByRole('link', { name: /Person profile/ }).click();
   await page.getByLabel('Name').fill('Test Person');
+  // English on purpose: the profile defaults to Assamese, and this test used to
+  // pass on English labels only because of B7 (strings not loaded yet).
+  await page.getByLabel('Language').selectOption('en');
   await page.getByRole('button', { name: 'Save profile' }).click();
   // Wait for the app's own post-save navigation, not just the click: save()
   // awaits two IndexedDB/Preferences writes before calling router.push, and

@@ -46,6 +46,13 @@ Keys with no generated file fall back to the device's speech voice. For Assamese
 such voice, so an ungenerated cue stays **silent** rather than mispronounce. No Assamese text is
 written by hand in code.
 
+## Roadmap (not built)
+
+These are planned and **not in the app**. The About screen (`/about/licenses`) says the same.
+
+- **Bol · Speak** (F14): answer by voice in Assamese through Bhashini speech recognition. Needs testing with native speakers first.
+- **Circle Message** (F15): a WhatsApp note to the circle when online. Needs Meta business verification.
+
 ## Layout
 
 ```

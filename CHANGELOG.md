@@ -259,6 +259,49 @@ One full run hit Playwright's 120 s web-server timeout while OneDrive was syncin
 failed with `EPERM` on a `.next` file). Both were environmental: the build takes about 22 s normally, and the
 two tests that failed during that slow run pass alone and in a clean full run.
 
+## Phase 6 — Easy View, Rest Pause, P1/P2 bugs (2026-09-18)
+
+**B7 — language reverted to English after navigation.** Root cause: `t()` returns Assamese only once
+`loadManifest(lang)` has cached the manifest, and the only caller of `loadManifest` was the audio code, when
+a cue played. A screen that rendered before any cue played rendered English and stayed English until something
+re-rendered it. `<html lang>` was also hard-coded to `en`. Fix, in one place: `usePerson` (which every
+person-facing screen and `CircleGate` use) now runs `preparePerson()`. That awaits the manifest before
+handing out the person and sets `<html lang>` and the text scale.
+Proof it was real: `offline-journey.spec.ts` never picked a language, so its profile got the default
+(Assamese), and it only passed because the Help button wrongly rendered as "I need someone". After the fix it
+correctly reads "মোক কোনোবা এজন লাগে". That test now selects English explicitly, since it is about offline
+behaviour. New e2e: an Assamese profile going Home → Play → every game → back keeps `lang="as"` and an
+Assamese Play heading.
+
+**F12 — Easy View.** An A / A+ / A++ control (`TextSizeControl.tsx`) on Home and in Circle → Display, saved as
+`Person.text_scale`. ⚠️ **Deviation:** the kit said to scale "the existing CSS type tokens", but about 228
+font sizes are inline pixel values that no token reaches. Scaling tokens would have changed almost nothing
+visible. Native CSS `zoom` on `<html>` (1 / 1.15 / 1.3) scales text and touch targets together. No new
+dependency. An e2e check confirms nothing scrolls sideways at A++ on a 390 px phone.
+`--touch-min` 60 → 64 px, and `.btn` has a 64 px minimum width. The Playwright audit walks all 11
+person-facing pages and asserts every visible button and link is at least 64 × 64. It found one:
+Together Moment's "Open" link (46 × 60), now fixed. The focus ring is amber `#F59E0B`, 3 px, everywhere.
+
+**F13 — Rest Pause** (`src/lib/restPause.ts`, `RestPause.tsx`). After about 10 minutes of back-to-back
+activities (a gap of more than 15 minutes between starts begins a new run), the next activity first shows
+"Shall we rest for a while?" with **Rest now** and **One more**. There is no countdown, and it never
+interrupts a round mid-way. It is logged as plain `audit` events (`rest_prompt_shown`, `rest_now`,
+`rest_one_more`), never as a trial. The run is tracked in `sessionStorage`, so it is per sitting.
+
+**F14 / F15 — roadmap only.** Bol · Speak and Circle Message are listed as **not built** in the README and on
+the About screen, which is now linked from Circle's privacy card (it was unreachable before).
+
+**B8** was done in Phase 2 (R4). **B9:** the v2 schema landed in Phase 3; `tests/db-migration.test.ts` now
+opens a real v1 database, upgrades it, and reads the old rows through the new indexes. **B10:**
+`npm run preview` and the README rule already existed from Phase 2. **B11:** added to the manual device
+matrix (`05_TESTS_AND_DONE.md` §4a). ⚠️ **It has not been run** — it needs a phone in airplane mode. The
+checklist line that was ticked while saying "not yet literally tested" is now unticked.
+
+New strings: `display.text_size`, `rest.title`, `rest.rest_now`, `rest.one_more` (still silent in Assamese
+until `npm run generate-audio` is run).
+
+Gates: lint clean · tsc clean · **124** unit tests · **33** Playwright tests.
+
 ### Roadmap (not started)
 
-Phases 6–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: the accessibility pass, deploy. B7–B11 are Phase 6.
+Phase 7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: production build, full test run, Vercel deploy, PPT screenshots. B11 needs a device.

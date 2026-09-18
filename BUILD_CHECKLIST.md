@@ -31,7 +31,7 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] Familiar Pairs wired to the model engine, full game logic, ExitBar (pause/skip/stop) — verified live in browser end-to-end including a completed round logging a real trial
 - [x] Help screen with staleness handling + "I need someone" → honest stored/sent state — verified live in browser
 - [x] Engagement Ledger (`src/lib/engagement.ts`) — verified live in browser, exact "Steady participation — N session(s)..." wording from Part 16.3
-- [x] Airplane-mode cold start: not yet literally tested with the OS network toggle, but `alerts.ts`/`sync.ts` degrade correctly when offline (proven via Failure Theatre's simulated-offline path)
+- [ ] **B11 — airplane-mode cold start on a device: NOT YET RUN.** Needs a phone with the PWA or Android build; the steps are in `docs/saath-kit/05_TESTS_AND_DONE.md` §4a. Until then: not literally tested with the OS network toggle, but `alerts.ts`/`sync.ts` degrade correctly when offline (proven via Failure Theatre's simulated-offline path)
 
 ## Tier 2 — Requirement completion — DONE
 - [x] **Sound & Sight** — matches a played family-recorded prompt (or, honestly, degrades to picture-matching when no pack audio exists / `sensory_mode: visual_only`) to an image among 2-5 choices. Assistance cues wired for real: `repeat_audio` replays, `highlight`/`demonstrate` outline the correct tile, `reduce_choices` trims the grid to 2. Verified live: correct pick → `/play` + logged as `completed`; ranking math confirmed in Evidence Inspector.
@@ -50,6 +50,11 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] **Ghor Tiles** (F9) — big initial tiles on People; Home shows **Switch** when the device has more than one person.
 - [x] **Trend Lines** (F10) — like-for-like SVG lines, 7/30/90 days, "Not enough comparable sessions yet" below 5; Board (simple) and Inspector (full). `tests/trends.test.ts`.
 - [x] **Visit Card** (F11) — `/circle/visit`, `window.print()` + print stylesheet, non-diagnostic footer.
+- [x] **Easy View** (F12, Sept 2026) — A / A+ / A++ on Home and Circle → Display, saved per person; 64px targets (audited by `tests/e2e/accessibility.spec.ts`); amber focus ring.
+- [x] **Rest Pause** (F13) — after ~10 minutes of back-to-back activities, offered before the next one; logged to `audit`, never a trial.
+- [x] **B7** — language no longer falls back to English after navigation; `<html lang>` follows the person.
+- [x] **B9** — v1 → v2 upgrade test (`tests/db-migration.test.ts`).
+- [x] **Roadmap** (F14/F15) — Bol · Speak and Circle Message listed as not built, in README and on the About screen.
 - [ ] i18n: English strings complete and live; Assamese is English-fallback until `scripts/generate-audio.mjs` is run with real Bhashini credentials (script is written and path-corrected to `public/content/lang/`)
 - [x] Circle roster — verified live in browser
 - [~] Handoff sender/receiver — **removed Sept 2026 (R2)**: unfinished, not in the requirement list; multi-person on one device covers the real ASHA workflow. Dexie table kept to avoid a destructive migration.

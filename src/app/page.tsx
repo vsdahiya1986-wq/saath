@@ -12,6 +12,7 @@ import { ACTIVITIES } from '@/content/activities';
 import BentoTile from '@/components/ui/BentoTile';
 import BottomNav from '@/components/ui/BottomNav';
 import StatusBadge from '@/components/ui/StatusBadge';
+import TextSizeControl from '@/components/ui/TextSizeControl';
 import Icon from '@/components/ui/Icon';
 import { orientationNow } from '@/lib/orientation';
 
@@ -124,7 +125,10 @@ export default function PersonHome() {
             <Icon name="calendar" size={20} /> {now.weekday}, {now.day} {now.month} · {now.season} season
           </p>
         </div>
-        <StatusBadge lang={lang} />
+        <div className="flex flex-col items-end gap-2">
+          <StatusBadge lang={lang} />
+          <TextSizeControl personId={person.id} />
+        </div>
       </header>
 
       <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-5xl mx-auto px-5 pb-4">

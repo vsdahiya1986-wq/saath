@@ -8,6 +8,7 @@ import NoSignalMode from '@/components/circle/NoSignalMode';
 import SampleDataCard from '@/components/circle/SampleDataCard';
 import NudgeList from '@/components/circle/NudgeList';
 import CareNoteCard from '@/components/circle/CareNoteCard';
+import TextSizeControl from '@/components/ui/TextSizeControl';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { isOverdue } from '@/lib/reminders';
@@ -156,6 +157,18 @@ export default function CircleHome() {
 
           <NoSignalMode />
 
+          <section className="core col-span-2 p-5 flex flex-wrap items-center justify-between gap-3" data-testid="display-settings">
+            <div className="flex flex-col">
+              <span style={{ fontSize: 22 }} className="font-extrabold">
+                Display
+              </span>
+              <span style={{ fontSize: 16 }} className="muted">
+                Text size on this person&apos;s screens.
+              </span>
+            </div>
+            <TextSizeControl personId={personId} />
+          </section>
+
           <section className="core col-span-2 p-5 flex gap-4 items-start">
             <span style={{ color: 'var(--accent)' }}>
               <Icon name="shield" size={30} />
@@ -169,6 +182,9 @@ export default function CircleHome() {
                 person. Nothing syncs unless a backend is configured for the deployment (it is not in this demo build) — and even then only
                 coded gameplay data, never identifying fields.
               </span>
+              <Link href="/about/licenses" className="btn btn-ghost self-start mt-2">
+                About, licences &amp; roadmap
+              </Link>
             </div>
           </section>
         </div>

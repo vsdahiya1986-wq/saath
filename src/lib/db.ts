@@ -39,7 +39,12 @@ export interface Person {
   is_sample?: boolean;
   /** Printed on the Visit Card (F11). A band, never a birth date. */
   age_band?: '60-69' | '70-79' | '80+';
+  /** Easy View (F12): A / A+ / A++. Absent means 1. */
+  text_scale?: TextScale;
 }
+
+export const TEXT_SCALES = [1, 1.15, 1.3] as const;
+export type TextScale = (typeof TEXT_SCALES)[number];
 
 export interface CircleMember {
   id: string;

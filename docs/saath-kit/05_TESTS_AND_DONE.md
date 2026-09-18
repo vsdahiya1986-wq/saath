@@ -125,6 +125,12 @@ game, add a Care Note, turn it off, assert the sync badge changes.
 | (h) mobile/elderly UI | Easy View, 64 px targets, Rest Pause, Back/Home everywhere | target e2e + manual |
 | secure data | AES-256-GCM fields and blobs | code + Circle privacy panel |
 
+## 4a. Manual device matrix
+
+| # | Check | Steps | Result |
+| --- | --- | --- | --- |
+| B11 | Offline cold start | Install the PWA or Android build → load Aita's Day → switch on airplane mode → force-close → reopen → play one game → add one Care Note → switch the network back on → confirm the sync badge changes from offline | _not yet run_ |
+
 ## 5. Definition of done
 
 - [ ] All seven activities reach the completion screen: by e2e, and by hand in English **and** Assamese.
