@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { usePerson } from '@/lib/usePerson';
+import { usePerson, setActivePersonId } from '@/lib/usePerson';
+import { loadSample } from '@/lib/sampleData';
 import { announce } from '@/lib/voiceNav';
 import { t } from '@/lib/i18n';
 import { db, membersForPerson, remindersForPerson, Reminder } from '@/lib/db';
@@ -75,6 +76,19 @@ export default function PersonHome() {
         <button onClick={() => router.push('/circle/setup')} className="btn btn-primary btn-xl">
           Set up a profile
         </button>
+        {/* F1: a judge should never have to fill in a form to see the app work. */}
+        <button
+          onClick={async () => {
+            const id = await loadSample();
+            await setActivePersonId(id);
+            location.reload();
+          }}
+          data-testid="see-a-sample"
+          className="btn btn-ghost"
+          style={{ minHeight: 64 }}
+        >
+          <Icon name="sparkle" size={22} /> See a sample
+        </button>
       </main>
     );
   }
@@ -88,6 +102,13 @@ export default function PersonHome() {
       <header className="shrink-0 w-full max-w-5xl mx-auto px-5 pt-5 pb-3 flex items-start justify-between gap-3">
         <div className="min-w-0 flex flex-col gap-1">
           <h1 className="title-xl break-words">{person.display_name}</h1>
+          {/* F1: the Sample chip is permanent while a sample person is active, so
+              no screenshot can pass fictional data off as a real person's. */}
+          {person.is_sample && (
+            <span className="chip self-start" data-testid="sample-chip" style={{ color: 'var(--accent-warm)' }}>
+              SAMPLE
+            </span>
+          )}
           <p style={{ fontSize: 18 }} className="muted flex items-center gap-2">
             <Icon name="calendar" size={20} /> {now.weekday}, {now.day} {now.month} · {now.season} season
           </p>

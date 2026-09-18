@@ -1,5 +1,6 @@
 import { LocalNotifications } from '@capacitor/local-notifications';
-import { Reminder, putReminder, remindersForPerson } from './db';
+import { v4 as uuid } from 'uuid';
+import { db, Reminder, ReminderLog, putReminder, remindersForPerson } from './db';
 
 export async function ensurePermission(): Promise<boolean> {
   const p = await LocalNotifications.requestPermissions();
@@ -101,3 +102,119 @@ export function sortReminders(reminders: Reminder[]): Reminder[] {
 export function formatTime(r: Reminder): string {
   return `${r.hour}:${String(r.minute).padStart(2, '0')} ${r.period}`;
 }
+
+// ---------------------------------------------------------------------------
+// F2: a reminder that rings but records nothing is not a reminder. Every time
+// one comes due it ends up as exactly one reminder_logs row — answered by the
+// person, or written as 'missed' by the sweep below.
+// ---------------------------------------------------------------------------
+
+/** A reminder is considered missed once this long has passed with no answer. */
+export const MISSED_AFTER_MIN = 30;
+
+/** Today's occurrence of a recurring reminder, as a timestamp. */
+export function dueAt(r: Reminder, now = new Date()): Date {
+  const d = new Date(now);
+  d.setHours(0, minutesSinceMidnight(r.hour, r.minute, r.period), 0, 0);
+  return d;
+}
+
+/**
+ * Pure decision, so the boundary is testable without a database: which of
+ * today's due reminders have gone unanswered long enough to count as missed.
+ */
+export function selectMissed(reminders: Reminder[], answeredIds: Set<string>, now = new Date()): Reminder[] {
+  return reminders.filter((r) => {
+    if (answeredIds.has(r.id)) return false;
+    const elapsedMin = (now.getTime() - dueAt(r, now).getTime()) / 60_000;
+    return elapsedMin > MISSED_AFTER_MIN;
+  });
+}
+
+/** Today's reminders that are due now and still unanswered (drives the due card). */
+export function selectDue(reminders: Reminder[], answeredIds: Set<string>, now = new Date()): Reminder[] {
+  return sortReminders(
+    reminders.filter((r) => {
+      if (answeredIds.has(r.id)) return false;
+      const elapsedMin = (now.getTime() - dueAt(r, now).getTime()) / 60_000;
+      return elapsedMin >= 0 && elapsedMin <= MISSED_AFTER_MIN;
+    })
+  );
+}
+
+async function logsForToday(personId: string, now: Date): Promise<ReminderLog[]> {
+  const midnight = new Date(now);
+  midnight.setHours(0, 0, 0, 0);
+  const rows = await db.reminder_logs.where({ person_id: personId }).toArray();
+  return rows.filter((l) => new Date(l.due_at).getTime() >= midnight.getTime());
+}
+
+export async function putReminderLog(log: ReminderLog): Promise<void> {
+  await db.reminder_logs.put(log);
+}
+
+/** Records what the person chose on the due card. */
+export async function logReminderResponse(r: Reminder, outcome: 'done' | 'snoozed', now = new Date()): Promise<void> {
+  await putReminderLog({
+    id: uuid(),
+    person_id: r.person_id,
+    reminder_id: r.id,
+    category: r.category,
+    due_at: dueAt(r, now).toISOString(),
+    responded_at: now.toISOString(),
+    outcome,
+  });
+}
+
+/**
+ * Writes a 'missed' row for anything that came due today and was never
+ * answered. Idempotent: a reminder already logged today is left alone, so this
+ * can run on every app start.
+ */
+export async function sweepMissed(personId: string, now = new Date()): Promise<number> {
+  const reminders = await remindersForPerson(personId);
+  const logged = new Set((await logsForToday(personId, now)).map((l) => l.reminder_id));
+  const missed = selectMissed(reminders, logged, now);
+  for (const r of missed) {
+    await putReminderLog({
+      id: uuid(),
+      person_id: personId,
+      reminder_id: r.id,
+      category: r.category,
+      due_at: dueAt(r, now).toISOString(),
+      outcome: 'missed',
+    });
+  }
+  return missed.length;
+}
+
+/** Today's unanswered, currently-due reminders, after sweeping the stale ones. */
+export async function dueNow(personId: string, now = new Date()): Promise<Reminder[]> {
+  await sweepMissed(personId, now);
+  const reminders = await remindersForPerson(personId);
+  const logged = new Set((await logsForToday(personId, now)).map((l) => l.reminder_id));
+  return selectDue(reminders, logged, now);
+}
+
+export type RingCapability = 'native' | 'web' | 'in_app' | 'permission_needed';
+
+/**
+ * How this device can actually ring, so the Reminders screen can say so rather
+ * than fail silently. Capacitor's LocalNotifications resolves on the web too,
+ * but only the native shell can wake the device, so native is detected by the
+ * Capacitor bridge being present.
+ */
+export async function ringCapability(): Promise<RingCapability> {
+  const native = typeof window !== 'undefined' && !!(window as { Capacitor?: { isNativePlatform?: () => boolean } }).Capacitor?.isNativePlatform?.();
+  if (native) return 'native';
+  if (typeof Notification === 'undefined') return 'in_app';
+  if (Notification.permission === 'granted') return 'web';
+  return 'permission_needed';
+}
+
+export const RING_STATUS_TEXT: Record<RingCapability, string> = {
+  native: 'Will ring on this device',
+  web: 'Will ring in this browser while it is open',
+  in_app: 'This browser cannot ring — install the app',
+  permission_needed: 'Permission needed to ring',
+};

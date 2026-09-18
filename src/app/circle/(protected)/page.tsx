@@ -5,6 +5,7 @@ import BackButton from '@/components/ui/BackButton';
 import BottomNav from '@/components/ui/BottomNav';
 import Icon, { IconName } from '@/components/ui/Icon';
 import NoSignalMode from '@/components/circle/NoSignalMode';
+import SampleDataCard from '@/components/circle/SampleDataCard';
 import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { isOverdue } from '@/lib/reminders';
@@ -114,6 +115,8 @@ export default function CircleHome() {
               <Icon name="people" size={22} /> Switch person
             </Link>
           </div>
+
+          <SampleDataCard onChange={() => location.reload()} />
 
           {LINKS.map((l) => {
             const stat = counts ? l.stat(counts) : null;

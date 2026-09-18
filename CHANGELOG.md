@@ -114,7 +114,49 @@ intact). Verified no score, streak or difficulty number reaches an elder-facing 
 
 Gates: lint clean · tsc clean · 72 unit tests · **15** Playwright tests (added the R4 redirect test).
 
+## Phase 3 — Demo readiness (2026-09-18)
+
+F3 (No-Signal Mode) landed in Phase 2 alongside R1, so this phase is F1 and F2.
+
+**Dexie v2 — one migration, three features (also closes B9).** Version 1 is untouched; v2 adds the
+compound indexes Dexie had been warning about (`[person_id+state]`, `[person_id+created_at]`) plus
+`reminder_logs`, and declares `care_notes` and `nudges` although Phase 5 is what uses them. One
+upgrade is cheaper and safer than shipping a migration per feature.
+
+**F1 — Aita's Day (`src/lib/sampleData.ts`).** `loadSample()` / `clearSample()`, both idempotent.
+Seeded mulberry32 PRNG, never `Math.random()`, so two runs are byte-identical and a screenshot can be
+retaken. Creates the person, 14 days of trials (~70% completion, a dip on days 8–9 for F10, all
+`synthetic: true` so the engine never treats fiction as evidence), 8 reminders, 14 days of adherence
+logs with exactly two misses, 3 circle members, and 2 Memory Garden packs with drawn SVG placeholders
+— no photographs, no fake voice recordings.
+Entry points: **"Load Aita's Day (sample)"** on Circle, **"See a sample"** on Welcome, and a permanent
+**SAMPLE** chip on Home whenever the active person is a sample. `sync.ts` now filters sample, demo and
+synthetic rows, so fiction can never reach a real backend.
+⚠️ **Deviation:** the kit asked for an `is_sample` boolean on every table, with deletion by that flag.
+Every sample row already hangs off one fixed person id, and `deletePerson()` already deletes by
+`person_id` across every table — so `is_sample` went on `Person` only, `deletePerson()` was extended
+to cover `reminder_logs` and pack blobs, and `clearSample()` reuses it. Smaller change, and a stronger
+guarantee than a flag repeated on eight tables where the ninth gets forgotten.
+
+**F2 — Ghonta reminders now actually fire and record.** `reminders.ts` gains `dueAt`, `selectDue`,
+`selectMissed`, `sweepMissed` (idempotent, safe on every app start), `logReminderResponse` and
+`ringCapability`. Every due occurrence ends as exactly one `reminder_logs` row — answered by the
+person, or written as `missed` by the sweep 30 minutes later.
+`ReminderDueCard` is the full-screen card: big category icon, the caregiver's own care-plan text in
+30px, spoken once, and two ≥72px answers (**Done** / **Not now**). No countdown. The Reminders screen
+now states per-device ring capability rather than failing silently.
+
+Also fixed while here: the Reminders form's Hour/Minute/Period selects were in plain `<div>`s, so
+they had **no accessible name at all**. Given `aria-label`s.
+
+Gates: lint clean · tsc clean · **92** unit tests · **20** Playwright tests.
+The reminder e2e test pins the clock with `page.clock.setFixedTime` — "is this due" depends on the
+time of day and the form only offers quarter-hours, so a wall-clock run was not reproducible (it
+passed alone and failed once in a full run before this).
+
 ### Roadmap (not started)
 
-Phases 3–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: demo readiness (F1–F3 — F3 landed early with
-R1), two new games, caregiver layer, accessibility pass, deploy. B7–B11 are Phase 6.
+Phases 4–7 per `docs/saath-kit/CLAUDE_CODE_PROMPT.md`: two new games (Saah Pat, Apon Mukh) and the
+Aajir Tini daily set, the caregiver layer, the accessibility pass, deploy. B7–B11 are Phase 6.
+`loadSample()`'s `SAMPLE_ACTIVITIES` needs the two new games added when they land, and its care-notes
+and nudge rows wait on F7/F8 in Phase 5.

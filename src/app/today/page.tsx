@@ -5,7 +5,8 @@ import { usePerson } from '@/lib/usePerson';
 import { db, Reminder, remindersForPerson } from '@/lib/db';
 import { playPackAudio, playCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
-import { CUE_KEY, CATEGORY_COLOR, isOverdue, sortReminders, formatTime } from '@/lib/reminders';
+import { CUE_KEY, CATEGORY_COLOR, isOverdue, sortReminders, formatTime, dueNow, logReminderResponse } from '@/lib/reminders';
+import ReminderDueCard from '@/components/ui/ReminderDueCard';
 import { ACTIVITIES } from '@/content/activities';
 import AnalogClock from '@/components/ui/AnalogClock';
 import Icon from '@/components/ui/Icon';
@@ -27,6 +28,7 @@ export default function TodayScreen() {
   const { person, loading } = usePerson();
   const [reminders, setReminders] = useState<Reminder[] | null>(null);
   const [playedToday, setPlayedToday] = useState<string[]>([]);
+  const [due, setDue] = useState<Reminder[]>([]);
 
   useEffect(() => {
     if (!person) return;
@@ -37,6 +39,10 @@ export default function TodayScreen() {
       const [rs, trials] = await Promise.all([remindersForPerson(person.id), db.trials.where({ person_id: person.id }).toArray()]);
       if (cancelled) return;
       setReminders(sortReminders(rs));
+      // F2: the in-app fallback — whenever Today is open, anything due shows as
+      // a full-screen card even if the device itself could not ring.
+      const dueList = await dueNow(person.id);
+      if (!cancelled) setDue(dueList);
       const acts = [...new Set(trials.filter((x) => !x.synthetic && new Date(x.created_at) >= startOfDay).map((x) => x.activity))];
       setPlayedToday(acts.map((a) => t(ACTIVITIES.find((i) => i.activity === a)!.labelKey, person.language)));
     })();
@@ -55,6 +61,12 @@ export default function TodayScreen() {
   function play(r: Reminder) {
     if (r.audio_pack_id) playPackAudio(r.audio_pack_id);
     else playCue(CUE_KEY[r.category], lang);
+  }
+
+  /** Every due card is answered, and every answer is logged (F2 step 4). */
+  async function answerDue(r: Reminder, outcome: 'done' | 'snoozed') {
+    await logReminderResponse(r, outcome);
+    setDue((rest) => rest.filter((x) => x.id !== r.id));
   }
 
   function reminderTile(r: Reminder, big: boolean) {
@@ -104,6 +116,14 @@ export default function TodayScreen() {
 
   return (
     <main className="h-[100dvh] flex flex-col">
+      {due[0] && (
+        <ReminderDueCard
+          person={person}
+          reminder={due[0]}
+          onDone={() => answerDue(due[0], 'done')}
+          onNotNow={() => answerDue(due[0], 'snoozed')}
+        />
+      )}
       <header className="shrink-0 w-full max-w-5xl mx-auto px-5 pt-5 pb-3 flex flex-col gap-3">
         <div className="flex items-center justify-between gap-3">
           <BackButton href="/" label={t('common.back', lang)} />

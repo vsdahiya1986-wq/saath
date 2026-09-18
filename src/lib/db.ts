@@ -35,6 +35,8 @@ export interface Person {
   created_at: string;
   /** DEMO DATA marker — true only for the fictional personas created by src/lib/demoSeed.ts. */
   is_demo?: boolean;
+  /** SAMPLE marker — true only for Aita's Day, created by src/lib/sampleData.ts (F1). */
+  is_sample?: boolean;
 }
 
 export interface CircleMember {
@@ -129,6 +131,22 @@ export interface Reminder {
   native_notification_id?: number;
 }
 
+/**
+ * One row per time a reminder came due (F2). Written when the person answers,
+ * or by the missed sweep when nothing was answered in time. Nothing here is
+ * free text, so nothing needs encrypting — the care-plan text it refers to
+ * stays encrypted on the Reminder itself.
+ */
+export interface ReminderLog {
+  id: string;
+  person_id: string;
+  reminder_id: string;
+  category: Reminder['category'];
+  due_at: string;
+  responded_at?: string;
+  outcome: 'done' | 'snoozed' | 'missed';
+}
+
 /** unused since Sept 2026 (R2) — kept to avoid a destructive migration */
 export interface Handoff {
   id: string;
@@ -158,6 +176,7 @@ export class SaathDB extends Dexie {
   followups!: Table<FollowupItem>;
   reminders!: Table<Reminder>;
   handoffs!: Table<Handoff>;
+  reminder_logs!: Table<ReminderLog>;
   audit!: Table<AuditRecord>;
   blobs!: Table<{ key: string; blob: Blob; mime: string; at: string }>;
 
@@ -173,6 +192,22 @@ export class SaathDB extends Dexie {
       handoffs: 'id, person_id, state', // unused since Sept 2026 (R2) — kept to avoid a destructive migration
       audit: 'id, at',
       blobs: 'key',
+    });
+
+    /**
+     * v2 (B9 + F2): adds the compound indexes Dexie was warning about, and the
+     * tables the Sept 2026 features need. `care_notes` and `nudges` are declared
+     * here although they are only used from Phase 5 — declaring all three stores
+     * in one upgrade is cheaper and safer than shipping a migration per feature.
+     * Version 1 is left exactly as it was; existing rows are carried forward.
+     */
+    this.version(2).stores({
+      packs: 'id, person_id, state, [person_id+state]',
+      trials: 'id, person_id, activity, synced_at, [person_id+activity], [person_id+created_at]',
+      reminders: 'id, person_id, category',
+      reminder_logs: 'id, person_id, reminder_id, due_at, [person_id+due_at]',
+      care_notes: 'id, person_id, created_at, [person_id+created_at]',
+      nudges: 'id, person_id, state, [person_id+state]',
     });
   }
 }
@@ -204,7 +239,11 @@ export async function allPersons(): Promise<Person[]> {
 }
 
 export async function deletePerson(id: string): Promise<void> {
-  await db.transaction('rw', [db.persons, db.members, db.packs, db.trials, db.followups, db.reminders, db.handoffs, db.audit], async () => {
+  // Blobs are keyed, not person-scoped, so collect their keys before the rows go.
+  const packs = await db.packs.where({ person_id: id }).toArray();
+  const blobKeys = packs.flatMap((p) => [p.media.photo, p.media.place_photo, p.media.audio_key].filter((k): k is string => !!k));
+
+  await db.transaction('rw', [db.persons, db.members, db.packs, db.trials, db.followups, db.reminders, db.handoffs, db.reminder_logs, db.blobs, db.audit], async () => {
     await db.persons.delete(id);
     await db.members.where({ person_id: id }).delete();
     await db.packs.where({ person_id: id }).delete();
@@ -212,6 +251,8 @@ export async function deletePerson(id: string): Promise<void> {
     await db.followups.where({ person_id: id }).delete();
     await db.reminders.where({ person_id: id }).delete();
     await db.handoffs.where({ person_id: id }).delete();
+    await db.reminder_logs.where({ person_id: id }).delete();
+    await db.blobs.bulkDelete(blobKeys);
     await db.audit.put({ id: crypto.randomUUID(), actor: 'system', action: 'delete_person', scope: id, at: new Date().toISOString() });
   });
 }

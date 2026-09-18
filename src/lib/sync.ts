@@ -60,7 +60,10 @@ export async function syncTrials(): Promise<{ pushed: number; skipped: number; r
   const status = await Network.getStatus();
   if (!status.connected) return { pushed: 0, skipped: 0, reason: 'device offline' };
 
-  const pending = await db.trials.filter((t) => !t.synced_at).toArray();
+  // F1: demo personas and Aita's Day are fiction — they never leave the device,
+  // so a sample can never contaminate a real backend.
+  const fictional = new Set((await db.persons.toArray()).filter((p) => p.is_sample || p.is_demo).map((p) => p.id));
+  const pending = await db.trials.filter((t) => !t.synced_at && !t.synthetic && !fictional.has(t.person_id)).toArray();
   if (!pending.length) return { pushed: 0, skipped: 0 };
 
   // Client-generated UUIDs are the idempotency key.

@@ -94,6 +94,8 @@ const STRINGS = {
   'remind.hydration': 'Time for a glass of water.',
   'remind.activity': 'Time for your daily activity.',
   'remind.appointment': 'You have a clinic appointment.',
+  'remind.done': 'Done',
+  'remind.not_now': 'Not now',
   'exit.pause': 'Pause',
   'exit.skip_one': 'Skip this one',
   'exit.end': 'End',

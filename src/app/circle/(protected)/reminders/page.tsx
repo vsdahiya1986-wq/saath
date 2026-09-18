@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { getActivePersonId } from '@/lib/usePerson';
 import { Reminder, remindersForPerson, db } from '@/lib/db';
-import { scheduleReminder, cancelReminder, ensurePermission } from '@/lib/reminders';
+import { scheduleReminder, cancelReminder, ensurePermission, ringCapability, RING_STATUS_TEXT, RingCapability } from '@/lib/reminders';
 import AnalogClock from '@/components/ui/AnalogClock';
 import BackButton from '@/components/ui/BackButton';
 
@@ -16,6 +16,7 @@ export default function ReminderScheduler() {
   const [minute, setMinute] = useState(0);
   const [period, setPeriod] = useState<'AM' | 'PM'>('AM');
   const [permissionWarning, setPermissionWarning] = useState(false);
+  const [capability, setCapability] = useState<RingCapability | null>(null);
 
   async function refresh(id: string) {
     setReminders(await remindersForPerson(id));
@@ -26,6 +27,7 @@ export default function ReminderScheduler() {
       setPersonId(id);
       if (id) refresh(id);
     });
+    ringCapability().then(setCapability);
   }, []);
 
   async function add() {
@@ -85,6 +87,12 @@ export default function ReminderScheduler() {
         </p>
       )}
 
+      {/* F2 step 2: never fail silently — say plainly whether this device can ring. */}
+      <p data-testid="ring-status" style={{ fontSize: 15 }} className="muted">
+        <b>On this device:</b> {capability ? RING_STATUS_TEXT[capability] : '…'}
+        {capability === 'in_app' || capability === 'permission_needed' ? ' — a due reminder still shows as a full-screen card while SAATH is open.' : ''}
+      </p>
+
       <section style={cardStyle} className="flex flex-col gap-3">
         <h2 style={{ fontSize: 18 }} className="font-black">
           New reminder
@@ -103,9 +111,11 @@ export default function ReminderScheduler() {
           <textarea value={carePlanText} onChange={(e) => setCarePlanText(e.target.value)} style={{ ...inputStyle, minHeight: 72 }} />
         </label>
         <div className="flex items-center gap-3">
+          {/* These three sat in plain <div>s, so the selects had no accessible
+              name for a screen reader to announce. */}
           <div className="flex flex-col gap-1">
             <span style={{ fontSize: 14 }}>Hour</span>
-            <select value={hour} onChange={(e) => setHour(Number(e.target.value))} style={inputStyle}>
+            <select aria-label="Hour" value={hour} onChange={(e) => setHour(Number(e.target.value))} style={inputStyle}>
               {[...Array(12)].map((_, i) => (
                 <option key={i + 1} value={i + 1}>
                   {i + 1}
@@ -115,7 +125,7 @@ export default function ReminderScheduler() {
           </div>
           <div className="flex flex-col gap-1">
             <span style={{ fontSize: 14 }}>Minute</span>
-            <select value={minute} onChange={(e) => setMinute(Number(e.target.value))} style={inputStyle}>
+            <select aria-label="Minute" value={minute} onChange={(e) => setMinute(Number(e.target.value))} style={inputStyle}>
               {[0, 15, 30, 45].map((m) => (
                 <option key={m} value={m}>
                   {String(m).padStart(2, '0')}
@@ -125,7 +135,7 @@ export default function ReminderScheduler() {
           </div>
           <div className="flex flex-col gap-1">
             <span style={{ fontSize: 14 }}>Period</span>
-            <select value={period} onChange={(e) => setPeriod(e.target.value as 'AM' | 'PM')} style={inputStyle}>
+            <select aria-label="Period" value={period} onChange={(e) => setPeriod(e.target.value as 'AM' | 'PM')} style={inputStyle}>
               <option value="AM">AM</option>
               <option value="PM">PM</option>
             </select>
