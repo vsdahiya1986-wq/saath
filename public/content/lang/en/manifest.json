@@ -63,6 +63,38 @@
     "file": "activity_together.wav",
     "text": "Together Moment"
   },
+  "activity.saah_pat": {
+    "file": "activity_saah_pat.wav",
+    "text": "Saah Pat · Tea Leaf"
+  },
+  "activity.apon_mukh": {
+    "file": "activity_apon_mukh.wav",
+    "text": "Apon Mukh · Dear Faces"
+  },
+  "play.today_three": {
+    "file": "play_today_three.wav",
+    "text": "Today's three"
+  },
+  "play.all_activities": {
+    "file": "play_all_activities.wav",
+    "text": "All activities"
+  },
+  "display.text_size": {
+    "file": "display_text_size.wav",
+    "text": "Text size"
+  },
+  "rest.title": {
+    "file": "rest_title.wav",
+    "text": "Shall we rest for a while?"
+  },
+  "rest.rest_now": {
+    "file": "rest_rest_now.wav",
+    "text": "Rest now"
+  },
+  "rest.one_more": {
+    "file": "rest_one_more.wav",
+    "text": "One more"
+  },
   "domain.memory": {
     "file": "domain_memory.wav",
     "text": "Memory"
@@ -95,13 +127,25 @@
     "file": "status_syncing.wav",
     "text": "Syncing…"
   },
-  "adaptive.learned": {
-    "file": "adaptive_learned.wav",
-    "text": "Adapting to you"
+  "status.no_signal": {
+    "file": "status_no_signal.wav",
+    "text": "No-Signal Mode"
   },
-  "adaptive.baseline": {
-    "file": "adaptive_baseline.wav",
-    "text": "Standard pace"
+  "adaptive.same": {
+    "file": "adaptive_same.wav",
+    "text": "Same pace as last time"
+  },
+  "adaptive.easier": {
+    "file": "adaptive_easier.wav",
+    "text": "A gentler round today"
+  },
+  "adaptive.harder": {
+    "file": "adaptive_harder.wav",
+    "text": "A little more today"
+  },
+  "adaptive.with_help": {
+    "file": "adaptive_with_help.wav",
+    "text": "With a little help today"
   },
   "play.title": {
     "file": "play_title.wav",
@@ -126,6 +170,18 @@
   "play.together.intro": {
     "file": "play_together_intro.wav",
     "text": "Let us look at this picture together."
+  },
+  "play.saah_pat.intro": {
+    "file": "play_saah_pat_intro.wav",
+    "text": "Find the sprigs with two leaves and a bud. Tap each one you see. There is no hurry."
+  },
+  "play.apon_mukh.intro": {
+    "file": "play_apon_mukh_intro.wav",
+    "text": "Turn over two cards and find the pairs."
+  },
+  "game.not_this_one": {
+    "file": "game_not_this_one.wav",
+    "text": "Not this one."
   },
   "cue.repeat": {
     "file": "cue_repeat.wav",
@@ -231,17 +287,25 @@
     "file": "remind_appointment.wav",
     "text": "You have a clinic appointment."
   },
+  "remind.done": {
+    "file": "remind_done.wav",
+    "text": "Done"
+  },
+  "remind.not_now": {
+    "file": "remind_not_now.wav",
+    "text": "Not now"
+  },
   "exit.pause": {
     "file": "exit_pause.wav",
     "text": "Pause"
   },
-  "exit.skip": {
-    "file": "exit_skip.wav",
-    "text": "Skip"
+  "exit.skip_one": {
+    "file": "exit_skip_one.wav",
+    "text": "Skip this one"
   },
-  "exit.stop": {
-    "file": "exit_stop.wav",
-    "text": "Stop"
+  "exit.end": {
+    "file": "exit_end.wav",
+    "text": "End"
   },
   "game.well_done": {
     "file": "game_well_done.wav",
@@ -251,9 +315,9 @@
     "file": "game_gentle_end.wav",
     "text": "That is completely fine. We can try again another time."
   },
-  "game.try_again": {
-    "file": "game_try_again.wav",
-    "text": "Not quite. Let us try another one."
+  "game.look_again": {
+    "file": "game_look_again.wav",
+    "text": "Let us look again."
   },
   "game.good": {
     "file": "game_good.wav",

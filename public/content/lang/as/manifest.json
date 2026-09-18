@@ -63,6 +63,38 @@
     "file": "activity_together.wav",
     "text": "একেলগে মুহূৰ্ত"
   },
+  "activity.saah_pat": {
+    "file": "activity_saah_pat.wav",
+    "text": "চাহ পাত · চাহ পাত"
+  },
+  "activity.apon_mukh": {
+    "file": "activity_apon_mukh.wav",
+    "text": "অপোন মুখ · মৰমৰ মুখবোৰ"
+  },
+  "play.today_three": {
+    "file": "play_today_three.wav",
+    "text": "আজিৰ তিনিটা"
+  },
+  "play.all_activities": {
+    "file": "play_all_activities.wav",
+    "text": "সকলো কাৰ্য্যকলাপ"
+  },
+  "display.text_size": {
+    "file": "display_text_size.wav",
+    "text": "লিখনীৰ আকাৰ"
+  },
+  "rest.title": {
+    "file": "rest_title.wav",
+    "text": "আমি অলপ সময় বিশ্ৰাম কৰিমনে?"
+  },
+  "rest.rest_now": {
+    "file": "rest_rest_now.wav",
+    "text": "এতিয়া বিশ্ৰাম কৰক"
+  },
+  "rest.one_more": {
+    "file": "rest_one_more.wav",
+    "text": "আন এটা"
+  },
   "domain.memory": {
     "file": "domain_memory.wav",
     "text": "স্মৃতিশক্তি"
@@ -95,13 +127,25 @@
     "file": "status_syncing.wav",
     "text": "সমীকৰণ কৰা হৈছে"
   },
-  "adaptive.learned": {
-    "file": "adaptive_learned.wav",
-    "text": "আপোনাৰ লগত খাপ খোৱা"
+  "status.no_signal": {
+    "file": "status_no_signal.wav",
+    "text": "সংকেতবিহীন অৱস্থা"
   },
-  "adaptive.baseline": {
-    "file": "adaptive_baseline.wav",
-    "text": "মানক গতি"
+  "adaptive.same": {
+    "file": "adaptive_same.wav",
+    "text": "যোৱা বাৰৰ দৰে একেই গতি"
+  },
+  "adaptive.easier": {
+    "file": "adaptive_easier.wav",
+    "text": "আজি এক কোমল ৰাউণ্ড"
+  },
+  "adaptive.harder": {
+    "file": "adaptive_harder.wav",
+    "text": "আজি অলপ বেছি"
+  },
+  "adaptive.with_help": {
+    "file": "adaptive_with_help.wav",
+    "text": "আজি অলপ সহায়ৰে"
   },
   "play.title": {
     "file": "play_title.wav",
@@ -126,6 +170,18 @@
   "play.together.intro": {
     "file": "play_together_intro.wav",
     "text": "এই ছবিখন একেলগে চাওক।"
+  },
+  "play.saah_pat.intro": {
+    "file": "play_saah_pat_intro.wav",
+    "text": "দুটা পাত আৰু এটা কুঁহি থকা ডালবোৰ বিচাৰি উলিয়াওক। আপুনি দেখা প্ৰতিটো টেপ কৰক। কোনো ধৰণৰ দৌৰাদৌৰি নাই।"
+  },
+  "play.apon_mukh.intro": {
+    "file": "play_apon_mukh_intro.wav",
+    "text": "দুটা কাৰ্ড ঘূৰাই যোৰাবোৰ বিচাৰি উলিয়াওক।"
+  },
+  "game.not_this_one": {
+    "file": "game_not_this_one.wav",
+    "text": "এইটো নহয়।"
   },
   "cue.repeat": {
     "file": "cue_repeat.wav",
@@ -231,17 +287,25 @@
     "file": "remind_appointment.wav",
     "text": "আপোনাৰ এটা ক্লিনিক এপইণ্টমেণ্ট আছে।"
   },
+  "remind.done": {
+    "file": "remind_done.wav",
+    "text": "সম্পন্ন কৰা হৈছে"
+  },
+  "remind.not_now": {
+    "file": "remind_not_now.wav",
+    "text": "এতিয়া নহয়"
+  },
   "exit.pause": {
     "file": "exit_pause.wav",
     "text": "ৰৈ থাকক"
   },
-  "exit.skip": {
-    "file": "exit_skip.wav",
-    "text": "স্কিপ কৰক"
+  "exit.skip_one": {
+    "file": "exit_skip_one.wav",
+    "text": "এইটো এৰি দিয়ক"
   },
-  "exit.stop": {
-    "file": "exit_stop.wav",
-    "text": "ৰাখক"
+  "exit.end": {
+    "file": "exit_end.wav",
+    "text": "শেষ কৰক"
   },
   "game.well_done": {
     "file": "game_well_done.wav",
@@ -251,9 +315,9 @@
     "file": "game_gentle_end.wav",
     "text": "সেইটো সম্পূৰ্ণৰূপে ঠিক আছে। আমি আকৌ এবাৰ চেষ্টা কৰিব পাৰো।"
   },
-  "game.try_again": {
-    "file": "game_try_again.wav",
-    "text": "একেবাৰে নহয়। আমি আন এটা চেষ্টা কৰো।"
+  "game.look_again": {
+    "file": "game_look_again.wav",
+    "text": "পুনৰ এবাৰ চাওক।"
   },
   "game.good": {
     "file": "game_good.wav",

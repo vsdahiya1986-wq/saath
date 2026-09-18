@@ -58,7 +58,7 @@ Source of truth: SAATH_MASTER_FINAL.md. Tracks Part 23's build order. Check item
 - [x] **Regional content** (04_CONTENT §1, Sept 2026) — 24 objects, 5 routines, 10 new icons; content tests extended.
 - [x] **PPT screenshots** — `npm run screenshots` → `docs/screenshots/` (14 shots, 1280 × 800, reviewed by eye).
 - [ ] **Push + Vercel deploy + live URL in README** — needs the owner's go-ahead and Vercel login.
-- [ ] **Assamese audio regenerated** (`npm run generate-audio`) — needs Bhashini credentials.
+- [x] **Assamese audio regenerated** — 81/81 strings, both languages (Sept 2026). `activity.saah_pat` needs native-speaker review (gloss translated twice).
 - [ ] **2-minute screen recording** linked from README.
 - [ ] i18n: English strings complete and live; Assamese is English-fallback until `scripts/generate-audio.mjs` is run with real Bhashini credentials (script is written and path-corrected to `public/content/lang/`)
 - [x] Circle roster — verified live in browser

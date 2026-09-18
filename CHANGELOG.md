@@ -350,6 +350,20 @@ failure (`trace: 'retain-on-failure'`, no retries), so the next occurrence can b
 - **2-minute screen recording** for the README — best done by a person at demo pace.
 - **B11** airplane-mode test on a real device.
 
+## Assamese audio regenerated (2026-09-18)
+
+The owner ran `npm run generate-audio` against Bhashini. All **81** strings now have a file in both `as` and
+`en`, and `check-audio-coverage` reports the manifest up to date. The Phase 1–7 keys are no longer silent in
+Assamese. The screenshots were retaken, and `02-home-as.png` now reads "আজিৰ তিনিটা" instead of
+"Today's three".
+Gates: lint · tsc · 145 unit · 33 Playwright, all green.
+
+⚠️ **For native-speaker review:** `activity.saah_pat` ("Saah Pat · Tea Leaf") came back as
+"চাহ পাত · চাহ পাত". The name and its gloss mean the same thing, so it reads twice. By project rule, no
+Assamese is edited by hand. Fix it in review or by changing the English source and regenerating.
+Still English on Assamese screens (hard-coded English on Home, pre-dating this pass): the date/season line
+and the reminder-tile detail prefix ("Overdue — ", "Next: ").
+
 ### Roadmap (not started)
 
 All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).
