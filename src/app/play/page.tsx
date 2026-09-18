@@ -38,10 +38,9 @@ export default function PlayPicker() {
           </header>
 
           <div className="flex flex-col gap-2">
-            <span className="eyebrow self-start">Cognitive Stimulation Therapy</span>
             <h1 className="title-xl">{t('play.title', person.language)}</h1>
             <p className="muted" style={{ fontSize: 19 }}>
-              Short, gentle sessions. There are no wrong answers — just try your best.
+              {t('play.subtitle', person.language)}
             </p>
           </div>
 
@@ -60,7 +59,6 @@ export default function PlayPicker() {
                     icon={a.icon}
                     labelKey={a.labelKey}
                     subKey={a.domainKey}
-                    tag={a.cstSession}
                     color={DOMAIN_COLOR[a.domainKey]}
                     person={person}
                     onSelect={() => router.push(`/play/${a.slug}`)}
@@ -81,7 +79,6 @@ export default function PlayPicker() {
                 icon={a.icon}
                 labelKey={a.labelKey}
                 subKey={a.domainKey}
-                tag={a.cstSession}
                 color={DOMAIN_COLOR[a.domainKey]}
                 person={person}
                 onSelect={() => router.push(`/play/${a.slug}`)}

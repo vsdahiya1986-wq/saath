@@ -151,6 +151,10 @@ game, add a Care Note, turn it off, assert the sync badge changes.
 
 Save to `docs/screenshots/`, 1280 × 800, the Aita's Day sample profile, no browser chrome:
 
+> **Disable browser extensions before capturing by hand** (06_FIX_PACK R6: a floating purple widget in
+> the live test was the Excalidraw extension, not SAATH). `npm run screenshots` uses a clean Playwright
+> browser with no extensions, so it is unaffected.
+
 | File | Screen |
 | --- | --- |
 | `01-home-en.png` | Home, English, Today's Three visible |

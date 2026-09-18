@@ -12,6 +12,8 @@ export interface DeckItem {
   photoUrl?: string;
   icon?: string;
   caption?: string;
+  /** Regional drawings only: the item's name through `t()` (fix pack A1). */
+  labelKey?: string;
   /** The family's own recorded voice for this face, when one exists. */
   audioKey?: string;
 }

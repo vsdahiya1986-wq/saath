@@ -53,7 +53,7 @@
   },
   "activity.pattern_garden": {
     "file": "activity_pattern_garden.wav",
-    "text": "ঘৰটো ছ 'ৰ্ট কৰক"
+    "text": "ঘৰটো ছ'ৰ্ট কৰক"
   },
   "activity.my_next_step": {
     "file": "activity_my_next_step.wav",
@@ -161,7 +161,7 @@
   },
   "play.pattern.intro": {
     "file": "play_pattern_intro.wav",
-    "text": "এইটো ক \"ত আছে? সোঁফালৰ বাকচত টেপ কৰক।"
+    "text": "এইটো ক'ত আছে? সোঁফালৰ বাকচত টেপ কৰক।"
   },
   "play.step.intro": {
     "file": "play_step_intro.wav",
@@ -205,7 +205,7 @@
   },
   "common.stop": {
     "file": "common_stop.wav",
-    "text": "আমি ইয়াতেই থমকি ৰ \"ব পাৰো। সেইটো সম্পূৰ্ণৰূপে ঠিক আছে।"
+    "text": "আমি ইয়াতেই থমকি ৰ'ব পাৰো। সেইটো সম্পূৰ্ণৰূপে ঠিক আছে।"
   },
   "common.open": {
     "file": "common_open.wav",
@@ -261,11 +261,11 @@
   },
   "help.stored": {
     "file": "help_stored.wav",
-    "text": "এই ডিভাইচত সংৰক্ষণ কৰা হৈছে। সংযোগ থাকিলে ইয়াক প্ৰেৰণ কৰা হ 'ব।"
+    "text": "এই ডিভাইচত সংৰক্ষণ কৰা হৈছে। সংযোগ থাকিলে ইয়াক প্ৰেৰণ কৰা হ'ব।"
   },
   "help.stale_warning": {
     "file": "help_stale_warning.wav",
-    "text": "এইটোৱে হয়তো এই মুহূৰ্তত প্ৰকৃততে ক \"ত আছে দেখুৱাব নোৱাৰে।"
+    "text": "এইটোৱে হয়তো এই মুহূৰ্তত প্ৰকৃততে ক'ত আছে দেখুৱাব নোৱাৰে।"
   },
   "today.title": {
     "file": "today_title.wav",
@@ -322,5 +322,633 @@
   "game.good": {
     "file": "game_good.wav",
     "text": "হয়, ঠিকেই কৈছো।"
+  },
+  "q.today_me.part_of_day": {
+    "file": "q_today_me_part_of_day.wav",
+    "text": "এতিয়া দিনটোৰ কোনটো অংশ?"
+  },
+  "q.today_me.season": {
+    "file": "q_today_me_season.wav",
+    "text": "আমি কোনটো ঋতুত আছো?"
+  },
+  "q.today_me.weekday": {
+    "file": "q_today_me_weekday.wav",
+    "text": "আজি সপ্তাহটোৰ কোনটো দিন?"
+  },
+  "q.today_me.month": {
+    "file": "q_today_me_month.wav",
+    "text": "আমি কোন মাহত আছো?"
+  },
+  "opt.period.morning": {
+    "file": "opt_period_morning.wav",
+    "text": "ৰাতিপুৱা"
+  },
+  "opt.period.afternoon": {
+    "file": "opt_period_afternoon.wav",
+    "text": "দুপৰীয়া"
+  },
+  "opt.period.evening": {
+    "file": "opt_period_evening.wav",
+    "text": "সন্ধিয়া"
+  },
+  "opt.period.night": {
+    "file": "opt_period_night.wav",
+    "text": "ৰাতি"
+  },
+  "opt.season.spring": {
+    "file": "opt_season_spring.wav",
+    "text": "বসন্তকাল"
+  },
+  "opt.season.summer": {
+    "file": "opt_season_summer.wav",
+    "text": "গ্ৰীষ্ম"
+  },
+  "opt.season.monsoon": {
+    "file": "opt_season_monsoon.wav",
+    "text": "মৌচুমী বতাহ"
+  },
+  "opt.season.autumn": {
+    "file": "opt_season_autumn.wav",
+    "text": "শৰৎ কাল"
+  },
+  "opt.season.winter": {
+    "file": "opt_season_winter.wav",
+    "text": "শীতকাল"
+  },
+  "opt.weekday.sunday": {
+    "file": "opt_weekday_sunday.wav",
+    "text": "দেওবাৰ"
+  },
+  "opt.weekday.monday": {
+    "file": "opt_weekday_monday.wav",
+    "text": "সোমবাৰ"
+  },
+  "opt.weekday.tuesday": {
+    "file": "opt_weekday_tuesday.wav",
+    "text": "মঙলবাৰে"
+  },
+  "opt.weekday.wednesday": {
+    "file": "opt_weekday_wednesday.wav",
+    "text": "বুধবাৰে"
+  },
+  "opt.weekday.thursday": {
+    "file": "opt_weekday_thursday.wav",
+    "text": "বৃহস্পতিবাৰ"
+  },
+  "opt.weekday.friday": {
+    "file": "opt_weekday_friday.wav",
+    "text": "শুক্ৰবাৰে"
+  },
+  "opt.weekday.saturday": {
+    "file": "opt_weekday_saturday.wav",
+    "text": "শনিবাৰ"
+  },
+  "opt.month.january": {
+    "file": "opt_month_january.wav",
+    "text": "জানুৱাৰী"
+  },
+  "opt.month.february": {
+    "file": "opt_month_february.wav",
+    "text": "ফেব্ৰুৱাৰী"
+  },
+  "opt.month.march": {
+    "file": "opt_month_march.wav",
+    "text": "মাৰ্চ"
+  },
+  "opt.month.april": {
+    "file": "opt_month_april.wav",
+    "text": "এপ্ৰিল"
+  },
+  "opt.month.may": {
+    "file": "opt_month_may.wav",
+    "text": "মে"
+  },
+  "opt.month.june": {
+    "file": "opt_month_june.wav",
+    "text": "জুন"
+  },
+  "opt.month.july": {
+    "file": "opt_month_july.wav",
+    "text": "জুলাই"
+  },
+  "opt.month.august": {
+    "file": "opt_month_august.wav",
+    "text": "আগষ্ট"
+  },
+  "opt.month.september": {
+    "file": "opt_month_september.wav",
+    "text": "ছেপ্টেম্বৰ"
+  },
+  "opt.month.october": {
+    "file": "opt_month_october.wav",
+    "text": "অক্টোবৰ"
+  },
+  "opt.month.november": {
+    "file": "opt_month_november.wav",
+    "text": "নৱেম্বৰ"
+  },
+  "opt.month.december": {
+    "file": "opt_month_december.wav",
+    "text": "ডিচেম্বৰ"
+  },
+  "done.today": {
+    "file": "done_today.wav",
+    "text": "আজি"
+  },
+  "done.date": {
+    "file": "done_date.wav",
+    "text": "তাৰিখ"
+  },
+  "done.season": {
+    "file": "done_season.wav",
+    "text": "ঋতু"
+  },
+  "done.time_of_day": {
+    "file": "done_time_of_day.wav",
+    "text": "দিনটোৰ সময়"
+  },
+  "opt.bucket.kitchen": {
+    "file": "opt_bucket_kitchen.wav",
+    "text": "পাকঘৰ"
+  },
+  "opt.bucket.getting_ready": {
+    "file": "opt_bucket_getting_ready.wav",
+    "text": "সাজু হৈ গৈ আছে"
+  },
+  "opt.bucket.around_house": {
+    "file": "opt_bucket_around_house.wav",
+    "text": "ঘৰৰ চাৰিওফালে"
+  },
+  "item.reg_tumbler": {
+    "file": "item_reg_tumbler.wav",
+    "text": "ষ্টীলৰ টাম্বলাৰ"
+  },
+  "item.reg_kettle": {
+    "file": "item_reg_kettle.wav",
+    "text": "চাহৰ কেটলি"
+  },
+  "item.reg_thali": {
+    "file": "item_reg_thali.wav",
+    "text": "থালী প্লেট"
+  },
+  "item.reg_ghoti": {
+    "file": "item_reg_ghoti.wav",
+    "text": "পানীৰ পাত্ৰ"
+  },
+  "item.reg_comb": {
+    "file": "item_reg_comb.wav",
+    "text": "কম্ব"
+  },
+  "item.reg_mirror": {
+    "file": "item_reg_mirror.wav",
+    "text": "আইনা"
+  },
+  "item.reg_slipper": {
+    "file": "item_reg_slipper.wav",
+    "text": "চপ্পলবোৰ"
+  },
+  "item.reg_jhola": {
+    "file": "item_reg_jhola.wav",
+    "text": "কাপোৰৰ বেগ"
+  },
+  "item.reg_umbrella": {
+    "file": "item_reg_umbrella.wav",
+    "text": "জাপী টুপি"
+  },
+  "item.reg_broom": {
+    "file": "item_reg_broom.wav",
+    "text": "ঝাড়ু"
+  },
+  "item.reg_torch": {
+    "file": "item_reg_torch.wav",
+    "text": "টৰ্চ"
+  },
+  "item.reg_keylock": {
+    "file": "item_reg_keylock.wav",
+    "text": "লক আৰু চাবি"
+  },
+  "item.reg_lamp": {
+    "file": "item_reg_lamp.wav",
+    "text": "দিয়া লেম্প"
+  },
+  "item.reg_stool": {
+    "file": "item_reg_stool.wav",
+    "text": "মোৰা ষ্টুল"
+  },
+  "item.reg_pankha": {
+    "file": "item_reg_pankha.wav",
+    "text": "হাতৰ ফেন"
+  },
+  "item.reg_basket": {
+    "file": "item_reg_basket.wav",
+    "text": "বাঁহৰ বাকচ"
+  },
+  "item.reg_dhekia": {
+    "file": "item_reg_dhekia.wav",
+    "text": "ঢেকিয়া সেউজীয়া"
+  },
+  "item.reg_claypot": {
+    "file": "item_reg_claypot.wav",
+    "text": "মাটিৰ পানীৰ পাত্ৰ"
+  },
+  "item.reg_areca": {
+    "file": "item_reg_areca.wav",
+    "text": "এৰিকা বাদামৰ প্লেট"
+  },
+  "item.reg_ricepot": {
+    "file": "item_reg_ricepot.wav",
+    "text": "চাউলৰ পাত্ৰ"
+  },
+  "item.reg_gamosa": {
+    "file": "item_reg_gamosa.wav",
+    "text": "গমোছা"
+  },
+  "item.reg_xorai": {
+    "file": "item_reg_xorai.wav",
+    "text": "চোৰাই"
+  },
+  "item.reg_net": {
+    "file": "item_reg_net.wav",
+    "text": "মাছ ধৰা জাল"
+  },
+  "item.reg_loom": {
+    "file": "item_reg_loom.wav",
+    "text": "তাঁত বয়ন"
+  },
+  "routine.reg_morning_routine": {
+    "file": "routine_reg_morning_routine.wav",
+    "text": "ৰাতিপুৱাৰ ৰুটিন"
+  },
+  "step.reg_morning_routine.wake": {
+    "file": "step_reg_morning_routine_wake.wav",
+    "text": "জাগি উঠা"
+  },
+  "step.reg_morning_routine.medicine": {
+    "file": "step_reg_morning_routine_medicine.wav",
+    "text": "ঔষধ খাওক"
+  },
+  "step.reg_morning_routine.wash": {
+    "file": "step_reg_morning_routine_wash.wav",
+    "text": "ধুই পেলাওক"
+  },
+  "step.reg_morning_routine.breakfast": {
+    "file": "step_reg_morning_routine_breakfast.wav",
+    "text": "ৰাতিপুৱাৰ আহাৰ খাওক"
+  },
+  "routine.reg_afternoon_routine": {
+    "file": "routine_reg_afternoon_routine.wav",
+    "text": "দুপৰীয়াৰ ৰুটিন"
+  },
+  "step.reg_afternoon_routine.rest": {
+    "file": "step_reg_afternoon_routine_rest.wav",
+    "text": "বহি বিশ্ৰাম কৰক"
+  },
+  "step.reg_afternoon_routine.tea": {
+    "file": "step_reg_afternoon_routine_tea.wav",
+    "text": "চাহ খাওক"
+  },
+  "step.reg_afternoon_routine.walk": {
+    "file": "step_reg_afternoon_routine_walk.wav",
+    "text": "চুটি খোজকঢ়া"
+  },
+  "step.reg_afternoon_routine.water": {
+    "file": "step_reg_afternoon_routine_water.wav",
+    "text": "পানী খাওক"
+  },
+  "routine.reg_evening_routine": {
+    "file": "routine_reg_evening_routine.wav",
+    "text": "সন্ধিয়াৰ ৰুটিন"
+  },
+  "step.reg_evening_routine.wash_up": {
+    "file": "step_reg_evening_routine_wash_up.wav",
+    "text": "ধুই পেলাওক"
+  },
+  "step.reg_evening_routine.dinner": {
+    "file": "step_reg_evening_routine_dinner.wav",
+    "text": "ৰাতিৰ আহাৰ খাওক"
+  },
+  "step.reg_evening_routine.lock_up": {
+    "file": "step_reg_evening_routine_lock_up.wav",
+    "text": "দুৱাৰখন বন্ধ কৰা"
+  },
+  "step.reg_evening_routine.sleep": {
+    "file": "step_reg_evening_routine_sleep.wav",
+    "text": "লেম্পটো বন্ধ কৰি দিয়ক"
+  },
+  "routine.reg_prayer_routine": {
+    "file": "routine_reg_prayer_routine.wav",
+    "text": "সন্ধিয়াৰ প্ৰাৰ্থনা"
+  },
+  "step.reg_prayer_routine.light": {
+    "file": "step_reg_prayer_routine_light.wav",
+    "text": "লেম্পটো জ্বলাই দিয়া"
+  },
+  "step.reg_prayer_routine.sit": {
+    "file": "step_reg_prayer_routine_sit.wav",
+    "text": "বহক"
+  },
+  "step.reg_prayer_routine.pray": {
+    "file": "step_reg_prayer_routine_pray.wav",
+    "text": "প্ৰাৰ্থনা কওক"
+  },
+  "step.reg_prayer_routine.put_out": {
+    "file": "step_reg_prayer_routine_put_out.wav",
+    "text": "লেম্পটো জ্বলাই দিয়ক"
+  },
+  "routine.reg_bath_routine": {
+    "file": "routine_reg_bath_routine.wav",
+    "text": "গা ধোৱাৰ সময়"
+  },
+  "step.reg_bath_routine.fetch": {
+    "file": "step_reg_bath_routine_fetch.wav",
+    "text": "পানী কঢ়িয়াই আনক"
+  },
+  "step.reg_bath_routine.wash": {
+    "file": "step_reg_bath_routine_wash.wav",
+    "text": "চাবোন আৰু ধুই পেলাওক"
+  },
+  "step.reg_bath_routine.dry": {
+    "file": "step_reg_bath_routine_dry.wav",
+    "text": "গেমোছাৰে শুকোৱা"
+  },
+  "step.reg_bath_routine.dress": {
+    "file": "step_reg_bath_routine_dress.wav",
+    "text": "কাপোৰ সলনি কৰক"
+  },
+  "together.childhood.theme": {
+    "file": "together_childhood_theme.wav",
+    "text": "শৈশৱ"
+  },
+  "together.childhood.q": {
+    "file": "together_childhood_q.wav",
+    "text": "তুমি ডাঙৰ হোৱা ঘৰৰ বিষয়ে মোক কোৱা।"
+  },
+  "together.childhood.follow": {
+    "file": "together_childhood_follow.wav",
+    "text": "আপোনাৰ লগত তাত কোনে বাস কৰিছিল?"
+  },
+  "together.food.theme": {
+    "file": "together_food_theme.wav",
+    "text": "খাদ্য"
+  },
+  "together.food.q": {
+    "file": "together_food_q.wav",
+    "text": "শৈশৱত আপোনাৰ প্ৰিয় খাদ্য কি আছিল?"
+  },
+  "together.food.follow": {
+    "file": "together_food_follow.wav",
+    "text": "আপোনাৰ বাবে কোনে ৰন্ধা-বঢ়া কৰিছিল?"
+  },
+  "together.festivals.theme": {
+    "file": "together_festivals_theme.wav",
+    "text": "উৎসৱবোৰ"
+  },
+  "together.festivals.q": {
+    "file": "together_festivals_q.wav",
+    "text": "আপোনাৰ পৰিয়ালে কেনেকৈ বিহু বা আপোনাৰ প্ৰিয় উৎসৱ উদযাপন কৰিছিল?"
+  },
+  "together.festivals.follow": {
+    "file": "together_festivals_follow.wav",
+    "text": "সেইদিনা আপুনি কি পিন্ধিছিল?"
+  },
+  "together.music.theme": {
+    "file": "together_music_theme.wav",
+    "text": "সংগীত"
+  },
+  "together.music.q": {
+    "file": "together_music_q.wav",
+    "text": "সৰু হৈ থাকোতে আপুনি কোনটো গীত গাইছিল মনত আছে?"
+  },
+  "together.music.follow": {
+    "file": "together_music_follow.wav",
+    "text": "আপুনি ইয়াৰ পৰা অলপ শব্দ কৰিব পাৰিবনে?"
+  },
+  "together.work.theme": {
+    "file": "together_work_theme.wav",
+    "text": "কৰ্ম"
+  },
+  "together.work.q": {
+    "file": "together_work_q.wav",
+    "text": "আপুনি আপোনাৰ হাতেৰে কৰা কি কাম উপভোগ কৰিছিল?"
+  },
+  "together.work.follow": {
+    "file": "together_work_follow.wav",
+    "text": "আপোনাক এইটো কেনেকৈ কৰিব লাগে কোনে শিকাইছিল?"
+  },
+  "together.places.theme": {
+    "file": "together_places_theme.wav",
+    "text": "স্থানসমূহ"
+  },
+  "together.places.q": {
+    "file": "together_places_q.wav",
+    "text": "আপোনাক সুখী কৰি তোলা ঠাই ক'ত আছে?"
+  },
+  "together.places.follow": {
+    "file": "together_places_follow.wav",
+    "text": "আপুনি তাত কি দেখিছিল আৰু শুনিছিল?"
+  },
+  "together.tea_time.theme": {
+    "file": "together_tea_time_theme.wav",
+    "text": "চাহৰ সময়"
+  },
+  "together.tea_time.q": {
+    "file": "together_tea_time_q.wav",
+    "text": "আপোনাৰ চাহ কেনেকুৱা ভাল লাগে?"
+  },
+  "together.tea_time.follow": {
+    "file": "together_tea_time_follow.wav",
+    "text": "আপুনি কাৰ লগত চাহ খাবলৈ ভাল পায়?"
+  },
+  "together.friends.theme": {
+    "file": "together_friends_theme.wav",
+    "text": "বন্ধুসকল"
+  },
+  "together.friends.q": {
+    "file": "together_friends_q.wav",
+    "text": "মোক তোমাৰ কম বয়সৰ এজন ভাল বন্ধুৰ বিষয়ে কোৱা।"
+  },
+  "together.friends.follow": {
+    "file": "together_friends_follow.wav",
+    "text": "তুমি একেলগে কি কৰিলা?"
+  },
+  "q.sort_home.where": {
+    "file": "q_sort_home_where.wav",
+    "text": "এইটো ক'ত আছে?"
+  },
+  "q.hear_find.listen": {
+    "file": "q_hear_find_listen.wav",
+    "text": "শুনক, তাৰপিছত বিচাৰি উলিয়াওক"
+  },
+  "q.hear_find.look": {
+    "file": "q_hear_find_look.wav",
+    "text": "এই ছবিখন বিচাৰি উলিয়াওক"
+  },
+  "q.next_step.first": {
+    "file": "q_next_step_first.wav",
+    "text": "আপুনি প্ৰথমে কি কৰে?"
+  },
+  "q.next_step.after": {
+    "file": "q_next_step_after.wav",
+    "text": "তাৰ পাছত কি হ'ব?"
+  },
+  "q.apon_mukh.find_pairs": {
+    "file": "q_apon_mukh_find_pairs.wav",
+    "text": "যোৰাবোৰ বিচাৰি উলিয়াওক"
+  },
+  "q.saah_pat.find_sprigs": {
+    "file": "q_saah_pat_find_sprigs.wav",
+    "text": "এনেধৰণৰ প্ৰতিটো ডাল বিচাৰি উলিয়াওক"
+  },
+  "q.saah_pat.left": {
+    "file": "q_saah_pat_left.wav",
+    "text": "এতিয়াও বিচাৰিব লাগিব"
+  },
+  "q.saah_pat.all_found": {
+    "file": "q_saah_pat_all_found.wav",
+    "text": "সকলো পোৱা গৈছে"
+  },
+  "notice.family_pictures": {
+    "file": "notice_family_pictures.wav",
+    "text": "ইয়াত আপোনাৰ পৰিয়ালৰ ফটো অন্তৰ্ভুক্ত কৰা হৈছে।"
+  },
+  "notice.visual_mode": {
+    "file": "notice_visual_mode.wav",
+    "text": "শব্দটো পঢ়ক, তাৰ পিছত ইয়াৰ ছবি বিচাৰি উলিয়াওক।"
+  },
+  "notice.family_routine": {
+    "file": "notice_family_routine.wav",
+    "text": "আপোনাৰ পৰিয়ালৰ নিজৰ ৰুটিন"
+  },
+  "notice.routine_generic": {
+    "file": "notice_routine_generic.wav",
+    "text": "এটা পৰিয়ালে মেম'ৰী গাৰ্ডেনত তেওঁলোকৰ নিজৰ ৰুটিন যোগ দিব পাৰে।"
+  },
+  "notice.family_photos": {
+    "file": "notice_family_photos.wav",
+    "text": "এইবোৰ আপোনাৰ পৰিয়ালৰ নিজৰ ফটো।"
+  },
+  "notice.add_photos": {
+    "file": "notice_add_photos.wav",
+    "text": "এটা পৰিয়ালে মেম'ৰী গাৰ্ডেনত তেওঁলোকৰ নিজৰ ফটো যোগ দিব পাৰে।"
+  },
+  "game.here_all": {
+    "file": "game_here_all.wav",
+    "text": "ইয়াত সকলো আছে।"
+  },
+  "game.here_others": {
+    "file": "game_here_others.wav",
+    "text": "ইয়াত বাকীবোৰ আছে।"
+  },
+  "game.play_again": {
+    "file": "game_play_again.wav",
+    "text": "পুনৰ খেলক"
+  },
+  "game.more_activities": {
+    "file": "game_more_activities.wav",
+    "text": "অধিক কাৰ্য্যকলাপ"
+  },
+  "next.same": {
+    "file": "next_same.wav",
+    "text": "পৰৱৰ্তী সময়ত আমি একে গতি বজাই ৰাখিম।"
+  },
+  "next.more": {
+    "file": "next_more.wav",
+    "text": "পৰৱৰ্তী সময়ত, অলপ বেছি।"
+  },
+  "next.gentler": {
+    "file": "next_gentler.wav",
+    "text": "পৰৱৰ্তী সময়ত, এটা কোমল ৰাউণ্ড।"
+  },
+  "next.with_help": {
+    "file": "next_with_help.wav",
+    "text": "পৰৱৰ্তী সময়ত, অলপ সহায়ৰ সৈতে।"
+  },
+  "together.who": {
+    "file": "together_who.wav",
+    "text": "ইয়াত কে আছে? এই বিষয়ে আপোনাৰ কি মনত আছে?"
+  },
+  "together.thanks": {
+    "file": "together_thanks.wav",
+    "text": "শ্বেয়াৰ কৰাৰ বাবে ধন্যবাদ।"
+  },
+  "together.done_note": {
+    "file": "together_done_note.wav",
+    "text": "স্মৃতিৰ বিষয়ে কথা কোৱাটো মন আৰু হৃদয়ৰ বাবে ভাল। ইয়াত কোনো নম্বৰ নাই।"
+  },
+  "together.done": {
+    "file": "together_done.wav",
+    "text": "কথা-বতৰা শেষ"
+  },
+  "together.tell_more": {
+    "file": "together_tell_more.wav",
+    "text": "মোক আৰু কওক"
+  },
+  "together.another": {
+    "file": "together_another.wav",
+    "text": "আন এটা বিষয়"
+  },
+  "together.reject": {
+    "file": "together_reject.wav",
+    "text": "মই এইটো পুনৰ চাবলৈ নিবিচাৰোঁ"
+  },
+  "together.reject_confirm": {
+    "file": "together_reject_confirm.wav",
+    "text": "ইয়াক চিৰকালৰ বাবে আঁতৰাবলৈ পুনৰ টিপি দিয়ক"
+  },
+  "together.add_photos": {
+    "file": "together_add_photos.wav",
+    "text": "পৰিয়ালৰ এজন সদস্যই মেম'ৰী গাৰ্ডেনত প্ৰকৃত ফটো আৰু ভইচ নোট যোগ দিব পাৰে।"
+  },
+  "play.subtitle": {
+    "file": "play_subtitle.wav",
+    "text": "চুটি, কোমল অধিৱেশন। কোনো ভুল উত্তৰ নাই-কেৱল আপোনাৰ সৰ্বশ্ৰেষ্ঠ চেষ্টা কৰক।"
+  },
+  "reminder.overdue": {
+    "file": "reminder_overdue.wav",
+    "text": "অতিৰিক্ত"
+  },
+  "reminder.next": {
+    "file": "reminder_next.wav",
+    "text": "পৰৱৰ্তী"
+  },
+  "reminder.next_up": {
+    "file": "reminder_next_up.wav",
+    "text": "পৰৱৰ্তী"
+  },
+  "reminder.later": {
+    "file": "reminder_later.wav",
+    "text": "পিছদিনা আজি"
+  },
+  "reminder.none": {
+    "file": "reminder_none.wav",
+    "text": "এতিয়ালৈকে কোনো ৰিমাইণ্ডাৰ কৰা হোৱা নাই"
+  },
+  "reminder.none_help": {
+    "file": "reminder_none_help.wav",
+    "text": "পৰিয়ালৰ এজন সদস্য বা স্বাস্থ্য কৰ্মচাৰীয়ে চক্ৰত ঔষধ, পানী, কাৰ্য্যকলাপ আৰু ক্লিনিক ৰিমাইণ্ডাৰ যোগ দিব পাৰে।"
+  },
+  "reminder.not_armed": {
+    "file": "reminder_not_armed.wav",
+    "text": "এই ডিভাইচত অস্ত্ৰধাৰ নাই"
+  },
+  "today.is": {
+    "file": "today_is.wav",
+    "text": "আজি হৈছে"
+  },
+  "today.played": {
+    "file": "today_played.wav",
+    "text": "আজি খেলা হৈছিল"
+  },
+  "today.nothing_yet": {
+    "file": "today_nothing_yet.wav",
+    "text": "আজিও একো নাই"
+  },
+  "home.circle.one": {
+    "file": "home_circle_one.wav",
+    "text": "আপোনাক বিচাৰি থকা ব্যক্তি"
+  },
+  "home.circle.many": {
+    "file": "home_circle_many.wav",
+    "text": "মানুহে আপোনাক বিচাৰি আছে"
   }
 }

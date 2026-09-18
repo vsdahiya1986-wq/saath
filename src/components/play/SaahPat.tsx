@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
-import { playCue, queueAutoCue, speak } from '@/lib/audio';
-import { buildSaahPatRound, GRID, ROUNDS_PER_SESSION, SaahPatTile, wrongTapBudget } from '@/lib/saahPat';
+import { playCue, queueAutoCue } from '@/lib/audio';
+import { t } from '@/lib/i18n';
+import { buildSaahPatRound, ROUNDS_PER_SESSION, SaahPatTile, wrongTapBudget } from '@/lib/saahPat';
 import TeaSprig from './TeaSprig';
 import GameFrame from './GameFrame';
 
@@ -72,7 +73,7 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
   /** Out of patience, not out of luck: show the rest and move on. */
   function revealRest() {
     setRevealed(true);
-    speak('Here are the others.', lang);
+    playCue('game.here_others', lang);
     setFound(targets.map((t) => t.id));
   }
 
@@ -102,7 +103,7 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
 
   async function onHelp() {
     const cue: CueType = await session.requestHelp();
-    if (cue === 'repeat_audio') speak('Find the sprigs with two leaves and a bud.', lang);
+    if (cue === 'repeat_audio') playCue('play.saah_pat.intro', lang);
     else if (cue === 'reduce_choices' || cue === 'demonstrate') revealRest();
     else setHinted(true); // highlight: outline the ones still to find, taps stay live
   }
@@ -123,7 +124,7 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
       session={session}
       onRestart={onRestart}
       progress={{ current: round + 1, total: ROUNDS_PER_SESSION }}
-      onListen={() => speak('Find the sprigs with two leaves and a bud.', lang)}
+      onListen={() => playCue('play.saah_pat.intro', lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
       prompt={
@@ -132,11 +133,12 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
             <TeaSprig kind="two_and_bud" size={72} />
           </span>
           <div className="flex flex-col gap-1 min-w-0">
-            <span style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
-              Find every sprig like this one
+            <span data-testid="question" style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+              {t('q.saah_pat.find_sprigs', lang)}
             </span>
             <span style={{ fontSize: 19 }} className="muted" data-testid="saah-pat-remaining">
-              {remaining.length ? `${remaining.length} still to find` : 'All found'}
+              {/* The count is a numeral beside the phrase, never spliced into a sentence. */}
+              {remaining.length ? `${remaining.length} · ${t('q.saah_pat.left', lang)}` : t('q.saah_pat.all_found', lang)}
             </span>
           </div>
         </div>
@@ -162,9 +164,6 @@ export default function SaahPat({ person, onRestart }: { person: Person; onResta
           );
         })}
       </div>
-      <p style={{ fontSize: 16 }} className="muted text-center">
-        {GRID[difficulty].targets} sprigs like the one above are hidden in this patch.
-      </p>
     </GameFrame>
   );
 }

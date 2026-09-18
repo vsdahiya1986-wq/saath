@@ -13,7 +13,7 @@ import Icon from '@/components/ui/Icon';
 import StatusBadge from '@/components/ui/StatusBadge';
 import BackButton from '@/components/ui/BackButton';
 import BottomNav from '@/components/ui/BottomNav';
-import { orientationNow } from '@/lib/orientation';
+import { optKey, orientationNow } from '@/lib/orientation';
 
 /** Literacy tiers (SIH26003 h): analog clock faces for non-literate/basic, digits for fluent. */
 const SIZES = {
@@ -93,7 +93,7 @@ export default function TodayScreen() {
         <span className="flex-1 min-w-0 flex flex-col gap-1">
           <span style={{ fontSize: 15, color, letterSpacing: '0.08em' }} className="font-bold uppercase flex items-center gap-2">
             {overdue && <Icon name="warning" size={16} />}
-            {big ? (overdue ? 'Overdue — next up' : 'Next up') : overdue ? 'Overdue' : 'Later today'} · {formatTime(r)}
+            {big ? (overdue ? `${t('reminder.overdue', lang)} · ${t('reminder.next_up', lang)}` : t('reminder.next_up', lang)) : t(overdue ? 'reminder.overdue' : 'reminder.later', lang)} · {formatTime(r)}
           </span>
           <span style={{ fontSize: big ? s.label + 4 : s.label }} className="font-extrabold leading-tight">
             {t(CUE_KEY[r.category], lang)}
@@ -103,7 +103,7 @@ export default function TodayScreen() {
           </span>
           {!r.device_activated && (
             <span style={{ fontSize: 15, color: 'var(--warn)' }} className="flex items-center gap-1 font-semibold">
-              <Icon name="warning" size={14} /> Not armed on this device
+              <Icon name="warning" size={14} /> {t('reminder.not_armed', lang)}
             </span>
           )}
         </span>
@@ -141,10 +141,10 @@ export default function TodayScreen() {
               </span>
               <div>
                 <p style={{ fontSize: 24 }} className="font-extrabold">
-                  No reminders set yet
+                  {t('reminder.none', lang)}
                 </p>
                 <p style={{ fontSize: 17 }} className="muted">
-                  A family member or health worker can add medicine, water, activity and clinic reminders in Circle.
+                  {t('reminder.none_help', lang)}
                 </p>
               </div>
             </div>
@@ -154,28 +154,28 @@ export default function TodayScreen() {
 
           <div className="core p-4 flex flex-col gap-2 min-h-0" data-testid="today-orientation" style={{ borderTop: '6px solid var(--accent-warm)' }}>
             <span style={{ fontSize: 15, color: 'var(--accent-warm)', letterSpacing: '0.08em' }} className="font-bold uppercase">
-              Today is
+              {t('today.is', lang)}
             </span>
             <span style={{ fontSize: 30 }} className="font-extrabold leading-tight">
-              {now.weekday}
+              {t(optKey('weekday', now.weekday), lang)}
             </span>
             <span style={{ fontSize: 20 }} className="font-semibold">
-              {now.day} {now.month}
+              {now.day} {t(optKey('month', now.month), lang)}
             </span>
             <span style={{ fontSize: 17 }} className="muted flex items-center gap-2 mt-auto">
-              <Icon name={now.seasonIcon} size={20} /> {now.season} season · {now.part}
+              <Icon name={now.seasonIcon} size={20} /> {t(optKey('season', now.season), lang)} · {t(optKey('period', now.part), lang)}
             </span>
           </div>
 
           <div className="core p-4 flex flex-col gap-2 min-h-0" data-testid="today-played" style={{ borderTop: '6px solid var(--tint-play)' }}>
             <span style={{ fontSize: 15, color: 'var(--tint-play)', letterSpacing: '0.08em' }} className="font-bold uppercase">
-              Played today
+              {t('today.played', lang)}
             </span>
             <span style={{ fontSize: 40, color: 'var(--tint-play)' }} className="font-extrabold leading-none tabular-nums">
               {playedToday.length}
             </span>
             <span style={{ fontSize: 17 }} className="muted">
-              {playedToday.length ? playedToday.join(', ') : 'Nothing yet today'}
+              {playedToday.length ? playedToday.join(', ') : t('today.nothing_yet', lang)}
             </span>
             <button onClick={() => router.push('/play')} className="btn btn-primary btn-block mt-auto">
               <Icon name="play" size={22} /> {t('home.play', lang)}

@@ -1,4 +1,6 @@
 import type { IconName } from '@/components/ui/Icon';
+import type { Lang } from './db';
+import { t } from './i18n';
 
 export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -43,4 +45,16 @@ export function orientationNow(d = new Date()) {
     season: season.name,
     seasonIcon: season.icon,
   };
+}
+
+/**
+ * Fix pack A1/A2: every name above is shown through `t()`, never as the bare
+ * English literal. The English name stays the id; the key is derived from it.
+ */
+export type OrientationKind = 'period' | 'season' | 'weekday' | 'month';
+export const optKey = (kind: OrientationKind, name: string) => `opt.${kind}.${name.toLowerCase()}`;
+
+/** "Friday, 18 September" in the person's language (fix pack A2). */
+export function localDate(now: ReturnType<typeof orientationNow>, lang: Lang): string {
+  return `${t(optKey('weekday', now.weekday), lang)}, ${now.day} ${t(optKey('month', now.month), lang)}`;
 }

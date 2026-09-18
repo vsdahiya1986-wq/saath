@@ -16,7 +16,7 @@ const STEPPED = ['today_me', 'hear_find', 'sort_home', 'next_step'];
 
 /** Every activity's answer control, plus the finish button for the talk-only one. */
 const CHOICE =
-  '[data-testid="orientation-choice"], [data-testid="sound-sight-choice"], [data-testid="sort-basket"], [data-testid="step-tile"], button:has-text("Done talking")';
+  '[data-testid="orientation-choice"], [data-testid="sound-sight-choice"], [data-testid="sort-basket"], [data-testid="step-tile"], [data-testid="together-done"]';
 
 /** @param language the profile's language — the games must complete in both. */
 async function setUpProfile(page: Page, language: 'en' | 'as') {
@@ -116,7 +116,7 @@ test.describe('activity screens', () => {
 
     // Still in the activity, one step further on — not back at /play.
     await expect(page).toHaveURL(/\/play\/sort_home/);
-    await expect(page.locator('[aria-label^="Step "]')).toHaveAttribute('aria-label', /Step 2 of/);
+    await expect(page.getByTestId('progress')).toHaveAttribute('aria-label', /^2 \//);
   });
 
   /** R4: the renamed routes keep the old links working. */

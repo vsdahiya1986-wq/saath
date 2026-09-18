@@ -21,6 +21,7 @@ async function setUpProfile(page: Page, language: 'en' | 'as') {
 const GAMES = ['today_me', 'hear_find', 'sort_home', 'next_step', 'saah_pat', 'apon_mukh', 'together'];
 
 test('B7: an Assamese profile stays Assamese across Home → Play → every game → back', async ({ page }) => {
+  test.setTimeout(120_000); // 7 games × 3 navigations
   await setUpProfile(page, 'as');
   await page.goto('/');
   for (const game of GAMES) {

@@ -193,3 +193,18 @@ export class VoiceRecorder {
     });
   }
 }
+
+/**
+ * Fix pack A1: a sentence built at run time ("Yes. Today is Friday.") can only
+ * be spoken by the device voice, which has no Assamese — so it was silent for
+ * an Assamese profile. English keeps the full sentence; any other language
+ * plays the pre-generated Bhashini cue for `key` instead.
+ */
+export function say(text: string, key: string, lang: Lang) {
+  return lang === 'en' ? speak(text, lang) : playCue(key, lang);
+}
+
+export function queueSay(text: string, key: string, lang: Lang) {
+  if (lang === 'en') queueSpeak(text, lang);
+  else queueAutoCue(key, lang);
+}

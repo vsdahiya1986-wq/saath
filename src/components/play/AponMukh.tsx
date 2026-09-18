@@ -4,7 +4,8 @@ import type { CueType, Difficulty, Person } from '@/lib/db';
 import { getBlob, packsForPerson } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, speak } from '@/lib/audio';
-import { HOME_OBJECTS, shuffle } from '@/content/cstContent';
+import { t } from '@/lib/i18n';
+import { HOME_OBJECTS, itemKey, shuffle } from '@/content/cstContent';
 import { buildDeck, Card, DeckItem, mismatchBudget } from '@/lib/aponMukh';
 import Icon, { IconName } from '@/components/ui/Icon';
 import GameFrame from './GameFrame';
@@ -30,12 +31,14 @@ async function buildPool(person: Person): Promise<{ pool: DeckItem[]; family: bo
   }
 
   // Family faces first; regional drawings only fill out the deck.
-  const fallback = shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, icon: o.icon, caption: o.label }));
+  const fallback = shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }));
   return { pool: [...shuffle(family), ...fallback], family: family.length > 0 };
 }
 
 export default function AponMukh({ person, onRestart }: { person: Person; onRestart: () => void }) {
   const lang = person.language;
+  /** A family caption in the family's words; a regional drawing's name through `t()`. */
+  const name = (i: DeckItem) => (i.labelKey ? t(i.labelKey, lang) : (i.caption ?? i.label));
   const [cards, setCards] = useState<Card[]>([]);
   const [family, setFamily] = useState(false);
   const [matched, setMatched] = useState<string[]>([]);
@@ -65,7 +68,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
   function revealRest() {
     setAllRevealed(true);
     locked.current = true;
-    speak('Here they all are.', lang);
+    playCue('game.here_all', lang);
     setTimeout(() => session.finish('completed'), 2200);
   }
 
@@ -87,6 +90,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
       locked.current = false;
       // The family's own voice naming the face if they recorded one, else ours.
       if (first.item.audioKey) playPackAudio(first.item.audioKey);
+      else if (first.item.labelKey) playCue(first.item.labelKey, lang);
       else speak(first.item.caption ?? first.item.label, lang);
       if (done / 2 >= pairCount) {
         locked.current = true;
@@ -107,7 +111,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
 
   async function onHelp() {
     const cue: CueType = await session.requestHelp();
-    if (cue === 'repeat_audio') speak('Turn over two cards and find the pairs.', lang);
+    if (cue === 'repeat_audio') playCue('play.apon_mukh.intro', lang);
     else revealRest();
   }
 
@@ -126,13 +130,13 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
       session={session}
       onRestart={onRestart}
       progress={{ current: Math.min(matchedPairs + 1, pairCount), total: pairCount || 1 }}
-      onListen={() => speak('Turn over two cards and find the pairs.', lang)}
+      onListen={() => playCue('play.apon_mukh.intro', lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
-      notice={family ? 'These are your family’s own pictures.' : 'A family can add their own photos in the Memory Garden.'}
+      notice={t(family ? 'notice.family_photos' : 'notice.add_photos', lang)}
       prompt={
-        <p style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
-          Find the pairs
+        <p data-testid="question" style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+          {t('q.apon_mukh.find_pairs', lang)}
         </p>
       }
     >
@@ -145,7 +149,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
               key={card.id}
               data-testid="memory-card"
               data-open={isOpen ? 'yes' : 'no'}
-              aria-label={isOpen ? card.item.label : `Card ${i + 1}, face down`}
+              aria-label={isOpen ? name(card.item) : `${i + 1}`}
               onClick={() => tap(card)}
               disabled={session.phase !== 'playing'}
               className={`tile rise rise-${Math.min(i + 1, 6)} ${isMatched ? 'is-correct' : ''}`}
@@ -163,7 +167,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
                   )}
                   {isMatched && (
                     <span style={{ fontSize: 17 }} className="font-extrabold text-center leading-tight">
-                      {card.item.caption ?? card.item.label}
+                      {name(card.item)}
                     </span>
                   )}
                 </>

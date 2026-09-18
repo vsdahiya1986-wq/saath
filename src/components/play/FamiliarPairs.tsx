@@ -2,8 +2,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
-import { playCue, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
-import { MONTHS, PARTS, SEASONS, WEEKDAYS, orientationNow, partOfDayIndex } from '@/lib/orientation';
+import { playCue, queueAutoCue, say } from '@/lib/audio';
+import { t } from '@/lib/i18n';
+import { MONTHS, PARTS, SEASONS, WEEKDAYS, optKey, orientationNow, partOfDayIndex } from '@/lib/orientation';
 import { shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
@@ -20,13 +21,14 @@ const QUESTIONS_FOR: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 4, 4: 4 };
 const CHOICES_FOR: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 3, 4: 4 };
 
 interface Choice {
+  /** The English name, which is also what the device clock is compared with. */
   id: string;
-  label: string;
+  labelKey: string;
   icon?: IconName;
 }
 interface Question {
   id: string;
-  question: string;
+  questionKey: string;
   choices: Choice[];
   answerId: string;
   affirm: string;
@@ -43,15 +45,15 @@ function buildQuestions(difficulty: Difficulty): Question[] {
   const d = new Date();
   const n = CHOICES_FOR[difficulty];
   const now = orientationNow(d);
-  const partChoices: Choice[] = PARTS.map((p) => ({ id: p.name, label: p.name, icon: p.icon }));
-  const seasonChoices: Choice[] = SEASONS.map((s) => ({ id: s.name, label: s.name, icon: s.icon }));
-  const weekdayChoices: Choice[] = WEEKDAYS.map((w) => ({ id: w, label: w, icon: 'calendar' }));
-  const monthChoices: Choice[] = MONTHS.map((m) => ({ id: m, label: m, icon: 'calendar' }));
+  const partChoices: Choice[] = PARTS.map((p) => ({ id: p.name, labelKey: optKey('period', p.name), icon: p.icon }));
+  const seasonChoices: Choice[] = SEASONS.map((s) => ({ id: s.name, labelKey: optKey('season', s.name), icon: s.icon }));
+  const weekdayChoices: Choice[] = WEEKDAYS.map((w) => ({ id: w, labelKey: optKey('weekday', w), icon: 'calendar' }));
+  const monthChoices: Choice[] = MONTHS.map((m) => ({ id: m, labelKey: optKey('month', m), icon: 'calendar' }));
 
   const all: Question[] = [
     {
       id: 'part',
-      question: 'What part of the day is it now?',
+      questionKey: 'q.today_me.part_of_day',
       choices: pickChoices(partChoices, PARTS[partOfDayIndex(d.getHours())].name, n),
       answerId: now.part,
       affirm: `Yes. It is ${now.part.toLowerCase()} now.`,
@@ -59,21 +61,21 @@ function buildQuestions(difficulty: Difficulty): Question[] {
     },
     {
       id: 'season',
-      question: 'Which season are we in?',
+      questionKey: 'q.today_me.season',
       choices: pickChoices(seasonChoices, now.season, n),
       answerId: now.season,
       affirm: `That's right. It is the ${now.season.toLowerCase()} season.`,
     },
     {
       id: 'weekday',
-      question: 'What day of the week is it today?',
+      questionKey: 'q.today_me.weekday',
       choices: pickChoices(weekdayChoices, now.weekday, n),
       answerId: now.weekday,
       affirm: `Yes. Today is ${now.weekday}.`,
     },
     {
       id: 'month',
-      question: 'Which month are we in?',
+      questionKey: 'q.today_me.month',
       choices: pickChoices(monthChoices, now.month, n),
       answerId: now.month,
       affirm: `That's right. It is ${now.month}.`,
@@ -110,7 +112,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
   const q = questions[index];
 
   useEffect(() => {
-    if (q && session.phase === 'playing') queueSpeak(q.question, lang);
+    if (q && session.phase === 'playing') queueAutoCue(q.questionKey, lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q?.id, session.phase === 'playing']);
 
@@ -137,8 +139,8 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
   function accept(revealed: boolean) {
     if (!q) return;
     setPicked(q.answerId);
-    const answer = q.choices.find((c) => c.id === q.answerId);
-    speak(revealed ? `This one is ${answer?.label ?? q.answerId}.` : q.affirm, lang);
+    const answer = q.choices.find((c) => c.id === q.answerId)!;
+    say(revealed ? `This one is ${q.answerId}.` : q.affirm, answer.labelKey, lang);
     advance();
   }
 
@@ -170,7 +172,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
   async function onHelp() {
     const cue: CueType = await session.requestHelp();
     if (!q) return;
-    if (cue === 'repeat_audio') speak(q.question, lang);
+    if (cue === 'repeat_audio') playCue(q.questionKey, lang);
     else if (cue === 'highlight') {
       playCue('cue.highlight', lang);
       setHint(true);
@@ -193,7 +195,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
       session={session}
       onRestart={onRestart}
       progress={{ current: index + 1, total: questions.length }}
-      onListen={() => q && speak(q.question, lang)}
+      onListen={() => q && playCue(q.questionKey, lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
       prompt={
@@ -204,8 +206,8 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
                 <AnalogClock hour={new Date().getHours()} minute={new Date().getMinutes()} size={84} />
               </span>
             )}
-            <p style={{ fontSize: big ? 30 : 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
-              {q.question}
+            <p data-testid="question" style={{ fontSize: big ? 30 : 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+              {t(q.questionKey, lang)}
             </p>
           </div>
         )
@@ -214,10 +216,10 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
         <div className="shell w-full max-w-md">
           <div className="core p-5 grid grid-cols-2 gap-4 text-left">
             {[
-              { label: 'Today', value: now.weekday, icon: 'calendar' as IconName },
-              { label: 'Date', value: `${now.day} ${now.month}`, icon: 'today' as IconName },
-              { label: 'Season', value: now.season, icon: now.seasonIcon },
-              { label: 'Time of day', value: now.part, icon: now.partIcon },
+              { label: 'done.today', value: t(optKey('weekday', now.weekday), lang), icon: 'calendar' as IconName },
+              { label: 'done.date', value: `${now.day} ${t(optKey('month', now.month), lang)}`, icon: 'today' as IconName },
+              { label: 'done.season', value: t(optKey('season', now.season), lang), icon: now.seasonIcon },
+              { label: 'done.time_of_day', value: t(optKey('period', now.part), lang), icon: now.partIcon },
             ].map((row) => (
               <div key={row.label} className="flex items-center gap-3">
                 <span style={{ color: 'var(--accent)' }}>
@@ -225,7 +227,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
                 </span>
                 <div>
                   <div style={{ fontSize: 13 }} className="muted uppercase tracking-wider font-bold">
-                    {row.label}
+                    {t(row.label, lang)}
                   </div>
                   <div style={{ fontSize: 20 }} className="font-extrabold">
                     {row.value}
@@ -255,7 +257,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
                   <Icon name={c.icon} size={big ? 52 : 44} />
                 </span>
               )}
-              {c.label}
+              {t(c.labelKey, lang)}
               {picked === c.id && (
                 <span className="absolute top-3 right-3" style={{ color: 'var(--ok)' }}>
                   <Icon name="check" size={28} strokeWidth={3} />

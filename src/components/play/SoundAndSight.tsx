@@ -3,8 +3,9 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
 import { getBlob, packsForPerson } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
-import { playCue, playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
-import { HOME_OBJECTS, shuffle } from '@/content/cstContent';
+import { playCue, playPackAudio, queueAutoCue, queueSay, queueSpeak, say, speak } from '@/lib/audio';
+import { t } from '@/lib/i18n';
+import { HOME_OBJECTS, itemKey, shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
 import GameFrame from './GameFrame';
@@ -21,7 +22,10 @@ const CHOICES_FOR: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 4, 4: 6 };
 
 interface Item {
   id: string;
+  /** The family's own title for a photo, or the English fallback for a drawing. */
   label: string;
+  /** Regional drawings only: translated through `t()`. */
+  labelKey?: string;
   icon?: IconName;
   photoUrl?: string;
   audioKey?: string;
@@ -40,7 +44,7 @@ async function buildPool(person: Person): Promise<{ pool: Item[]; family: boolea
     if (blob) pool.push({ id: p.id, label: p.title, photoUrl: URL.createObjectURL(blob), audioKey: p.media.audio_key });
   }
   const family = pool.length > 0;
-  return { pool: [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, icon: o.icon }))], family };
+  return { pool: [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }))], family };
 }
 
 /**
@@ -62,6 +66,7 @@ function buildRounds(pool: Item[], difficulty: Difficulty): Round[] {
 
 export default function SoundAndSight({ person, onRestart }: { person: Person; onRestart: () => void }) {
   const lang = person.language;
+  const name = (i: Item) => (i.labelKey ? t(i.labelKey, lang) : i.label);
   const visualOnly = person.care_config.sensory_mode === 'visual_only';
   const [rounds, setRounds] = useState<Round[]>([]);
   const [family, setFamily] = useState(false);
@@ -92,11 +97,14 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
 
   function sayTarget(interrupt: boolean) {
     if (!round || visualOnly) return;
-    const t = round.target;
-    const line = t.photoUrl ? `Find ${t.label}` : `Find the ${t.label}`;
-    if (t.audioKey) playPackAudio(t.audioKey);
-    else if (interrupt) speak(line, lang);
-    else queueSpeak(line, lang);
+    const target = round.target;
+    const line = target.photoUrl ? `Find ${target.label}` : `Find the ${target.label}`;
+    if (target.audioKey) playPackAudio(target.audioKey);
+    // A family photo's title was typed by the family; it has no recording, so
+    // only the device voice can read it.
+    else if (!target.labelKey) (interrupt ? speak : queueSpeak)(line, lang);
+    else if (interrupt) say(line, target.labelKey, lang);
+    else queueSay(line, target.labelKey, lang);
   }
 
   useEffect(() => {
@@ -114,9 +122,9 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
   /** Marks the target picture on screen, names it, and moves on. */
   function accept(revealed: boolean) {
     if (!round) return;
-    const { label, photoUrl } = round.target;
+    const { label, photoUrl, labelKey } = round.target;
     setPicked(round.target.id);
-    speak(revealed ? `This one is ${label}.` : photoUrl ? `Yes, that is ${label}.` : `Yes, that is the ${label}.`, lang);
+    say(revealed ? `This one is ${label}.` : photoUrl ? `Yes, that is ${label}.` : `Yes, that is the ${label}.`, labelKey ?? 'game.good', lang);
     locked.current = true;
     setTimeout(() => {
       wrongThisRound.current = 0;
@@ -184,12 +192,12 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
       onListen={visualOnly ? undefined : () => sayTarget(true)}
       onHelp={onHelp}
       onSkipStep={skipStep}
-      notice={family ? 'Includes pictures from your family.' : visualOnly ? 'Visual mode — read the word, then find its picture.' : undefined}
+      notice={family ? t('notice.family_pictures', lang) : visualOnly ? t('notice.visual_mode', lang) : undefined}
       prompt={
         round && (
           <div className="flex flex-col gap-1">
-            <span style={{ fontSize: 16 }} className="muted font-semibold">
-              {visualOnly ? 'Find this picture' : 'Listen, then find'}
+            <span data-testid="question" style={{ fontSize: 16 }} className="muted font-semibold">
+              {t(visualOnly ? 'q.hear_find.look' : 'q.hear_find.listen', lang)}
             </span>
             {/*
               B2: this used to render a bare "…" for a non-literate profile, on the
@@ -204,7 +212,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
               className="font-extrabold glow-text leading-tight flex items-center gap-3"
             >
               {hideWord && <Icon name="listen" size={30} />}
-              {round.target.label}
+              {name(round.target)}
             </span>
           </div>
         )
@@ -218,7 +226,8 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
             <button
               key={c.id}
               data-testid="sound-sight-choice"
-              aria-label={picked ? c.label : `Picture ${i + 1}`}
+              data-family={c.photoUrl ? 'yes' : undefined}
+              aria-label={picked ? name(c) : `${i + 1}`}
               onClick={() => choose(c.id)}
               disabled={session.phase !== 'playing'}
               className={`tile rise rise-${Math.min(i + 1, 6)} ${cls}`}
@@ -234,7 +243,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
               )}
               {picked === c.id && (
                 <span style={{ fontSize: 20 }} className="font-extrabold">
-                  {c.label}
+                  {name(c)}
                 </span>
               )}
             </button>

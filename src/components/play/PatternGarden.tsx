@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
-import { playCue, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
-import { CATEGORIES, CategoryId, HOME_OBJECTS, HomeObject, shuffle } from '@/content/cstContent';
+import { playCue, queueAutoCue, queueSay, say } from '@/lib/audio';
+import { t } from '@/lib/i18n';
+import { bucketKey, CATEGORIES, CategoryId, HOME_OBJECTS, HomeObject, itemKey, shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
@@ -60,7 +61,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
   const question = item ? `Where does the ${item.label.toLowerCase()} belong?` : '';
 
   useEffect(() => {
-    if (item && session.phase === 'playing') queueSpeak(question, lang);
+    if (item && session.phase === 'playing') queueSay(question, itemKey(item.id), lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [item?.id, session.phase === 'playing']);
 
@@ -71,7 +72,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
     locked.current = true;
     setCorrectCat(cat);
     const where = CATEGORIES[cat].label.toLowerCase();
-    speak(revealed ? `The ${item.label.toLowerCase()} goes in ${where}.` : `Yes. The ${item.label.toLowerCase()} goes in ${where}.`, lang);
+    say(revealed ? `The ${item.label.toLowerCase()} goes in ${where}.` : `Yes. The ${item.label.toLowerCase()} goes in ${where}.`, bucketKey(cat), lang);
     setTimeout(() => {
       setPlaced((p) => [...p, item]);
       setCorrectCat(null);
@@ -111,7 +112,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
   async function onHelp() {
     const cue: CueType = await session.requestHelp();
     if (!item) return;
-    if (cue === 'repeat_audio') speak(question, lang);
+    if (cue === 'repeat_audio') say(question, itemKey(item.id), lang);
     else if (cue === 'highlight' || (cue === 'reduce_choices' && cats.length <= 2)) {
       playCue('cue.highlight', lang);
       setHint(true);
@@ -133,7 +134,7 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
       session={session}
       onRestart={onRestart}
       progress={{ current: index + 1, total: items.length }}
-      onListen={() => speak(question, lang)}
+      onListen={() => item && say(question, itemKey(item.id), lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
       prompt={
@@ -144,10 +145,10 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
             </span>
             <div className="flex flex-col gap-1 min-w-0">
               <span style={{ fontSize: 32, letterSpacing: '-0.02em' }} className="font-extrabold leading-tight">
-                {item.label}
+                {t(itemKey(item.id), lang)}
               </span>
-              <span style={{ fontSize: 19 }} className="muted">
-                Where does this belong?
+              <span data-testid="question" style={{ fontSize: 19 }} className="muted">
+                {t('q.sort_home.where', lang)}
               </span>
             </div>
           </div>
@@ -172,11 +173,11 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
             >
               <IconTile icon={c.icon} size={44} fg={c.color} />
               <span style={{ fontSize: 24 }} className="font-extrabold text-center leading-tight">
-                {c.label}
+                {t(bucketKey(cat), lang)}
               </span>
               <span className="flex flex-wrap justify-center gap-1.5 min-h-[34px]">
                 {inside.map((p) => (
-                  <span key={p.id} className="rise rounded-full flex items-center justify-center" style={{ width: 34, height: 34, background: 'var(--bg-2)', color: c.color }} title={p.label}>
+                  <span key={p.id} className="rise rounded-full flex items-center justify-center" style={{ width: 34, height: 34, background: 'var(--bg-2)', color: c.color }} title={t(itemKey(p.id), lang)}>
                     <Icon name={p.icon} size={20} />
                   </span>
                 ))}

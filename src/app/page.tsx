@@ -15,7 +15,7 @@ import BottomNav from '@/components/ui/BottomNav';
 import StatusBadge from '@/components/ui/StatusBadge';
 import TextSizeControl from '@/components/ui/TextSizeControl';
 import Icon from '@/components/ui/Icon';
-import { orientationNow } from '@/lib/orientation';
+import { localDate, optKey, orientationNow } from '@/lib/orientation';
 
 interface HomePreview {
   circleCount: number;
@@ -126,7 +126,7 @@ export default function PersonHome() {
             </span>
           )}
           <p style={{ fontSize: 18 }} className="muted flex items-center gap-2">
-            <Icon name="calendar" size={20} /> {now.weekday}, {now.day} {now.month} · {now.season} season
+            <Icon name="calendar" size={20} /> {localDate(now, lang)} · {t(optKey('season', now.season), lang)}
           </p>
         </div>
         <div className="flex flex-col items-end gap-2">
@@ -152,7 +152,7 @@ export default function PersonHome() {
             labelKey="home.today"
             person={person}
             stat={preview ? (r ? formatTime(r) : '—') : '…'}
-            detail={preview ? (r ? `${isOverdue(r) ? 'Overdue — ' : 'Next: '}${t(CUE_KEY[r.category], lang)}` : 'No reminders set yet') : '…'}
+            detail={preview ? (r ? `${t(isOverdue(r) ? 'reminder.overdue' : 'reminder.next', lang)} · ${t(CUE_KEY[r.category], lang)}` : t('reminder.none', lang)) : '…'}
             onSelect={() => router.push('/today')}
           />
           <BentoTile
@@ -161,7 +161,7 @@ export default function PersonHome() {
             labelKey="home.circle"
             person={person}
             stat={preview ? String(preview.circleCount) : '…'}
-            detail={preview ? (preview.circleCount === 1 ? 'person looking out for you' : 'people looking out for you') : '…'}
+            detail={preview ? t(preview.circleCount === 1 ? 'home.circle.one' : 'home.circle.many', lang) : '…'}
             onSelect={() => router.push('/circle')}
           />
           <BentoTile

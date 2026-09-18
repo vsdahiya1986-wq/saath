@@ -322,5 +322,633 @@
   "game.good": {
     "file": "game_good.wav",
     "text": "Yes, that is right."
+  },
+  "q.today_me.part_of_day": {
+    "file": "q_today_me_part_of_day.wav",
+    "text": "What part of the day is it now?"
+  },
+  "q.today_me.season": {
+    "file": "q_today_me_season.wav",
+    "text": "Which season are we in?"
+  },
+  "q.today_me.weekday": {
+    "file": "q_today_me_weekday.wav",
+    "text": "What day of the week is it today?"
+  },
+  "q.today_me.month": {
+    "file": "q_today_me_month.wav",
+    "text": "Which month are we in?"
+  },
+  "opt.period.morning": {
+    "file": "opt_period_morning.wav",
+    "text": "Morning"
+  },
+  "opt.period.afternoon": {
+    "file": "opt_period_afternoon.wav",
+    "text": "Afternoon"
+  },
+  "opt.period.evening": {
+    "file": "opt_period_evening.wav",
+    "text": "Evening"
+  },
+  "opt.period.night": {
+    "file": "opt_period_night.wav",
+    "text": "Night"
+  },
+  "opt.season.spring": {
+    "file": "opt_season_spring.wav",
+    "text": "Spring"
+  },
+  "opt.season.summer": {
+    "file": "opt_season_summer.wav",
+    "text": "Summer"
+  },
+  "opt.season.monsoon": {
+    "file": "opt_season_monsoon.wav",
+    "text": "Monsoon"
+  },
+  "opt.season.autumn": {
+    "file": "opt_season_autumn.wav",
+    "text": "Autumn"
+  },
+  "opt.season.winter": {
+    "file": "opt_season_winter.wav",
+    "text": "Winter"
+  },
+  "opt.weekday.sunday": {
+    "file": "opt_weekday_sunday.wav",
+    "text": "Sunday"
+  },
+  "opt.weekday.monday": {
+    "file": "opt_weekday_monday.wav",
+    "text": "Monday"
+  },
+  "opt.weekday.tuesday": {
+    "file": "opt_weekday_tuesday.wav",
+    "text": "Tuesday"
+  },
+  "opt.weekday.wednesday": {
+    "file": "opt_weekday_wednesday.wav",
+    "text": "Wednesday"
+  },
+  "opt.weekday.thursday": {
+    "file": "opt_weekday_thursday.wav",
+    "text": "Thursday"
+  },
+  "opt.weekday.friday": {
+    "file": "opt_weekday_friday.wav",
+    "text": "Friday"
+  },
+  "opt.weekday.saturday": {
+    "file": "opt_weekday_saturday.wav",
+    "text": "Saturday"
+  },
+  "opt.month.january": {
+    "file": "opt_month_january.wav",
+    "text": "January"
+  },
+  "opt.month.february": {
+    "file": "opt_month_february.wav",
+    "text": "February"
+  },
+  "opt.month.march": {
+    "file": "opt_month_march.wav",
+    "text": "March"
+  },
+  "opt.month.april": {
+    "file": "opt_month_april.wav",
+    "text": "April"
+  },
+  "opt.month.may": {
+    "file": "opt_month_may.wav",
+    "text": "May"
+  },
+  "opt.month.june": {
+    "file": "opt_month_june.wav",
+    "text": "June"
+  },
+  "opt.month.july": {
+    "file": "opt_month_july.wav",
+    "text": "July"
+  },
+  "opt.month.august": {
+    "file": "opt_month_august.wav",
+    "text": "August"
+  },
+  "opt.month.september": {
+    "file": "opt_month_september.wav",
+    "text": "September"
+  },
+  "opt.month.october": {
+    "file": "opt_month_october.wav",
+    "text": "October"
+  },
+  "opt.month.november": {
+    "file": "opt_month_november.wav",
+    "text": "November"
+  },
+  "opt.month.december": {
+    "file": "opt_month_december.wav",
+    "text": "December"
+  },
+  "done.today": {
+    "file": "done_today.wav",
+    "text": "Today"
+  },
+  "done.date": {
+    "file": "done_date.wav",
+    "text": "Date"
+  },
+  "done.season": {
+    "file": "done_season.wav",
+    "text": "Season"
+  },
+  "done.time_of_day": {
+    "file": "done_time_of_day.wav",
+    "text": "Time of day"
+  },
+  "opt.bucket.kitchen": {
+    "file": "opt_bucket_kitchen.wav",
+    "text": "Kitchen"
+  },
+  "opt.bucket.getting_ready": {
+    "file": "opt_bucket_getting_ready.wav",
+    "text": "Getting ready"
+  },
+  "opt.bucket.around_house": {
+    "file": "opt_bucket_around_house.wav",
+    "text": "Around the house"
+  },
+  "item.reg_tumbler": {
+    "file": "item_reg_tumbler.wav",
+    "text": "Steel tumbler"
+  },
+  "item.reg_kettle": {
+    "file": "item_reg_kettle.wav",
+    "text": "Tea kettle"
+  },
+  "item.reg_thali": {
+    "file": "item_reg_thali.wav",
+    "text": "Thali plate"
+  },
+  "item.reg_ghoti": {
+    "file": "item_reg_ghoti.wav",
+    "text": "Water pot"
+  },
+  "item.reg_comb": {
+    "file": "item_reg_comb.wav",
+    "text": "Comb"
+  },
+  "item.reg_mirror": {
+    "file": "item_reg_mirror.wav",
+    "text": "Mirror"
+  },
+  "item.reg_slipper": {
+    "file": "item_reg_slipper.wav",
+    "text": "Slippers"
+  },
+  "item.reg_jhola": {
+    "file": "item_reg_jhola.wav",
+    "text": "Cloth bag"
+  },
+  "item.reg_umbrella": {
+    "file": "item_reg_umbrella.wav",
+    "text": "Japi hat"
+  },
+  "item.reg_broom": {
+    "file": "item_reg_broom.wav",
+    "text": "Broom"
+  },
+  "item.reg_torch": {
+    "file": "item_reg_torch.wav",
+    "text": "Torch"
+  },
+  "item.reg_keylock": {
+    "file": "item_reg_keylock.wav",
+    "text": "Lock and key"
+  },
+  "item.reg_lamp": {
+    "file": "item_reg_lamp.wav",
+    "text": "Diya lamp"
+  },
+  "item.reg_stool": {
+    "file": "item_reg_stool.wav",
+    "text": "Mora stool"
+  },
+  "item.reg_pankha": {
+    "file": "item_reg_pankha.wav",
+    "text": "Hand fan"
+  },
+  "item.reg_basket": {
+    "file": "item_reg_basket.wav",
+    "text": "Bamboo basket"
+  },
+  "item.reg_dhekia": {
+    "file": "item_reg_dhekia.wav",
+    "text": "Dhekia greens"
+  },
+  "item.reg_claypot": {
+    "file": "item_reg_claypot.wav",
+    "text": "Clay water pot"
+  },
+  "item.reg_areca": {
+    "file": "item_reg_areca.wav",
+    "text": "Areca nut plate"
+  },
+  "item.reg_ricepot": {
+    "file": "item_reg_ricepot.wav",
+    "text": "Rice pot"
+  },
+  "item.reg_gamosa": {
+    "file": "item_reg_gamosa.wav",
+    "text": "Gamosa"
+  },
+  "item.reg_xorai": {
+    "file": "item_reg_xorai.wav",
+    "text": "Xorai"
+  },
+  "item.reg_net": {
+    "file": "item_reg_net.wav",
+    "text": "Fishing net"
+  },
+  "item.reg_loom": {
+    "file": "item_reg_loom.wav",
+    "text": "Weaving loom"
+  },
+  "routine.reg_morning_routine": {
+    "file": "routine_reg_morning_routine.wav",
+    "text": "Morning routine"
+  },
+  "step.reg_morning_routine.wake": {
+    "file": "step_reg_morning_routine_wake.wav",
+    "text": "Wake up"
+  },
+  "step.reg_morning_routine.medicine": {
+    "file": "step_reg_morning_routine_medicine.wav",
+    "text": "Take medicine"
+  },
+  "step.reg_morning_routine.wash": {
+    "file": "step_reg_morning_routine_wash.wav",
+    "text": "Wash up"
+  },
+  "step.reg_morning_routine.breakfast": {
+    "file": "step_reg_morning_routine_breakfast.wav",
+    "text": "Have breakfast"
+  },
+  "routine.reg_afternoon_routine": {
+    "file": "routine_reg_afternoon_routine.wav",
+    "text": "Afternoon routine"
+  },
+  "step.reg_afternoon_routine.rest": {
+    "file": "step_reg_afternoon_routine_rest.wav",
+    "text": "Sit and rest"
+  },
+  "step.reg_afternoon_routine.tea": {
+    "file": "step_reg_afternoon_routine_tea.wav",
+    "text": "Have tea"
+  },
+  "step.reg_afternoon_routine.walk": {
+    "file": "step_reg_afternoon_routine_walk.wav",
+    "text": "Short walk"
+  },
+  "step.reg_afternoon_routine.water": {
+    "file": "step_reg_afternoon_routine_water.wav",
+    "text": "Drink water"
+  },
+  "routine.reg_evening_routine": {
+    "file": "routine_reg_evening_routine.wav",
+    "text": "Evening routine"
+  },
+  "step.reg_evening_routine.wash_up": {
+    "file": "step_reg_evening_routine_wash_up.wav",
+    "text": "Wash up"
+  },
+  "step.reg_evening_routine.dinner": {
+    "file": "step_reg_evening_routine_dinner.wav",
+    "text": "Have dinner"
+  },
+  "step.reg_evening_routine.lock_up": {
+    "file": "step_reg_evening_routine_lock_up.wav",
+    "text": "Lock the door"
+  },
+  "step.reg_evening_routine.sleep": {
+    "file": "step_reg_evening_routine_sleep.wav",
+    "text": "Turn off the lamp"
+  },
+  "routine.reg_prayer_routine": {
+    "file": "routine_reg_prayer_routine.wav",
+    "text": "Evening prayer"
+  },
+  "step.reg_prayer_routine.light": {
+    "file": "step_reg_prayer_routine_light.wav",
+    "text": "Light the lamp"
+  },
+  "step.reg_prayer_routine.sit": {
+    "file": "step_reg_prayer_routine_sit.wav",
+    "text": "Sit down"
+  },
+  "step.reg_prayer_routine.pray": {
+    "file": "step_reg_prayer_routine_pray.wav",
+    "text": "Say the prayer"
+  },
+  "step.reg_prayer_routine.put_out": {
+    "file": "step_reg_prayer_routine_put_out.wav",
+    "text": "Put out the lamp"
+  },
+  "routine.reg_bath_routine": {
+    "file": "routine_reg_bath_routine.wav",
+    "text": "Bath time"
+  },
+  "step.reg_bath_routine.fetch": {
+    "file": "step_reg_bath_routine_fetch.wav",
+    "text": "Fetch water"
+  },
+  "step.reg_bath_routine.wash": {
+    "file": "step_reg_bath_routine_wash.wav",
+    "text": "Soap and wash"
+  },
+  "step.reg_bath_routine.dry": {
+    "file": "step_reg_bath_routine_dry.wav",
+    "text": "Dry with the gamosa"
+  },
+  "step.reg_bath_routine.dress": {
+    "file": "step_reg_bath_routine_dress.wav",
+    "text": "Change clothes"
+  },
+  "together.childhood.theme": {
+    "file": "together_childhood_theme.wav",
+    "text": "Childhood"
+  },
+  "together.childhood.q": {
+    "file": "together_childhood_q.wav",
+    "text": "Tell me about the house you grew up in."
+  },
+  "together.childhood.follow": {
+    "file": "together_childhood_follow.wav",
+    "text": "Who lived there with you?"
+  },
+  "together.food.theme": {
+    "file": "together_food_theme.wav",
+    "text": "Food"
+  },
+  "together.food.q": {
+    "file": "together_food_q.wav",
+    "text": "What was your favourite food as a child?"
+  },
+  "together.food.follow": {
+    "file": "together_food_follow.wav",
+    "text": "Who used to cook it for you?"
+  },
+  "together.festivals.theme": {
+    "file": "together_festivals_theme.wav",
+    "text": "Festivals"
+  },
+  "together.festivals.q": {
+    "file": "together_festivals_q.wav",
+    "text": "How did your family celebrate Bihu or a festival you love?"
+  },
+  "together.festivals.follow": {
+    "file": "together_festivals_follow.wav",
+    "text": "What did you wear on that day?"
+  },
+  "together.music.theme": {
+    "file": "together_music_theme.wav",
+    "text": "Music"
+  },
+  "together.music.q": {
+    "file": "together_music_q.wav",
+    "text": "Which song do you remember singing when you were young?"
+  },
+  "together.music.follow": {
+    "file": "together_music_follow.wav",
+    "text": "Can you hum a little of it?"
+  },
+  "together.work.theme": {
+    "file": "together_work_theme.wav",
+    "text": "Work"
+  },
+  "together.work.q": {
+    "file": "together_work_q.wav",
+    "text": "What work did you enjoy doing with your hands?"
+  },
+  "together.work.follow": {
+    "file": "together_work_follow.wav",
+    "text": "Who taught you how to do it?"
+  },
+  "together.places.theme": {
+    "file": "together_places_theme.wav",
+    "text": "Places"
+  },
+  "together.places.q": {
+    "file": "together_places_q.wav",
+    "text": "Where is a place that made you feel happy?"
+  },
+  "together.places.follow": {
+    "file": "together_places_follow.wav",
+    "text": "What could you see and hear there?"
+  },
+  "together.tea_time.theme": {
+    "file": "together_tea_time_theme.wav",
+    "text": "Tea time"
+  },
+  "together.tea_time.q": {
+    "file": "together_tea_time_q.wav",
+    "text": "How do you like your tea?"
+  },
+  "together.tea_time.follow": {
+    "file": "together_tea_time_follow.wav",
+    "text": "Who do you enjoy having tea with?"
+  },
+  "together.friends.theme": {
+    "file": "together_friends_theme.wav",
+    "text": "Friends"
+  },
+  "together.friends.q": {
+    "file": "together_friends_q.wav",
+    "text": "Tell me about a good friend from your younger days."
+  },
+  "together.friends.follow": {
+    "file": "together_friends_follow.wav",
+    "text": "What did you do together?"
+  },
+  "q.sort_home.where": {
+    "file": "q_sort_home_where.wav",
+    "text": "Where does this belong?"
+  },
+  "q.hear_find.listen": {
+    "file": "q_hear_find_listen.wav",
+    "text": "Listen, then find"
+  },
+  "q.hear_find.look": {
+    "file": "q_hear_find_look.wav",
+    "text": "Find this picture"
+  },
+  "q.next_step.first": {
+    "file": "q_next_step_first.wav",
+    "text": "What do you do first?"
+  },
+  "q.next_step.after": {
+    "file": "q_next_step_after.wav",
+    "text": "What comes next?"
+  },
+  "q.apon_mukh.find_pairs": {
+    "file": "q_apon_mukh_find_pairs.wav",
+    "text": "Find the pairs"
+  },
+  "q.saah_pat.find_sprigs": {
+    "file": "q_saah_pat_find_sprigs.wav",
+    "text": "Find every sprig like this one"
+  },
+  "q.saah_pat.left": {
+    "file": "q_saah_pat_left.wav",
+    "text": "still to find"
+  },
+  "q.saah_pat.all_found": {
+    "file": "q_saah_pat_all_found.wav",
+    "text": "All found"
+  },
+  "notice.family_pictures": {
+    "file": "notice_family_pictures.wav",
+    "text": "Includes pictures from your family."
+  },
+  "notice.visual_mode": {
+    "file": "notice_visual_mode.wav",
+    "text": "Read the word, then find its picture."
+  },
+  "notice.family_routine": {
+    "file": "notice_family_routine.wav",
+    "text": "Your family's own routine"
+  },
+  "notice.routine_generic": {
+    "file": "notice_routine_generic.wav",
+    "text": "A family can add their own routine in the Memory Garden."
+  },
+  "notice.family_photos": {
+    "file": "notice_family_photos.wav",
+    "text": "These are your family's own pictures."
+  },
+  "notice.add_photos": {
+    "file": "notice_add_photos.wav",
+    "text": "A family can add their own photos in the Memory Garden."
+  },
+  "game.here_all": {
+    "file": "game_here_all.wav",
+    "text": "Here they all are."
+  },
+  "game.here_others": {
+    "file": "game_here_others.wav",
+    "text": "Here are the others."
+  },
+  "game.play_again": {
+    "file": "game_play_again.wav",
+    "text": "Play again"
+  },
+  "game.more_activities": {
+    "file": "game_more_activities.wav",
+    "text": "More activities"
+  },
+  "next.same": {
+    "file": "next_same.wav",
+    "text": "Next time we'll keep the same pace."
+  },
+  "next.more": {
+    "file": "next_more.wav",
+    "text": "Next time, a little more."
+  },
+  "next.gentler": {
+    "file": "next_gentler.wav",
+    "text": "Next time, a gentler round."
+  },
+  "next.with_help": {
+    "file": "next_with_help.wav",
+    "text": "Next time, with a little help."
+  },
+  "together.who": {
+    "file": "together_who.wav",
+    "text": "Who is here? What do you remember about this?"
+  },
+  "together.thanks": {
+    "file": "together_thanks.wav",
+    "text": "Thank you for sharing."
+  },
+  "together.done_note": {
+    "file": "together_done_note.wav",
+    "text": "Talking about memories is good for the mind and the heart. There is no score here."
+  },
+  "together.done": {
+    "file": "together_done.wav",
+    "text": "Done talking"
+  },
+  "together.tell_more": {
+    "file": "together_tell_more.wav",
+    "text": "Tell me more"
+  },
+  "together.another": {
+    "file": "together_another.wav",
+    "text": "Another topic"
+  },
+  "together.reject": {
+    "file": "together_reject.wav",
+    "text": "I don't want to see this again"
+  },
+  "together.reject_confirm": {
+    "file": "together_reject_confirm.wav",
+    "text": "Tap again to remove this forever"
+  },
+  "together.add_photos": {
+    "file": "together_add_photos.wav",
+    "text": "A family member can add real photos and voice notes in the Memory Garden."
+  },
+  "play.subtitle": {
+    "file": "play_subtitle.wav",
+    "text": "Short, gentle sessions. There are no wrong answers — just try your best."
+  },
+  "reminder.overdue": {
+    "file": "reminder_overdue.wav",
+    "text": "Overdue"
+  },
+  "reminder.next": {
+    "file": "reminder_next.wav",
+    "text": "Next"
+  },
+  "reminder.next_up": {
+    "file": "reminder_next_up.wav",
+    "text": "Next up"
+  },
+  "reminder.later": {
+    "file": "reminder_later.wav",
+    "text": "Later today"
+  },
+  "reminder.none": {
+    "file": "reminder_none.wav",
+    "text": "No reminders set yet"
+  },
+  "reminder.none_help": {
+    "file": "reminder_none_help.wav",
+    "text": "A family member or health worker can add medicine, water, activity and clinic reminders in Circle."
+  },
+  "reminder.not_armed": {
+    "file": "reminder_not_armed.wav",
+    "text": "Not armed on this device"
+  },
+  "today.is": {
+    "file": "today_is.wav",
+    "text": "Today is"
+  },
+  "today.played": {
+    "file": "today_played.wav",
+    "text": "Played today"
+  },
+  "today.nothing_yet": {
+    "file": "today_nothing_yet.wav",
+    "text": "Nothing yet today"
+  },
+  "home.circle.one": {
+    "file": "home_circle_one.wav",
+    "text": "person looking out for you"
+  },
+  "home.circle.many": {
+    "file": "home_circle_many.wav",
+    "text": "people looking out for you"
   }
 }

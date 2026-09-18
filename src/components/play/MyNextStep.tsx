@@ -4,7 +4,8 @@ import type { CueType, Difficulty, Person } from '@/lib/db';
 import { packsForPerson } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { loadRegionalManifest, pickRegionalRoutine } from '@/lib/regionalPacks';
-import { playCue, playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
+import { playCue, playPackAudio, queueAutoCue, say, speak } from '@/lib/audio';
+import { t } from '@/lib/i18n';
 import { shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
@@ -21,7 +22,10 @@ const STEPS_FOR: Record<Difficulty, number> = { 1: 2, 2: 3, 3: 4, 4: 4 };
 
 interface Step {
   id: string;
+  /** The family's own words, or the English fallback for a regional step. */
   label: string;
+  /** Regional steps only: translated through `t()` (fix pack A1). */
+  labelKey?: string;
   icon: IconName;
 }
 
@@ -37,11 +41,22 @@ async function buildRoutine(person: Person, need: number) {
     };
   }
   const r = pickRegionalRoutine(await loadRegionalManifest());
-  return { title: r.title, steps: r.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, icon: s.icon })), audioKey: undefined, family: false };
+  return {
+    title: t(`routine.${r.id}`, person.language),
+    steps: r.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, labelKey: `step.${r.id}.${s.id}`, icon: s.icon })),
+    audioKey: undefined,
+    family: false,
+  };
 }
 
 export default function MyNextStep({ person, onRestart }: { person: Person; onRestart: () => void }) {
   const lang = person.language;
+  const name = (s: Step) => (s.labelKey ? t(s.labelKey, lang) : s.label);
+  /** Regional steps have a recording; a family's own step is read by the device voice. */
+  const sayStep = (s: Step, revealed: boolean) => {
+    const line = revealed ? `Next comes ${s.label}.` : s.label;
+    return s.labelKey ? say(line, s.labelKey, lang) : speak(line, lang);
+  };
   const [title, setTitle] = useState('');
   const [steps, setSteps] = useState<Step[]>([]);
   const [tiles, setTiles] = useState<Step[]>([]);
@@ -79,10 +94,13 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
   });
 
   const nextCorrect = steps[placed.length];
-  const question = placed.length === 0 ? 'What do you do first?' : `After "${placed[placed.length - 1].label}", what comes next?`;
+  // No sentence built around a step name: that can only be spoken in English.
+  // The step just placed is on screen directly above the question.
+  const questionKey = placed.length === 0 ? 'q.next_step.first' : 'q.next_step.after';
+  const question = t(questionKey, lang);
 
   useEffect(() => {
-    if (nextCorrect && session.phase === 'playing') queueSpeak(question, lang);
+    if (nextCorrect && session.phase === 'playing') queueAutoCue(questionKey, lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placed.length, steps.length, session.phase === 'playing']);
 
@@ -101,7 +119,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     setTiles((ts) => ts.filter((s) => s.id !== step.id));
     setHint(false);
     wrongThisStep.current = 0;
-    speak(revealed ? `Next comes ${step.label}.` : step.label, lang);
+    sayStep(step, revealed);
     if (newPlaced.length === steps.length) {
       locked.current = true;
       setTimeout(() => session.finish('completed'), 900);
@@ -148,7 +166,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
     if (!nextCorrect) return;
     if (cue === 'repeat_audio') {
       if (audioKey) playPackAudio(audioKey);
-      else speak(question, lang);
+      else playCue(questionKey, lang);
     } else if (cue === 'highlight') {
       playCue('cue.highlight', lang);
       setHint(true);
@@ -167,17 +185,17 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
       session={session}
       onRestart={onRestart}
       progress={{ current: placed.length + 1, total: steps.length }}
-      onListen={() => speak(question, lang)}
+      onListen={() => playCue(questionKey, lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
-      notice={family ? `Your family's own routine: ${title}` : title ? `${title} — a family can add their own in the Memory Garden.` : undefined}
+      notice={family ? `${t('notice.family_routine', lang)}: ${title}` : title ? `${title} — ${t('notice.routine_generic', lang)}` : undefined}
       prompt={
-        <p style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+        <p data-testid="question" style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
           {question}
         </p>
       }
     >
-      <ol className="flex flex-col gap-3" aria-label="Your order so far">
+      <ol className="flex flex-col gap-3">
         {steps.map((s, i) => {
           const done = placed[i];
           const isNext = i === placed.length;
@@ -204,14 +222,14 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
                 <button
                   onClick={() => unplace(i)}
                   data-testid="placed-step"
-                  aria-label={`Remove ${done.label}`}
+                  aria-label={name(done)}
                   className="flex items-center gap-3 rise text-left flex-1"
                   style={{ fontSize: 22, minHeight: 64 }}
                 >
                   <span style={{ color: 'var(--ok)' }}>
                     <Icon name={done.icon} size={28} />
                   </span>
-                  <span className="font-bold">{done.label}</span>
+                  <span className="font-bold">{name(done)}</span>
                 </button>
               ) : null /* B3: an empty slot carries only its faint number — no "Next step…" placeholder */}
             </li>
@@ -234,7 +252,7 @@ export default function MyNextStep({ person, onRestart }: { person: Person; onRe
               <span style={{ color: 'var(--accent-2)' }}>
                 <Icon name={tile.icon} size={46} />
               </span>
-              <span className="text-center leading-tight">{tile.label}</span>
+              <span className="text-center leading-tight">{name(tile)}</span>
             </button>
           );
         })}

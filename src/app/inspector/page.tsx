@@ -12,7 +12,6 @@ import { t } from '@/lib/i18n';
 import BackButton from '@/components/ui/BackButton';
 import Icon, { IconName } from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
-import { CUE_LABEL } from '@/components/ui/SessionOutcomeNote';
 
 const OUTCOME_STYLE: Record<TrialEvent['outcome'], { label: string; color: string; icon: IconName }> = {
   completed: { label: 'Completed', color: 'var(--ok)', icon: 'check' },
@@ -23,6 +22,15 @@ const OUTCOME_STYLE: Record<TrialEvent['outcome'], { label: string; color: strin
 };
 
 const pct = (x: number) => `${Math.round(x * 100)}%`;
+
+/** Caregiver/jury wording for each cue; the elder never sees these. */
+const CUE_LABEL: Record<CueType, string> = {
+  none: 'no extra help',
+  repeat_audio: 'repeating instructions',
+  highlight: 'highlighting the answer',
+  reduce_choices: 'fewer choices',
+  demonstrate: 'a demonstration first',
+};
 
 /** Evidence Inspector (SIH26003 b, f): the adaptive model's decision, reasons and evidence in plain language. */
 export default function EvidenceInspector() {

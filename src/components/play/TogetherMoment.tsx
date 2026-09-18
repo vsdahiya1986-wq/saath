@@ -3,8 +3,9 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ContentPack, Person, getBlob, packsForPerson, putPack } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
-import { playPackAudio, queueAutoCue, queueSpeak, speak } from '@/lib/audio';
-import { REMINISCENCE_PROMPTS, shuffle } from '@/content/cstContent';
+import { playCue, playPackAudio, queueAutoCue } from '@/lib/audio';
+import { t } from '@/lib/i18n';
+import { REMINISCENCE_PROMPTS, shuffle, togetherKey } from '@/content/cstContent';
 import Icon from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
 import GameFrame from './GameFrame';
@@ -48,7 +49,7 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
         if (chosen.media.audio_key) playPackAudio(chosen.media.audio_key);
         else {
           queueAutoCue('play.together.intro', lang);
-          queueSpeak(`${chosen.title}. Who is here? What do you remember about this?`, lang);
+          queueAutoCue('together.who', lang);
         }
       }
     },
@@ -57,7 +58,7 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
   const prompt = prompts[index];
 
   useEffect(() => {
-    if (!pack && prompt && session.phase === 'playing') queueSpeak(prompt.question, lang);
+    if (!pack && prompt && session.phase === 'playing') queueAutoCue(togetherKey(prompt.theme, 'q'), lang);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pack, prompt?.question, session.phase === 'playing']);
 
@@ -82,10 +83,10 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
       activity="together"
       session={session}
       onRestart={onRestart}
-      doneTitle="Thank you for sharing."
+      doneTitle={t('together.thanks', lang)}
       doneExtra={
         <p style={{ fontSize: 19 }} className="muted max-w-md">
-          Talking about memories is good for the mind and the heart. There is no score here.
+          {t('together.done_note', lang)}
         </p>
       }
     >
@@ -101,68 +102,66 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
               </span>
             )}
             <p className="title-lg text-center">{pack.title}</p>
-            <p style={{ fontSize: 20 }} className="muted text-center">
-              Who is here? What do you remember about this?
+            <p data-testid="question" style={{ fontSize: 20 }} className="muted text-center">
+              {t('together.who', lang)}
             </p>
           </div>
           <div className="flex flex-wrap gap-3 justify-center">
             <button
-              onClick={() =>
-                pack.media.audio_key ? playPackAudio(pack.media.audio_key) : speak(`${pack.title}. Who is here? What do you remember about this?`, lang)
-              }
+              onClick={() => (pack.media.audio_key ? playPackAudio(pack.media.audio_key) : playCue('together.who', lang))}
               className="btn btn-ghost btn-xl"
               style={{ color: 'var(--accent)' }}
             >
-              <Icon name="listen" size={28} /> Listen
+              <Icon name="listen" size={28} /> {t('a11y.listen', lang)}
             </button>
-            <button onClick={() => session.finish('completed')} className="btn btn-primary btn-xl">
-              <Icon name="heart" size={26} /> Done talking
+            <button onClick={() => session.finish('completed')} data-testid="together-done" className="btn btn-primary btn-xl">
+              <Icon name="heart" size={26} /> {t('together.done', lang)}
             </button>
           </div>
           <button onClick={rejectForever} style={{ fontSize: 18, color: 'var(--alert)', minHeight: 60 }} className="underline underline-offset-4 px-4">
-            {confirmingReject ? 'Tap again to remove this forever' : "I don't want to see this again"}
+            {t(confirmingReject ? 'together.reject_confirm' : 'together.reject', lang)}
           </button>
         </div>
       ) : (
         prompt && (
           <div className="flex flex-col gap-5">
-            <div className="core p-6 flex flex-col items-center gap-5 text-center" key={prompt.question} style={{ borderTop: `6px solid ${EMOTION}` }}>
+            <div className="core p-6 flex flex-col items-center gap-5 text-center" key={prompt.theme} style={{ borderTop: `6px solid ${EMOTION}` }}>
               <span className="eyebrow" style={{ color: EMOTION, background: '#fce7f3' }}>
-                {prompt.theme}
+                {t(togetherKey(prompt.theme, 'theme'), lang)}
               </span>
               <IconTile icon={prompt.icon} size={72} fg={EMOTION} />
-              <p className="title-lg">{prompt.question}</p>
+              <p data-testid="question" className="title-lg">{t(togetherKey(prompt.theme, 'q'), lang)}</p>
               {showFollow ? (
                 <p style={{ fontSize: 22 }} className="muted">
-                  {prompt.followUp}
+                  {t(togetherKey(prompt.theme, 'follow'), lang)}
                 </p>
               ) : (
                 <button
                   onClick={() => {
                     setShowFollow(true);
-                    speak(prompt.followUp, lang);
+                    playCue(togetherKey(prompt.theme, 'follow'), lang);
                   }}
                   className="btn btn-ghost"
                 >
-                  Tell me more
+                  {t('together.tell_more', lang)}
                 </button>
               )}
-              <button onClick={() => speak(prompt.question, lang)} className="btn btn-ghost btn-icon" aria-label="Listen" style={{ color: EMOTION, width: 72, height: 72 }}>
+              <button onClick={() => playCue(togetherKey(prompt.theme, 'q'), lang)} className="btn btn-ghost btn-icon" aria-label={t('a11y.listen', lang)} style={{ color: EMOTION, width: 72, height: 72 }}>
                 <Icon name="listen" size={30} />
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <button onClick={nextPrompt} className="btn btn-ghost btn-xl">
-                <Icon name="refresh" size={24} /> Another topic
+                <Icon name="refresh" size={24} /> {t('together.another', lang)}
               </button>
-              <button onClick={() => session.finish('completed')} className="btn btn-primary btn-xl">
-                <Icon name="heart" size={24} /> Done talking
+              <button onClick={() => session.finish('completed')} data-testid="together-done" className="btn btn-primary btn-xl">
+                <Icon name="heart" size={24} /> {t('together.done', lang)}
               </button>
             </div>
             <p style={{ fontSize: 17 }} className="muted text-center">
-              A family member can add real photos and voice notes in the Memory Garden.{' '}
+              {t('together.add_photos', lang)}{' '}
               <button onClick={() => router.push('/circle/packs')} className="underline underline-offset-4" style={{ minHeight: 64, minWidth: 64 }}>
-                Open
+                {t('common.open', lang)}
               </button>
             </p>
           </div>

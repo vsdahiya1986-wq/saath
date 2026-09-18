@@ -364,6 +364,73 @@ Assamese is edited by hand. Fix it in review or by changing the English source a
 Still English on Assamese screens (hard-coded English on Home, pre-dating this pass): the date/season line
 and the reminder-tile detail prefix ("Overdue — ", "Next: ").
 
+## Fix pack Phase A — Assamese content (2026-09-18)
+
+Source: `docs/saath-kit/06_FIX_PACK.md` (live verification on 18 Sept), saved into the kit.
+
+**A1 — activity questions and options were English on Assamese profiles.** Root cause: the screen chrome
+went through `t(key, lang)`, but every activity's *content* — questions, answer options, item names,
+routine steps, basket names, reminiscence prompts, notices — was an English literal, or an English sentence
+built at run time ("Where does the comb belong?", "After "Wake up", what comes next?"). Those can never be
+translated. Spoken lines went through the device voice, which has no Assamese, so they were also silent.
+- 157 new keys in `strings.ts` and `generate-audio.mjs`: questions (`q.*`), orientation names (`opt.period.*`,
+  `opt.season.*`, `opt.weekday.*`, `opt.month.*`), baskets (`opt.bucket.*`), every object (`item.<id>`),
+  every regional routine and step (`routine.<id>`, `step.<routine>.<step>`), the 8 reminiscence themes
+  (`together.<theme>.theme|q|follow`), notices, completion and Today/Home text. The item, step, orientation
+  and reminiscence keys are generated from their source lists, so the English matches exactly.
+- No sentence is built around a name any more. "What comes next?" sits under the step just placed, and the
+  Saah Pat count is a numeral beside the phrase. English keeps its fuller spoken sentences through the new
+  `say()` / `queueSay()` in `audio.ts`, while other languages play the pre-generated Bhashini cue instead
+  of going silent.
+- A family's own photo captions and routine steps stay in the family's words; only our regional fallbacks
+  are keyed. The kit's parallel `label_as` manifest field was not needed: `t('item.<id>')` already falls
+  back to the English label.
+- Bhashini was run for all 238 strings: **238/238 in both languages, coverage OK.**
+
+**Bhashini punctuation artifact (found while checking the output).** Bhashini returns the Assamese in-word
+apostrophe (ক'ত, হ'ব) as a space plus `"` or `'` — "এইটো ক "ত আছে?". It was already in strings from the
+earlier run: Sort the Home's title in the current screenshots reads "ঘৰটো ছ 'ৰ্ট কৰক". Fixed in the
+pipeline (`scripts/lib/fixApostrophes.mjs`, applied to every translation, 3 unit tests), and applied to
+today's manifest without another API call (12 strings). It changes punctuation only, never letters. The
+audio for those 12 was recorded from the unrepaired text and is refreshed on the next `generate-audio`.
+
+**A2 — English fragments on Assamese screens.**
+1. Home and Today date lines: weekday, month, season and time of day now come from the new keys
+   (`localDate()` in `orientation.ts`).
+2. "Overdue", "Next", "Next up", "Later today", "No reminders set yet", "Not armed on this device" (wording
+   kept, only translated), "Today is", "Played today" and the Circle tile line are all keyed.
+3. **CST session labels removed from the elder view** — the activity header, every Play card, and the
+   "Cognitive Stimulation Therapy" eyebrow on Play (found by the B7 test snapshot). Chosen over
+   translating: it is clinician metadata that meant nothing to the person. It stays in the Evidence
+   Inspector's CST map.
+Also: progress reads "2 / 4" instead of "2 of 4", with no English word.
+
+**C1 done here as well:** `SessionOutcomeNote` shows one of four fixed, keyed lines ("Next time we'll keep the
+same pace.") instead of engine wording, because it was also English on Assamese profiles.
+
+Tests:
+- `tests/e2e/assamese.spec.ts` (8): on Aita's Assamese profile, each of the 7 activities' question and
+  options contain no English words, and the Home date line has no English. **All 8 failed before
+  translation and pass after.**
+- `tests/i18n-content.test.ts` (16): every generated key exists, and no play file contains the fix pack's
+  English literals.
+- `tests/fixApostrophes.test.ts` (3).
+- Older e2e tests that selected elements by English text now use test ids (`progress`, `together-done`).
+  The B7 walk gets a 120 s budget for its 21 navigations.
+
+Gates: lint clean · tsc clean · **164** unit tests · **41** Playwright tests.
+
+⚠️ **For a native Assamese speaker to review (machine translation, not edited by hand, per the rules):**
+- `reminder.overdue` "Overdue" → **অতিৰিক্ত**, which means "extra/excess". **Wrong meaning; fix before the demo.**
+- `opt.season.monsoon` → মৌচুমী বতাহ ("monsoon wind").
+- `opt.weekday.friday` → শুক্ৰবাৰে (carries an "on Friday" ending); check the other weekdays too.
+- Gamosa is spelled two ways: গমোছা (`item.reg_gamosa`) vs গেমোছা (`step.reg_bath_routine.dry`).
+- `activity.saah_pat` → চাহ পাত · চাহ পাত (the name and its gloss translate to the same words).
+
+Build note: a `.next` file stayed locked (EBUSY) through four build attempts while no build process was
+running — OneDrive again. Renaming the locked file freed it. Failed builds partly clear `out/`, so the
+preview server at :4180 served an incomplete site until the rebuild.
+
 ### Roadmap (not started)
 
 All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).

@@ -15,6 +15,11 @@ export const CATEGORIES: Record<CategoryId, { label: string; icon: IconName; col
   around_house: { label: 'Around the house', icon: 'home', color: '#0369a1' },
 };
 
+/** Fix pack A1: shown names go through `t()`; `label` is the English fallback. */
+export const itemKey = (id: string) => `item.${id}`;
+export const bucketKey = (id: CategoryId) => `opt.bucket.${id}`;
+export const togetherKey = (theme: string, part: 'theme' | 'q' | 'follow') => `together.${theme.toLowerCase().replace(/\s+/g, '_')}.${part}`;
+
 /** Everyday North-East Indian household objects (original line art, no photographs). */
 export const HOME_OBJECTS: HomeObject[] = [
   { id: 'reg_tumbler', icon: 'tumbler', label: 'Steel tumbler', category: 'kitchen' },

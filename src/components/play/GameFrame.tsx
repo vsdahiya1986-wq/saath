@@ -67,9 +67,9 @@ export default function GameFrame({
           <div className="flex items-center gap-3 min-w-0">
             <IconTile icon={info.icon} size={30} fg={color} />
             <div className="min-w-0">
-              <div style={{ fontSize: 13, color, letterSpacing: '0.1em' }} className="font-bold uppercase truncate">
-                {info.cstSession}
-              </div>
+              {/* Fix pack A2: "CST Session 10 · Orientation" is clinician metadata —
+                  it meant nothing to the person and was English on every
+                  Assamese screen. It stays in the Evidence Inspector. */}
               <h1 style={{ fontSize: 28 }} className="font-extrabold leading-tight">
                 {t(info.labelKey, lang)}
               </h1>
@@ -81,12 +81,12 @@ export default function GameFrame({
           </div>
         </div>
         {progress && phase !== 'done' && (
-          <div className="flex items-center gap-3" aria-label={`Step ${progress.current} of ${progress.total}`}>
+          <div className="flex items-center gap-3" data-testid="progress" aria-label={`${Math.min(progress.current, progress.total)} / ${progress.total}`}>
             <div className="progress-track flex-1">
               <div className="progress-fill" style={{ transform: `scaleX(${Math.max(0.04, (progress.current - 1) / progress.total)})` }} />
             </div>
             <span style={{ fontSize: 17 }} className="muted font-semibold tabular-nums">
-              {Math.min(progress.current, progress.total)} of {progress.total}
+              {Math.min(progress.current, progress.total)} / {progress.total}
             </span>
           </div>
         )}
@@ -114,15 +114,15 @@ export default function GameFrame({
             {doneExtra && <div className="w-full flex justify-center">{doneExtra}</div>}
             {session.nextPreview && decision && (
               <div className="w-full flex justify-center">
-                <SessionOutcomeNote preview={session.nextPreview} playedDifficulty={session.difficulty} playedCue={session.cueUsed} />
+                <SessionOutcomeNote preview={session.nextPreview} playedDifficulty={session.difficulty} playedCue={session.cueUsed} lang={lang} />
               </div>
             )}
             <div className="flex flex-wrap gap-3 justify-center">
               <button onClick={onRestart} className="btn btn-primary btn-xl">
-                <Icon name="refresh" size={26} strokeWidth={2.4} /> Play again
+                <Icon name="refresh" size={26} strokeWidth={2.4} /> {t('game.play_again', lang)}
               </button>
               <button onClick={() => router.push('/play')} className="btn btn-ghost btn-xl">
-                More activities
+                {t('game.more_activities', lang)}
               </button>
             </div>
           </div>
