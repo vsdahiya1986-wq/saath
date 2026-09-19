@@ -145,7 +145,7 @@ export default function PersonHome() {
             labelKey="home.play"
             person={person}
             stat={String(ACTIVITIES.length)}
-            detail={preview ? `${t('play.today_three', lang)}: ${preview.three.map((a) => t(a.labelKey, lang)).join(', ')}` : '…'}
+            detail={preview ? `${t('play.today_three', lang)}: ${preview.three.map((a) => t(a.labelKey, lang)).join(', ')}` : ''}
             onSelect={() => router.push('/play')}
           />
           <BentoTile
@@ -153,8 +153,8 @@ export default function PersonHome() {
             icon="today"
             labelKey="home.today"
             person={person}
-            stat={preview ? (r ? formatTime(r) : '—') : '…'}
-            detail={preview ? (next ? (next.status === 'done' ? t('reminder.all_done', lang) : `${t(STATUS_KEY[next.status], lang)} · ${t(CUE_KEY[next.reminder.category], lang)}`) : t('reminder.none', lang)) : '…'}
+            stat={preview ? (r ? formatTime(r) : '—') : ''}
+            detail={preview ? (next ? (next.status === 'done' ? t('reminder.all_done', lang) : `${t(STATUS_KEY[next.status], lang)} · ${t(CUE_KEY[next.reminder.category], lang)}`) : t('reminder.none', lang)) : ''}
             onSelect={() => router.push('/today')}
           />
           <BentoTile
@@ -162,8 +162,8 @@ export default function PersonHome() {
             icon="people"
             labelKey="home.circle"
             person={person}
-            stat={preview ? String(preview.circleCount) : '…'}
-            detail={preview ? t(preview.circleCount === 1 ? 'home.circle.one' : 'home.circle.many', lang) : '…'}
+            stat={preview ? String(preview.circleCount) : ''}
+            detail={preview ? t(preview.circleCount === 1 ? 'home.circle.one' : 'home.circle.many', lang) : ''}
             onSelect={() => router.push('/circle')}
           />
           <BentoTile
@@ -171,7 +171,7 @@ export default function PersonHome() {
             icon="help"
             labelKey="home.help"
             person={person}
-            detail={preview ? (preview.helpKey ? t(preview.helpKey, lang) : t('home.help.ok', lang)) : '…'}
+            detail={preview ? (preview.helpKey ? t(preview.helpKey, lang) : t('home.help.ok', lang)) : ''}
             onSelect={() => router.push('/help')}
           />
         </div>

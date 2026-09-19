@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T16:59:43.730Z",
+  "generated_at": "2026-09-19T04:03:31.247Z",
   "engine_a": "Bhashini translation en→as",
   "engine_b": "Bhashini translation as→en",
   "thresholds": {
@@ -1059,11 +1059,11 @@
       "verdict": "PASS"
     },
     "opt.bucket.around_house": {
-      "en": "Around the house",
-      "as": "ঘৰৰ চাৰিওফালে",
-      "back": "Around the house",
-      "sim": 1,
-      "lexical": 1,
+      "en": "Elsewhere in the house",
+      "as": "ঘৰৰ আন ঠাইত",
+      "back": "In another part of the house",
+      "sim": 0.79,
+      "lexical": 0.5,
       "deny": null,
       "long": false,
       "verdict": "PASS"
@@ -1799,11 +1799,11 @@
       "verdict": "PASS"
     },
     "q.sort_home.where": {
-      "en": "Where does this belong?",
-      "as": "এইটো ক'ত আছে?",
-      "back": "Where is this?",
-      "sim": 0.56,
-      "lexical": 0.5,
+      "en": "Where should this go?",
+      "as": "এইটো ক'লৈ যাব লাগে?",
+      "back": "Where is this supposed to go?",
+      "sim": 0.8,
+      "lexical": 0.67,
       "deny": null,
       "long": false,
       "verdict": "PASS"
@@ -1888,11 +1888,11 @@
       "long": false,
       "verdict": "PASS"
     },
-    "notice.family_pictures": {
-      "en": "Includes pictures from your family.",
-      "as": "ইয়াত আপোনাৰ পৰিয়ালৰ ফটো অন্তৰ্ভুক্ত কৰা হৈছে।",
-      "back": "This includes photos of your family.",
-      "sim": 0.89,
+    "notice.some_family": {
+      "en": "Some of these are your family's own photos.",
+      "as": "ইয়াৰে কিছুমান আপোনাৰ পৰিয়ালৰ নিজৰ ফটো।",
+      "back": "Some of these are pictures of your family.",
+      "sim": 0.91,
       "lexical": 0.5,
       "deny": null,
       "long": false,

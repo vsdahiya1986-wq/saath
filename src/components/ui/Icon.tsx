@@ -62,7 +62,12 @@ export type IconName =
   | 'loom'
   | 'ricepot'
   | 'soap'
-  | 'shirt';
+  | 'shirt'
+  | 'sunrise'
+  | 'night'
+  | 'flower'
+  | 'seat'
+  | 'lampoff';
 
 const PATHS: Record<IconName, ReactElement> = {
   play: (
@@ -376,8 +381,46 @@ const PATHS: Record<IconName, ReactElement> = {
     </>
   ),
   moon: <path d="M20 14.5A8.2 8.2 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" strokeLinejoin="round" />,
+  /* 08 item 2: the four parts of the day must never share a glyph. Sunrise
+     rises (arrow up), sunset sets (arrow down), afternoon is the full sun,
+     night is the moon with stars — evening and night were both a moon. */
   sunset: (
-    <path d="M3 18h18M6.5 14.5a5.5 5.5 0 0 1 11 0M12 4v3M4.9 8.5l1.8 1.8M19.1 8.5l-1.8 1.8M8 21h8" strokeLinecap="round" />
+    <path d="M3 18h18M6.5 18a5.5 5.5 0 0 1 11 0M12 4v6.5M9.5 8 12 10.5 14.5 8M8 21h8" strokeLinecap="round" strokeLinejoin="round" />
+  ),
+  sunrise: (
+    <path d="M3 18h18M6.5 18a5.5 5.5 0 0 1 11 0M12 10.5V4M9.5 6.5 12 4l2.5 2.5M4.6 13.2l1.6.9M19.4 13.2l-1.6.9" strokeLinecap="round" strokeLinejoin="round" />
+  ),
+  night: (
+    <>
+      <path d="M15 16.5A7 7 0 1 1 7.5 6a5.5 5.5 0 0 0 7.5 10.5z" strokeLinejoin="round" />
+      <path d="M17.5 3.5v3M16 5h3M20 9.5v2M19 10.5h2" strokeLinecap="round" />
+    </>
+  ),
+  flower: (
+    <>
+      <circle cx="12" cy="8.5" r="1.6" />
+      <circle cx="12" cy="5" r="1.9" />
+      <circle cx="15.3" cy="7.4" r="1.9" />
+      <circle cx="14.1" cy="11.3" r="1.9" />
+      <circle cx="9.9" cy="11.3" r="1.9" />
+      <circle cx="8.7" cy="7.4" r="1.9" />
+      <path d="M12 13.2V21M12 17.5c-1.6-1.6-3.6-1.6-4.6-1" strokeLinecap="round" />
+    </>
+  ),
+  /* 08 item 4: a plain seat for "sit" steps — the mora (hourglass) stays for the object. */
+  seat: (
+    <>
+      <rect x="5" y="7.5" width="14" height="3" rx="1.2" />
+      <path d="M7 10.5 6 20M17 10.5l1 10M8.3 15.5h7.4" strokeLinecap="round" />
+    </>
+  ),
+  /* An unlit diya, for putting the lamp out: the lamp's bowl with no flame. */
+  lampoff: (
+    <>
+      <path d="M4 15.5c0-1.7 3.6-2.8 8-2.8s8 1.1 8 2.8-3.6 3.3-8 3.3-8-1.6-8-3.3z" strokeLinejoin="round" />
+      <path d="M9.5 14.3c1-.3 4-.3 5 0" strokeLinecap="round" opacity="0.6" />
+      <path d="M12 9.5v1.5M9.5 7.5l.8.9M14.5 7.5l-.8.9" strokeLinecap="round" opacity="0.45" />
+    </>
   ),
   rain: (
     <>

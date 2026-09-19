@@ -1,6 +1,6 @@
 # Assamese translation review
 
-Generated 2026-09-18T16:59:43.730Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
+Generated 2026-09-19T04:03:31.247Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
 
 - Engine A: Bhashini translation en→as. Engine B: Bhashini translation as→en. IndicTrans2 is the intended engine B but its models are gated; see the script header.
 - FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < 0.75) and words (overlap < 0.5).
@@ -15,6 +15,15 @@ Generated 2026-09-18T16:59:43.730Z by `node scripts/verify-translations.mjs --ru
 | `activity.saah_pat` | Saah Pat · Tea Leaf | চাহ পাত · চাহ পাত | Tea leaves · Tea leaves | 0.62 | 0.25 | FAIL |
 | `exit.pause` | Stop for a moment | অলপ সময় ৰাখক | Hold for a while | 0.54 | 0 | FAIL |
 | `q.saah_pat.left` | Tea shoots still to find | চাহৰ বাকলি এতিয়াও বিচাৰি পোৱা বাকী | The tea bag is yet to be found | 0.69 | 0.25 | FAIL |
+
+### Flagged by reading (2)
+
+Flagged by a person reading the screen, not by a native speaker — kept here for review even when the round trip passes.
+
+| key | why | current Assamese | verdict |
+| --- | --- | --- | --- |
+| `opt.bucket.around_house` | 08 item 6: was "সাজু হৈ গৈ আছে" (reads as "getting ready"); English source changed to "Elsewhere in the house". | ঘৰৰ আন ঠাইত | PASS |
+| `q.sort_home.where` | 08 item 6: was "এইটো ক'ত আছে?" ("where is this?") for "where does this belong?"; English source changed to "Where should this go?". | এইটো ক'লৈ যাব লাগে? | PASS |
 
 ## Passed but long — check for clipping (8)
 
@@ -138,7 +147,7 @@ Generated 2026-09-18T16:59:43.730Z by `node scripts/verify-translations.mjs --ru
 | `done.time_of_day` | Time of day | দিনটোৰ সময় | Time of the day | 0.96 | 1 | PASS |
 | `opt.bucket.kitchen` | Kitchen | পাকঘৰ | Kitchen | 1 | 1 | PASS |
 | `opt.bucket.getting_ready` | Getting ready | সাজু হৈ গৈ আছে | Getting ready | 1 | 1 | PASS |
-| `opt.bucket.around_house` | Around the house | ঘৰৰ চাৰিওফালে | Around the house | 1 | 1 | PASS |
+| `opt.bucket.around_house` | Elsewhere in the house | ঘৰৰ আন ঠাইত | In another part of the house | 0.79 | 0.5 | PASS |
 | `item.reg_tumbler` | Steel tumbler | ষ্টীলৰ টাম্বলাৰ | steel tumbler | 1 | 1 | PASS |
 | `item.reg_kettle` | Tea kettle | চাহৰ কেটলি | tea kettle | 1 | 1 | PASS |
 | `item.reg_thali` | Thali plate | থালী প্লেট | Thali plate | 1 | 1 | PASS |
@@ -212,7 +221,7 @@ Generated 2026-09-18T16:59:43.730Z by `node scripts/verify-translations.mjs --ru
 | `together.friends.theme` | Friends | বন্ধুসকল | Friends | 1 | 1 | PASS |
 | `together.friends.q` | Tell me about a good friend from when you were young. | মোক তোমাৰ সৰুৰে পৰা এজন ভাল বন্ধুৰ বিষয়ে কোৱা। | Tell me about a good friend of yours from childhood. | 0.87 | 0.67 | PASS |
 | `together.friends.follow` | What did you do together? | তুমি একেলগে কি কৰিলা? | What did you do together? | 1 | 1 | PASS |
-| `q.sort_home.where` | Where does this belong? | এইটো ক'ত আছে? | Where is this? | 0.56 | 0.5 | PASS |
+| `q.sort_home.where` | Where should this go? | এইটো ক'লৈ যাব লাগে? | Where is this supposed to go? | 0.8 | 0.67 | PASS |
 | `q.hear_find.listen` | Listen, then find | শুনক, তাৰপিছত বিচাৰি উলিয়াওক | Listen, then find out | 0.8 | 1 | PASS |
 | `q.hear_find.look` | Find this picture | এই ছবিখন বিচাৰি উলিয়াওক | Find this image | 0.8 | 0.5 | PASS |
 | `q.next_step.first` | What do you do first? | আপুনি প্ৰথমে কি কৰে? | What do you do first? | 1 | 1 | PASS |
@@ -221,7 +230,7 @@ Generated 2026-09-18T16:59:43.730Z by `node scripts/verify-translations.mjs --ru
 | `q.saah_pat.find_sprigs` | Find every tea shoot like this one | এনেধৰণৰ প্ৰতিটো চাহৰ শ্বুট বিচাৰি উলিয়াওক | Find each such tea shoot | 0.9 | 0.5 | PASS |
 | `q.saah_pat.left` | Tea shoots still to find | চাহৰ বাকলি এতিয়াও বিচাৰি পোৱা বাকী | The tea bag is yet to be found | 0.69 | 0.25 | FAIL |
 | `q.saah_pat.all_found` | All found | সকলো পোৱা গৈছে | Everything found | 0.71 | 0.5 | PASS |
-| `notice.family_pictures` | Includes pictures from your family. | ইয়াত আপোনাৰ পৰিয়ালৰ ফটো অন্তৰ্ভুক্ত কৰা হৈছে। | This includes photos of your family. | 0.89 | 0.5 | PASS |
+| `notice.some_family` | Some of these are your family's own photos. | ইয়াৰে কিছুমান আপোনাৰ পৰিয়ালৰ নিজৰ ফটো। | Some of these are pictures of your family. | 0.91 | 0.5 | PASS |
 | `notice.visual_mode` | Read the word, then find its picture. | শব্দটো পঢ়ক, তাৰ পিছত ইয়াৰ ছবি বিচাৰি উলিয়াওক। | Read the word, then find a picture of it. | 0.93 | 0.83 | PASS |
 | `notice.family_routine` | Your family's own routine | আপোনাৰ পৰিয়ালৰ নিজৰ ৰুটিন | Your family's own routine | 1 | 1 | PASS |
 | `notice.routine_generic` | A family can add their own routine in the Memory Garden. | এটা পৰিয়ালে মেম'ৰী গাৰ্ডেনত তেওঁলোকৰ নিজৰ ৰুটিন যোগ দিব পাৰে। | A family can add their own routine to the Memory Garden. | 0.99 | 1 | PASS |

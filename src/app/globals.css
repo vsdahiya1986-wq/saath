@@ -108,6 +108,10 @@ html[data-text-scale='1.3'] { zoom: 1.3; }
   border-radius: var(--radius-lg);
 }
 .core {
+  /* 08 item 5: Assamese words run long — text in a card wraps inside it
+     instead of spilling past its edge, and a card may shrink to its column. */
+  min-width: 0;
+  overflow-wrap: anywhere;
   background: var(--surface);
   border: 1px solid var(--card-border);
   border-radius: var(--radius-lg);
@@ -224,6 +228,8 @@ html[data-text-scale='1.3'] { zoom: 1.3; }
 
 /* ---------- Answer tiles ---------- */
 .tile {
+  min-width: 0;
+  overflow-wrap: anywhere;
   position: relative;
   display: flex;
   flex-direction: column;

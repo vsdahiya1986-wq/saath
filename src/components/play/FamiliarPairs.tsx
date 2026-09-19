@@ -9,6 +9,7 @@ import { shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
 import AnalogClock from '@/components/ui/AnalogClock';
+import { distinctIcons } from '@/lib/distinctIcons';
 import GameFrame from './GameFrame';
 
 /**
@@ -38,7 +39,7 @@ interface Question {
 function pickChoices(all: Choice[], answerId: string, n: number): Choice[] {
   const answer = all.find((c) => c.id === answerId)!;
   const others = shuffle(all.filter((c) => c.id !== answerId)).slice(0, n - 1);
-  return shuffle([answer, ...others]);
+  return distinctIcons(shuffle([answer, ...others]), 'Today & Me');
 }
 
 function buildQuestions(difficulty: Difficulty): Question[] {
@@ -47,8 +48,10 @@ function buildQuestions(difficulty: Difficulty): Question[] {
   const now = orientationNow(d);
   const partChoices: Choice[] = PARTS.map((p) => ({ id: p.name, labelKey: optKey('period', p.name), icon: p.icon }));
   const seasonChoices: Choice[] = SEASONS.map((s) => ({ id: s.name, labelKey: optKey('season', s.name), icon: s.icon }));
-  const weekdayChoices: Choice[] = WEEKDAYS.map((w) => ({ id: w, labelKey: optKey('weekday', w), icon: 'calendar' }));
-  const monthChoices: Choice[] = MONTHS.map((m) => ({ id: m, labelKey: optKey('month', m), icon: 'calendar' }));
+  // No icon rather than the same calendar on every option: a repeated picture
+  // cannot tell days apart for someone who navigates by picture (08 item 2).
+  const weekdayChoices: Choice[] = WEEKDAYS.map((w) => ({ id: w, labelKey: optKey('weekday', w) }));
+  const monthChoices: Choice[] = MONTHS.map((m) => ({ id: m, labelKey: optKey('month', m) }));
 
   const all: Question[] = [
     {
@@ -210,7 +213,7 @@ export default function FamiliarPairs({ person, onRestart }: { person: Person; o
                 <AnalogClock hour={new Date().getHours()} minute={new Date().getMinutes()} size={84} />
               </span>
             )}
-            <p data-testid="question" style={{ fontSize: big ? 30 : 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
+            <p data-testid="question" style={{ fontSize: big ? 'clamp(22px, 6.4vw, 30px)' : 'clamp(21px, 6vw, 27px)', letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
               {t(q.questionKey, lang)}
             </p>
           </div>

@@ -89,7 +89,7 @@ export default function ReminderScheduler() {
 
       {/* F2 step 2: never fail silently — say plainly whether this device can ring. */}
       <p data-testid="ring-status" style={{ fontSize: 15 }} className="muted">
-        <b>On this device:</b> {capability ? RING_STATUS_TEXT[capability] : '…'}
+        <b>On this device:</b> {capability ? RING_STATUS_TEXT[capability] : ''}
         {capability === 'in_app' || capability === 'permission_needed' ? ' — a due reminder still shows as a full-screen card while SAATH is open.' : ''}
       </p>
 

@@ -6,15 +6,15 @@ export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
 export const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 export const PARTS: { name: string; icon: IconName }[] = [
-  { name: 'Morning', icon: 'sun' },
-  { name: 'Afternoon', icon: 'sunset' },
-  { name: 'Evening', icon: 'moon' },
-  { name: 'Night', icon: 'moon' },
+  { name: 'Morning', icon: 'sunrise' },
+  { name: 'Afternoon', icon: 'sun' },
+  { name: 'Evening', icon: 'sunset' },
+  { name: 'Night', icon: 'night' },
 ];
 
 /** Seasons as commonly spoken of in Assam / North-East India. */
 export const SEASONS: { name: string; icon: IconName; months: number[] }[] = [
-  { name: 'Spring', icon: 'leaf', months: [1, 2] },
+  { name: 'Spring', icon: 'flower', months: [1, 2] },
   { name: 'Summer', icon: 'sun', months: [3, 4] },
   { name: 'Monsoon', icon: 'rain', months: [5, 6, 7, 8] },
   { name: 'Autumn', icon: 'leaf', months: [9, 10] },

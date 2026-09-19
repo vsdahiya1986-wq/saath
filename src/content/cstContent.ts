@@ -12,7 +12,7 @@ export type CategoryId = 'kitchen' | 'getting_ready' | 'around_house';
 export const CATEGORIES: Record<CategoryId, { label: string; icon: IconName; color: string }> = {
   kitchen: { label: 'Kitchen', icon: 'kettle', color: '#b45309' },
   getting_ready: { label: 'Getting ready', icon: 'mirror', color: '#6d28d9' },
-  around_house: { label: 'Around the house', icon: 'home', color: '#0369a1' },
+  around_house: { label: 'Elsewhere in the house', icon: 'home', color: '#0369a1' },
 };
 
 /** Fix pack A1: shown names go through `t()`; `label` is the English fallback. */

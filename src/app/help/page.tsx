@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePerson } from '@/lib/usePerson';
-import { db, packsForPerson, getBlob, FollowupItem, FollowupState } from '@/lib/db';
+import { db, getBlob, FollowupItem, FollowupState } from '@/lib/db';
+import { usablePacks } from '@/lib/familyContent';
 import { createHelpRequest } from '@/lib/events';
 import { routeHelpRequest } from '@/lib/alerts';
 import { playPackAudio, playCue, speak } from '@/lib/audio';
@@ -36,7 +37,7 @@ export default function HelpScreen() {
     if (!person) return;
     let cancelled = false;
     (async () => {
-      const packs = await packsForPerson(person.id, 'approved');
+      const packs = await usablePacks(person.id);
       const built: PromptCard[] = [];
       for (const p of packs.filter((p) => p.permitted_uses.includes('help'))) {
         const photoBlob = p.media.photo ? await getBlob(p.media.photo) : undefined;

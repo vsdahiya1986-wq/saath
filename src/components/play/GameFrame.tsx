@@ -66,14 +66,16 @@ export default function GameFrame({
   return (
     <main className="h-[100dvh] flex flex-col">
       <header className="shrink-0 w-full max-w-3xl mx-auto px-5 pt-5 pb-3 flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3 min-w-0">
+        {/* 08 item 5: at phone width the badges wrap below the title rather
+            than squeezing it (Assamese titles are long). */}
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0 grow basis-56">
             <IconTile icon={info.icon} size={30} fg={color} />
             <div className="min-w-0">
               {/* Fix pack A2: "CST Session 10 · Orientation" is clinician metadata —
                   it meant nothing to the person and was English on every
                   Assamese screen. It stays in the Evidence Inspector. */}
-              <h1 style={{ fontSize: 28 }} className="font-extrabold leading-tight">
+              <h1 style={{ fontSize: 28, overflowWrap: 'anywhere' }} className="font-extrabold leading-tight">
                 {t(info.labelKey, lang)}
               </h1>
             </div>
@@ -140,8 +142,8 @@ export default function GameFrame({
                 </p>
               )}
               {prompt && (
-                <div className="core p-5 flex items-center gap-4" style={{ borderLeft: `8px solid ${color}` }}>
-                  <div className="flex-1 min-w-0" aria-live="polite">
+                <div className="core p-5 flex flex-wrap items-center gap-4" style={{ borderLeft: `8px solid ${color}` }}>
+                  <div className="flex-1 min-w-0 basis-48" aria-live="polite">
                     {prompt}
                     {retry && (
                       <p data-testid="retry-message" role="status" style={{ fontSize: 20, color: 'var(--accent-warm)' }} className="font-bold mt-2">

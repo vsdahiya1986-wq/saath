@@ -121,6 +121,11 @@ test.describe('B3 — Assamese never clips', () => {
             const c = getComputedStyle(el);
             const clips = c.textOverflow === 'ellipsis' || ['hidden', 'clip'].includes(c.overflowX);
             if (clips && el.scrollWidth > el.clientWidth + 1 && el.innerText?.trim()) out.push(el.innerText.trim().slice(0, 40));
+            // 08 item 5: text that spills out of its own box, clipped or not
+            // (the weekday in the date card at 360 px). Leaf blocks only.
+            else if (!el.children.length && el.clientWidth > 0 && el.scrollWidth > el.clientWidth + 1 && el.innerText?.trim()) {
+              out.push(`spills: ${el.innerText.trim().slice(0, 40)} (${el.scrollWidth}>${el.clientWidth})`);
+            }
           }
           return out;
         });

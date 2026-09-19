@@ -27,6 +27,11 @@ export default function ExitBar({
   onEnd: () => void;
 }) {
   const lang = person.language;
+  // 08 item 5: at phone width a pill with the icon beside a long Assamese
+  // label squeezed into a circle and spilled. Icon above, label below, and a
+  // rounded rectangle that grows with the wrapped text instead.
+  const EXIT_BTN = { minHeight: 64, flexDirection: 'column', gap: 4, borderRadius: 18, fontSize: 17, lineHeight: 1.2, textAlign: 'center', padding: '8px 6px', overflowWrap: 'anywhere' } as const;
+
   return (
     <div
       className={`dock shrink-0 grid ${onSkipOne ? 'grid-cols-3' : 'grid-cols-2'} gap-3 px-4 pt-3 pb-4`}
@@ -39,7 +44,7 @@ export default function ExitBar({
           onPauseToggle();
         }}
         className={`btn ${paused ? 'btn-primary' : 'btn-ghost'} px-2`}
-        style={{ minHeight: 64 }}
+        style={EXIT_BTN}
       >
         <Icon name={paused ? 'play' : 'pause'} size={24} />
         <span>{paused ? t('common.continue', lang) : t('exit.pause', lang)}</span>
@@ -51,7 +56,7 @@ export default function ExitBar({
             onSkipOne();
           }}
           className="btn btn-ghost px-2"
-          style={{ minHeight: 64 }}
+          style={EXIT_BTN}
         >
           <Icon name="skip" size={24} />
           <span>{t('exit.skip_one', lang)}</span>
@@ -63,7 +68,7 @@ export default function ExitBar({
           onEnd();
         }}
         className="btn btn-ghost px-2"
-        style={{ minHeight: 64 }}
+        style={EXIT_BTN}
       >
         <Icon name="stop" size={24} />
         <span>{t('exit.end', lang)}</span>

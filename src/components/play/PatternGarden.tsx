@@ -8,6 +8,7 @@ import { bucketKey, CATEGORIES, CategoryId, HOME_OBJECTS, HomeObject, itemKey, s
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon from '@/components/ui/Icon';
 import IconTile from '@/components/ui/IconTile';
+import { distinctIcons } from '@/lib/distinctIcons';
 import GameFrame from './GameFrame';
 
 /**
@@ -26,6 +27,7 @@ function buildRound(difficulty: Difficulty): { cats: CategoryId[]; items: HomeOb
     const next = pools[cats[i % cats.length]].shift();
     if (next) items.push(next);
   }
+  distinctIcons(cats.map((c) => CATEGORIES[c]), 'Sort the Home');
   return { cats, items: shuffle(items) };
 }
 
@@ -143,12 +145,12 @@ export default function PatternGarden({ person, onRestart }: { person: Person; o
       onSkipStep={skipStep}
       prompt={
         item && (
-          <div className="flex items-center gap-5" key={item.id}>
+          <div className="flex flex-wrap items-center gap-4" key={item.id}>
             <span className="rise">
               <IconTile icon={item.icon} size={76} fg="var(--accent-warm)" />
             </span>
-            <div className="flex flex-col gap-1 min-w-0">
-              <span style={{ fontSize: 32, letterSpacing: '-0.02em' }} className="font-extrabold leading-tight">
+            <div className="flex flex-col gap-1 min-w-0 flex-1 basis-32">
+              <span style={{ fontSize: 'clamp(24px, 7vw, 32px)', letterSpacing: '-0.02em' }} className="font-extrabold leading-tight">
                 {t(itemKey(item.id), lang)}
               </span>
               <span data-testid="question" style={{ fontSize: 19 }} className="muted">

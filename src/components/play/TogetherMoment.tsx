@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ContentPack, Person, getBlob, packsForPerson, putPack } from '@/lib/db';
+import { ContentPack, Person, getBlob, putPack } from '@/lib/db';
+import { usablePacks } from '@/lib/familyContent';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
@@ -35,7 +36,7 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
     version: '2',
     scored: false,
     onStart: async (_d, isCancelled) => {
-      const packs = await packsForPerson(person.id, 'approved');
+      const packs = await usablePacks(person.id);
       const candidates = packs.filter((p) => p.permitted_uses.includes('together'));
       if (isCancelled()) return;
       setPrompts(shuffle(REMINISCENCE_PROMPTS).slice(0, 3));

@@ -421,7 +421,7 @@
   },
   "opt.bucket.around_house": {
     "file": "opt_bucket_around_house.wav",
-    "text": "ঘৰৰ চাৰিওফালে"
+    "text": "ঘৰৰ আন ঠাইত"
   },
   "item.reg_tumbler": {
     "file": "item_reg_tumbler.wav",
@@ -717,7 +717,7 @@
   },
   "q.sort_home.where": {
     "file": "q_sort_home_where.wav",
-    "text": "এইটো ক'ত আছে?"
+    "text": "এইটো ক'লৈ যাব লাগে?"
   },
   "q.hear_find.listen": {
     "file": "q_hear_find_listen.wav",
@@ -751,9 +751,9 @@
     "file": "q_saah_pat_all_found.wav",
     "text": "সকলো পোৱা গৈছে"
   },
-  "notice.family_pictures": {
-    "file": "notice_family_pictures.wav",
-    "text": "ইয়াত আপোনাৰ পৰিয়ালৰ ফটো অন্তৰ্ভুক্ত কৰা হৈছে।"
+  "notice.some_family": {
+    "file": "notice_some_family.wav",
+    "text": "ইয়াৰে কিছুমান আপোনাৰ পৰিয়ালৰ নিজৰ ফটো।"
   },
   "notice.visual_mode": {
     "file": "notice_visual_mode.wav",

@@ -1,13 +1,15 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
-import { getBlob, packsForPerson } from '@/lib/db';
+import { familyHintKey, usablePacks } from '@/lib/familyContent';
+import { getBlob } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, queueSay, queueSpeak, say, speak } from '@/lib/audio';
 import { t } from '@/lib/i18n';
 import { HOME_OBJECTS, itemKey, shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
+import { distinctIcons } from '@/lib/distinctIcons';
 import GameFrame from './GameFrame';
 
 /**
@@ -35,16 +37,15 @@ interface Round {
   choices: Item[];
 }
 
-async function buildPool(person: Person): Promise<{ pool: Item[]; family: boolean }> {
-  const packs = await packsForPerson(person.id, 'approved');
+async function buildPool(person: Person): Promise<Item[]> {
+  const packs = await usablePacks(person.id);
   const pool: Item[] = [];
   for (const p of packs.filter((p) => p.permitted_uses.includes('play') && (p.kind === 'object' || p.kind === 'place'))) {
     const key = p.media.photo ?? p.media.place_photo;
     const blob = key ? await getBlob(key) : undefined;
     if (blob) pool.push({ id: p.id, label: p.title, photoUrl: URL.createObjectURL(blob), audioKey: p.media.audio_key });
   }
-  const family = pool.length > 0;
-  return { pool: [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }))], family };
+  return [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }))];
 }
 
 /**
@@ -60,7 +61,7 @@ function buildRounds(pool: Item[], difficulty: Difficulty): Round[] {
   return shuffle(targets).map((target) => {
     const same = shuffle((target.photoUrl ? photos : drawings).filter((p) => p.id !== target.id));
     const other = shuffle((target.photoUrl ? drawings : photos).filter((p) => p.id !== target.id));
-    return { target, choices: shuffle([target, ...[...same, ...other].slice(0, n - 1)]) };
+    return { target, choices: distinctIcons(shuffle([target, ...[...same, ...other].slice(0, n - 1)]), 'Hear & Find') };
   });
 }
 
@@ -69,7 +70,6 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
   const name = (i: Item) => (i.labelKey ? t(i.labelKey, lang) : i.label);
   const visualOnly = person.care_config.sensory_mode === 'visual_only';
   const [rounds, setRounds] = useState<Round[]>([]);
-  const [family, setFamily] = useState(false);
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<string | null>(null);
   const [wrongId, setWrongId] = useState<string | null>(null);
@@ -84,9 +84,8 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
     activity: 'sound_sight',
     version: '2',
     onStart: async (d, isCancelled) => {
-      const { pool, family: fam } = await buildPool(person);
+      const pool = await buildPool(person);
       if (isCancelled()) return;
-      setFamily(fam);
       setRounds(buildRounds(pool, d?.chosenDifficulty ?? 1));
       if (d?.chosenCue === 'reduce_choices') setReduced(true);
       if (d?.chosenCue === 'highlight' || d?.chosenCue === 'demonstrate') setHint(true);
@@ -196,7 +195,7 @@ export default function SoundAndSight({ person, onRestart }: { person: Person; o
       onListen={visualOnly ? undefined : () => sayTarget(true)}
       onHelp={onHelp}
       onSkipStep={skipStep}
-      notice={family ? t('notice.family_pictures', lang) : visualOnly ? t('notice.visual_mode', lang) : undefined}
+      notice={visualOnly ? t('notice.visual_mode', lang) : visible.length ? t(familyHintKey(visible.map((c) => ({ fromFamily: !!c.photoUrl }))), lang) : undefined}
       prompt={
         round && (
           <div className="flex flex-col gap-1">

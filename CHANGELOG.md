@@ -491,6 +491,52 @@ the two Inspector demo personas; Aita (the sample) has always been `is_sample`.
 
 Gates: lint · tsc · **178** unit · **51** Playwright (one worker, low memory) · verify-translations — all green.
 
+## Fix pack 08 — final fix list (2026-09-19)
+
+**1 — the "family photos" hint was untrue.** Root cause: both hints were chosen from "does an approved family
+pack exist", while the round on screen mixed family pictures with regional drawings. A note on the data model:
+our packs have no `items` array; a pack carries one photo, recording or step list. Aita's two sample packs
+carry drawn placeholder images.
+- `familyHintKey()` now decides from the items actually on screen: all family → "These are your family's own
+  pictures", some → "Some of these are your family's own photos" (new key, verified), none → "A family can
+  add their own photos in the Memory Garden".
+- `usablePacks()` is the one reader for every activity that reads packs (the four games and Help). A pack
+  with no photo, recording or steps counts as absent.
+
+**2 — duplicate icons in one question.** It was worse than reported: evening and night shared a moon, spring
+and autumn shared a leaf, every weekday and month shared a calendar, and the evening-prayer routine used the
+lamp twice.
+- New sunrise (arrow up), night (moon and stars) and flower icons. Sunset now has a down arrow.
+- Weekday and month options carry no icon rather than seven identical calendars.
+- `distinctIcons()` guards every option set as it is built: it throws in development and logs in production.
+
+**3 — the due card was English-only.** The translated `remind.*` sentence is now the primary line. The
+caregiver's care-plan text stays beneath it, in their words, as the detail line.
+
+**4 — routine icons.** New `seat` for "Sit and rest" (the hourglass mora stays for the object) and `lampoff`
+for putting the lamp out. Audit: "Wake up" → sunrise, washing → soap, breakfast → plate, "Short walk" →
+slippers, "Sit on the mat" → woven mat. Every routine's icons are distinct.
+
+**5 — clipping at phone width.** `.core` and `.tile` may shrink and wrap long words. The audit now also
+catches text that spills out of its own box, clipped or not, and that found more than the weekday: at 360 px
+game titles were squeezed to about 53 px by the badges, and Sort the Home's prompt text to 8 px. The header and
+prompt now wrap, and question text scales down on narrow screens.
+A screenshot, not the audit, found one more: the Pause / Skip / End buttons became circles with their labels
+spilling out. They now stack the icon above a wrapped label in a rounded rectangle. The audit checks sideways
+overflow only, so vertical overflow was caught by looking.
+
+**6 — two wordings, flagged by reading, not by a native speaker.** "Around the house" → "Elsewhere in the
+house" (ঘৰৰ আন ঠাইত); "Where does this belong?" → "Where should this go?" (এইটো ক'লৈ যাব লাগে?).
+Both pass the round trip and both stay on the human-review list: the verifier now has `HUMAN_FLAGS`, which
+`docs/i18n-review.md` shows under "Flagged by reading".
+
+**7 — "CARING FOR …".** With no one selected, Circle returned before loading and kept its placeholder. It now
+shows "No one selected yet" with zero counts. Every other `'…'` placeholder on Home, Circle and Reminders is
+now empty while loading.
+
+Translation: 224/227 verified; the same 3 fall back to English.
+Gates: lint · tsc · **194** unit · **53** Playwright · verify-translations — all green.
+
 ### Roadmap (not started)
 
 All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).

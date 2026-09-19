@@ -421,7 +421,7 @@
   },
   "opt.bucket.around_house": {
     "file": "opt_bucket_around_house.wav",
-    "text": "Around the house"
+    "text": "Elsewhere in the house"
   },
   "item.reg_tumbler": {
     "file": "item_reg_tumbler.wav",
@@ -717,7 +717,7 @@
   },
   "q.sort_home.where": {
     "file": "q_sort_home_where.wav",
-    "text": "Where does this belong?"
+    "text": "Where should this go?"
   },
   "q.hear_find.listen": {
     "file": "q_hear_find_listen.wav",
@@ -751,9 +751,9 @@
     "file": "q_saah_pat_all_found.wav",
     "text": "All found"
   },
-  "notice.family_pictures": {
-    "file": "notice_family_pictures.wav",
-    "text": "Includes pictures from your family."
+  "notice.some_family": {
+    "file": "notice_some_family.wav",
+    "text": "Some of these are your family's own photos."
   },
   "notice.visual_mode": {
     "file": "notice_visual_mode.wav",

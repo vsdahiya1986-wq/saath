@@ -56,7 +56,13 @@ export default function ReminderDueCard({
       <p style={{ fontSize: 20, color }} className="font-bold uppercase" data-testid="reminder-due-time">
         {formatTime(reminder)}
       </p>
-      <p style={{ fontSize: 30, maxWidth: '22ch' }} className="font-extrabold leading-snug">
+      {/* 08 item 3: the translated sentence is the primary line; the care-plan
+          text stays in the caregiver's own words as the detail beneath it —
+          never the only text on the person's screen. */}
+      <p data-testid="reminder-due-sentence" style={{ fontSize: 32, maxWidth: '22ch', overflowWrap: 'anywhere' }} className="font-extrabold leading-snug">
+        {t(CUE_KEY[reminder.category], lang)}
+      </p>
+      <p data-testid="reminder-due-detail" style={{ fontSize: 22, maxWidth: '28ch', overflowWrap: 'anywhere' }} className="muted font-semibold leading-snug">
         {reminder.care_plan_text}
       </p>
 

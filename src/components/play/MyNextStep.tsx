@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
-import { packsForPerson } from '@/lib/db';
+import { usablePacks } from '@/lib/familyContent';
 import { useCstSession } from '@/lib/useCstSession';
 import { loadRegionalManifest, pickRegionalRoutine } from '@/lib/regionalPacks';
 import { playCue, playPackAudio, queueAutoCue, say, speak } from '@/lib/audio';
@@ -9,6 +9,7 @@ import { t } from '@/lib/i18n';
 import { shuffle } from '@/content/cstContent';
 import { onWrongAnswer } from '@/lib/stepRunner';
 import Icon, { IconName } from '@/components/ui/Icon';
+import { distinctIcons } from '@/lib/distinctIcons';
 import GameFrame from './GameFrame';
 
 /** "My Next Step" — CST Session 4, Everyday Practical Life: order a familiar daily routine. */
@@ -30,7 +31,7 @@ interface Step {
 }
 
 async function buildRoutine(person: Person, need: number) {
-  const packs = await packsForPerson(person.id, 'approved');
+  const packs = await usablePacks(person.id);
   const routine = packs.find((p) => p.kind === 'routine' && p.permitted_uses.includes('play') && p.media.steps?.length);
   if (routine?.media.steps?.length) {
     return {
@@ -43,7 +44,10 @@ async function buildRoutine(person: Person, need: number) {
   const r = pickRegionalRoutine(await loadRegionalManifest());
   return {
     title: t(`routine.${r.id}`, person.language),
-    steps: r.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, labelKey: `step.${r.id}.${s.id}`, icon: s.icon })),
+    steps: distinctIcons(
+      r.steps.slice(0, need).map((s) => ({ id: s.id, label: s.label, labelKey: `step.${r.id}.${s.id}`, icon: s.icon })),
+      'My Next Step',
+    ),
     audioKey: undefined,
     family: false,
   };

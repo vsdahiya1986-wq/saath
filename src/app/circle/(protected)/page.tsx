@@ -52,7 +52,12 @@ export default function CircleHome() {
   useEffect(() => {
     (async () => {
       const id = await getActivePersonId();
-      if (!id) return;
+      // 08 item 7: with no one selected (e.g. just after Clear sample data) the
+      // screen shows a real empty state, not the loading placeholder forever.
+      if (!id) {
+        setCounts({ personName: null, isDemo: false, persons: await db.persons.count(), packsApproved: 0, packsTotal: 0, recordings: 0, members: 0, remindersTotal: 0, remindersOverdue: 0, trials: 0, sessionsThisWeek: 0 });
+        return;
+      }
       setPersonId(id);
       const [person, persons, packs, members, reminders, trials] = await Promise.all([
         getPerson(id),
@@ -98,7 +103,7 @@ export default function CircleHome() {
                 Caring for
               </span>
               <span style={{ fontSize: 30, overflowWrap: 'anywhere' }} className="font-extrabold">
-                {counts?.personName ?? '…'}
+                {counts ? (counts.personName ?? 'No one selected yet') : ''}
               </span>
               {counts?.isDemo && (
                 <span className="chip self-start mt-1" style={{ color: 'var(--accent-warm)' }}>
@@ -108,7 +113,7 @@ export default function CircleHome() {
             </div>
             <div className="flex flex-col">
               <span style={{ fontSize: 36, color: 'var(--accent)' }} className="font-extrabold tabular-nums leading-none">
-                {counts ? counts.sessionsThisWeek : '…'}
+                {counts ? counts.sessionsThisWeek : ''}
               </span>
               <span style={{ fontSize: 16 }} className="muted">
                 {counts?.sessionsThisWeek === 1 ? 'session' : 'sessions'} in the last 7 days
@@ -116,7 +121,7 @@ export default function CircleHome() {
             </div>
             <div className="flex flex-col">
               <span style={{ fontSize: 36, color: counts?.remindersOverdue ? 'var(--alert)' : 'var(--accent)' }} className="font-extrabold tabular-nums leading-none">
-                {counts ? counts.remindersOverdue : '…'}
+                {counts ? counts.remindersOverdue : ''}
               </span>
               <span style={{ fontSize: 16 }} className="muted">
                 reminders missed today
@@ -151,7 +156,7 @@ export default function CircleHome() {
                     </span>
                   )}
                   <span style={{ fontSize: 16, color: l.color }} className="font-bold">
-                    {stat ? stat.label : '…'}
+                    {stat ? stat.label : ''}
                   </span>
                 </span>
               </Link>

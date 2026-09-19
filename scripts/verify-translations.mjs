@@ -34,6 +34,15 @@ export const DENY_AS = ['অস্ত্ৰ', 'সৈন্য', 'যুদ্�
 /** The same concepts in the round-tripped English — catches a synonym the Assamese list misses. */
 export const DENY_EN = /\b(weapons?|armed|soldiers?|war|attack\w*|death|dead|die|disease\w*|mad|crazy|insane)\b/i;
 
+/**
+ * Keys a person flagged by reading — not a native speaker, so a doubt, not a
+ * verdict. They stay on the human-review list whatever the round trip says.
+ */
+export const HUMAN_FLAGS = {
+  'opt.bucket.around_house': '08 item 6: was "সাজু হৈ গৈ আছে" (reads as "getting ready"); English source changed to "Elsewhere in the house".',
+  'q.sort_home.where': '08 item 6: was "এইটো ক\'ত আছে?" ("where is this?") for "where does this belong?"; English source changed to "Where should this go?".',
+};
+
 // IndicTrans2 (07 §1.3) is the intended engine B, but its Hugging Face models
 // are gated (401 without an accepted licence and a token) and need PyTorch.
 // Until then engine B is Bhashini's as→en model — a separately trained model
@@ -131,6 +140,7 @@ const cell = (s) => String(s ?? '—').replace(/\|/g, '\\|');
 function markdown({ generated_at, engine_a, engine_b, thresholds, entries }) {
   const all = Object.entries(entries);
   const fails = all.filter(([, e]) => e.verdict === 'FAIL');
+  const flagged = Object.entries(HUMAN_FLAGS).filter(([k]) => entries[k]);
   const long = all.filter(([, e]) => e.long && e.verdict === 'PASS');
   const row = ([k, e]) => `| \`${k}\` | ${cell(e.en)} | ${cell(e.as)} | ${cell(e.back)} | ${e.sim ?? '—'} | ${e.lexical ?? '—'} | ${e.verdict}${e.deny ? ` (${cell(e.deny)})` : ''}${e.error ? ` (${cell(e.error)})` : ''}${e.long ? ' · LONG' : ''} |`;
   const head = '| key | English | Assamese | round-trip English | similarity | word overlap | verdict |\n| --- | --- | --- | --- | --- | --- | --- |';
@@ -147,6 +157,12 @@ Generated ${generated_at} by \`node scripts/verify-translations.mjs --run\`. Do 
 ## Needs human review (${fails.length})
 
 ${fails.length ? `${head}\n${fails.map(row).join('\n')}` : 'None.'}
+
+### Flagged by reading (${flagged.length})
+
+Flagged by a person reading the screen, not by a native speaker — kept here for review even when the round trip passes.
+
+${flagged.length ? `| key | why | current Assamese | verdict |\n| --- | --- | --- | --- |\n${flagged.map(([k, why]) => `| \`${k}\` | ${cell(why)} | ${cell(entries[k].as)} | ${entries[k].verdict} |`).join('\n')}` : 'None.'}
 
 ## Passed but long — check for clipping (${long.length})
 

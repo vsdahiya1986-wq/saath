@@ -141,3 +141,29 @@ test.describe('activity screens', () => {
     await expect(page.getByText(/Insufficient comparable evidence|posterior mean/)).toHaveCount(0);
   });
 });
+
+/**
+ * 08 item 7 extends the B2 rule to the caregiver screens in their empty state:
+ * right after Clear sample data, Circle read "CARING FOR …".
+ */
+test('Circle and Circle Board never render an ellipsis in the empty state', async ({ page }) => {
+  await page.goto('/');
+  await page.getByTestId('see-a-sample').click();
+  await expect(page.getByTestId('sample-chip')).toBeVisible({ timeout: 15_000 });
+  await page.goto('/circle');
+  await page.getByLabel('PIN', { exact: true }).fill('1234');
+  await page.getByLabel('Confirm PIN').fill('1234');
+  await page.getByRole('button', { name: 'Set PIN' }).click();
+  await page.getByTestId('clear-sample').click();
+  await expect(page.getByTestId('load-sample')).toBeVisible({ timeout: 15_000 });
+
+  for (const path of ['/circle', '/circle/board']) {
+    await page.goto(path);
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(500);
+    await expect(page.getByText(/^\s*(\.\.\.|…)\s*$/), `${path} shows a placeholder`).toHaveCount(0);
+    await expect(page.locator('main')).not.toContainText(/(\.\.\.|…)\s*$/m);
+  }
+  await page.goto('/circle');
+  await expect(page.getByTestId('circle-summary')).toContainText('No one selected yet');
+});

@@ -1,7 +1,8 @@
 'use client';
 import { useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
-import { getBlob, packsForPerson } from '@/lib/db';
+import { familyHintKey, usablePacks } from '@/lib/familyContent';
+import { getBlob } from '@/lib/db';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, speak } from '@/lib/audio';
 import { t } from '@/lib/i18n';
@@ -20,8 +21,8 @@ import GameFrame from './GameFrame';
 
 const FLIP_BACK_MS = 1200;
 
-async function buildPool(person: Person): Promise<{ pool: DeckItem[]; family: boolean }> {
-  const packs = await packsForPerson(person.id, 'approved');
+async function buildPool(person: Person): Promise<DeckItem[]> {
+  const packs = await usablePacks(person.id);
   const family: DeckItem[] = [];
 
   for (const p of packs.filter((p) => p.permitted_uses.includes('play') || p.permitted_uses.includes('together'))) {
@@ -32,7 +33,7 @@ async function buildPool(person: Person): Promise<{ pool: DeckItem[]; family: bo
 
   // Family faces first; regional drawings only fill out the deck.
   const fallback = shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }));
-  return { pool: [...shuffle(family), ...fallback], family: family.length > 0 };
+  return [...shuffle(family), ...fallback];
 }
 
 export default function AponMukh({ person, onRestart }: { person: Person; onRestart: () => void }) {
@@ -40,7 +41,6 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
   /** A family caption in the family's words; a regional drawing's name through `t()`. */
   const name = (i: DeckItem) => (i.labelKey ? t(i.labelKey, lang) : (i.caption ?? i.label));
   const [cards, setCards] = useState<Card[]>([]);
-  const [family, setFamily] = useState(false);
   const [matched, setMatched] = useState<string[]>([]);
   const [faceUp, setFaceUp] = useState<string[]>([]);
   const [allRevealed, setAllRevealed] = useState(false);
@@ -52,10 +52,9 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
     activity: 'apon_mukh',
     version: '1',
     onStart: async (d, isCancelled) => {
-      const { pool, family: fam } = await buildPool(person);
+      const pool = await buildPool(person);
       if (isCancelled()) return;
       const difficulty: Difficulty = d?.chosenDifficulty ?? 1;
-      setFamily(fam);
       setCards(buildDeck(pool, difficulty));
       queueAutoCue('play.apon_mukh.intro', lang);
     },
@@ -133,7 +132,7 @@ export default function AponMukh({ person, onRestart }: { person: Person; onRest
       onListen={() => playCue('play.apon_mukh.intro', lang)}
       onHelp={onHelp}
       onSkipStep={skipStep}
-      notice={t(family ? 'notice.family_photos' : 'notice.add_photos', lang)}
+      notice={cards.length ? t(familyHintKey(cards.map((c) => ({ fromFamily: !!c.item.photoUrl }))), lang) : undefined}
       prompt={
         <p data-testid="question" style={{ fontSize: 27, letterSpacing: '-0.015em' }} className="font-extrabold leading-snug">
           {t('q.apon_mukh.find_pairs', lang)}
