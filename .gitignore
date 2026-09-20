@@ -43,3 +43,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# vercel
+.vercel
+
+# local secrets — .env.local.example stays tracked as the template
+.env.local
+.env*.local
