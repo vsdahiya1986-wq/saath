@@ -1,4 +1,4 @@
-import { ContentPack, packsForPerson } from './db';
+import { ContentPack, getImageBlob, packsForPerson } from './db';
 
 /**
  * 08 item 1: the hint said "These are your family's own photos" whenever an
@@ -26,4 +26,17 @@ export function packHasContent(p: ContentPack): boolean {
 /** The packs every activity reads: approved, and not empty. */
 export async function usablePacks(personId: string): Promise<ContentPack[]> {
   return (await packsForPerson(personId, 'approved')).filter(packHasContent);
+}
+
+/**
+ * The one way an activity turns a pack into a picture. Returns a URL only when
+ * the pack's photo key resolves to a stored blob whose mime is `image/*`; a
+ * missing blob or a voice note keyed as a photo yields `undefined`, so the
+ * caller shows the regional drawing and the item does not count as family
+ * content (09 items 1 and 2).
+ */
+export async function packPhotoUrl(p: ContentPack): Promise<string | undefined> {
+  const key = p.media.photo ?? p.media.place_photo;
+  const blob = key ? await getImageBlob(key) : undefined;
+  return blob ? URL.createObjectURL(blob) : undefined;
 }

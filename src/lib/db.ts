@@ -396,3 +396,15 @@ export async function getBlob(key: string): Promise<Blob | undefined> {
   if (!row) return undefined;
   return decryptBlob(row.blob, row.mime);
 }
+
+/**
+ * 09 item 2: a voice note keyed as a pack photo was handed to an `<img src>`
+ * and rendered as a garbled QR-like image. Nothing but a blob whose stored
+ * mime is `image/*` may reach an `<img>`; the caller falls back to the
+ * regional drawing, so the item is also no longer counted as family content.
+ */
+export async function getImageBlob(key: string): Promise<Blob | undefined> {
+  const row = await db.blobs.get(key);
+  if (!row || !row.mime.startsWith('image/')) return undefined;
+  return decryptBlob(row.blob, row.mime);
+}

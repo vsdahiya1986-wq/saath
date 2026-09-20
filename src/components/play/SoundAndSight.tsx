@@ -1,8 +1,7 @@
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
-import { familyHintKey, usablePacks } from '@/lib/familyContent';
-import { getBlob } from '@/lib/db';
+import { familyHintKey, packPhotoUrl, usablePacks } from '@/lib/familyContent';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, queueSay, queueSpeak, say, speak } from '@/lib/audio';
 import { t } from '@/lib/i18n';
@@ -41,9 +40,8 @@ async function buildPool(person: Person): Promise<Item[]> {
   const packs = await usablePacks(person.id);
   const pool: Item[] = [];
   for (const p of packs.filter((p) => p.permitted_uses.includes('play') && (p.kind === 'object' || p.kind === 'place'))) {
-    const key = p.media.photo ?? p.media.place_photo;
-    const blob = key ? await getBlob(key) : undefined;
-    if (blob) pool.push({ id: p.id, label: p.title, photoUrl: URL.createObjectURL(blob), audioKey: p.media.audio_key });
+    const photoUrl = await packPhotoUrl(p);
+    if (photoUrl) pool.push({ id: p.id, label: p.title, photoUrl, audioKey: p.media.audio_key });
   }
   return [...shuffle(pool), ...shuffle(HOME_OBJECTS).map((o) => ({ id: o.id, label: o.label, labelKey: itemKey(o.id), icon: o.icon }))];
 }

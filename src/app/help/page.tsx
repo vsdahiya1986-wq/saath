@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { usePerson } from '@/lib/usePerson';
-import { db, getBlob, FollowupItem, FollowupState } from '@/lib/db';
-import { usablePacks } from '@/lib/familyContent';
+import { db, FollowupItem, FollowupState } from '@/lib/db';
+import { packPhotoUrl, usablePacks } from '@/lib/familyContent';
 import { createHelpRequest } from '@/lib/events';
 import { routeHelpRequest } from '@/lib/alerts';
 import { playPackAudio, playCue, speak } from '@/lib/audio';
@@ -40,12 +40,12 @@ export default function HelpScreen() {
       const packs = await usablePacks(person.id);
       const built: PromptCard[] = [];
       for (const p of packs.filter((p) => p.permitted_uses.includes('help'))) {
-        const photoBlob = p.media.photo ? await getBlob(p.media.photo) : undefined;
+        const photoUrl = await packPhotoUrl(p);
         built.push({
           id: p.id,
           title: p.title,
           audioKey: p.media.audio_key,
-          photoUrl: photoBlob ? URL.createObjectURL(photoBlob) : undefined,
+          photoUrl,
           stale: isStale(p.review_by, p.state) && p.is_current_location,
         });
       }

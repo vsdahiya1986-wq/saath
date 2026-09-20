@@ -1,8 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import type { CueType, Difficulty, Person } from '@/lib/db';
-import { familyHintKey, usablePacks } from '@/lib/familyContent';
-import { getBlob } from '@/lib/db';
+import { familyHintKey, packPhotoUrl, usablePacks } from '@/lib/familyContent';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue, speak } from '@/lib/audio';
 import { t } from '@/lib/i18n';
@@ -26,9 +25,8 @@ async function buildPool(person: Person): Promise<DeckItem[]> {
   const family: DeckItem[] = [];
 
   for (const p of packs.filter((p) => p.permitted_uses.includes('play') || p.permitted_uses.includes('together'))) {
-    const key = p.media.photo ?? p.media.place_photo;
-    const blob = key ? await getBlob(key) : undefined;
-    if (blob) family.push({ id: p.id, label: p.title, photoUrl: URL.createObjectURL(blob), caption: p.title, audioKey: p.media.audio_key });
+    const photoUrl = await packPhotoUrl(p);
+    if (photoUrl) family.push({ id: p.id, label: p.title, photoUrl, caption: p.title, audioKey: p.media.audio_key });
   }
 
   // Family faces first; regional drawings only fill out the deck.

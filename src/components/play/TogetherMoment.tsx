@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ContentPack, Person, getBlob, putPack } from '@/lib/db';
-import { usablePacks } from '@/lib/familyContent';
+import { ContentPack, Person, putPack } from '@/lib/db';
+import { packPhotoUrl, usablePacks } from '@/lib/familyContent';
 import { useCstSession } from '@/lib/useCstSession';
 import { playCue, playPackAudio, queueAutoCue } from '@/lib/audio';
 import { t } from '@/lib/i18n';
@@ -43,10 +43,9 @@ export default function TogetherMoment({ person, onRestart }: { person: Person; 
       if (candidates.length) {
         const chosen = candidates[Math.floor(Math.random() * candidates.length)];
         setPack(chosen);
-        const key = chosen.media.photo ?? chosen.media.place_photo;
-        const blob = key ? await getBlob(key) : undefined;
+        const url = await packPhotoUrl(chosen);
         if (isCancelled()) return;
-        if (blob) setPhotoUrl(URL.createObjectURL(blob));
+        if (url) setPhotoUrl(url);
         if (chosen.media.audio_key) playPackAudio(chosen.media.audio_key);
         else {
           queueAutoCue('play.together.intro', lang);
