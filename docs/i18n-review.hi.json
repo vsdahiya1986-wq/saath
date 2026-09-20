@@ -1,0 +1,2963 @@
+{
+  "generated_at": "2026-09-20T09:23:42.917Z",
+  "lang": "hi",
+  "engine_a": "Bhashini translation en→hi",
+  "engine_b": "Bhashini translation hi→en",
+  "thresholds": {
+    "SIM_MIN": 0.75,
+    "LEXICAL_MIN": 0.5,
+    "LEN_MAX": 1.8
+  },
+  "entries": {
+    "home_intro": {
+      "en": "This is your memory companion. Choose Play, Help, or Today.",
+      "as": "यह आपकी स्मृति साथी है। प्ले, हेल्प या टुडे चुनें।",
+      "back": "This is your memory companion. Choose Play, Help, or Today.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.play": {
+      "en": "Play",
+      "as": "बजाएँ",
+      "back": "Play",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.help": {
+      "en": "Help",
+      "as": "मदद करें",
+      "back": "Help",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "home.today": {
+      "en": "Today",
+      "as": "आज",
+      "back": "today's",
+      "sim": 0.81,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.circle": {
+      "en": "Circle",
+      "as": "वृत्त",
+      "back": "circle",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.help.ok": {
+      "en": "No help is needed now",
+      "as": "अब किसी मदद की जरूरत नहीं है",
+      "back": "No need for help now",
+      "sim": 0.84,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.familiar_pairs": {
+      "en": "Today & Me",
+      "as": "आज और मैं",
+      "back": "Today, me and my",
+      "sim": 0.83,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.sound_sight": {
+      "en": "Hear & Find",
+      "as": "सुनो और ढूँढो",
+      "back": "Listen and find out",
+      "sim": 0.64,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.pattern_garden": {
+      "en": "Sort the Home",
+      "as": "घर को क्रमबद्ध करें",
+      "back": "Sort the house",
+      "sim": 0.94,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.my_next_step": {
+      "en": "My Next Step",
+      "as": "मेरा अगला कदम",
+      "back": "It's my next step",
+      "sim": 0.86,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.together": {
+      "en": "Together Moment",
+      "as": "एक साथ पल",
+      "back": "A moment together",
+      "sim": 0.85,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.saah_pat": {
+      "en": "Saah Pat · Tea Leaf",
+      "as": "साह पट · चाय का पत्ता",
+      "back": "Tea leaf tea",
+      "sim": 0.57,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "activity.apon_mukh": {
+      "en": "Apon Mukh · Dear Faces",
+      "as": "अपोन मुख · प्रिय चेहरे",
+      "back": "Apon Mukha · Dear Face",
+      "sim": 0.93,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.today_three": {
+      "en": "Three for today",
+      "as": "आज के लिए तीन",
+      "back": "Three for today",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.all_activities": {
+      "en": "All activities",
+      "as": "सभी गतिविधियाँ",
+      "back": "All of the activities",
+      "sim": 0.93,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "display.text_size": {
+      "en": "Text size",
+      "as": "पाठ का आकार",
+      "back": "The size of the text",
+      "sim": 0.86,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "rest.title": {
+      "en": "Do you want to rest now?",
+      "as": "क्या आप अब आराम करना चाहते हैं?",
+      "back": "Do you want to rest now?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "rest.rest_now": {
+      "en": "Rest now",
+      "as": "अभी आराम करें",
+      "back": "Relax now",
+      "sim": 0.57,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "rest.one_more": {
+      "en": "Play one more",
+      "as": "एक और बजाएँ",
+      "back": "play another one",
+      "sim": 0.85,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "domain.memory": {
+      "en": "Memory",
+      "as": "स्मृति",
+      "back": "Memory",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "domain.attention": {
+      "en": "Attention & Concentration",
+      "as": "ध्यान और एकाग्रता",
+      "back": "Attention and concentration",
+      "sim": 0.98,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "domain.routine": {
+      "en": "Daily Routine Recall",
+      "as": "दैनिक रूटीन रिकॉल",
+      "back": "Daily routine recall",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "domain.pattern": {
+      "en": "Pattern & Object Recognition",
+      "as": "पैटर्न और वस्तु पहचान",
+      "back": "Pattern and object recognition",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "domain.emotion": {
+      "en": "Emotional Engagement",
+      "as": "भावनात्मक जुड़ाव",
+      "back": "Emotional attachment",
+      "sim": 0.67,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "status.offline": {
+      "en": "No internet connection",
+      "as": "इंटरनेट कनेक्शन नहीं है",
+      "back": "There is no Internet connection",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "status.synced": {
+      "en": "Saved",
+      "as": "सहेजा गया",
+      "back": "Saved",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "status.no_signal": {
+      "en": "Test: no internet",
+      "as": "परीक्षणः कोई इंटरनेट नहीं",
+      "back": "Test: There is no Internet",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "adaptive.same": {
+      "en": "The same as last time",
+      "as": "पिछली बार की तरह ही",
+      "back": "Just like the last time",
+      "sim": 0.76,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "adaptive.easier": {
+      "en": "A little easier today",
+      "as": "आज थोड़ा आसान है",
+      "back": "Today is a little easier",
+      "sim": 0.93,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "adaptive.harder": {
+      "en": "A little harder today",
+      "as": "आज थोड़ा मुश्किल है",
+      "back": "Today is a little more difficult",
+      "sim": 0.85,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "adaptive.with_help": {
+      "en": "With some help today",
+      "as": "आज कुछ मदद के साथ",
+      "back": "With a little help today",
+      "sim": 0.9,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.title": {
+      "en": "Choose an activity",
+      "as": "एक गतिविधि चुनें",
+      "back": "Select an activity",
+      "sim": 0.84,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.pairs.intro": {
+      "en": "Let us talk about today. Choose the answer you think is correct. There is no hurry.",
+      "as": "आइए आज के बारे में बात करते हैं। वह उत्तर चुनें जो आपको सही लगे। कोई जल्दबाजी नहीं है।",
+      "back": "Let's talk about today. Choose the answer that you think is correct. There is no hurry.",
+      "sim": 0.97,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.sound.intro": {
+      "en": "Listen to the word, then tap the matching picture.",
+      "as": "शब्द को सुनें, फिर मेल खाने वाली तस्वीर पर टैप करें।",
+      "back": "Listen to the word, then tap the matching image.",
+      "sim": 0.95,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.pattern.intro": {
+      "en": "Tap the basket where this belongs.",
+      "as": "उस टोकरी पर टैप करें जहाँ यह है।",
+      "back": "Tap the basket where it is.",
+      "sim": 0.92,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.step.intro": {
+      "en": "Put the steps of your routine in order.",
+      "as": "अपनी दिनचर्या के चरणों को क्रम में रखें।",
+      "back": "Keep the steps of your routine in order.",
+      "sim": 0.92,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.together.intro": {
+      "en": "Let us look at this picture together.",
+      "as": "आइए हम इस तस्वीर को एक साथ देखें।",
+      "back": "Let us look at this picture together.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.saah_pat.intro": {
+      "en": "Find the tea shoots with two leaves and one bud. Tap each one you see. There is no hurry.",
+      "as": "दो पत्तियों और एक कली के साथ चाय के अंकुर ढूंढें। आप जो भी देख रहे हैं, उस पर टैप करें। कोई जल्दबाजी नहीं है।",
+      "back": "Find tea shoots with two leaves and a bud. Tap on whatever you're looking at. There is no hurry.",
+      "sim": 0.92,
+      "lexical": 0.77,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.apon_mukh.intro": {
+      "en": "Tap two cards to see the pictures. Find the two that match.",
+      "as": "चित्र देखने के लिए दो कार्ड दबाएँ। उन दोनों को ढूंढें जो मेल खाते हैं।",
+      "back": "Press two cards to see the picture. Find the two that match.",
+      "sim": 0.88,
+      "lexical": 0.71,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.not_this_one": {
+      "en": "Not this one.",
+      "as": "यह नहीं।",
+      "back": "It's not.",
+      "sim": 0.33,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "cue.highlight": {
+      "en": "Look here.",
+      "as": "यहां देखिए।",
+      "back": "Look here.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "cue.reduce": {
+      "en": "Let us try with fewer choices.",
+      "as": "आइए हम कम विकल्पों के साथ प्रयास करें।",
+      "back": "Let us try with fewer options.",
+      "sim": 0.9,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "common.pause": {
+      "en": "Paused. Tap to continue, or choose Stop.",
+      "as": "रुक गया। जारी रखने के लिए दबाएँ, या रुकें चुनें।",
+      "back": "stopped. Press to continue, or select Pause.",
+      "sim": 0.82,
+      "lexical": 0.2,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "common.open": {
+      "en": "Open",
+      "as": "खोलें",
+      "back": "Open",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "common.back": {
+      "en": "Go back",
+      "as": "वापस जाओ",
+      "back": "Go back",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "common.home": {
+      "en": "Home",
+      "as": "घर",
+      "back": "Home",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "common.continue": {
+      "en": "Continue",
+      "as": "जारी रखें",
+      "back": "Continue",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "a11y.listen": {
+      "en": "Listen",
+      "as": "सुनो",
+      "back": "Listen",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "help.title": {
+      "en": "Help",
+      "as": "मदद करें",
+      "back": "Help",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "help.need": {
+      "en": "I need someone",
+      "as": "मुझे किसी की ज़रूरत है",
+      "back": "I need somebody",
+      "sim": 0.95,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "help.sent_local": {
+      "en": "Your family has been told.",
+      "as": "आपके परिवार को बता दिया गया है।",
+      "back": "Your family has been informed.",
+      "sim": 0.9,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "help.stored": {
+      "en": "Saved on this device. It will be sent when there is a connection.",
+      "as": "इस उपकरण पर सहेजा गया। कनेक्शन होने पर इसे भेजा जाएगा।",
+      "back": "saved on this device. It will be sent when the connection is made.",
+      "sim": 0.98,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "help.stale_warning": {
+      "en": "This photo may show an old place.",
+      "as": "यह तस्वीर किसी पुरानी जगह को दिखा सकती है।",
+      "back": "This picture may show an old place.",
+      "sim": 0.98,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "today.title": {
+      "en": "Today's reminders",
+      "as": "आज के अनुस्मारक",
+      "back": "Today's reminders",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "remind.medicine": {
+      "en": "It is time for your medicine.",
+      "as": "यह आपकी दवा का समय है।",
+      "back": "It's time for your medication.",
+      "sim": 0.89,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "remind.hydration": {
+      "en": "It is time for a glass of water.",
+      "as": "यह एक गिलास पानी पीने का समय है।",
+      "back": "It's time to drink a glass of water.",
+      "sim": 0.87,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "remind.activity": {
+      "en": "It is time for your daily activity.",
+      "as": "यह आपकी दैनिक गतिविधियों का समय है।",
+      "back": "This is the time for your daily activities.",
+      "sim": 0.89,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "remind.appointment": {
+      "en": "You have a clinic appointment.",
+      "as": "आपके पास एक क्लिनिक नियुक्ति है।",
+      "back": "You have a clinic appointment.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "remind.done": {
+      "en": "Done",
+      "as": "हो गया",
+      "back": "has become",
+      "sim": 0.18,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "remind.not_now": {
+      "en": "Not now",
+      "as": "अभी नहीं",
+      "back": "Not yet",
+      "sim": 0.62,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "exit.pause": {
+      "en": "Stop for a moment",
+      "as": "एक पल के लिए रुकें",
+      "back": "Pause for a moment",
+      "sim": 0.77,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "exit.skip_one": {
+      "en": "Skip this step",
+      "as": "इस चरण को छोड़ दें",
+      "back": "Skip this step",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "exit.end": {
+      "en": "Finish",
+      "as": "समाप्त करें",
+      "back": "Finish",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "game.well_done": {
+      "en": "Well done. That was good.",
+      "as": "अच्छा किया है। यह तो अच्छा ही हुआ।",
+      "back": "Well done That was good.",
+      "sim": 0.89,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.gentle_end": {
+      "en": "That is fine. We can try again another day.",
+      "as": "यह तो ठीक है। हम एक और दिन फिर से कोशिश कर सकते हैं।",
+      "back": "That's alright. We can try again another day.",
+      "sim": 0.95,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.look_again": {
+      "en": "Let us look again.",
+      "as": "आइए हम फिर से देखें।",
+      "back": "Let us look again.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.good": {
+      "en": "Yes, that is right.",
+      "as": "हां, यह सही है।",
+      "back": "Yes, that's correct.",
+      "sim": 0.83,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.today_me.part_of_day": {
+      "en": "What part of the day is it now?",
+      "as": "यह अब दिन का कौन सा हिस्सा है?",
+      "back": "What part of the day is it now?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.today_me.season": {
+      "en": "Which season is it now?",
+      "as": "अब कौन सा मौसम है?",
+      "back": "What's the weather now?",
+      "sim": 0.39,
+      "lexical": 0.33,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "q.today_me.weekday": {
+      "en": "What day of the week is it today?",
+      "as": "आज सप्ताह का कौन सा दिन है?",
+      "back": "What day of the week is today?",
+      "sim": 0.97,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.today_me.month": {
+      "en": "Which month is it now?",
+      "as": "अब कौन सा महीना है?",
+      "back": "What month is it now?",
+      "sim": 0.97,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.period.morning": {
+      "en": "Morning",
+      "as": "सुबह",
+      "back": "In the morning",
+      "sim": 0.76,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.period.afternoon": {
+      "en": "Afternoon",
+      "as": "दोपहर",
+      "back": "afternoon",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.period.evening": {
+      "en": "Evening",
+      "as": "सायंकाल",
+      "back": "the evening",
+      "sim": 0.94,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.period.night": {
+      "en": "Night",
+      "as": "रात",
+      "back": "night",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.season.spring": {
+      "en": "Spring",
+      "as": "वसंत ऋतु",
+      "back": "Spring season",
+      "sim": 0.87,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.season.summer": {
+      "en": "Summer",
+      "as": "ग्रीष्म ऋतु",
+      "back": "Summer season",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "opt.season.monsoon": {
+      "en": "Rainy season",
+      "as": "बारिश का मौसम",
+      "back": "Rainy season",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.season.autumn": {
+      "en": "Autumn",
+      "as": "शरद ऋतु",
+      "back": "Autumn",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.season.winter": {
+      "en": "Winter",
+      "as": "सर्दी का मौसम",
+      "back": "Winter season",
+      "sim": 0.9,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "opt.weekday.sunday": {
+      "en": "Sunday",
+      "as": "रविवार",
+      "back": "Sunday's",
+      "sim": 0.86,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.monday": {
+      "en": "Monday",
+      "as": "सोमवार",
+      "back": "Monday",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.tuesday": {
+      "en": "Tuesday",
+      "as": "मंगलवार",
+      "back": "tuesday",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.wednesday": {
+      "en": "Wednesday",
+      "as": "बुधवार",
+      "back": "wednesday",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.thursday": {
+      "en": "Thursday",
+      "as": "गुरुवार",
+      "back": "thursday",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.friday": {
+      "en": "Friday",
+      "as": "शुक्रवार",
+      "back": "Friday's",
+      "sim": 0.88,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.weekday.saturday": {
+      "en": "Saturday",
+      "as": "शनिवार",
+      "back": "saturday",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.january": {
+      "en": "January",
+      "as": "जनवरी",
+      "back": "January",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.february": {
+      "en": "February",
+      "as": "फरवरी",
+      "back": "February",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.march": {
+      "en": "March",
+      "as": "मार्च",
+      "back": "March",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.april": {
+      "en": "April",
+      "as": "अप्रैल",
+      "back": "April",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.may": {
+      "en": "May",
+      "as": "मई",
+      "back": "May",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.june": {
+      "en": "June",
+      "as": "जून",
+      "back": "June",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.july": {
+      "en": "July",
+      "as": "जुलाई",
+      "back": "July",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.august": {
+      "en": "August",
+      "as": "अगस्त",
+      "back": "August",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.september": {
+      "en": "September",
+      "as": "सितंबर",
+      "back": "September",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.october": {
+      "en": "October",
+      "as": "अक्टूबर",
+      "back": "October",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.november": {
+      "en": "November",
+      "as": "नवंबर",
+      "back": "November",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.month.december": {
+      "en": "December",
+      "as": "दिसंबर",
+      "back": "December",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "done.today": {
+      "en": "Today",
+      "as": "आज",
+      "back": "today's",
+      "sim": 0.81,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "done.date": {
+      "en": "Date",
+      "as": "तिथि",
+      "back": "Date",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "done.season": {
+      "en": "Season",
+      "as": "मौसम",
+      "back": "weather",
+      "sim": 0.39,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "done.time_of_day": {
+      "en": "Time of day",
+      "as": "दिन का समय",
+      "back": "Time of day",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.bucket.kitchen": {
+      "en": "Kitchen",
+      "as": "रसोईघर",
+      "back": "Kitchen",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.bucket.getting_ready": {
+      "en": "Getting ready",
+      "as": "तैयार हो रहे हैं",
+      "back": "Getting ready",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "opt.bucket.around_house": {
+      "en": "Elsewhere in the house",
+      "as": "घर में कहीं और",
+      "back": "somewhere else in the house",
+      "sim": 0.89,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_tumbler": {
+      "en": "Steel tumbler",
+      "as": "स्टील टम्बलर",
+      "back": "Steel Tumbler",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_kettle": {
+      "en": "Tea kettle",
+      "as": "चाय की केतली",
+      "back": "Tea kettle",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_thali": {
+      "en": "Thali plate",
+      "as": "थाली प्लेट",
+      "back": "Thali plate",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_ghoti": {
+      "en": "Water pot",
+      "as": "पानी का बर्तन",
+      "back": "water container",
+      "sim": 0.65,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_comb": {
+      "en": "Comb",
+      "as": "कंघी",
+      "back": "comb",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_mirror": {
+      "en": "Hand mirror",
+      "as": "हाथ का दर्पण",
+      "back": "Mirror of the hand",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_slipper": {
+      "en": "Slippers",
+      "as": "चप्पलें",
+      "back": "Slippers",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_jhola": {
+      "en": "Cloth bag",
+      "as": "कपड़े का थैला",
+      "back": "cloth bag",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_umbrella": {
+      "en": "Japi hat",
+      "as": "जापी टोपी",
+      "back": "Japi hat",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_broom": {
+      "en": "Broom",
+      "as": "झाड़ू",
+      "back": "broom",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_torch": {
+      "en": "Torch",
+      "as": "मशाल",
+      "back": "torch",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_keylock": {
+      "en": "Lock and key",
+      "as": "ताला और कुंजी",
+      "back": "Lock and key",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_lamp": {
+      "en": "Diya lamp",
+      "as": "दीया लैंप",
+      "back": "Diya lamp",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_stool": {
+      "en": "Mora stool",
+      "as": "मोरा स्टूल",
+      "back": "Mora stool",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_pankha": {
+      "en": "Hand fan",
+      "as": "हाथ का पंखा",
+      "back": "hand fan",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_basket": {
+      "en": "Bamboo basket",
+      "as": "बाँस की टोकरी",
+      "back": "Bamboo basket",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_dhekia": {
+      "en": "Dhekia greens",
+      "as": "ढेकिया ग्रीन्स",
+      "back": "Dhekia Greens",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_claypot": {
+      "en": "Earthen water pot",
+      "as": "मिट्टी के पानी का बर्तन",
+      "back": "earthen water pot",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_areca": {
+      "en": "Areca nut plate",
+      "as": "सुपारी प्लेट",
+      "back": "areca nut plate",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_ricepot": {
+      "en": "Rice pot",
+      "as": "चावल का बर्तन",
+      "back": "rice bowl",
+      "sim": 0.7,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_gamosa": {
+      "en": "Gamosa",
+      "as": "गमोसा",
+      "back": "Gamosa",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_xorai": {
+      "en": "Brass offering tray",
+      "as": "पीतल की पेशकश ट्रे",
+      "back": "Brass offering tray",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_net": {
+      "en": "Fishing net",
+      "as": "मछली पकड़ने का जाल",
+      "back": "fishing net",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "item.reg_loom": {
+      "en": "Weaving loom",
+      "as": "बुनाई करघा",
+      "back": "Weaving loom",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "routine.reg_morning_routine": {
+      "en": "Morning routine",
+      "as": "सुबह की दिनचर्या",
+      "back": "Morning routine",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_morning_routine.wake": {
+      "en": "Wake up",
+      "as": "जागो",
+      "back": "wake up",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_morning_routine.medicine": {
+      "en": "Take medicine",
+      "as": "दवा लें",
+      "back": "Take your medicine",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_morning_routine.wash": {
+      "en": "Wash your face",
+      "as": "अपना चेहरा धोएँ",
+      "back": "Wash your face",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_morning_routine.breakfast": {
+      "en": "Have breakfast",
+      "as": "नाश्ता करें",
+      "back": "Have breakfast",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "routine.reg_afternoon_routine": {
+      "en": "Afternoon routine",
+      "as": "दोपहर की दिनचर्या",
+      "back": "Afternoon routine",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_afternoon_routine.rest": {
+      "en": "Sit and rest",
+      "as": "बैठ कर आराम करें",
+      "back": "Sit down and relax",
+      "sim": 0.72,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_afternoon_routine.tea": {
+      "en": "Have tea",
+      "as": "चाय पियें",
+      "back": "Drink tea",
+      "sim": 0.87,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_afternoon_routine.walk": {
+      "en": "Short walk",
+      "as": "छोटी पैदल यात्रा",
+      "back": "A short walk",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_afternoon_routine.water": {
+      "en": "Drink water",
+      "as": "पानी पियें",
+      "back": "Drink water",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "routine.reg_evening_routine": {
+      "en": "Evening routine",
+      "as": "शाम की दिनचर्या",
+      "back": "Evening routine",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_evening_routine.wash_up": {
+      "en": "Wash your hands",
+      "as": "अपने हाथ धोएँ",
+      "back": "Wash your hands",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_evening_routine.dinner": {
+      "en": "Have dinner",
+      "as": "रात का खाना खाओ",
+      "back": "have dinner",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_evening_routine.lock_up": {
+      "en": "Lock the door",
+      "as": "दरवाज़ा बंद करो",
+      "back": "close the door",
+      "sim": 0.73,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_evening_routine.sleep": {
+      "en": "Turn off the lamp",
+      "as": "बत्ती बंद कर दें",
+      "back": "turn the lights off",
+      "sim": 0.71,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "routine.reg_prayer_routine": {
+      "en": "Evening prayer",
+      "as": "शाम की प्रार्थना",
+      "back": "The Evening Prayer",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_prayer_routine.light": {
+      "en": "Light the lamp",
+      "as": "दीपक जलाएँ",
+      "back": "light the lamp",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_prayer_routine.sit": {
+      "en": "Sit on the mat",
+      "as": "चटाई पर बैठें",
+      "back": "Sit on the mat",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_prayer_routine.pray": {
+      "en": "Say the prayer",
+      "as": "प्रार्थना करें",
+      "back": "Pray",
+      "sim": 0.75,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_prayer_routine.put_out": {
+      "en": "Put out the lamp",
+      "as": "बत्ती बुझा दो",
+      "back": "turn the lights off",
+      "sim": 0.55,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "routine.reg_bath_routine": {
+      "en": "Bath time",
+      "as": "नहाने का समय",
+      "back": "Time for a shower",
+      "sim": 0.66,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_bath_routine.fetch": {
+      "en": "Fetch water",
+      "as": "पानी लाएँ",
+      "back": "Bring water",
+      "sim": 0.61,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_bath_routine.wash": {
+      "en": "Soap and wash",
+      "as": "साबुन और धोना",
+      "back": "Soap and wash",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_bath_routine.dry": {
+      "en": "Dry with the gamosa",
+      "as": "गमोसा से सुखाएँ",
+      "back": "Dry with Gamosa",
+      "sim": 0.97,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "step.reg_bath_routine.dress": {
+      "en": "Change clothes",
+      "as": "कपड़े बदलें",
+      "back": "Change your clothes",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.childhood.theme": {
+      "en": "Childhood",
+      "as": "बचपन",
+      "back": "Childhood",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.childhood.q": {
+      "en": "Tell me about the house where you lived as a child.",
+      "as": "मुझे उस घर के बारे में बताएँ जहाँ आप बचपन में रहते थे।",
+      "back": "Tell me about the house where you lived as a child.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.childhood.follow": {
+      "en": "Who lived there with you?",
+      "as": "वहाँ आपके साथ कौन रहता था?",
+      "back": "Who lived there with you?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.food.theme": {
+      "en": "Food",
+      "as": "भोजन",
+      "back": "food",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.food.q": {
+      "en": "What was your favourite food as a child?",
+      "as": "बचपन में आपका पसंदीदा भोजन क्या था?",
+      "back": "What was your favorite food as a child?",
+      "sim": 0.97,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.food.follow": {
+      "en": "Who used to cook it for you?",
+      "as": "इसे आपके लिए कौन पकाता था?",
+      "back": "Who cooked it for you?",
+      "sim": 0.88,
+      "lexical": 0.33,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.festivals.theme": {
+      "en": "Festivals",
+      "as": "त्यौहार",
+      "back": "festival",
+      "sim": 0.9,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.festivals.q": {
+      "en": "How did your family celebrate Bihu or a festival you love?",
+      "as": "आपके परिवार ने बिहू या आपके पसंदीदा त्योहार को कैसे मनाया?",
+      "back": "How did your family celebrate Bihu or your favourite festival?",
+      "sim": 0.98,
+      "lexical": 0.86,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.festivals.follow": {
+      "en": "What did you wear on that day?",
+      "as": "उस दिन आपने क्या पहना था?",
+      "back": "What did you wear that day?",
+      "sim": 0.97,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.music.theme": {
+      "en": "Music",
+      "as": "संगीत",
+      "back": "Music",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.music.q": {
+      "en": "Which song do you remember singing when you were young?",
+      "as": "आपको बचपन में कौन सा गीत गाना याद है?",
+      "back": "What song do you remember singing as a child?",
+      "sim": 0.93,
+      "lexical": 0.43,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.music.follow": {
+      "en": "Can you sing a little of it?",
+      "as": "क्या आप इसे थोड़ा गा सकते हैं?",
+      "back": "Can you sing it a little?",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.work.theme": {
+      "en": "Work with your hands",
+      "as": "अपने हाथों से काम करें",
+      "back": "Work with your hands",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.work.q": {
+      "en": "What work did you enjoy doing with your hands?",
+      "as": "आपको अपने हाथों से कौन सा काम करने में मज़ा आया?",
+      "back": "What did you enjoy doing with your hands?",
+      "sim": 0.91,
+      "lexical": 0.86,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.work.follow": {
+      "en": "Who taught you how to do it?",
+      "as": "आपको यह करना किसने सिखाया?",
+      "back": "Who taught you to do this?",
+      "sim": 0.86,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.places.theme": {
+      "en": "Places",
+      "as": "जगहें",
+      "back": "Places",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.places.q": {
+      "en": "Where is a place that made you feel happy?",
+      "as": "ऐसी कौन सी जगह है जहाँ आपको खुशी मिलती हो?",
+      "back": "Where do you find happiness?",
+      "sim": 0.7,
+      "lexical": 0.2,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "together.places.follow": {
+      "en": "What could you see and hear there?",
+      "as": "आप वहाँ क्या देख और सुन सकते थे?",
+      "back": "What could you see and hear there?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.tea_time.theme": {
+      "en": "Tea time",
+      "as": "चाय का समय",
+      "back": "Tea time",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.tea_time.q": {
+      "en": "Do you like your tea with milk or without milk?",
+      "as": "क्या आपको दूध के साथ चाय पसंद है या बिना दूध के?",
+      "back": "Do you like tea with or without milk?",
+      "sim": 0.98,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.tea_time.follow": {
+      "en": "Who do you enjoy having tea with?",
+      "as": "आपको किसके साथ चाय पीना अच्छा लगता है?",
+      "back": "Who do you like to have tea with?",
+      "sim": 0.95,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.friends.theme": {
+      "en": "Friends",
+      "as": "दोस्त",
+      "back": "friend",
+      "sim": 0.69,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "together.friends.q": {
+      "en": "Tell me about a good friend from when you were young.",
+      "as": "मुझे एक अच्छे दोस्त के बारे में बताएँ जब आप छोटे थे।",
+      "back": "Tell me about a good friend you had when you were younger.",
+      "sim": 0.91,
+      "lexical": 0.78,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.friends.follow": {
+      "en": "What did you do together?",
+      "as": "आपने एक साथ क्या किया?",
+      "back": "What did you do together?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.sort_home.where": {
+      "en": "Where should this go?",
+      "as": "यह कहाँ जाना चाहिए?",
+      "back": "Where should it go?",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.hear_find.listen": {
+      "en": "Listen, then find",
+      "as": "सुनो, फिर ढूँढो",
+      "back": "Listen, then find out",
+      "sim": 0.8,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.hear_find.look": {
+      "en": "Find this picture",
+      "as": "इस तस्वीर को ढूंढें",
+      "back": "Find this picture",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.next_step.first": {
+      "en": "What do you do first?",
+      "as": "आप पहले क्या करते हैं?",
+      "back": "What do you do first?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.next_step.after": {
+      "en": "What do you do next?",
+      "as": "आप आगे क्या करेंगे?",
+      "back": "What will you do next?",
+      "sim": 0.85,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.apon_mukh.find_pairs": {
+      "en": "Find the two cards that match",
+      "as": "मेल खाने वाले दो कार्ड ढूंढें",
+      "back": "Find two matching cards",
+      "sim": 0.92,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.saah_pat.find_sprigs": {
+      "en": "Find every tea shoot like this one",
+      "as": "इस तरह के हर चाय के अंकुर को ढूंढें",
+      "back": "Find every such tea bud",
+      "sim": 0.75,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.saah_pat.left": {
+      "en": "Tea shoots still to find",
+      "as": "चाय के अंकुर अभी भी मिलने बाकी हैं",
+      "back": "Tea shoots are still to be found",
+      "sim": 0.95,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "q.saah_pat.all_found": {
+      "en": "All found",
+      "as": "सभी पाए गए",
+      "back": "All of them were found",
+      "sim": 0.59,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.some_family": {
+      "en": "Some of these are your family's own photos.",
+      "as": "इनमें से कुछ आपके परिवार की अपनी तस्वीरें हैं।",
+      "back": "Some of these are your family's own photos.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.visual_mode": {
+      "en": "Read the word, then find its picture.",
+      "as": "शब्द को पढ़ें, फिर उसका चित्र खोजें।",
+      "back": "Read the word, then find its picture.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.family_routine": {
+      "en": "Your family's own routine",
+      "as": "आपके परिवार की अपनी दिनचर्या",
+      "back": "Your family's own routine",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.routine_generic": {
+      "en": "A family can add their own routine in the Memory Garden.",
+      "as": "मेमोरी गार्डन में एक परिवार अपनी दिनचर्या जोड़ सकता है।",
+      "back": "A family can add their own routine to the Memory Garden.",
+      "sim": 0.99,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.family_photos": {
+      "en": "These are your family's own pictures.",
+      "as": "ये आपके परिवार की अपनी तस्वीरें हैं।",
+      "back": "These are your family's own photos.",
+      "sim": 0.98,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "notice.add_photos": {
+      "en": "A family can add their own photos in the Memory Garden.",
+      "as": "एक परिवार मेमोरी गार्डन में अपनी खुद की तस्वीरें जोड़ सकता है।",
+      "back": "A family can add their own photos to the Memory Garden.",
+      "sim": 0.99,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.here_all": {
+      "en": "Here are all the pairs.",
+      "as": "यहाँ सभी जोड़े हैं।",
+      "back": "Here are all the pairs.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.here_others": {
+      "en": "Here are the others.",
+      "as": "यहाँ अन्य हैं।",
+      "back": "Here are others.",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.play_again": {
+      "en": "Play again",
+      "as": "फिर से खेलो",
+      "back": "play again",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "game.more_activities": {
+      "en": "More activities",
+      "as": "और भी गतिविधियाँ",
+      "back": "Other activities",
+      "sim": 0.84,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "next.same": {
+      "en": "Next time it will be the same.",
+      "as": "अगली बार भी ऐसा ही होगा।",
+      "back": "The same will happen next time.",
+      "sim": 0.72,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "next.more": {
+      "en": "Next time it will be a little harder.",
+      "as": "अगली बार यह थोड़ा कठिन होगा।",
+      "back": "Next time it will be a little harder.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "next.gentler": {
+      "en": "Next time it will be a little easier.",
+      "as": "अगली बार यह थोड़ा आसान होगा।",
+      "back": "Next time it will be a little easier.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "next.with_help": {
+      "en": "Next time there will be some help.",
+      "as": "अगली बार कुछ मदद मिलेगी।",
+      "back": "There will be some help next time.",
+      "sim": 0.92,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.who": {
+      "en": "Who is here? What do you remember about this?",
+      "as": "यहाँ कौन है? इस बारे में आपको क्या याद है?",
+      "back": "Who's here? What do you remember about this?",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.thanks": {
+      "en": "Thank you for sharing.",
+      "as": "साझा करने के लिए धन्यवाद।",
+      "back": "Thanks for sharing.",
+      "sim": 0.91,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.done_note": {
+      "en": "Talking about memories is good for the mind and the heart. There is no score here.",
+      "as": "यादों के बारे में बात करना मन और दिल के लिए अच्छा होता है। यहाँ कोई अंक नहीं है।",
+      "back": "Talking about memories is good for the mind and heart. There are no numbers here.",
+      "sim": 0.8,
+      "lexical": 0.88,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.done": {
+      "en": "Finish talking",
+      "as": "बात खत्म करें",
+      "back": "end the talk",
+      "sim": 0.81,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.tell_more": {
+      "en": "Tell me more",
+      "as": "मुझे और बताइए",
+      "back": "Tell me more",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.another": {
+      "en": "Another topic",
+      "as": "एक और विषय",
+      "back": "Another topic",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.reject": {
+      "en": "I don't want to see this again",
+      "as": "मैं इसे फिर से नहीं देखना चाहता",
+      "back": "I don't want to see it again",
+      "sim": 0.88,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.reject_confirm": {
+      "en": "Tap again to remove this forever",
+      "as": "इसे हमेशा के लिए हटाने के लिए फिर से दबाएँ",
+      "back": "Press again to permanently remove it",
+      "sim": 0.76,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "together.add_photos": {
+      "en": "A family member can add real photos and voice notes in the Memory Garden.",
+      "as": "परिवार का कोई सदस्य मेमोरी गार्डन में वास्तविक तस्वीरें और वॉयस नोट्स जोड़ सकता है।",
+      "back": "A family member can add actual photos and voice notes to the Memory Garden.",
+      "sim": 0.98,
+      "lexical": 0.9,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "play.subtitle": {
+      "en": "Short, easy games. There are no wrong answers.",
+      "as": "छोटे, आसान खेल। कोई गलत जवाब नहीं हैं।",
+      "back": "Small, easy games. There are no wrong answers.",
+      "sim": 0.87,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.overdue": {
+      "en": "Past the time",
+      "as": "समय बीत गया",
+      "back": "Time has passed",
+      "sim": 0.51,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.next_up": {
+      "en": "Coming next",
+      "as": "अगला आ रहा है",
+      "back": "The next one is coming",
+      "sim": 0.78,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.none": {
+      "en": "No reminders set yet",
+      "as": "अभी तक कोई अनुस्मारक सेट नहीं किया गया है",
+      "back": "No reminder has been set yet",
+      "sim": 0.92,
+      "lexical": 0.75,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "reminder.none_help": {
+      "en": "A family member or health worker can add medicine, water, activity and clinic reminders in Circle.",
+      "as": "परिवार का कोई सदस्य या स्वास्थ्य कार्यकर्ता सर्कल में दवा, पानी, गतिविधि और क्लिनिक अनुस्मारक जोड़ सकता है।",
+      "back": "A family member or healthcare worker can add medicine, water, activity, and clinic reminders to the circle.",
+      "sim": 0.94,
+      "lexical": 0.92,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.not_armed": {
+      "en": "Reminders are not set up on this phone.",
+      "as": "इस फोन पर रिमाइंडर सेट नहीं किए गए हैं।",
+      "back": "Reminders are not set on this phone.",
+      "sim": 0.96,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.now": {
+      "en": "Now",
+      "as": "अब",
+      "back": "Now",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.snoozed": {
+      "en": "Again in 10 minutes",
+      "as": "10 मिनट में फिर से",
+      "back": "again in 10 minutes",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.done_state": {
+      "en": "Done for today",
+      "as": "आज के लिए किया गया",
+      "back": "done for today",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.more_later": {
+      "en": "more reminders later today",
+      "as": "आज बाद में और अनुस्मारक",
+      "back": "More reminders later today",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "reminder.all_done": {
+      "en": "All reminders are done for today.",
+      "as": "आज के लिए सभी अनुस्मारक बनाए गए हैं।",
+      "back": "All reminders have been made for today.",
+      "sim": 0.92,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "today.is": {
+      "en": "Today",
+      "as": "आज",
+      "back": "today's",
+      "sim": 0.81,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "today.played": {
+      "en": "Games played today",
+      "as": "आज खेले जाने वाले खेल",
+      "back": "Games to be played today",
+      "sim": 0.89,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "today.nothing_yet": {
+      "en": "No games played yet today.",
+      "as": "आज तक कोई खेल नहीं खेला गया।",
+      "back": "No games have been played to date.",
+      "sim": 0.7,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.circle.one": {
+      "en": "person who cares for you",
+      "as": "वह व्यक्ति जो आपकी परवाह करता है",
+      "back": "The person who cares about you",
+      "sim": 0.94,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "home.circle.many": {
+      "en": "people who care for you",
+      "as": "जो लोग आपकी परवाह करते हैं",
+      "back": "People who care about you",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.title": {
+      "en": "Why these activities",
+      "as": "क्यों होती हैं ये गतिविधियाँ",
+      "back": "Why do these activities take place",
+      "sim": 0.89,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.intro": {
+      "en": "Each activity works on one kind of thinking. This page says what each one is for.",
+      "as": "प्रत्येक गतिविधि एक प्रकार की सोच पर काम करती है। यह पृष्ठ बताता है कि प्रत्येक किस लिए है।",
+      "back": "Each activity works on a type of thinking. This page explains what each one is for.",
+      "sim": 0.96,
+      "lexical": 0.78,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.works_on": {
+      "en": "What it works on",
+      "as": "यह किस पर काम करता है",
+      "back": "What it works on",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.similar_to": {
+      "en": "What it is similar to",
+      "as": "यह किसके समान है",
+      "back": "Who is it similar to",
+      "sim": 0.81,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.not_a_test": {
+      "en": "SAATH is a tool for daily activities. It is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test.",
+      "as": "साथ दैनिक गतिविधियों के लिए एक उपकरण है। यह कोई चिकित्सीय परीक्षण नहीं है। यह कोई अंक नहीं देता और न ही कोई परिणाम देता है। एक गतिविधि जो स्मृति परीक्षण की तरह दिखती है, स्मृति परीक्षण के समान नहीं है।",
+      "back": "It is a tool for daily activities. It is not a medical test. It does not give any score and does not give any result. An activity that looks like a memory test is not the same as a memory test.",
+      "sim": 0.71,
+      "lexical": 0.82,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.ask_doctor": {
+      "en": "For any question about health, please speak to a doctor or a health worker.",
+      "as": "स्वास्थ्य के बारे में किसी भी प्रश्न के लिए, कृपया डॉक्टर या स्वास्थ्य कार्यकर्ता से बात करें।",
+      "back": "For any questions about health, please talk to a doctor or health worker.",
+      "sim": 0.96,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.works_on": {
+      "en": "Knowing the time of day, the day and the season",
+      "as": "दिन के समय, दिन और मौसम को जानना",
+      "back": "Knowing the time of day, day, and weather",
+      "sim": 0.77,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.similar_to": {
+      "en": "The orientation questions used in common memory checks",
+      "as": "सामान्य स्मृति जाँच में उपयोग किए जाने वाले अभिविन्यास प्रश्न",
+      "back": "Orientation questions used in general memory testing",
+      "sim": 0.85,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.reason": {
+      "en": "Talking about today keeps a person joined to the present day.",
+      "as": "आज के बारे में बात करने से व्यक्ति आज तक जुड़ा रहता है।",
+      "back": "Talking about today keeps the person connected till today.",
+      "sim": 0.83,
+      "lexical": 0.63,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.works_on": {
+      "en": "Understanding a spoken word and matching it to a picture",
+      "as": "एक बोले गए शब्द को समझना और उसे एक चित्र से मिलान करना",
+      "back": "Understanding a spoken word and matching it to a picture",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.similar_to": {
+      "en": "Naming and listening tasks",
+      "as": "नामकरण और सुनने के कार्य",
+      "back": "Naming and Listening Functions",
+      "sim": 0.73,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.reason": {
+      "en": "Matching a spoken word to its picture keeps words and objects connected.",
+      "as": "किसी बोले गए शब्द का उसके चित्र से मिलान करने से शब्द और वस्तुएँ जुड़ी रहती हैं।",
+      "back": "Matching a spoken word with its picture keeps words and objects connected.",
+      "sim": 0.99,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.works_on": {
+      "en": "Planning, and putting things into groups",
+      "as": "योजना बनाना, और चीजों को समूहों में डालना",
+      "back": "Planning, and putting things into groups",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.similar_to": {
+      "en": "Sorting tasks that group objects by type",
+      "as": "प्रकार के अनुसार वस्तुओं को समूहबद्ध करने वाले कार्यों को क्रमबद्ध करना",
+      "back": "Sorting functions that group objects by type",
+      "sim": 0.71,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.reason": {
+      "en": "Sorting household things uses the same thinking as ordinary housework.",
+      "as": "घरेलू चीजों को छांटना सामान्य घरेलू काम के समान सोच का उपयोग करता है।",
+      "back": "Sorting household items uses the same kind of thinking as normal housework.",
+      "sim": 0.97,
+      "lexical": 0.78,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.works_on": {
+      "en": "Putting the steps of a task in the right order",
+      "as": "किसी कार्य के चरणों को सही क्रम में रखना",
+      "back": "Keeping the steps of a task in the correct order",
+      "sim": 0.96,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.similar_to": {
+      "en": "Ordering and sequencing tasks",
+      "as": "आदेश और अनुक्रमण कार्य",
+      "back": "Order and Sequencing Tasks",
+      "sim": 0.98,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.reason": {
+      "en": "A daily routine is easier when the order of its steps stays familiar.",
+      "as": "एक दैनिक दिनचर्या तब आसान हो जाती है जब उसके कदमों का क्रम परिचित रहता है।",
+      "back": "A daily routine becomes easier when its sequence of steps is familiar.",
+      "sim": 0.91,
+      "lexical": 0.78,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.works_on": {
+      "en": "Looking carefully, and staying with one task",
+      "as": "ध्यान से देखें, और एक काम के साथ रहें",
+      "back": "Look carefully, and stick with one task",
+      "sim": 0.83,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.similar_to": {
+      "en": "Search tasks where one shape must be found among many",
+      "as": "ऐसे कार्यों को खोजें जहाँ कई के बीच एक आकार पाया जाना चाहिए",
+      "back": "Find functions where one size should be found among many",
+      "sim": 0.5,
+      "lexical": 0.56,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.reason": {
+      "en": "Looking for tea shoots is work many people here have done all their lives.",
+      "as": "चाय के अंकुरों की तलाश करना एक काम है जो यहाँ के कई लोगों ने अपने पूरे जीवन में किया है।",
+      "back": "Searching for tea shoots is a task that many people here have done throughout their lives.",
+      "sim": 0.88,
+      "lexical": 0.73,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.apon_mukh.works_on": {
+      "en": "Knowing faces, and remembering people",
+      "as": "चेहरों को जानना और लोगों को याद रखना",
+      "back": "Knowing faces and remembering people",
+      "sim": 0.98,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.apon_mukh.similar_to": {
+      "en": "Tasks that join a face to a name",
+      "as": "ऐसे कार्य जो किसी नाम के चेहरे को जोड़ते हैं",
+      "back": "Functions that connect the faces of a name",
+      "sim": 0.65,
+      "lexical": 0.25,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "why.apon_mukh.reason": {
+      "en": "Family photographs bring back memories that a drawing cannot.",
+      "as": "पारिवारिक तस्वीरें उन यादों को वापस लाती हैं जो एक चित्र नहीं ले सकता है।",
+      "back": "Family photos bring back memories that a picture can't.",
+      "sim": 0.82,
+      "lexical": 0.57,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.works_on": {
+      "en": "Talking with family about earlier days",
+      "as": "परिवार से पहले के दिनों के बारे में बात करते हुए",
+      "back": "Talking about the days before the family",
+      "sim": 0.79,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.similar_to": {
+      "en": "Reminiscence work used in group care",
+      "as": "समूह देखभाल में उपयोग किया जाने वाला स्मृति कार्य",
+      "back": "Memory function used in group care",
+      "sim": 0.61,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.reason": {
+      "en": "Talking about earlier days together is calming, and needs no right answer.",
+      "as": "पहले के दिनों के बारे में एक साथ बात करना शांत है, और किसी सही जवाब की आवश्यकता नहीं है।",
+      "back": "It's cool to talk about the days before together, and no correct answers are needed.",
+      "sim": 0.75,
+      "lexical": 0.4,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.title": {
+      "en": "What we keep, and where",
+      "as": "हम क्या रखते हैं, और कहाँ",
+      "back": "What we keep, and where",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.on_device": {
+      "en": "Everything stays on this phone. The app works with no internet.",
+      "as": "सब कुछ इस फोन पर रहता है। ऐप बिना इंटरनेट के काम करता है।",
+      "back": "Everything stays on this phone. The app works without the internet.",
+      "sim": 0.98,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.stored_title": {
+      "en": "What is kept on this phone",
+      "as": "इस फोन में क्या रखा हुआ है",
+      "back": "what's in this phone",
+      "sim": 0.75,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.stored_list": {
+      "en": "The name and age of the person, family photographs and voice notes, reminders, care notes, and a record of each activity.",
+      "as": "व्यक्ति का नाम और उम्र, पारिवारिक तस्वीरें और वॉयस नोट्स, अनुस्मारक, देखभाल नोट्स और प्रत्येक गतिविधि का रिकॉर्ड।",
+      "back": "The person's name and age, family photos and voice notes, reminders, care notes, and a record of each activity.",
+      "sim": 0.94,
+      "lexical": 0.92,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.locked_title": {
+      "en": "What is locked",
+      "as": "क्या बंद है",
+      "back": "What's closed",
+      "sim": 0.32,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.locked": {
+      "en": "The name, the care plan text, the care notes, the photographs and the voice notes are locked with AES-256-GCM encryption while they sit on this phone. The key is made on this phone and kept in the phone secure store.",
+      "as": "नाम, देखभाल योजना पाठ, देखभाल टिप्पणियाँ, तस्वीरें और वॉयस नोट्स इस फोन पर बैठने के दौरान एईएस-256-जीसीएम एन्क्रिप्शन के साथ लॉक किए जाते हैं। चाबी इस फोन पर बनाई जाती है और फोन की सुरक्षित दुकान में रखी जाती है।",
+      "back": "Names, care plan text, care notes, photos, and voice notes are locked with AES-256-GCM encryption while sitting on this phone. The key is generated on this phone and stored in the phone's safe.",
+      "sim": 0.91,
+      "lexical": 0.62,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.leaves_title": {
+      "en": "What leaves this phone",
+      "as": "इस फोन से क्या निकलता है",
+      "back": "what comes out of this phone",
+      "sim": 0.82,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.leaves": {
+      "en": "Nothing leaves this phone unless a family member turns on syncing.",
+      "as": "जब तक परिवार का कोई सदस्य सिंकिंग चालू नहीं करता है तब तक इस फोन से कुछ भी नहीं निकलता है।",
+      "back": "Nothing comes out of this phone unless a family member turns on syncing.",
+      "sim": 0.85,
+      "lexical": 0.88,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.sync_on": {
+      "en": "When syncing is on, only the record of the activities is sent: which activity, when, and how it went. Photographs, voice notes, names and care notes are never sent.",
+      "as": "जब सिंकिंग चालू होती है, तो केवल गतिविधियों का रिकॉर्ड भेजा जाता हैः कौन सी गतिविधि, कब और कैसे हुई। फोटो, वॉयस नोट, नाम और देखभाल नोट कभी नहीं भेजे जाते हैं।",
+      "back": "When syncing is turned on, only the record of activities is sent: which activity, when, and how it occurred. Photos, voice notes, names, and care notes are never sent.",
+      "sim": 0.96,
+      "lexical": 0.88,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_title": {
+      "en": "How to remove everything",
+      "as": "कैसे सब कुछ हटाने के लिए",
+      "back": "How to get rid of everything",
+      "sim": 0.81,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_how": {
+      "en": "The button below removes every person on this phone, with their photographs, voice notes, reminders, notes and activity records.",
+      "as": "नीचे दिया गया बटन इस फोन पर हर व्यक्ति को उनकी तस्वीरों, वॉयस नोट्स, अनुस्मारकों, नोट्स और गतिविधि रिकॉर्ड के साथ हटा देता है।",
+      "back": "The button at the bottom deletes every person on this phone along with their photos, voice notes, reminders, notes, and activity records.",
+      "sim": 0.86,
+      "lexical": 0.79,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_button": {
+      "en": "Remove everything from this phone",
+      "as": "इस फोन से सब कुछ हटा दें",
+      "back": "Remove everything from this phone",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_confirm": {
+      "en": "Tap again to remove everything",
+      "as": "सब कुछ हटाने के लिए फिर से दबाएँ",
+      "back": "Press again to remove everything",
+      "sim": 0.76,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.deleted": {
+      "en": "Everything has been removed from this phone.",
+      "as": "इस फोन से सब कुछ हटा दिया गया है।",
+      "back": "Everything has been removed from this phone.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.dpdp": {
+      "en": "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification.",
+      "as": "भारत का डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम, 2023 कहता है कि व्यक्तिगत डेटा को सुरक्षित रूप से रखा जाए, और केवल तब तक जब तक इसकी आवश्यकता हो। यह पृष्ठ बताता है कि ऐप क्या करता है। यह प्रमाणन का दावा नहीं है।",
+      "back": "India's Digital Personal Data Protection Act, 2023 states that personal data be kept securely, and only for as long as it is needed. This page explains what the app does. This is not a claim for certification.",
+      "sim": 0.97,
+      "lexical": 0.86,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "mood.question": {
+      "en": "How do you feel now?",
+      "as": "अब आप कैसा महसूस कर रहे हैं?",
+      "back": "How are you feeling now?",
+      "sim": 0.89,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "mood.good": {
+      "en": "Good",
+      "as": "अच्छा है",
+      "back": "it's good",
+      "sim": 0.67,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "mood.ok": {
+      "en": "All right",
+      "as": "ठीक है",
+      "back": "Okay",
+      "sim": 0.48,
+      "lexical": 0,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "mood.low": {
+      "en": "Not good",
+      "as": "अच्छा नहीं है",
+      "back": "It's not good",
+      "sim": 0.75,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.usual": {
+      "en": "This week is about the same as usual for this person.",
+      "as": "इस व्यक्ति के लिए यह सप्ताह लगभग हमेशा की तरह ही है।",
+      "back": "For this person, this week is almost the same as usual.",
+      "sim": 0.95,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.fewer": {
+      "en": "Fewer activities this week than usual for this person.",
+      "as": "इस व्यक्ति के लिए इस सप्ताह सामान्य से कम गतिविधियाँ हैं।",
+      "back": "There are fewer activities than usual this week for this person.",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.more": {
+      "en": "More activities this week than usual for this person.",
+      "as": "इस व्यक्ति के लिए इस सप्ताह सामान्य से अधिक गतिविधियाँ हैं।",
+      "back": "There are more activities than usual this week for this person.",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.quiet": {
+      "en": "No activity for three days or more.",
+      "as": "तीन दिन या उससे अधिक समय तक कोई गतिविधि नहीं।",
+      "back": "No activity for three days or more.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.early": {
+      "en": "The first days are still being collected.",
+      "as": "शुरुआती दिन अभी भी एकत्र किए जा रहे हैं।",
+      "back": "The early days are still being collected.",
+      "sim": 0.88,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.reminders_down": {
+      "en": "Fewer reminders were marked done this week than usual.",
+      "as": "इस सप्ताह सामान्य से कम अनुस्मारक चिह्नित किए गए।",
+      "back": "This week marked fewer reminders than usual.",
+      "sim": 0.94,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.title": {
+      "en": "The last 30 days",
+      "as": "अंतिम 30 दिन",
+      "back": "The last 30 days",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.days_joined": {
+      "en": "of the last 7 days had an activity",
+      "as": "पिछले 7 दिनों में एक गतिविधि थी",
+      "back": "There was one activity in the last 7 days",
+      "sim": 0.94,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.days_before": {
+      "en": "in the 7 days before that",
+      "as": "उससे पहले के 7 दिनों में",
+      "back": "In the 7 days before",
+      "sim": 0.93,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.sessions": {
+      "en": "activities in 30 days",
+      "as": "30 दिनों में गतिविधियाँ",
+      "back": "Activities in 30 days",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.unaided": {
+      "en": "activities finished with no help this week",
+      "as": "इस सप्ताह बिना किसी सहायता के समाप्त गतिविधियाँ",
+      "back": "Unassisted activities this week",
+      "sim": 0.7,
+      "lexical": 0.33,
+      "deny": null,
+      "long": false,
+      "verdict": "FAIL"
+    },
+    "trend.unaided_before": {
+      "en": "in the week before",
+      "as": "एक सप्ताह पहले",
+      "back": "the week before",
+      "sim": 0.91,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.reminders": {
+      "en": "of the reminders this week were marked done",
+      "as": "इस सप्ताह के अनुस्मारकों को चिह्नित किया गया था",
+      "back": "This week's reminders were marked",
+      "sim": 0.94,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.too_little": {
+      "en": "There is not enough here yet to show a pattern. It fills in as the days go by.",
+      "as": "यहाँ अभी तक एक पैटर्न दिखाने के लिए पर्याप्त नहीं है। जैसे-जैसे दिन बीतते जाते हैं यह भर जाता है।",
+      "back": "Here it is not yet enough to show a pattern. It fills up as the days go by.",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.each_bar": {
+      "en": "Each bar shows one day.",
+      "as": "प्रत्येक बार एक दिन दिखाता है।",
+      "back": "Each time shows a day.",
+      "sim": 0.7,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.observational": {
+      "en": "These are counts of what happened. They are not a health measure.",
+      "as": "ये जो हुआ उसकी गिनती है। वे स्वास्थ्य संबंधी उपाय नहीं हैं।",
+      "back": "This is the countdown to what happened. They are not health-related measures.",
+      "sim": 0.8,
+      "lexical": 0.63,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.mood_said": {
+      "en": "How this person said they felt after an activity",
+      "as": "इस व्यक्ति ने कैसे कहा कि उन्होंने एक गतिविधि के बाद महसूस किया",
+      "back": "How this person said they felt after an activity",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.title": {
+      "en": "How today went",
+      "as": "आज कैसा रहा",
+      "back": "how was today",
+      "sim": 0.88,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.activities": {
+      "en": "activities today",
+      "as": "आज की गतिविधियाँ",
+      "back": "Today's activities",
+      "sim": 0.94,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.no_help": {
+      "en": "of them finished with no help",
+      "as": "उनमें से बिना किसी मदद के समाप्त हो गए",
+      "back": "of them ended up without any help",
+      "sim": 0.76,
+      "lexical": 0.4,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.reminders": {
+      "en": "of the reminders for today are marked done",
+      "as": "आज के लिए अनुस्मारक चिह्नित किए गए हैं",
+      "back": "reminders have been marked for today",
+      "sim": 0.9,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.nothing": {
+      "en": "Nothing has been recorded today yet.",
+      "as": "आज तक कुछ भी दर्ज नहीं किया गया है।",
+      "back": "Nothing has been recorded to date.",
+      "sim": 0.82,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    }
+  }
+}

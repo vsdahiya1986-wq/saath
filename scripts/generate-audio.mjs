@@ -372,27 +372,33 @@ async function tts(text, lang) {
 
 async function main() {
   const failures = {};
-  const unverified = [];
+  const unverified = {};
   // Translation happens in verify-translations.mjs (07 §1.4), which records
   // a PASS/FAIL per key. This script only voices what passed.
-  const review = JSON.parse(await fs.readFile(path.join('docs', 'i18n-review.json'), 'utf8').catch(() => 'null'));
-  if (!review) console.warn('No docs/i18n-review.json — run `node scripts/verify-translations.mjs --run` first. Assamese stays English.');
+  // One review file per target locale (fix pack 12); English needs none.
+  const REVIEW = { as: 'i18n-review.json', hi: 'i18n-review.hi.json' };
+  const reviews = {};
+  for (const [lang, file] of Object.entries(REVIEW)) {
+    reviews[lang] = JSON.parse(await fs.readFile(path.join('docs', file), 'utf8').catch(() => 'null'));
+    if (!reviews[lang]) console.warn(`No docs/${file} — run \`node scripts/verify-translations.mjs --run --lang=${lang}\` first. That language stays English.`);
+  }
 
-  for (const lang of ['as', 'en']) {
+  for (const lang of ['as', 'hi', 'en']) {
     const dir = path.join('public', 'content', 'lang', lang);
     await fs.mkdir(dir, { recursive: true });
     const manifest = {};
     const previous = JSON.parse(await fs.readFile(path.join(dir, 'manifest.json'), 'utf8').catch(() => '{}'));
     failures[lang] = [];
+    unverified[lang] = [];
 
     for (const [key, en] of Object.entries(STRINGS)) {
       let text = en;
       if (lang !== 'en') {
         // Not verified: English on screen, no Assamese audio. English is
         // honest; wrong Assamese is not.
-        const r = review?.entries[key];
+        const r = reviews[lang]?.entries[key];
         if (!r || r.verdict !== 'PASS' || r.en !== en) {
-          unverified.push(key);
+          unverified[lang].push(key);
           manifest[key] = { file: null, text: en };
           continue;
         }
@@ -431,7 +437,9 @@ async function main() {
   }
 
   console.log('\n--- generate-audio summary ---');
-  if (unverified.length) console.log(`as: ${unverified.length} not verified — English text, no Assamese audio: ${unverified.join(', ')}`);
+  for (const [lang, keys] of Object.entries(unverified)) {
+    if (keys.length) console.log(`${lang}: ${keys.length} not verified — English text, no ${lang} audio: ${keys.join(', ')}`);
+  }
   for (const [lang, keys] of Object.entries(failures)) {
     if (keys.length === 0) {
       console.log(`${lang}: every string that has ${lang === 'en' ? 'text' : 'verified text'} was generated with audio.`);

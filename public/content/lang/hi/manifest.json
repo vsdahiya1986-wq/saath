@@ -1,0 +1,1182 @@
+{
+  "home_intro": {
+    "file": "home_intro.wav",
+    "text": "यह आपकी स्मृति साथी है। प्ले, हेल्प या टुडे चुनें।"
+  },
+  "home.play": {
+    "file": "home_play.wav",
+    "text": "बजाएँ"
+  },
+  "home.help": {
+    "file": "home_help.wav",
+    "text": "मदद करें"
+  },
+  "home.today": {
+    "file": "home_today.wav",
+    "text": "आज"
+  },
+  "home.circle": {
+    "file": "home_circle.wav",
+    "text": "वृत्त"
+  },
+  "home.help.ok": {
+    "file": "home_help_ok.wav",
+    "text": "अब किसी मदद की जरूरत नहीं है"
+  },
+  "activity.familiar_pairs": {
+    "file": "activity_familiar_pairs.wav",
+    "text": "आज और मैं"
+  },
+  "activity.sound_sight": {
+    "file": "activity_sound_sight.wav",
+    "text": "सुनो और ढूँढो"
+  },
+  "activity.pattern_garden": {
+    "file": "activity_pattern_garden.wav",
+    "text": "घर को क्रमबद्ध करें"
+  },
+  "activity.my_next_step": {
+    "file": "activity_my_next_step.wav",
+    "text": "मेरा अगला कदम"
+  },
+  "activity.together": {
+    "file": "activity_together.wav",
+    "text": "एक साथ पल"
+  },
+  "activity.saah_pat": {
+    "file": "activity_saah_pat.wav",
+    "text": "साह पट · चाय का पत्ता"
+  },
+  "activity.apon_mukh": {
+    "file": "activity_apon_mukh.wav",
+    "text": "अपोन मुख · प्रिय चेहरे"
+  },
+  "play.today_three": {
+    "file": "play_today_three.wav",
+    "text": "आज के लिए तीन"
+  },
+  "play.all_activities": {
+    "file": "play_all_activities.wav",
+    "text": "सभी गतिविधियाँ"
+  },
+  "display.text_size": {
+    "file": "display_text_size.wav",
+    "text": "पाठ का आकार"
+  },
+  "rest.title": {
+    "file": "rest_title.wav",
+    "text": "क्या आप अब आराम करना चाहते हैं?"
+  },
+  "rest.rest_now": {
+    "file": "rest_rest_now.wav",
+    "text": "अभी आराम करें"
+  },
+  "rest.one_more": {
+    "file": "rest_one_more.wav",
+    "text": "एक और बजाएँ"
+  },
+  "domain.memory": {
+    "file": "domain_memory.wav",
+    "text": "स्मृति"
+  },
+  "domain.attention": {
+    "file": "domain_attention.wav",
+    "text": "ध्यान और एकाग्रता"
+  },
+  "domain.routine": {
+    "file": "domain_routine.wav",
+    "text": "दैनिक रूटीन रिकॉल"
+  },
+  "domain.pattern": {
+    "file": "domain_pattern.wav",
+    "text": "पैटर्न और वस्तु पहचान"
+  },
+  "domain.emotion": {
+    "file": "domain_emotion.wav",
+    "text": "भावनात्मक जुड़ाव"
+  },
+  "status.offline": {
+    "file": "status_offline.wav",
+    "text": "इंटरनेट कनेक्शन नहीं है"
+  },
+  "status.synced": {
+    "file": "status_synced.wav",
+    "text": "सहेजा गया"
+  },
+  "status.no_signal": {
+    "file": "status_no_signal.wav",
+    "text": "परीक्षणः कोई इंटरनेट नहीं"
+  },
+  "adaptive.same": {
+    "file": "adaptive_same.wav",
+    "text": "पिछली बार की तरह ही"
+  },
+  "adaptive.easier": {
+    "file": "adaptive_easier.wav",
+    "text": "आज थोड़ा आसान है"
+  },
+  "adaptive.harder": {
+    "file": "adaptive_harder.wav",
+    "text": "आज थोड़ा मुश्किल है"
+  },
+  "adaptive.with_help": {
+    "file": "adaptive_with_help.wav",
+    "text": "आज कुछ मदद के साथ"
+  },
+  "play.title": {
+    "file": "play_title.wav",
+    "text": "एक गतिविधि चुनें"
+  },
+  "play.pairs.intro": {
+    "file": "play_pairs_intro.wav",
+    "text": "आइए आज के बारे में बात करते हैं। वह उत्तर चुनें जो आपको सही लगे। कोई जल्दबाजी नहीं है।"
+  },
+  "play.sound.intro": {
+    "file": "play_sound_intro.wav",
+    "text": "शब्द को सुनें, फिर मेल खाने वाली तस्वीर पर टैप करें।"
+  },
+  "play.pattern.intro": {
+    "file": "play_pattern_intro.wav",
+    "text": "उस टोकरी पर टैप करें जहाँ यह है।"
+  },
+  "play.step.intro": {
+    "file": "play_step_intro.wav",
+    "text": "अपनी दिनचर्या के चरणों को क्रम में रखें।"
+  },
+  "play.together.intro": {
+    "file": "play_together_intro.wav",
+    "text": "आइए हम इस तस्वीर को एक साथ देखें।"
+  },
+  "play.saah_pat.intro": {
+    "file": "play_saah_pat_intro.wav",
+    "text": "दो पत्तियों और एक कली के साथ चाय के अंकुर ढूंढें। आप जो भी देख रहे हैं, उस पर टैप करें। कोई जल्दबाजी नहीं है।"
+  },
+  "play.apon_mukh.intro": {
+    "file": "play_apon_mukh_intro.wav",
+    "text": "चित्र देखने के लिए दो कार्ड दबाएँ। उन दोनों को ढूंढें जो मेल खाते हैं।"
+  },
+  "game.not_this_one": {
+    "file": "game_not_this_one.wav",
+    "text": "यह नहीं।"
+  },
+  "cue.highlight": {
+    "file": "cue_highlight.wav",
+    "text": "यहां देखिए।"
+  },
+  "cue.reduce": {
+    "file": "cue_reduce.wav",
+    "text": "आइए हम कम विकल्पों के साथ प्रयास करें।"
+  },
+  "common.pause": {
+    "file": "common_pause.wav",
+    "text": "रुक गया। जारी रखने के लिए दबाएँ, या रुकें चुनें।"
+  },
+  "common.open": {
+    "file": "common_open.wav",
+    "text": "खोलें"
+  },
+  "common.back": {
+    "file": "common_back.wav",
+    "text": "वापस जाओ"
+  },
+  "common.home": {
+    "file": "common_home.wav",
+    "text": "घर"
+  },
+  "common.continue": {
+    "file": "common_continue.wav",
+    "text": "जारी रखें"
+  },
+  "a11y.listen": {
+    "file": "a11y_listen.wav",
+    "text": "सुनो"
+  },
+  "help.title": {
+    "file": "help_title.wav",
+    "text": "मदद करें"
+  },
+  "help.need": {
+    "file": "help_need.wav",
+    "text": "मुझे किसी की ज़रूरत है"
+  },
+  "help.sent_local": {
+    "file": "help_sent_local.wav",
+    "text": "आपके परिवार को बता दिया गया है।"
+  },
+  "help.stored": {
+    "file": "help_stored.wav",
+    "text": "इस उपकरण पर सहेजा गया। कनेक्शन होने पर इसे भेजा जाएगा।"
+  },
+  "help.stale_warning": {
+    "file": "help_stale_warning.wav",
+    "text": "यह तस्वीर किसी पुरानी जगह को दिखा सकती है।"
+  },
+  "today.title": {
+    "file": "today_title.wav",
+    "text": "आज के अनुस्मारक"
+  },
+  "remind.medicine": {
+    "file": "remind_medicine.wav",
+    "text": "यह आपकी दवा का समय है।"
+  },
+  "remind.hydration": {
+    "file": "remind_hydration.wav",
+    "text": "यह एक गिलास पानी पीने का समय है।"
+  },
+  "remind.activity": {
+    "file": "remind_activity.wav",
+    "text": "यह आपकी दैनिक गतिविधियों का समय है।"
+  },
+  "remind.appointment": {
+    "file": "remind_appointment.wav",
+    "text": "आपके पास एक क्लिनिक नियुक्ति है।"
+  },
+  "remind.done": {
+    "file": null,
+    "text": "Done"
+  },
+  "remind.not_now": {
+    "file": "remind_not_now.wav",
+    "text": "अभी नहीं"
+  },
+  "exit.pause": {
+    "file": "exit_pause.wav",
+    "text": "एक पल के लिए रुकें"
+  },
+  "exit.skip_one": {
+    "file": "exit_skip_one.wav",
+    "text": "इस चरण को छोड़ दें"
+  },
+  "exit.end": {
+    "file": "exit_end.wav",
+    "text": "समाप्त करें"
+  },
+  "game.well_done": {
+    "file": "game_well_done.wav",
+    "text": "अच्छा किया है। यह तो अच्छा ही हुआ।"
+  },
+  "game.gentle_end": {
+    "file": "game_gentle_end.wav",
+    "text": "यह तो ठीक है। हम एक और दिन फिर से कोशिश कर सकते हैं।"
+  },
+  "game.look_again": {
+    "file": "game_look_again.wav",
+    "text": "आइए हम फिर से देखें।"
+  },
+  "game.good": {
+    "file": "game_good.wav",
+    "text": "हां, यह सही है।"
+  },
+  "q.today_me.part_of_day": {
+    "file": "q_today_me_part_of_day.wav",
+    "text": "यह अब दिन का कौन सा हिस्सा है?"
+  },
+  "q.today_me.season": {
+    "file": null,
+    "text": "Which season is it now?"
+  },
+  "q.today_me.weekday": {
+    "file": "q_today_me_weekday.wav",
+    "text": "आज सप्ताह का कौन सा दिन है?"
+  },
+  "q.today_me.month": {
+    "file": "q_today_me_month.wav",
+    "text": "अब कौन सा महीना है?"
+  },
+  "opt.period.morning": {
+    "file": "opt_period_morning.wav",
+    "text": "सुबह"
+  },
+  "opt.period.afternoon": {
+    "file": "opt_period_afternoon.wav",
+    "text": "दोपहर"
+  },
+  "opt.period.evening": {
+    "file": "opt_period_evening.wav",
+    "text": "सायंकाल"
+  },
+  "opt.period.night": {
+    "file": "opt_period_night.wav",
+    "text": "रात"
+  },
+  "opt.season.spring": {
+    "file": "opt_season_spring.wav",
+    "text": "वसंत ऋतु"
+  },
+  "opt.season.summer": {
+    "file": "opt_season_summer.wav",
+    "text": "ग्रीष्म ऋतु"
+  },
+  "opt.season.monsoon": {
+    "file": "opt_season_monsoon.wav",
+    "text": "बारिश का मौसम"
+  },
+  "opt.season.autumn": {
+    "file": "opt_season_autumn.wav",
+    "text": "शरद ऋतु"
+  },
+  "opt.season.winter": {
+    "file": "opt_season_winter.wav",
+    "text": "सर्दी का मौसम"
+  },
+  "opt.weekday.sunday": {
+    "file": "opt_weekday_sunday.wav",
+    "text": "रविवार"
+  },
+  "opt.weekday.monday": {
+    "file": "opt_weekday_monday.wav",
+    "text": "सोमवार"
+  },
+  "opt.weekday.tuesday": {
+    "file": "opt_weekday_tuesday.wav",
+    "text": "मंगलवार"
+  },
+  "opt.weekday.wednesday": {
+    "file": "opt_weekday_wednesday.wav",
+    "text": "बुधवार"
+  },
+  "opt.weekday.thursday": {
+    "file": "opt_weekday_thursday.wav",
+    "text": "गुरुवार"
+  },
+  "opt.weekday.friday": {
+    "file": "opt_weekday_friday.wav",
+    "text": "शुक्रवार"
+  },
+  "opt.weekday.saturday": {
+    "file": "opt_weekday_saturday.wav",
+    "text": "शनिवार"
+  },
+  "opt.month.january": {
+    "file": "opt_month_january.wav",
+    "text": "जनवरी"
+  },
+  "opt.month.february": {
+    "file": "opt_month_february.wav",
+    "text": "फरवरी"
+  },
+  "opt.month.march": {
+    "file": "opt_month_march.wav",
+    "text": "मार्च"
+  },
+  "opt.month.april": {
+    "file": "opt_month_april.wav",
+    "text": "अप्रैल"
+  },
+  "opt.month.may": {
+    "file": "opt_month_may.wav",
+    "text": "मई"
+  },
+  "opt.month.june": {
+    "file": "opt_month_june.wav",
+    "text": "जून"
+  },
+  "opt.month.july": {
+    "file": "opt_month_july.wav",
+    "text": "जुलाई"
+  },
+  "opt.month.august": {
+    "file": "opt_month_august.wav",
+    "text": "अगस्त"
+  },
+  "opt.month.september": {
+    "file": "opt_month_september.wav",
+    "text": "सितंबर"
+  },
+  "opt.month.october": {
+    "file": "opt_month_october.wav",
+    "text": "अक्टूबर"
+  },
+  "opt.month.november": {
+    "file": "opt_month_november.wav",
+    "text": "नवंबर"
+  },
+  "opt.month.december": {
+    "file": "opt_month_december.wav",
+    "text": "दिसंबर"
+  },
+  "done.today": {
+    "file": "done_today.wav",
+    "text": "आज"
+  },
+  "done.date": {
+    "file": "done_date.wav",
+    "text": "तिथि"
+  },
+  "done.season": {
+    "file": null,
+    "text": "Season"
+  },
+  "done.time_of_day": {
+    "file": "done_time_of_day.wav",
+    "text": "दिन का समय"
+  },
+  "opt.bucket.kitchen": {
+    "file": "opt_bucket_kitchen.wav",
+    "text": "रसोईघर"
+  },
+  "opt.bucket.getting_ready": {
+    "file": "opt_bucket_getting_ready.wav",
+    "text": "तैयार हो रहे हैं"
+  },
+  "opt.bucket.around_house": {
+    "file": "opt_bucket_around_house.wav",
+    "text": "घर में कहीं और"
+  },
+  "item.reg_tumbler": {
+    "file": "item_reg_tumbler.wav",
+    "text": "स्टील टम्बलर"
+  },
+  "item.reg_kettle": {
+    "file": "item_reg_kettle.wav",
+    "text": "चाय की केतली"
+  },
+  "item.reg_thali": {
+    "file": "item_reg_thali.wav",
+    "text": "थाली प्लेट"
+  },
+  "item.reg_ghoti": {
+    "file": "item_reg_ghoti.wav",
+    "text": "पानी का बर्तन"
+  },
+  "item.reg_comb": {
+    "file": "item_reg_comb.wav",
+    "text": "कंघी"
+  },
+  "item.reg_mirror": {
+    "file": "item_reg_mirror.wav",
+    "text": "हाथ का दर्पण"
+  },
+  "item.reg_slipper": {
+    "file": "item_reg_slipper.wav",
+    "text": "चप्पलें"
+  },
+  "item.reg_jhola": {
+    "file": "item_reg_jhola.wav",
+    "text": "कपड़े का थैला"
+  },
+  "item.reg_umbrella": {
+    "file": "item_reg_umbrella.wav",
+    "text": "जापी टोपी"
+  },
+  "item.reg_broom": {
+    "file": "item_reg_broom.wav",
+    "text": "झाड़ू"
+  },
+  "item.reg_torch": {
+    "file": "item_reg_torch.wav",
+    "text": "मशाल"
+  },
+  "item.reg_keylock": {
+    "file": "item_reg_keylock.wav",
+    "text": "ताला और कुंजी"
+  },
+  "item.reg_lamp": {
+    "file": "item_reg_lamp.wav",
+    "text": "दीया लैंप"
+  },
+  "item.reg_stool": {
+    "file": "item_reg_stool.wav",
+    "text": "मोरा स्टूल"
+  },
+  "item.reg_pankha": {
+    "file": "item_reg_pankha.wav",
+    "text": "हाथ का पंखा"
+  },
+  "item.reg_basket": {
+    "file": "item_reg_basket.wav",
+    "text": "बाँस की टोकरी"
+  },
+  "item.reg_dhekia": {
+    "file": "item_reg_dhekia.wav",
+    "text": "ढेकिया ग्रीन्स"
+  },
+  "item.reg_claypot": {
+    "file": "item_reg_claypot.wav",
+    "text": "मिट्टी के पानी का बर्तन"
+  },
+  "item.reg_areca": {
+    "file": "item_reg_areca.wav",
+    "text": "सुपारी प्लेट"
+  },
+  "item.reg_ricepot": {
+    "file": "item_reg_ricepot.wav",
+    "text": "चावल का बर्तन"
+  },
+  "item.reg_gamosa": {
+    "file": "item_reg_gamosa.wav",
+    "text": "गमोसा"
+  },
+  "item.reg_xorai": {
+    "file": "item_reg_xorai.wav",
+    "text": "पीतल की पेशकश ट्रे"
+  },
+  "item.reg_net": {
+    "file": "item_reg_net.wav",
+    "text": "मछली पकड़ने का जाल"
+  },
+  "item.reg_loom": {
+    "file": "item_reg_loom.wav",
+    "text": "बुनाई करघा"
+  },
+  "routine.reg_morning_routine": {
+    "file": "routine_reg_morning_routine.wav",
+    "text": "सुबह की दिनचर्या"
+  },
+  "step.reg_morning_routine.wake": {
+    "file": "step_reg_morning_routine_wake.wav",
+    "text": "जागो"
+  },
+  "step.reg_morning_routine.medicine": {
+    "file": "step_reg_morning_routine_medicine.wav",
+    "text": "दवा लें"
+  },
+  "step.reg_morning_routine.wash": {
+    "file": "step_reg_morning_routine_wash.wav",
+    "text": "अपना चेहरा धोएँ"
+  },
+  "step.reg_morning_routine.breakfast": {
+    "file": "step_reg_morning_routine_breakfast.wav",
+    "text": "नाश्ता करें"
+  },
+  "routine.reg_afternoon_routine": {
+    "file": "routine_reg_afternoon_routine.wav",
+    "text": "दोपहर की दिनचर्या"
+  },
+  "step.reg_afternoon_routine.rest": {
+    "file": "step_reg_afternoon_routine_rest.wav",
+    "text": "बैठ कर आराम करें"
+  },
+  "step.reg_afternoon_routine.tea": {
+    "file": "step_reg_afternoon_routine_tea.wav",
+    "text": "चाय पियें"
+  },
+  "step.reg_afternoon_routine.walk": {
+    "file": "step_reg_afternoon_routine_walk.wav",
+    "text": "छोटी पैदल यात्रा"
+  },
+  "step.reg_afternoon_routine.water": {
+    "file": "step_reg_afternoon_routine_water.wav",
+    "text": "पानी पियें"
+  },
+  "routine.reg_evening_routine": {
+    "file": "routine_reg_evening_routine.wav",
+    "text": "शाम की दिनचर्या"
+  },
+  "step.reg_evening_routine.wash_up": {
+    "file": "step_reg_evening_routine_wash_up.wav",
+    "text": "अपने हाथ धोएँ"
+  },
+  "step.reg_evening_routine.dinner": {
+    "file": "step_reg_evening_routine_dinner.wav",
+    "text": "रात का खाना खाओ"
+  },
+  "step.reg_evening_routine.lock_up": {
+    "file": "step_reg_evening_routine_lock_up.wav",
+    "text": "दरवाज़ा बंद करो"
+  },
+  "step.reg_evening_routine.sleep": {
+    "file": "step_reg_evening_routine_sleep.wav",
+    "text": "बत्ती बंद कर दें"
+  },
+  "routine.reg_prayer_routine": {
+    "file": "routine_reg_prayer_routine.wav",
+    "text": "शाम की प्रार्थना"
+  },
+  "step.reg_prayer_routine.light": {
+    "file": "step_reg_prayer_routine_light.wav",
+    "text": "दीपक जलाएँ"
+  },
+  "step.reg_prayer_routine.sit": {
+    "file": "step_reg_prayer_routine_sit.wav",
+    "text": "चटाई पर बैठें"
+  },
+  "step.reg_prayer_routine.pray": {
+    "file": "step_reg_prayer_routine_pray.wav",
+    "text": "प्रार्थना करें"
+  },
+  "step.reg_prayer_routine.put_out": {
+    "file": null,
+    "text": "Put out the lamp"
+  },
+  "routine.reg_bath_routine": {
+    "file": "routine_reg_bath_routine.wav",
+    "text": "नहाने का समय"
+  },
+  "step.reg_bath_routine.fetch": {
+    "file": "step_reg_bath_routine_fetch.wav",
+    "text": "पानी लाएँ"
+  },
+  "step.reg_bath_routine.wash": {
+    "file": "step_reg_bath_routine_wash.wav",
+    "text": "साबुन और धोना"
+  },
+  "step.reg_bath_routine.dry": {
+    "file": "step_reg_bath_routine_dry.wav",
+    "text": "गमोसा से सुखाएँ"
+  },
+  "step.reg_bath_routine.dress": {
+    "file": "step_reg_bath_routine_dress.wav",
+    "text": "कपड़े बदलें"
+  },
+  "together.childhood.theme": {
+    "file": "together_childhood_theme.wav",
+    "text": "बचपन"
+  },
+  "together.childhood.q": {
+    "file": "together_childhood_q.wav",
+    "text": "मुझे उस घर के बारे में बताएँ जहाँ आप बचपन में रहते थे।"
+  },
+  "together.childhood.follow": {
+    "file": "together_childhood_follow.wav",
+    "text": "वहाँ आपके साथ कौन रहता था?"
+  },
+  "together.food.theme": {
+    "file": "together_food_theme.wav",
+    "text": "भोजन"
+  },
+  "together.food.q": {
+    "file": "together_food_q.wav",
+    "text": "बचपन में आपका पसंदीदा भोजन क्या था?"
+  },
+  "together.food.follow": {
+    "file": "together_food_follow.wav",
+    "text": "इसे आपके लिए कौन पकाता था?"
+  },
+  "together.festivals.theme": {
+    "file": "together_festivals_theme.wav",
+    "text": "त्यौहार"
+  },
+  "together.festivals.q": {
+    "file": "together_festivals_q.wav",
+    "text": "आपके परिवार ने बिहू या आपके पसंदीदा त्योहार को कैसे मनाया?"
+  },
+  "together.festivals.follow": {
+    "file": "together_festivals_follow.wav",
+    "text": "उस दिन आपने क्या पहना था?"
+  },
+  "together.music.theme": {
+    "file": "together_music_theme.wav",
+    "text": "संगीत"
+  },
+  "together.music.q": {
+    "file": "together_music_q.wav",
+    "text": "आपको बचपन में कौन सा गीत गाना याद है?"
+  },
+  "together.music.follow": {
+    "file": "together_music_follow.wav",
+    "text": "क्या आप इसे थोड़ा गा सकते हैं?"
+  },
+  "together.work.theme": {
+    "file": "together_work_theme.wav",
+    "text": "अपने हाथों से काम करें"
+  },
+  "together.work.q": {
+    "file": "together_work_q.wav",
+    "text": "आपको अपने हाथों से कौन सा काम करने में मज़ा आया?"
+  },
+  "together.work.follow": {
+    "file": "together_work_follow.wav",
+    "text": "आपको यह करना किसने सिखाया?"
+  },
+  "together.places.theme": {
+    "file": "together_places_theme.wav",
+    "text": "जगहें"
+  },
+  "together.places.q": {
+    "file": null,
+    "text": "Where is a place that made you feel happy?"
+  },
+  "together.places.follow": {
+    "file": "together_places_follow.wav",
+    "text": "आप वहाँ क्या देख और सुन सकते थे?"
+  },
+  "together.tea_time.theme": {
+    "file": "together_tea_time_theme.wav",
+    "text": "चाय का समय"
+  },
+  "together.tea_time.q": {
+    "file": "together_tea_time_q.wav",
+    "text": "क्या आपको दूध के साथ चाय पसंद है या बिना दूध के?"
+  },
+  "together.tea_time.follow": {
+    "file": "together_tea_time_follow.wav",
+    "text": "आपको किसके साथ चाय पीना अच्छा लगता है?"
+  },
+  "together.friends.theme": {
+    "file": null,
+    "text": "Friends"
+  },
+  "together.friends.q": {
+    "file": "together_friends_q.wav",
+    "text": "मुझे एक अच्छे दोस्त के बारे में बताएँ जब आप छोटे थे।"
+  },
+  "together.friends.follow": {
+    "file": "together_friends_follow.wav",
+    "text": "आपने एक साथ क्या किया?"
+  },
+  "q.sort_home.where": {
+    "file": "q_sort_home_where.wav",
+    "text": "यह कहाँ जाना चाहिए?"
+  },
+  "q.hear_find.listen": {
+    "file": "q_hear_find_listen.wav",
+    "text": "सुनो, फिर ढूँढो"
+  },
+  "q.hear_find.look": {
+    "file": "q_hear_find_look.wav",
+    "text": "इस तस्वीर को ढूंढें"
+  },
+  "q.next_step.first": {
+    "file": "q_next_step_first.wav",
+    "text": "आप पहले क्या करते हैं?"
+  },
+  "q.next_step.after": {
+    "file": "q_next_step_after.wav",
+    "text": "आप आगे क्या करेंगे?"
+  },
+  "q.apon_mukh.find_pairs": {
+    "file": "q_apon_mukh_find_pairs.wav",
+    "text": "मेल खाने वाले दो कार्ड ढूंढें"
+  },
+  "q.saah_pat.find_sprigs": {
+    "file": "q_saah_pat_find_sprigs.wav",
+    "text": "इस तरह के हर चाय के अंकुर को ढूंढें"
+  },
+  "q.saah_pat.left": {
+    "file": "q_saah_pat_left.wav",
+    "text": "चाय के अंकुर अभी भी मिलने बाकी हैं"
+  },
+  "q.saah_pat.all_found": {
+    "file": "q_saah_pat_all_found.wav",
+    "text": "सभी पाए गए"
+  },
+  "notice.some_family": {
+    "file": "notice_some_family.wav",
+    "text": "इनमें से कुछ आपके परिवार की अपनी तस्वीरें हैं।"
+  },
+  "notice.visual_mode": {
+    "file": "notice_visual_mode.wav",
+    "text": "शब्द को पढ़ें, फिर उसका चित्र खोजें।"
+  },
+  "notice.family_routine": {
+    "file": "notice_family_routine.wav",
+    "text": "आपके परिवार की अपनी दिनचर्या"
+  },
+  "notice.routine_generic": {
+    "file": "notice_routine_generic.wav",
+    "text": "मेमोरी गार्डन में एक परिवार अपनी दिनचर्या जोड़ सकता है।"
+  },
+  "notice.family_photos": {
+    "file": "notice_family_photos.wav",
+    "text": "ये आपके परिवार की अपनी तस्वीरें हैं।"
+  },
+  "notice.add_photos": {
+    "file": "notice_add_photos.wav",
+    "text": "एक परिवार मेमोरी गार्डन में अपनी खुद की तस्वीरें जोड़ सकता है।"
+  },
+  "game.here_all": {
+    "file": "game_here_all.wav",
+    "text": "यहाँ सभी जोड़े हैं।"
+  },
+  "game.here_others": {
+    "file": "game_here_others.wav",
+    "text": "यहाँ अन्य हैं।"
+  },
+  "game.play_again": {
+    "file": "game_play_again.wav",
+    "text": "फिर से खेलो"
+  },
+  "game.more_activities": {
+    "file": "game_more_activities.wav",
+    "text": "और भी गतिविधियाँ"
+  },
+  "next.same": {
+    "file": "next_same.wav",
+    "text": "अगली बार भी ऐसा ही होगा।"
+  },
+  "next.more": {
+    "file": "next_more.wav",
+    "text": "अगली बार यह थोड़ा कठिन होगा।"
+  },
+  "next.gentler": {
+    "file": "next_gentler.wav",
+    "text": "अगली बार यह थोड़ा आसान होगा।"
+  },
+  "next.with_help": {
+    "file": "next_with_help.wav",
+    "text": "अगली बार कुछ मदद मिलेगी।"
+  },
+  "together.who": {
+    "file": "together_who.wav",
+    "text": "यहाँ कौन है? इस बारे में आपको क्या याद है?"
+  },
+  "together.thanks": {
+    "file": "together_thanks.wav",
+    "text": "साझा करने के लिए धन्यवाद।"
+  },
+  "together.done_note": {
+    "file": "together_done_note.wav",
+    "text": "यादों के बारे में बात करना मन और दिल के लिए अच्छा होता है। यहाँ कोई अंक नहीं है।"
+  },
+  "together.done": {
+    "file": "together_done.wav",
+    "text": "बात खत्म करें"
+  },
+  "together.tell_more": {
+    "file": "together_tell_more.wav",
+    "text": "मुझे और बताइए"
+  },
+  "together.another": {
+    "file": "together_another.wav",
+    "text": "एक और विषय"
+  },
+  "together.reject": {
+    "file": "together_reject.wav",
+    "text": "मैं इसे फिर से नहीं देखना चाहता"
+  },
+  "together.reject_confirm": {
+    "file": "together_reject_confirm.wav",
+    "text": "इसे हमेशा के लिए हटाने के लिए फिर से दबाएँ"
+  },
+  "together.add_photos": {
+    "file": "together_add_photos.wav",
+    "text": "परिवार का कोई सदस्य मेमोरी गार्डन में वास्तविक तस्वीरें और वॉयस नोट्स जोड़ सकता है।"
+  },
+  "play.subtitle": {
+    "file": "play_subtitle.wav",
+    "text": "छोटे, आसान खेल। कोई गलत जवाब नहीं हैं।"
+  },
+  "reminder.overdue": {
+    "file": "reminder_overdue.wav",
+    "text": "समय बीत गया"
+  },
+  "reminder.next_up": {
+    "file": "reminder_next_up.wav",
+    "text": "अगला आ रहा है"
+  },
+  "reminder.none": {
+    "file": "reminder_none.wav",
+    "text": "अभी तक कोई अनुस्मारक सेट नहीं किया गया है"
+  },
+  "reminder.none_help": {
+    "file": "reminder_none_help.wav",
+    "text": "परिवार का कोई सदस्य या स्वास्थ्य कार्यकर्ता सर्कल में दवा, पानी, गतिविधि और क्लिनिक अनुस्मारक जोड़ सकता है।"
+  },
+  "reminder.not_armed": {
+    "file": "reminder_not_armed.wav",
+    "text": "इस फोन पर रिमाइंडर सेट नहीं किए गए हैं।"
+  },
+  "reminder.now": {
+    "file": "reminder_now.wav",
+    "text": "अब"
+  },
+  "reminder.snoozed": {
+    "file": "reminder_snoozed.wav",
+    "text": "10 मिनट में फिर से"
+  },
+  "reminder.done_state": {
+    "file": "reminder_done_state.wav",
+    "text": "आज के लिए किया गया"
+  },
+  "reminder.more_later": {
+    "file": "reminder_more_later.wav",
+    "text": "आज बाद में और अनुस्मारक"
+  },
+  "reminder.all_done": {
+    "file": "reminder_all_done.wav",
+    "text": "आज के लिए सभी अनुस्मारक बनाए गए हैं।"
+  },
+  "today.is": {
+    "file": "today_is.wav",
+    "text": "आज"
+  },
+  "today.played": {
+    "file": "today_played.wav",
+    "text": "आज खेले जाने वाले खेल"
+  },
+  "today.nothing_yet": {
+    "file": "today_nothing_yet.wav",
+    "text": "आज तक कोई खेल नहीं खेला गया।"
+  },
+  "home.circle.one": {
+    "file": "home_circle_one.wav",
+    "text": "वह व्यक्ति जो आपकी परवाह करता है"
+  },
+  "home.circle.many": {
+    "file": "home_circle_many.wav",
+    "text": "जो लोग आपकी परवाह करते हैं"
+  },
+  "why.title": {
+    "file": null,
+    "text": "क्यों होती हैं ये गतिविधियाँ"
+  },
+  "why.intro": {
+    "file": null,
+    "text": "प्रत्येक गतिविधि एक प्रकार की सोच पर काम करती है। यह पृष्ठ बताता है कि प्रत्येक किस लिए है।"
+  },
+  "why.works_on": {
+    "file": null,
+    "text": "यह किस पर काम करता है"
+  },
+  "why.similar_to": {
+    "file": null,
+    "text": "यह किसके समान है"
+  },
+  "why.not_a_test": {
+    "file": null,
+    "text": "साथ दैनिक गतिविधियों के लिए एक उपकरण है। यह कोई चिकित्सीय परीक्षण नहीं है। यह कोई अंक नहीं देता और न ही कोई परिणाम देता है। एक गतिविधि जो स्मृति परीक्षण की तरह दिखती है, स्मृति परीक्षण के समान नहीं है।"
+  },
+  "why.ask_doctor": {
+    "file": null,
+    "text": "स्वास्थ्य के बारे में किसी भी प्रश्न के लिए, कृपया डॉक्टर या स्वास्थ्य कार्यकर्ता से बात करें।"
+  },
+  "why.familiar_pairs.works_on": {
+    "file": null,
+    "text": "दिन के समय, दिन और मौसम को जानना"
+  },
+  "why.familiar_pairs.similar_to": {
+    "file": null,
+    "text": "सामान्य स्मृति जाँच में उपयोग किए जाने वाले अभिविन्यास प्रश्न"
+  },
+  "why.familiar_pairs.reason": {
+    "file": null,
+    "text": "आज के बारे में बात करने से व्यक्ति आज तक जुड़ा रहता है।"
+  },
+  "why.sound_sight.works_on": {
+    "file": null,
+    "text": "एक बोले गए शब्द को समझना और उसे एक चित्र से मिलान करना"
+  },
+  "why.sound_sight.similar_to": {
+    "file": null,
+    "text": "नामकरण और सुनने के कार्य"
+  },
+  "why.sound_sight.reason": {
+    "file": null,
+    "text": "किसी बोले गए शब्द का उसके चित्र से मिलान करने से शब्द और वस्तुएँ जुड़ी रहती हैं।"
+  },
+  "why.pattern_garden.works_on": {
+    "file": null,
+    "text": "योजना बनाना, और चीजों को समूहों में डालना"
+  },
+  "why.pattern_garden.similar_to": {
+    "file": null,
+    "text": "प्रकार के अनुसार वस्तुओं को समूहबद्ध करने वाले कार्यों को क्रमबद्ध करना"
+  },
+  "why.pattern_garden.reason": {
+    "file": null,
+    "text": "घरेलू चीजों को छांटना सामान्य घरेलू काम के समान सोच का उपयोग करता है।"
+  },
+  "why.my_next_step.works_on": {
+    "file": null,
+    "text": "किसी कार्य के चरणों को सही क्रम में रखना"
+  },
+  "why.my_next_step.similar_to": {
+    "file": null,
+    "text": "आदेश और अनुक्रमण कार्य"
+  },
+  "why.my_next_step.reason": {
+    "file": null,
+    "text": "एक दैनिक दिनचर्या तब आसान हो जाती है जब उसके कदमों का क्रम परिचित रहता है।"
+  },
+  "why.saah_pat.works_on": {
+    "file": null,
+    "text": "ध्यान से देखें, और एक काम के साथ रहें"
+  },
+  "why.saah_pat.similar_to": {
+    "file": null,
+    "text": "ऐसे कार्यों को खोजें जहाँ कई के बीच एक आकार पाया जाना चाहिए"
+  },
+  "why.saah_pat.reason": {
+    "file": null,
+    "text": "चाय के अंकुरों की तलाश करना एक काम है जो यहाँ के कई लोगों ने अपने पूरे जीवन में किया है।"
+  },
+  "why.apon_mukh.works_on": {
+    "file": null,
+    "text": "चेहरों को जानना और लोगों को याद रखना"
+  },
+  "why.apon_mukh.similar_to": {
+    "file": null,
+    "text": "Tasks that join a face to a name"
+  },
+  "why.apon_mukh.reason": {
+    "file": null,
+    "text": "पारिवारिक तस्वीरें उन यादों को वापस लाती हैं जो एक चित्र नहीं ले सकता है।"
+  },
+  "why.together.works_on": {
+    "file": null,
+    "text": "परिवार से पहले के दिनों के बारे में बात करते हुए"
+  },
+  "why.together.similar_to": {
+    "file": null,
+    "text": "समूह देखभाल में उपयोग किया जाने वाला स्मृति कार्य"
+  },
+  "why.together.reason": {
+    "file": null,
+    "text": "पहले के दिनों के बारे में एक साथ बात करना शांत है, और किसी सही जवाब की आवश्यकता नहीं है।"
+  },
+  "privacy.title": {
+    "file": null,
+    "text": "हम क्या रखते हैं, और कहाँ"
+  },
+  "privacy.on_device": {
+    "file": null,
+    "text": "सब कुछ इस फोन पर रहता है। ऐप बिना इंटरनेट के काम करता है।"
+  },
+  "privacy.stored_title": {
+    "file": null,
+    "text": "इस फोन में क्या रखा हुआ है"
+  },
+  "privacy.stored_list": {
+    "file": null,
+    "text": "व्यक्ति का नाम और उम्र, पारिवारिक तस्वीरें और वॉयस नोट्स, अनुस्मारक, देखभाल नोट्स और प्रत्येक गतिविधि का रिकॉर्ड।"
+  },
+  "privacy.locked_title": {
+    "file": null,
+    "text": "क्या बंद है"
+  },
+  "privacy.locked": {
+    "file": null,
+    "text": "नाम, देखभाल योजना पाठ, देखभाल टिप्पणियाँ, तस्वीरें और वॉयस नोट्स इस फोन पर बैठने के दौरान एईएस-256-जीसीएम एन्क्रिप्शन के साथ लॉक किए जाते हैं। चाबी इस फोन पर बनाई जाती है और फोन की सुरक्षित दुकान में रखी जाती है।"
+  },
+  "privacy.leaves_title": {
+    "file": null,
+    "text": "इस फोन से क्या निकलता है"
+  },
+  "privacy.leaves": {
+    "file": null,
+    "text": "जब तक परिवार का कोई सदस्य सिंकिंग चालू नहीं करता है तब तक इस फोन से कुछ भी नहीं निकलता है।"
+  },
+  "privacy.sync_on": {
+    "file": null,
+    "text": "जब सिंकिंग चालू होती है, तो केवल गतिविधियों का रिकॉर्ड भेजा जाता हैः कौन सी गतिविधि, कब और कैसे हुई। फोटो, वॉयस नोट, नाम और देखभाल नोट कभी नहीं भेजे जाते हैं।"
+  },
+  "privacy.delete_title": {
+    "file": null,
+    "text": "कैसे सब कुछ हटाने के लिए"
+  },
+  "privacy.delete_how": {
+    "file": null,
+    "text": "नीचे दिया गया बटन इस फोन पर हर व्यक्ति को उनकी तस्वीरों, वॉयस नोट्स, अनुस्मारकों, नोट्स और गतिविधि रिकॉर्ड के साथ हटा देता है।"
+  },
+  "privacy.delete_button": {
+    "file": null,
+    "text": "इस फोन से सब कुछ हटा दें"
+  },
+  "privacy.delete_confirm": {
+    "file": null,
+    "text": "सब कुछ हटाने के लिए फिर से दबाएँ"
+  },
+  "privacy.deleted": {
+    "file": null,
+    "text": "इस फोन से सब कुछ हटा दिया गया है।"
+  },
+  "privacy.dpdp": {
+    "file": null,
+    "text": "भारत का डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम, 2023 कहता है कि व्यक्तिगत डेटा को सुरक्षित रूप से रखा जाए, और केवल तब तक जब तक इसकी आवश्यकता हो। यह पृष्ठ बताता है कि ऐप क्या करता है। यह प्रमाणन का दावा नहीं है।"
+  },
+  "mood.question": {
+    "file": "mood_question.wav",
+    "text": "अब आप कैसा महसूस कर रहे हैं?"
+  },
+  "mood.good": {
+    "file": "mood_good.wav",
+    "text": "अच्छा है"
+  },
+  "mood.ok": {
+    "file": null,
+    "text": "All right"
+  },
+  "mood.low": {
+    "file": "mood_low.wav",
+    "text": "अच्छा नहीं है"
+  },
+  "strip.usual": {
+    "file": null,
+    "text": "इस व्यक्ति के लिए यह सप्ताह लगभग हमेशा की तरह ही है।"
+  },
+  "strip.fewer": {
+    "file": null,
+    "text": "इस व्यक्ति के लिए इस सप्ताह सामान्य से कम गतिविधियाँ हैं।"
+  },
+  "strip.more": {
+    "file": null,
+    "text": "इस व्यक्ति के लिए इस सप्ताह सामान्य से अधिक गतिविधियाँ हैं।"
+  },
+  "strip.quiet": {
+    "file": null,
+    "text": "तीन दिन या उससे अधिक समय तक कोई गतिविधि नहीं।"
+  },
+  "strip.early": {
+    "file": null,
+    "text": "शुरुआती दिन अभी भी एकत्र किए जा रहे हैं।"
+  },
+  "strip.reminders_down": {
+    "file": null,
+    "text": "इस सप्ताह सामान्य से कम अनुस्मारक चिह्नित किए गए।"
+  },
+  "trend.title": {
+    "file": null,
+    "text": "अंतिम 30 दिन"
+  },
+  "trend.days_joined": {
+    "file": null,
+    "text": "पिछले 7 दिनों में एक गतिविधि थी"
+  },
+  "trend.days_before": {
+    "file": null,
+    "text": "उससे पहले के 7 दिनों में"
+  },
+  "trend.sessions": {
+    "file": null,
+    "text": "30 दिनों में गतिविधियाँ"
+  },
+  "trend.unaided": {
+    "file": null,
+    "text": "activities finished with no help this week"
+  },
+  "trend.unaided_before": {
+    "file": null,
+    "text": "एक सप्ताह पहले"
+  },
+  "trend.reminders": {
+    "file": null,
+    "text": "इस सप्ताह के अनुस्मारकों को चिह्नित किया गया था"
+  },
+  "trend.too_little": {
+    "file": null,
+    "text": "यहाँ अभी तक एक पैटर्न दिखाने के लिए पर्याप्त नहीं है। जैसे-जैसे दिन बीतते जाते हैं यह भर जाता है।"
+  },
+  "trend.each_bar": {
+    "file": null,
+    "text": "प्रत्येक बार एक दिन दिखाता है।"
+  },
+  "trend.observational": {
+    "file": null,
+    "text": "ये जो हुआ उसकी गिनती है। वे स्वास्थ्य संबंधी उपाय नहीं हैं।"
+  },
+  "trend.mood_said": {
+    "file": null,
+    "text": "इस व्यक्ति ने कैसे कहा कि उन्होंने एक गतिविधि के बाद महसूस किया"
+  },
+  "day.title": {
+    "file": null,
+    "text": "आज कैसा रहा"
+  },
+  "day.activities": {
+    "file": null,
+    "text": "आज की गतिविधियाँ"
+  },
+  "day.no_help": {
+    "file": null,
+    "text": "उनमें से बिना किसी मदद के समाप्त हो गए"
+  },
+  "day.reminders": {
+    "file": null,
+    "text": "आज के लिए अनुस्मारक चिह्नित किए गए हैं"
+  },
+  "day.nothing": {
+    "file": null,
+    "text": "आज तक कुछ भी दर्ज नहीं किया गया है।"
+  }
+}

@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { allPersons, db, Person } from '@/lib/db';
+import { allPersons, db, Lang, Person } from '@/lib/db';
 import { clearActivePersonId, getActivePersonId, setActivePersonId } from '@/lib/usePerson';
 import { DEMO_PERSONAS, removeDemoPersonas, seedDemoPersonas } from '@/lib/demoSeed';
 import { stopAllAudio } from '@/lib/audio';
@@ -37,6 +37,9 @@ async function fetchRows(): Promise<{ active: string | null; built: Row[] }> {
  * which person every screen reads — one person's sessions, reminders, photos
  * and circle are never read on another person's screens.
  */
+/** Fix pack 12: three interface languages, so this is no longer a ternary. */
+const LANG_LABEL: Record<Lang, string> = { as: 'Assamese', hi: 'Hindi', en: 'English' };
+
 export default function PeopleOnDevice() {
   const router = useRouter();
   const [rows, setRows] = useState<Row[] | null>(null);
@@ -139,7 +142,7 @@ export default function PeopleOnDevice() {
                   </div>
                 </div>
                 <div style={{ fontSize: 17 }} className="muted">
-                  {person.language === 'as' ? 'Assamese' : 'English'} · {LITERACY_LABEL[person.literacy]} · {sessions} sessions
+                  {LANG_LABEL[person.language]} · {LITERACY_LABEL[person.literacy]} · {sessions} sessions
                   {lastActive ? ` · last ${new Date(lastActive).toLocaleDateString()}` : ''}
                 </div>
                 <button

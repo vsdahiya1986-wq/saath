@@ -138,9 +138,21 @@ translator, it is plainer English: the string is now *"Reminders are not set up 
 word overlap 0.6, PASS). The same pass caught *"Tap the right basket"* being translated as the
 right-**hand** basket.
 
-**One language, verified, rather than five unchecked.** The scoring, the denylist and the gate are
-language-agnostic — adding a language means a language code and one `--run`, and it arrives with the
-same per-key evidence table. Assamese is the one we can defend, so it is the one that ships.
+**Two languages, both verified, rather than five unchecked.** Hindi was added through this same
+pipeline and nothing else: the same English source (never translated from the Assamese, which would
+compound whatever drift the first hop introduced), the same round-trip check, the same thresholds,
+its own denylist in Devanagari, and its own evidence table in
+[`docs/i18n-review.hi.md`](docs/i18n-review.hi.md). It arrived at **286 of 295 verified; 9 fall back
+to English** — against Assamese's 292 of 295 — and those 9 are named in that file. Adding a third
+language is a language code, a denylist and one `--run`.
+
+```bash
+node scripts/verify-translations.mjs --run --lang=hi   # one locale
+node scripts/verify-translations.mjs                   # the gate checks every locale that ships
+```
+
+A person's language is set per profile in **Circle → Person profile**, which is the same screen used
+when a profile is first created. The default is unchanged.
 
 ## SIH26003 clause map
 
@@ -196,8 +208,9 @@ Rejected on purpose, not missing:
 - **An LLM companion chat.** A model that can hallucinate, talking to a confused elderly user, is a
   safety problem — and it needs a live network and an API key, which is the opposite of this app.
 - **A WhatsApp bot channel.** Good idea; Meta business verification does not fit the timeline.
-- **More languages.** See above: unverified languages would cost the one thing this app does better
-  than anyone.
+- **More languages beyond Assamese and Hindi.** Not because it is hard — the pipeline makes each
+  one a language code and one `--run` — but because every language that ships has to carry its own
+  verified evidence table, and there is no time before submission to add a third and stand behind it.
 - **Biometric / WebAuthn login for Circle.** The PIN works; new auth surface this close to
   submission is risk without a user.
 

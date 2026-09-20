@@ -1,7 +1,7 @@
 import Dexie, { Table } from 'dexie';
 import { encryptText, decryptText, encryptBlob, decryptBlob } from './crypto';
 
-export type Lang = 'as' | 'en';
+export type Lang = 'as' | 'hi' | 'en';
 export type Literacy = 'non-literate' | 'basic' | 'fluent';
 export type Nav = 'visual' | 'voice-guided';
 export type CueType = 'none' | 'repeat_audio' | 'highlight' | 'reduce_choices' | 'demonstrate';

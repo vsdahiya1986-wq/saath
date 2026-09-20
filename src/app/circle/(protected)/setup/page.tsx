@@ -105,7 +105,8 @@ export default function PersonSetup() {
       <label className="flex flex-col gap-1">
         <span style={{ fontSize: 15 }}>Language</span>
         <select value={language} onChange={(e) => setLanguage(e.target.value as Lang)} style={selectStyle}>
-          <option value="as">Assamese</option>
+          <option value="as">Assamese · অসমীয়া</option>
+          <option value="hi">Hindi · हिन्दी</option>
           <option value="en">English</option>
         </select>
       </label>

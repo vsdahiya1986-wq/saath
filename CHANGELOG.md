@@ -641,3 +641,37 @@ Strings: 26 new keys through the pipeline. Two failed and were fixed by rewritin
 
 Not built, deliberately: a 0–100 cognitive score, an LLM companion chat, a WhatsApp channel, more
 languages, and biometric login. The README says why for each.
+
+## Fix pack 12 — Hindi, through the same pipeline (2026-09-20)
+
+A second interface language, built by pointing the existing machinery at a second locale rather than
+by adding any.
+
+- `verify-translations.mjs` takes `--lang=` (default: every target). `TARGETS` holds the two locales
+  and their review files; `DENY_HI` is the same seven concepts in Devanagari, since the Assamese
+  denylist is script-specific and would have matched nothing in Hindi. `DENY_EN` catches the
+  round-tripped English for both. Thresholds, round trip, length flag: untouched, and a test asserts
+  both languages carry the same thresholds object.
+- Every Hindi string is translated **from the de-idiomed English source**, never from the Assamese —
+  a test asserts `review.entries[key].en` equals the current `STRINGS[key]` for every key, so a
+  translation-of-a-translation could not pass unnoticed.
+- `generate-audio.mjs` voices `as`, `hi`, `en`, reading one review file per target. The caregiver
+  keys stay text-only in every language.
+- The gate now checks every locale that ships and names the language in each problem.
+- `Lang` is `'as' | 'hi' | 'en'`. The picker in Circle → Person profile (the same screen used when a
+  profile is created) offers all three; **the default is unchanged**. The people list no longer
+  reads `language === 'as' ? 'Assamese' : 'English'`.
+
+**Result: 286 of 295 verified, 9 fall back to English** (Assamese: 292 of 295). The nine are
+`remind.done`, `q.today_me.season`, `done.season`, `step.reg_prayer_routine.put_out`,
+`together.places.q`, `together.friends.theme`, `why.apon_mukh.similar_to`, `mood.ok` and
+`trend.unaided` — all listed with their round trips in `docs/i18n-review.hi.md`. None was
+hand-corrected, and none of the English was rewritten to rescue them: that English is shared with
+Assamese, which has already passed on it, and fix pack 12 was not to touch Assamese content.
+
+Tests: `tests/hindi.test.ts` (8) — no missing key either way, every key resolves, every entry
+translated from the current English, identical thresholds, Hindi text shipped only where the round
+trip passed and English everywhere else, neither manifest carrying a denylisted concept, and the
+Hindi denylist applying to Hindi rather than the Assamese one. `tests/e2e/hindi.spec.ts` (2) — the
+switch offers three languages, a Hindi profile sets `<html lang="hi">` and renders Hindi on Home,
+and an activity's question is Hindi with no English word in it.
