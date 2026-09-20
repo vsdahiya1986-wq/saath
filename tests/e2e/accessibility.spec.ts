@@ -42,6 +42,10 @@ test('B7: an Assamese profile stays Assamese across Home → Play → every game
 const PERSON_PAGES = ['/', '/play', '/today', '/help', ...GAMES.map((g) => `/play/${g}`)];
 
 test('F12: every button and link on person-facing screens is at least 64 × 64', async ({ page }) => {
+  // ~19s on a quiet machine — every person-facing page, each waited to settle.
+  // It was tripping the 30s default only inside a full sequential run, where it
+  // reported as a failure of this assertion rather than of the clock.
+  test.setTimeout(120_000);
   await setUpProfile(page, 'en');
   const small: string[] = [];
   for (const path of PERSON_PAGES) {

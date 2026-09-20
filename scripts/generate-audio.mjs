@@ -316,6 +316,40 @@ const STRINGS = {
   'privacy.delete_confirm': 'Tap again to remove everything',
   'privacy.deleted': 'Everything has been removed from this phone.',
   'privacy.dpdp': "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification.",
+
+  // Fix pack 11 (Tier 2/3): the mood tap on the completion screen, and the
+  // caregiver's observational counts. Numbers are rendered as digits beside a
+  // keyed phrase, the way today/page.tsx already does it — no number is ever
+  // interpolated into a translated sentence.
+  'mood.question': 'How do you feel now?',
+  'mood.good': 'Good',
+  'mood.ok': 'All right',
+  'mood.low': 'Not good',
+
+  'strip.usual': 'This week is about the same as usual for this person.',
+  'strip.fewer': 'Fewer activities this week than usual for this person.',
+  'strip.more': 'More activities this week than usual for this person.',
+  'strip.quiet': 'No activity for three days or more.',
+  'strip.early': 'The first days are still being collected.',
+  'strip.reminders_down': 'Fewer reminders were marked done this week than usual.',
+
+  'trend.title': 'The last 30 days',
+  'trend.days_joined': 'of the last 7 days had an activity',
+  'trend.days_before': 'in the 7 days before that',
+  'trend.sessions': 'activities in 30 days',
+  'trend.unaided': 'activities finished with no help this week',
+  'trend.unaided_before': 'in the week before',
+  'trend.reminders': 'of the reminders this week were marked done',
+  'trend.too_little': 'There is not enough here yet to show a pattern. It fills in as the days go by.',
+  'trend.each_bar': 'Each bar shows one day.',
+  'trend.observational': 'These are counts of what happened. They are not a health measure.',
+  'trend.mood_said': 'How this person said they felt after an activity',
+
+  'day.title': 'How today went',
+  'day.activities': 'activities today',
+  'day.no_help': 'of them finished with no help',
+  'day.reminders': 'of the reminders for today are marked done',
+  'day.nothing': 'Nothing has been recorded today yet.',
 };
 
 async function tts(text, lang) {

@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Activity, CueType, Difficulty, Person } from './db';
+import type { Activity, CueType, Difficulty, Mood, Person } from './db';
 import { decide, Decision } from './model';
 import { lastDifficulty, useActivityTrial, TrialOutcome } from './activityHelpers';
 import { queueAutoCue } from './audio';
@@ -30,7 +30,7 @@ export function useCstSession({
   onStart: (d: Decision | null, isCancelled: () => boolean) => Promise<void> | void;
 }) {
   const router = useRouter();
-  const { logTrial } = useActivityTrial(person.id, activity, version);
+  const { logTrial, logMood } = useActivityTrial(person.id, activity, version);
 
   const [phase, setPhaseState] = useState<Phase>('loading');
   const [decision, setDecision] = useState<Decision | null>(null);
@@ -168,9 +168,22 @@ export function useCstSession({
     setPhase(phaseRef.current === 'paused' ? 'playing' : 'paused');
   }, [setPhase]);
 
+  const [mood, setMoodState] = useState<Mood | null>(null);
+
+  /** Optional, after the fact, and never a gate on anything (fix pack 11). */
+  const setMood = useCallback(
+    (m: Mood) => {
+      setMoodState(m);
+      logMood(m);
+    },
+    [logMood]
+  );
+
   return {
     phase,
     decision,
+    mood,
+    setMood,
     difficulty,
     outcome,
     nextPreview,

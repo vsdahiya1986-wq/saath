@@ -11,6 +11,7 @@ import ExitBar from '@/components/ui/ExitBar';
 import AdaptiveBadge from '@/components/ui/AdaptiveBadge';
 import StatusBadge from '@/components/ui/StatusBadge';
 import SessionOutcomeNote from '@/components/ui/SessionOutcomeNote';
+import MoodCheck from './MoodCheck';
 
 /** Shared activity screen (SIH26003 a, b, h): header, progress, spoken prompt, Help, and the always-present Pause/Skip/Stop bar. */
 export default function GameFrame({
@@ -122,6 +123,7 @@ export default function GameFrame({
                 <SessionOutcomeNote preview={session.nextPreview} playedDifficulty={session.difficulty} playedCue={session.cueUsed} lang={lang} />
               </div>
             )}
+            <MoodCheck lang={lang} mood={session.mood} onPick={session.setMood} />
             <div className="flex flex-wrap gap-3 justify-center">
               <button onClick={onRestart} className="btn btn-primary btn-xl">
                 <Icon name="refresh" size={26} strokeWidth={2.4} /> {t('game.play_again', lang)}

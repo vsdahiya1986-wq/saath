@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T07:15:16.018Z",
+  "generated_at": "2026-09-20T08:29:18.884Z",
   "engine_a": "Bhashini translation en→as",
   "engine_b": "Bhashini translation as→en",
   "thresholds": {
@@ -2694,6 +2694,266 @@
       "back": "India's Digital Personal Data Protection Act, 2023 states that personal data is kept securely, and only for as long as is necessary. This page talks about what the app does. This is not a certification requirement.",
       "sim": 0.95,
       "lexical": 0.76,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "mood.question": {
+      "en": "How do you feel now?",
+      "as": "আপুনি এতিয়া কেনে অনুভৱ কৰে?",
+      "back": "How do you feel now?",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "mood.good": {
+      "en": "Good",
+      "as": "ভাল হৈছে",
+      "back": "It's good",
+      "sim": 0.67,
+      "lexical": 1,
+      "deny": null,
+      "long": true,
+      "verdict": "PASS"
+    },
+    "mood.ok": {
+      "en": "All right",
+      "as": "ঠিক আছে",
+      "back": "All right",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "mood.low": {
+      "en": "Not good",
+      "as": "ভাল নহয়",
+      "back": "it's not good",
+      "sim": 0.75,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.usual": {
+      "en": "This week is about the same as usual for this person.",
+      "as": "এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহটো প্ৰায় স্বাভাৱিকৰ দৰেই একে।",
+      "back": "For this person, this week is almost the same as usual.",
+      "sim": 0.95,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.fewer": {
+      "en": "Fewer activities this week than usual for this person.",
+      "as": "এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহত স্বাভাৱিকতকৈ কম কাৰ্যকলাপ।",
+      "back": "Less activity than usual this week for this person.",
+      "sim": 0.9,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.more": {
+      "en": "More activities this week than usual for this person.",
+      "as": "এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহত স্বাভাৱিকতকৈ অধিক কাৰ্যকলাপ।",
+      "back": "This week is more activity than usual for this person.",
+      "sim": 0.92,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.quiet": {
+      "en": "No activity for three days or more.",
+      "as": "তিনি দিন বা তাতকৈ অধিক সময় ধৰি কোনো কাৰ্যকলাপ নহয়।",
+      "back": "No activity for three days or more.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.early": {
+      "en": "The first days are still being collected.",
+      "as": "প্ৰথম দিনবোৰ এতিয়াও সংগ্ৰহ কৰা হৈছে।",
+      "back": "The first days are still being collected.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "strip.reminders_down": {
+      "en": "Fewer reminders were marked done this week than usual.",
+      "as": "এই সপ্তাহত স্বাভাৱিকতকৈ কম ৰিমাইণ্ডাৰ চিহ্নিত কৰা হৈছিল।",
+      "back": "This week marked fewer reminders than usual.",
+      "sim": 0.94,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.title": {
+      "en": "The last 30 days",
+      "as": "শেষৰ 30 দিন",
+      "back": "The last 30 days",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.days_joined": {
+      "en": "of the last 7 days had an activity",
+      "as": "যোৱা 7 দিনৰ ভিতৰত এটা কাৰ্য্যকলাপ আছিল",
+      "back": "There was an activity within the last 7 days",
+      "sim": 0.95,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.days_before": {
+      "en": "in the 7 days before that",
+      "as": "তাৰ আগৰ 7 দিনত",
+      "back": "In the last 7 days",
+      "sim": 0.76,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.sessions": {
+      "en": "activities in 30 days",
+      "as": "30 দিনৰ ভিতৰত কাৰ্যকলাপ",
+      "back": "Activities within 30 days",
+      "sim": 0.96,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.unaided": {
+      "en": "activities finished with no help this week",
+      "as": "এই সপ্তাহত কোনো সহায় নোহোৱাকৈ সমাপ্ত হোৱা কাৰ্যকলাপসমূহ",
+      "back": "Activities that ended with no help this week",
+      "sim": 0.91,
+      "lexical": 0.83,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.unaided_before": {
+      "en": "in the week before",
+      "as": "আগৰ সপ্তাহত",
+      "back": "in the previous week",
+      "sim": 0.87,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.reminders": {
+      "en": "of the reminders this week were marked done",
+      "as": "এই সপ্তাহত চিহ্নিত কৰা ৰিমাইণ্ডাৰসমূহ সম্পূৰ্ণ কৰা হৈছিল",
+      "back": "The reminders marked this week were completed",
+      "sim": 0.94,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.too_little": {
+      "en": "There is not enough here yet to show a pattern. It fills in as the days go by.",
+      "as": "ইয়াত এটা আৰ্হি দেখুৱাবলৈ এতিয়াও যথেষ্ট নাই। দিন যোৱাৰ লগে লগে ই ভৰি পৰে।",
+      "back": "It does not yet have enough to show a model. It fills up as the day progresses.",
+      "sim": 0.47,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.each_bar": {
+      "en": "Each bar shows one day.",
+      "as": "প্ৰতিটো বাৰে এদিন প্ৰদৰ্শন কৰে।",
+      "back": "Each bar performs one day.",
+      "sim": 0.88,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.observational": {
+      "en": "These are counts of what happened. They are not a health measure.",
+      "as": "এইবোৰ হৈছে কি ঘটিছিল তাৰ গণনা। এইবোৰ স্বাস্থ্যৰ মাপকাঠি নহয়।",
+      "back": "These are calculations of what happened. These are not measures of health.",
+      "sim": 0.85,
+      "lexical": 0.63,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "trend.mood_said": {
+      "en": "How this person said they felt after an activity",
+      "as": "এই ব্যক্তিয়ে কেনেদৰে কৈছিল যে তেওঁলোকে এটা কাৰ্য্যকলাপৰ পিছত অনুভৱ কৰিছিল",
+      "back": "How this person said they felt after an activity",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.title": {
+      "en": "How today went",
+      "as": "আজি কেনেকুৱা আছিল",
+      "back": "how was today",
+      "sim": 0.88,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.activities": {
+      "en": "activities today",
+      "as": "আজিৰ কাৰ্যকলাপসমূহ",
+      "back": "today's activities",
+      "sim": 0.94,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.no_help": {
+      "en": "of them finished with no help",
+      "as": "তেওঁলোকৰ কোনো সহায় নোহোৱাকৈ সমাপ্ত হৈছিল",
+      "back": "They ended up with no help",
+      "sim": 0.73,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.reminders": {
+      "en": "of the reminders for today are marked done",
+      "as": "আজিৰ বাবে ৰিমাইণ্ডাৰবোৰ চিহ্নিত কৰা হৈছে",
+      "back": "Marked reminders for today",
+      "sim": 0.9,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "day.nothing": {
+      "en": "Nothing has been recorded today yet.",
+      "as": "আজিও একো নথিভুক্ত কৰা হোৱা নাই।",
+      "back": "Nothing has been recorded to date.",
+      "sim": 0.82,
+      "lexical": 0.67,
       "deny": null,
       "long": false,
       "verdict": "PASS"

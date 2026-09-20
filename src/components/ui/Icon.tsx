@@ -47,6 +47,9 @@ export type IconName =
   | 'leaf'
   | 'snow'
   | 'heart'
+  | 'face_good'
+  | 'face_ok'
+  | 'face_low'
   | 'music'
   | 'sparkle'
   | 'arrow'
@@ -437,6 +440,30 @@ const PATHS: Record<IconName, ReactElement> = {
   snow: <path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 6.5l2.5-2M9.5 19.5 12 17.5l2.5 2" strokeLinecap="round" strokeLinejoin="round" />,
   heart: (
     <path d="M12 20s-7-4.4-9-9.2C1.8 7.4 4 4.5 7 4.5c2 0 3.3 1.1 5 3 1.7-1.9 3-3 5-3 3 0 5.2 2.9 4 6.3C19 15.6 12 20 12 20z" strokeLinejoin="round" />
+  ),
+  // Fix pack 11: the three faces of the optional mood tap. Deliberately plain
+  // circles — the mouth is the only thing that differs, so the three read
+  // apart at arm's length without colour.
+  face_good: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.4 14.2c.9 1.4 2.1 2.1 3.6 2.1s2.7-.7 3.6-2.1" strokeLinecap="round" />
+      <path d="M9 9.6v.01M15 9.6v.01" strokeLinecap="round" strokeWidth={2.6} />
+    </>
+  ),
+  face_ok: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.6 15h6.8" strokeLinecap="round" />
+      <path d="M9 9.6v.01M15 9.6v.01" strokeLinecap="round" strokeWidth={2.6} />
+    </>
+  ),
+  face_low: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M8.4 16.1c.9-1.4 2.1-2.1 3.6-2.1s2.7.7 3.6 2.1" strokeLinecap="round" />
+      <path d="M9 9.6v.01M15 9.6v.01" strokeLinecap="round" strokeWidth={2.6} />
+    </>
   ),
   music: (
     <>

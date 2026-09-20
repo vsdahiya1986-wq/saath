@@ -88,6 +88,8 @@ export interface ContentPack {
   permitted_uses: ('play' | 'help' | 'together')[];
 }
 
+export type Mood = 'good' | 'ok' | 'low';
+
 export interface TrialEvent {
   id: string;
   person_id: string;
@@ -103,6 +105,13 @@ export interface TrialEvent {
   policy_mode: 'baseline' | 'learned';
   model_version: string;
   synthetic: boolean;
+  /**
+   * The optional face the person tapped after the activity (fix pack 11). Not
+   * indexed, so no Dexie version bump: an old row simply has none. Never
+   * required, never blocks, and never feeds the engine — `model.ts` reads
+   * outcomes only.
+   */
+  mood?: Mood;
   created_at: string;
   synced_at?: string;
 }

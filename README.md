@@ -44,6 +44,26 @@ being one.
 Every activity is **errorless**: a first wrong tap gives a gentle hint, a second reveals the answer
 and moves on. There is never a third attempt, and nothing is scored.
 
+## What the caregiver sees
+
+Circle is the family's side of the app. It opens with **one observational line** — "Fewer activities
+this week than usual for this person", "No activity for three days or more" — chosen from a fixed
+set of translated sentences, never assembled from parts, and always comparing this person with
+their own previous week rather than with a population norm.
+
+Below it: thirty days of taking part as one bar per day, days joined this week against the week
+before, sessions finished with no help, how many of the week's reminders were answered, and a
+"How today went" line built from the day's own rows. Where there is too little history, the card
+says so instead of drawing a line through two points.
+
+After any activity the person may tap one of three faces — good, all right, not good. It is
+optional, it appears only on the completion screen so it can never block starting or finishing,
+walking away is how it is skipped, and it never reaches the adaptive engine. The counts appear in
+Circle beside everything else.
+
+Every number on these screens is a count of something that happened. There is no score, no grade
+and no interpretation — see **Deliberately not built**.
+
 ## Offline first, not offline capable
 
 `next build` produces a static export (`output: "export"`) that is served from a service worker and

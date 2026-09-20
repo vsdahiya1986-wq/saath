@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef } from 'react';
 import { v4 as uuid } from 'uuid';
-import { db, Activity, CueType, Difficulty } from './db';
+import { db, Activity, CueType, Difficulty, Mood } from './db';
 
 /** The difficulty this person was last run at for this activity, or 1 if none yet. */
 export async function lastDifficulty(personId: string, activity: Activity): Promise<Difficulty> {
@@ -57,5 +57,17 @@ export function useActivityTrial(personId: string, activity: Activity, activityV
     [personId, activity, activityVersion]
   );
 
-  return { logTrial, logged };
+  /**
+   * The mood tap lands after the trial row is written, so it updates that row
+   * rather than making a second one. A no-op if nothing has been logged yet.
+   */
+  const logMood = useCallback(
+    async (mood: Mood) => {
+      if (!logged.current) return;
+      await db.trials.update(trialId.current, { mood });
+    },
+    []
+  );
+
+  return { logTrial, logMood, logged };
 }

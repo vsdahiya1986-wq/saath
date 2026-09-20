@@ -19,7 +19,8 @@ async function sampleInCircle(page: Page) {
   await page.getByLabel('PIN', { exact: true }).fill('1234');
   await page.getByLabel('Confirm PIN').fill('1234');
   await page.getByRole('button', { name: 'Set PIN' }).click();
-  await expect(page.getByTestId('circle-summary')).toContainText('Aita (sample)');
+  // The hub paints before the active person resolves; this is a load, not a poll of nothing.
+  await expect(page.getByTestId('circle-summary')).toContainText('Aita (sample)', { timeout: 15_000 });
 }
 
 test('Why these activities explains all seven and refuses to be a test', async ({ page }) => {

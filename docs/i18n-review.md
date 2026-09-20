@@ -1,12 +1,12 @@
 # Assamese translation review
 
-Generated 2026-09-20T07:15:16.018Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
+Generated 2026-09-20T08:29:18.884Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
 
 - Engine A: Bhashini translation en→as. Engine B: Bhashini translation as→en. IndicTrans2 is the intended engine B but its models are gated; see the script header.
 - FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < 0.75) and words (overlap < 0.5).
 - A FAIL shows its English on screen and has no Assamese audio. LONG = more than 1.8× the English length (may clip).
 
-**266/269 verified (99%). 3 fall back to English.**
+**292/295 verified (99%). 3 fall back to English.**
 
 ## Needs human review (3)
 
@@ -25,7 +25,7 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 | `opt.bucket.around_house` | 08 item 6: was "সাজু হৈ গৈ আছে" (reads as "getting ready"); English source changed to "Elsewhere in the house". | ঘৰৰ আন ঠাইত | PASS |
 | `q.sort_home.where` | 08 item 6: was "এইটো ক'ত আছে?" ("where is this?") for "where does this belong?"; English source changed to "Where should this go?". | এইটো ক'লৈ যাব লাগে? | PASS |
 
-## Passed but long — check for clipping (8)
+## Passed but long — check for clipping (9)
 
 | key | English | Assamese | round-trip English | similarity | word overlap | verdict |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -37,6 +37,7 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 | `remind.done` | Done | সম্পন্ন কৰা হৈছে | Done | 1 | 1 | PASS · LONG |
 | `reminder.none` | No reminders set yet | এতিয়ালৈকে কোনো ৰিমাইণ্ডাৰ কৰা হোৱা নাই | No reminders yet | 0.88 | 0.75 | PASS · LONG |
 | `reminder.now` | Now | এতিয়া | NOW | 1 | 1 | PASS · LONG |
+| `mood.good` | Good | ভাল হৈছে | It's good | 0.67 | 1 | PASS · LONG |
 
 ## Every key
 
@@ -311,3 +312,29 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 | `privacy.delete_confirm` | Tap again to remove everything | সকলো আঁতৰাবলৈ পুনৰ টেপ কৰক | Tap again to remove everything | 1 | 1 | PASS |
 | `privacy.deleted` | Everything has been removed from this phone. | এই ফোনটোৰ পৰা সকলো আঁতৰাই পেলোৱা হৈছে। | Everything has been removed from this phone. | 1 | 1 | PASS |
 | `privacy.dpdp` | India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification. | ভাৰতৰ ডিজিটেল ব্যক্তিগত তথ্য সুৰক্ষা আইন, 2023-ত কোৱা হৈছে যে ব্যক্তিগত তথ্য সুৰক্ষিতভাৱে ৰখা হয়, আৰু কেৱল প্ৰয়োজনৰ সময়লৈকেহে ৰখা হয়। এই পৃষ্ঠাটোৱে এপটোৱে কি কৰে সেই বিষয়ে কয়। এয়া প্ৰমাণপত্ৰৰ দাবী নহয়। | India's Digital Personal Data Protection Act, 2023 states that personal data is kept securely, and only for as long as is necessary. This page talks about what the app does. This is not a certification requirement. | 0.95 | 0.76 | PASS |
+| `mood.question` | How do you feel now? | আপুনি এতিয়া কেনে অনুভৱ কৰে? | How do you feel now? | 1 | 1 | PASS |
+| `mood.good` | Good | ভাল হৈছে | It's good | 0.67 | 1 | PASS · LONG |
+| `mood.ok` | All right | ঠিক আছে | All right | 1 | 1 | PASS |
+| `mood.low` | Not good | ভাল নহয় | it's not good | 0.75 | 1 | PASS |
+| `strip.usual` | This week is about the same as usual for this person. | এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহটো প্ৰায় স্বাভাৱিকৰ দৰেই একে। | For this person, this week is almost the same as usual. | 0.95 | 0.83 | PASS |
+| `strip.fewer` | Fewer activities this week than usual for this person. | এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহত স্বাভাৱিকতকৈ কম কাৰ্যকলাপ। | Less activity than usual this week for this person. | 0.9 | 0.67 | PASS |
+| `strip.more` | More activities this week than usual for this person. | এই ব্যক্তিগৰাকীৰ বাবে এই সপ্তাহত স্বাভাৱিকতকৈ অধিক কাৰ্যকলাপ। | This week is more activity than usual for this person. | 0.92 | 0.83 | PASS |
+| `strip.quiet` | No activity for three days or more. | তিনি দিন বা তাতকৈ অধিক সময় ধৰি কোনো কাৰ্যকলাপ নহয়। | No activity for three days or more. | 1 | 1 | PASS |
+| `strip.early` | The first days are still being collected. | প্ৰথম দিনবোৰ এতিয়াও সংগ্ৰহ কৰা হৈছে। | The first days are still being collected. | 1 | 1 | PASS |
+| `strip.reminders_down` | Fewer reminders were marked done this week than usual. | এই সপ্তাহত স্বাভাৱিকতকৈ কম ৰিমাইণ্ডাৰ চিহ্নিত কৰা হৈছিল। | This week marked fewer reminders than usual. | 0.94 | 0.75 | PASS |
+| `trend.title` | The last 30 days | শেষৰ 30 দিন | The last 30 days | 1 | 1 | PASS |
+| `trend.days_joined` | of the last 7 days had an activity | যোৱা 7 দিনৰ ভিতৰত এটা কাৰ্য্যকলাপ আছিল | There was an activity within the last 7 days | 0.95 | 0.75 | PASS |
+| `trend.days_before` | in the 7 days before that | তাৰ আগৰ 7 দিনত | In the last 7 days | 0.76 | 0.5 | PASS |
+| `trend.sessions` | activities in 30 days | 30 দিনৰ ভিতৰত কাৰ্যকলাপ | Activities within 30 days | 0.96 | 1 | PASS |
+| `trend.unaided` | activities finished with no help this week | এই সপ্তাহত কোনো সহায় নোহোৱাকৈ সমাপ্ত হোৱা কাৰ্যকলাপসমূহ | Activities that ended with no help this week | 0.91 | 0.83 | PASS |
+| `trend.unaided_before` | in the week before | আগৰ সপ্তাহত | in the previous week | 0.87 | 0.5 | PASS |
+| `trend.reminders` | of the reminders this week were marked done | এই সপ্তাহত চিহ্নিত কৰা ৰিমাইণ্ডাৰসমূহ সম্পূৰ্ণ কৰা হৈছিল | The reminders marked this week were completed | 0.94 | 0.8 | PASS |
+| `trend.too_little` | There is not enough here yet to show a pattern. It fills in as the days go by. | ইয়াত এটা আৰ্হি দেখুৱাবলৈ এতিয়াও যথেষ্ট নাই। দিন যোৱাৰ লগে লগে ই ভৰি পৰে। | It does not yet have enough to show a model. It fills up as the day progresses. | 0.47 | 0.6 | PASS |
+| `trend.each_bar` | Each bar shows one day. | প্ৰতিটো বাৰে এদিন প্ৰদৰ্শন কৰে। | Each bar performs one day. | 0.88 | 0.8 | PASS |
+| `trend.observational` | These are counts of what happened. They are not a health measure. | এইবোৰ হৈছে কি ঘটিছিল তাৰ গণনা। এইবোৰ স্বাস্থ্যৰ মাপকাঠি নহয়। | These are calculations of what happened. These are not measures of health. | 0.85 | 0.63 | PASS |
+| `trend.mood_said` | How this person said they felt after an activity | এই ব্যক্তিয়ে কেনেদৰে কৈছিল যে তেওঁলোকে এটা কাৰ্য্যকলাপৰ পিছত অনুভৱ কৰিছিল | How this person said they felt after an activity | 1 | 1 | PASS |
+| `day.title` | How today went | আজি কেনেকুৱা আছিল | how was today | 0.88 | 0.67 | PASS |
+| `day.activities` | activities today | আজিৰ কাৰ্যকলাপসমূহ | today's activities | 0.94 | 1 | PASS |
+| `day.no_help` | of them finished with no help | তেওঁলোকৰ কোনো সহায় নোহোৱাকৈ সমাপ্ত হৈছিল | They ended up with no help | 0.73 | 0.6 | PASS |
+| `day.reminders` | of the reminders for today are marked done | আজিৰ বাবে ৰিমাইণ্ডাৰবোৰ চিহ্নিত কৰা হৈছে | Marked reminders for today | 0.9 | 0.75 | PASS |
+| `day.nothing` | Nothing has been recorded today yet. | আজিও একো নথিভুক্ত কৰা হোৱা নাই। | Nothing has been recorded to date. | 0.82 | 0.67 | PASS |

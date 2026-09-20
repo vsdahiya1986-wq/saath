@@ -7,6 +7,7 @@ import Icon, { IconName } from '@/components/ui/Icon';
 import NoSignalMode from '@/components/circle/NoSignalMode';
 import SampleDataCard from '@/components/circle/SampleDataCard';
 import NudgeList from '@/components/circle/NudgeList';
+import ParticipationCard, { StatusStrip } from '@/components/circle/Participation';
 import CareNoteCard from '@/components/circle/CareNoteCard';
 import TextSizeControl from '@/components/ui/TextSizeControl';
 import { getActivePersonId } from '@/lib/usePerson';
@@ -100,6 +101,8 @@ export default function CircleHome() {
 
       <div className="flex-1 min-h-0 overflow-y-auto w-full max-w-5xl mx-auto px-5 pb-4">
         <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: 'minmax(180px, auto)' }}>
+          {/* Tier 2.2: the one observational line, above everything else. */}
+          <StatusStrip personId={personId} />
           <NudgeList personId={personId} />
 
           <div className="core col-span-2 p-5 flex flex-wrap items-center gap-x-8 gap-y-3" style={{ borderTop: '6px solid var(--accent)' }} data-testid="circle-summary">
@@ -136,6 +139,9 @@ export default function CircleHome() {
               <Icon name="people" size={22} /> Switch person
             </Link>
           </div>
+
+          {/* Tier 2.1 + Tier 3: thirty days of taking part, and how today went. */}
+          <ParticipationCard personId={personId} />
 
           <SampleDataCard onChange={() => location.reload()} />
 

@@ -1074,5 +1074,109 @@
   "privacy.dpdp": {
     "file": null,
     "text": "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification."
+  },
+  "mood.question": {
+    "file": "mood_question.wav",
+    "text": "How do you feel now?"
+  },
+  "mood.good": {
+    "file": "mood_good.wav",
+    "text": "Good"
+  },
+  "mood.ok": {
+    "file": "mood_ok.wav",
+    "text": "All right"
+  },
+  "mood.low": {
+    "file": "mood_low.wav",
+    "text": "Not good"
+  },
+  "strip.usual": {
+    "file": null,
+    "text": "This week is about the same as usual for this person."
+  },
+  "strip.fewer": {
+    "file": null,
+    "text": "Fewer activities this week than usual for this person."
+  },
+  "strip.more": {
+    "file": null,
+    "text": "More activities this week than usual for this person."
+  },
+  "strip.quiet": {
+    "file": null,
+    "text": "No activity for three days or more."
+  },
+  "strip.early": {
+    "file": null,
+    "text": "The first days are still being collected."
+  },
+  "strip.reminders_down": {
+    "file": null,
+    "text": "Fewer reminders were marked done this week than usual."
+  },
+  "trend.title": {
+    "file": null,
+    "text": "The last 30 days"
+  },
+  "trend.days_joined": {
+    "file": null,
+    "text": "of the last 7 days had an activity"
+  },
+  "trend.days_before": {
+    "file": null,
+    "text": "in the 7 days before that"
+  },
+  "trend.sessions": {
+    "file": null,
+    "text": "activities in 30 days"
+  },
+  "trend.unaided": {
+    "file": null,
+    "text": "activities finished with no help this week"
+  },
+  "trend.unaided_before": {
+    "file": null,
+    "text": "in the week before"
+  },
+  "trend.reminders": {
+    "file": null,
+    "text": "of the reminders this week were marked done"
+  },
+  "trend.too_little": {
+    "file": null,
+    "text": "There is not enough here yet to show a pattern. It fills in as the days go by."
+  },
+  "trend.each_bar": {
+    "file": null,
+    "text": "Each bar shows one day."
+  },
+  "trend.observational": {
+    "file": null,
+    "text": "These are counts of what happened. They are not a health measure."
+  },
+  "trend.mood_said": {
+    "file": null,
+    "text": "How this person said they felt after an activity"
+  },
+  "day.title": {
+    "file": null,
+    "text": "How today went"
+  },
+  "day.activities": {
+    "file": null,
+    "text": "activities today"
+  },
+  "day.no_help": {
+    "file": null,
+    "text": "of them finished with no help"
+  },
+  "day.reminders": {
+    "file": null,
+    "text": "of the reminders for today are marked done"
+  },
+  "day.nothing": {
+    "file": null,
+    "text": "Nothing has been recorded today yet."
   }
 }
