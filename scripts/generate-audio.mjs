@@ -28,6 +28,7 @@
 // bundle, so it does not import TypeScript.
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { isTextOnly } from './lib/textOnly.mjs';
 
 const API_KEY = process.env.BHASHINI_API_KEY;
 
@@ -266,6 +267,55 @@ const STRINGS = {
   'today.nothing_yet': "No games played yet today.",
   'home.circle.one': "person who cares for you",
   'home.circle.many': "people who care for you",
+
+  // Fix pack 10 (Tier 1): the two caregiver screens that say out loud what the
+  // app already does — what each activity is for, and what is kept on the
+  // phone. Plain literal English only: an idiom is what produced the
+  // "armed/weapon" round-trip failure in 07.
+  'why.title': 'Why these activities',
+  'why.intro': 'Each activity works on one kind of thinking. This page says what each one is for.',
+  'why.works_on': 'What it works on',
+  'why.similar_to': 'What it is similar to',
+  'why.not_a_test': 'SAATH is a tool for daily activities. It is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test.',
+  'why.ask_doctor': 'For any question about health, please speak to a doctor or a health worker.',
+
+  'why.familiar_pairs.works_on': 'Knowing the time of day, the day and the season',
+  'why.familiar_pairs.similar_to': 'The orientation questions used in common memory checks',
+  'why.familiar_pairs.reason': 'Talking about today keeps a person joined to the present day.',
+  'why.sound_sight.works_on': 'Understanding a spoken word and matching it to a picture',
+  'why.sound_sight.similar_to': 'Naming and listening tasks',
+  'why.sound_sight.reason': 'Matching a spoken word to its picture keeps words and objects connected.',
+  'why.pattern_garden.works_on': 'Planning, and putting things into groups',
+  'why.pattern_garden.similar_to': 'Sorting tasks that group objects by type',
+  'why.pattern_garden.reason': 'Sorting household things uses the same thinking as ordinary housework.',
+  'why.my_next_step.works_on': 'Putting the steps of a task in the right order',
+  'why.my_next_step.similar_to': 'Ordering and sequencing tasks',
+  'why.my_next_step.reason': 'A daily routine is easier when the order of its steps stays familiar.',
+  'why.saah_pat.works_on': 'Looking carefully, and staying with one task',
+  'why.saah_pat.similar_to': 'Search tasks where one shape must be found among many',
+  'why.saah_pat.reason': 'Looking for tea shoots is work many people here have done all their lives.',
+  'why.apon_mukh.works_on': 'Knowing faces, and remembering people',
+  'why.apon_mukh.similar_to': 'Tasks that join a face to a name',
+  'why.apon_mukh.reason': 'Family photographs bring back memories that a drawing cannot.',
+  'why.together.works_on': 'Talking with family about earlier days',
+  'why.together.similar_to': 'Reminiscence work used in group care',
+  'why.together.reason': 'Talking about earlier days together is calming, and needs no right answer.',
+
+  'privacy.title': 'What we keep, and where',
+  'privacy.on_device': 'Everything stays on this phone. The app works with no internet.',
+  'privacy.stored_title': 'What is kept on this phone',
+  'privacy.stored_list': 'The name and age of the person, family photographs and voice notes, reminders, care notes, and a record of each activity.',
+  'privacy.locked_title': 'What is locked',
+  'privacy.locked': 'The name, the care plan text, the care notes, the photographs and the voice notes are locked with AES-256-GCM encryption while they sit on this phone. The key is made on this phone and kept in the phone secure store.',
+  'privacy.leaves_title': 'What leaves this phone',
+  'privacy.leaves': 'Nothing leaves this phone unless a family member turns on syncing.',
+  'privacy.sync_on': 'When syncing is on, only the record of the activities is sent: which activity, when, and how it went. Photographs, voice notes, names and care notes are never sent.',
+  'privacy.delete_title': 'How to remove everything',
+  'privacy.delete_how': 'The button below removes every person on this phone, with their photographs, voice notes, reminders, notes and activity records.',
+  'privacy.delete_button': 'Remove everything from this phone',
+  'privacy.delete_confirm': 'Tap again to remove everything',
+  'privacy.deleted': 'Everything has been removed from this phone.',
+  'privacy.dpdp': "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification.",
 };
 
 async function tts(text, lang) {
@@ -313,6 +363,12 @@ async function main() {
           continue;
         }
         text = r.as;
+      }
+
+      // Read on screen, never spoken (see scripts/lib/textOnly.mjs).
+      if (isTextOnly(key)) {
+        manifest[key] = { file: null, text };
+        continue;
       }
 
       // Same text as last run and the recording is still there: reuse it.

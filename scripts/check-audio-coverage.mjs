@@ -13,6 +13,7 @@
 //                 against a previous version of the string list
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { isTextOnly } from './lib/textOnly.mjs';
 
 const STRINGS_PATH = path.join('src', 'content', 'strings.ts');
 const LANG_DIR = path.join('public', 'content', 'lang');
@@ -64,7 +65,8 @@ async function main() {
       continue;
     }
 
-    const missing = keys.filter((k) => !manifest[k] || !manifest[k].file);
+    // Text-only keys are read, never spoken — a null `file` is correct for them.
+    const missing = keys.filter((k) => !isTextOnly(k) && (!manifest[k] || !manifest[k].file));
     const stale = manifestStat.mtimeMs < stringsStat.mtimeMs;
 
     if (missing.length > 0) {

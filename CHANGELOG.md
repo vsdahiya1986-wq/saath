@@ -540,3 +540,62 @@ Gates: lint · tsc · **194** unit · **53** Playwright · verify-translations �
 ### Roadmap (not started)
 
 All seven phases are done. The owner-only steps above remain, then Bol · Speak and Circle Message (F14/F15).
+
+## Fix pack 09 — one guarded route from a pack to a picture (2026-09-20)
+
+The two open P0s were one bug. Every activity resolved a pack photo by hand —
+`getBlob(media.photo ?? media.place_photo)` then `URL.createObjectURL` — in four separate places
+(Hear & Find, Dear Faces, Together Moment, Help), and none checked what came back.
+
+**Bug 2 — an audio blob rendered as a photo.** A voice note stored under a pack's photo key went
+straight to an `<img src>`; the browser drew `audio/webm` bytes as the garbled QR-like card seen in
+Hear & Find.
+
+**Bug 1 — the false "your family's photos" claim.** `fromFamily` is `!!photoUrl`, so that same audio
+blob counted as a family picture, and a round on a profile whose packs hold no picture announced
+"Some of these are your family's own photos." Bug 1 was a symptom of bug 2, not a second defect.
+
+`db.getImageBlob()` refuses any key whose stored mime is not `image/*`, checked before decryption.
+`familyContent.packPhotoUrl()` is now the only route from a pack to an `<img>` and all four call
+sites go through it: nothing resolves, so the item falls back to its regional drawing and is not
+counted as family content. `usablePacks()` already dropped approved-but-empty packs; unchanged.
+
+Tests: `tests/familyContent.test.ts` (a round built only from packs holding no picture counts zero
+family items; a non-image blob and a missing blob both yield no URL) and `tests/e2e/fixpack09.spec.ts`
+(sweeps all seven activity pages, fetches every `blob:` URL that reached an `<img>` and asserts an
+`image/*` mime, with a guard against passing vacuously; a second test poisons a seeded pack's photo
+key with an `audio/webm` blob and checks Hear & Find falls back to the drawing).
+
+## Fix pack 10 — saying out loud what the app already does (2026-09-20)
+
+Three pieces of substance that existed in the code but nowhere a judge or a family member could see.
+
+**Why these activities** (`/circle/why`). Each of the seven activities with what it works on, the
+well-established assessment task it resembles, one plain sentence on why it was chosen, and the CST
+session it already declares in `src/content/activities.ts`. The screen leads with the line that
+SAATH is a supportive activity tool, not a diagnostic instrument, and that resembling an assessment
+is not being one; `tests/e2e/caregiver-screens.spec.ts` asserts the disclaimer is present and that
+the screen contains no conclusion word (`diagnos|declin|worsen|risk|score`).
+
+**What we keep, and where** (`/circle/privacy`). What is stored, what is encrypted (AES-256-GCM,
+key minted on-device into the platform secure store), what leaves the phone (only activity records,
+and only if a family member turned syncing on), and how to erase everything. The delete claim was
+not true when the screen was written — `deletePerson()` existed with no caller — so the screen
+carries the button, two taps like a Care Note, and an e2e test proves the store is actually empty
+afterwards. The DPDP Act 2023 is named once, describing what the app does, with "not a claim of
+certification" in the same string.
+
+**README.** The public repo is what a judge opens first. Added the problem statement, the seven
+activities and what each works on, the offline-first design, the encryption approach, the rejected
+competitor features and why, and — under the translation pipeline — the round trip the gate actually
+caught, reproduced against the live API while writing this: "Not armed on this device" →
+এই ডিভাইচত অস্ত্ৰধাৰ নাই → *"This device does not have a weapon"*, against today's
+"Reminders are not set up on this phone." → এই ফোনত ৰিমাইণ্ডাৰ আপ কৰা নাই। (0.81 / 0.6, PASS).
+
+**Strings.** 42 new keys through the full pipeline: `strings.ts` + the `generate-audio.mjs` key list
+(`tests/content.test.ts` enforces the pair), Bhashini EN→AS, round trip, verified. Six failed the
+first pass and were fixed the way the pipeline intends — by rewriting the English, not by hand-editing
+Assamese: "Works on" → "What it works on", and `why.not_a_test` lost the word "diagnosis", which
+Bhashini renders with ৰোগ (disease), a denylisted concept. All 42 now pass; the 3 English fallbacks
+are the same three as fix pack 08. The new keys are text-only (`scripts/lib/textOnly.mjs`): these two
+screens are read, never spoken, so they carry verified Assamese text and no WAV files.

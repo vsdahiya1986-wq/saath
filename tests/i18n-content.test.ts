@@ -4,6 +4,7 @@ import path from 'node:path';
 import { STRINGS } from '@/content/strings';
 import { CATEGORIES, CategoryId, HOME_OBJECTS, REMINISCENCE_PROMPTS, bucketKey, itemKey, togetherKey } from '@/content/cstContent';
 import { MONTHS, PARTS, SEASONS, WEEKDAYS, optKey } from '@/lib/orientation';
+import { ACTIVITIES } from '@/content/activities';
 
 /**
  * Fix pack A1: activity content was rendered as bare English literals, so an
@@ -72,4 +73,28 @@ describe('play screens render no hard-coded English content', () => {
       expect(FORBIDDEN.filter((phrase) => code.includes(phrase))).toEqual([]);
     });
   }
+});
+
+/**
+ * Fix pack 10: "Why these activities" builds three keys per activity from the
+ * stored activity id. A new activity, or a rename, silently prints the key
+ * itself on screen unless this fails first.
+ */
+describe('the Why screen has a line for every activity', () => {
+  it('works_on, similar_to and reason exist for all seven', () => {
+    const expected = ACTIVITIES.flatMap((a) => ['works_on', 'similar_to', 'reason'].map((part) => `why.${a.activity}.${part}`));
+    expect(expected.filter((k) => !(k in STRINGS))).toEqual([]);
+    expect(expected).toHaveLength(21);
+  });
+
+  it('says on the screen itself that it is not a test', () => {
+    expect(STRINGS['why.not_a_test']).toMatch(/not a medical test/i);
+    expect(STRINGS['why.not_a_test']).toMatch(/no score/i);
+  });
+
+  it('names the DPDP Act without claiming certification', () => {
+    expect(STRINGS['privacy.dpdp']).toContain('Digital Personal Data Protection Act, 2023');
+    expect(STRINGS['privacy.dpdp']).toMatch(/not a claim of certification/i);
+    expect(STRINGS['privacy.dpdp']).not.toMatch(/compliant|certified/i);
+  });
 });

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-19T04:03:31.247Z",
+  "generated_at": "2026-09-20T07:15:16.018Z",
   "engine_a": "Bhashini translation en→as",
   "engine_b": "Bhashini translation as→en",
   "thresholds": {
@@ -2274,6 +2274,426 @@
       "back": "People who care about you",
       "sim": 0.95,
       "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.title": {
+      "en": "Why these activities",
+      "as": "কিয় এই কাৰ্যকলাপবোৰ",
+      "back": "Why these activities",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.intro": {
+      "en": "Each activity works on one kind of thinking. This page says what each one is for.",
+      "as": "প্ৰতিটো কাৰ্যকলাপে এক প্ৰকাৰৰ চিন্তাধাৰাৰ ওপৰত কাম কৰে। এই পৃষ্ঠাত কোৱা হৈছে যে প্ৰতিটো কিৰ বাবে।",
+      "back": "Every activity works on a pattern of thought. This page states what each one is for.",
+      "sim": 0.93,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.works_on": {
+      "en": "What it works on",
+      "as": "ই কি কাম কৰে",
+      "back": "what does it do",
+      "sim": 0.61,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.similar_to": {
+      "en": "What it is similar to",
+      "as": "এইটো কেনেকুৱা সদৃশ",
+      "back": "how similar is this",
+      "sim": 0.71,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.not_a_test": {
+      "en": "SAATH is a tool for daily activities. It is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test.",
+      "as": "সাথ হৈছে দৈনন্দিন কাম-কাজৰ এক সঁজুলি। এয়া কোনো স্বাস্থ্য পৰীক্ষা নহয়। ই কোনো নম্বৰ নিদিয়ে আৰু কোনো ফলাফল নিদিয়ে। স্মৃতি পৰীক্ষাৰ দৰে দেখা এটা কাৰ্য্যকলাপ স্মৃতি পৰীক্ষাৰ দৰে একে নহয়।",
+      "back": "Saath is a tool for daily chores. This is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test.",
+      "sim": 0.98,
+      "lexical": 0.94,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.ask_doctor": {
+      "en": "For any question about health, please speak to a doctor or a health worker.",
+      "as": "স্বাস্থ্য সম্পৰ্কে যিকোনো প্ৰশ্নৰ বাবে, অনুগ্ৰহ কৰি চিকিৎসক বা স্বাস্থ্য কৰ্মীৰ সৈতে কথা পাতক।",
+      "back": "For any health-related questions, please talk to a doctor or health worker.",
+      "sim": 0.9,
+      "lexical": 0.63,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.works_on": {
+      "en": "Knowing the time of day, the day and the season",
+      "as": "দিনটোৰ সময়, দিনটো আৰু ঋতু জানি লোৱা",
+      "back": "Know the time of day, day, and season",
+      "sim": 0.87,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.similar_to": {
+      "en": "The orientation questions used in common memory checks",
+      "as": "সাধাৰণ স্মৃতি পৰীক্ষাসমূহত ব্যৱহৃত অভিমুখীকৰণ প্ৰশ্নসমূহ",
+      "back": "Orientation questions used in general memory tests",
+      "sim": 0.86,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.familiar_pairs.reason": {
+      "en": "Talking about today keeps a person joined to the present day.",
+      "as": "আজিৰ বিষয়ে ক'বলৈ গ\" লে এজন ব্যক্তিয়ে বৰ্তমানলৈকে জড়িত হৈ থাকে।",
+      "back": "Talking about today, a person is involved in the present.",
+      "sim": 0.63,
+      "lexical": 0.63,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.works_on": {
+      "en": "Understanding a spoken word and matching it to a picture",
+      "as": "এটা কথিত শব্দ বুজি পোৱা আৰু ইয়াক এখন ছবিৰ সৈতে মিলোৱা",
+      "back": "Understand a spoken word and match it to an image",
+      "sim": 0.93,
+      "lexical": 0.4,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.similar_to": {
+      "en": "Naming and listening tasks",
+      "as": "নাম দিয়া আৰু শুনাৰ কামসমূহ",
+      "back": "Naming and Listening Tasks",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.sound_sight.reason": {
+      "en": "Matching a spoken word to its picture keeps words and objects connected.",
+      "as": "এটা কথিত শব্দৰ সৈতে ইয়াৰ ছবিৰ মিল কৰিলে শব্দ আৰু বস্তু সংযুক্ত হৈ থাকে।",
+      "back": "Matching a spoken word with its image keeps the word and object connected.",
+      "sim": 0.95,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.works_on": {
+      "en": "Planning, and putting things into groups",
+      "as": "পৰিকল্পনা কৰা, আৰু বস্তুবোৰ গোটত ৰখা",
+      "back": "Planning, and putting things together",
+      "sim": 0.83,
+      "lexical": 0.6,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.similar_to": {
+      "en": "Sorting tasks that group objects by type",
+      "as": "বস্তুবোৰক প্ৰকাৰ অনুসৰি গোট দিয়া কাৰ্য্যসমূহ শ্ৰেণীবদ্ধ কৰা",
+      "back": "Classify tasks that group items by type",
+      "sim": 0.76,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.pattern_garden.reason": {
+      "en": "Sorting household things uses the same thinking as ordinary housework.",
+      "as": "ঘৰুৱা বস্তুবোৰ ছৰ্ট কৰিলে সাধাৰণ ঘৰুৱা কামৰ দৰে একেই চিন্তাধাৰা ব্যৱহাৰ কৰা হয়।",
+      "back": "Sorting household items uses the same thinking as ordinary housework.",
+      "sim": 0.97,
+      "lexical": 0.89,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.works_on": {
+      "en": "Putting the steps of a task in the right order",
+      "as": "এটা কামৰ পদক্ষেপবোৰ সঠিক ক্ৰমত ৰখা",
+      "back": "Putting the steps of a task in the right order",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.similar_to": {
+      "en": "Ordering and sequencing tasks",
+      "as": "অৰ্ডাৰ আৰু ক্ৰমবিন্যাসৰ কামসমূহ",
+      "back": "Order and sequencing tasks",
+      "sim": 0.98,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.my_next_step.reason": {
+      "en": "A daily routine is easier when the order of its steps stays familiar.",
+      "as": "এটা দৈনন্দিন ৰুটিন সহজ হয় যেতিয়া ইয়াৰ পদক্ষেপৰ ক্ৰম পৰিচিত থাকে।",
+      "back": "A daily routine is easier when its sequence of steps is known.",
+      "sim": 0.89,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.works_on": {
+      "en": "Looking carefully, and staying with one task",
+      "as": "সাৱধানে চাওক, আৰু এটা কামৰ সৈতে থাকক",
+      "back": "Look carefully, and stick to one task",
+      "sim": 0.83,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.similar_to": {
+      "en": "Search tasks where one shape must be found among many",
+      "as": "কামবোৰ সন্ধান কৰক য'ত বহুতোৰ মাজত এটা আকৃতি বিচাৰি পাব লাগিব",
+      "back": "Look for tasks where you need to find one shape among many",
+      "sim": 0.87,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.saah_pat.reason": {
+      "en": "Looking for tea shoots is work many people here have done all their lives.",
+      "as": "ইয়াত বহু লোকে গোটেই জীৱন ধৰি কৰি অহা এটা কাম হ'ল চাহৰ টুকুৰা বিচাৰি উলিওৱা।",
+      "back": "One thing many people here have been doing all their lives is finding a cup of tea.",
+      "sim": 0.73,
+      "lexical": 0.64,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.apon_mukh.works_on": {
+      "en": "Knowing faces, and remembering people",
+      "as": "মুখবোৰ চিনি পোৱা, আৰু মানুহক মনত ৰখা",
+      "back": "Recognizing faces, and remembering people",
+      "sim": 0.93,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.apon_mukh.similar_to": {
+      "en": "Tasks that join a face to a name",
+      "as": "এটা নামৰ সৈতে এটা মুখ সংযোগ কৰা কাৰ্য্যসমূহ",
+      "back": "Functions that connect a face to a name",
+      "sim": 0.67,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.apon_mukh.reason": {
+      "en": "Family photographs bring back memories that a drawing cannot.",
+      "as": "পৰিয়ালৰ ফটোগ্ৰাফবোৰে স্মৃতিবোৰ ঘূৰাই আনে যিবোৰ এখন চিত্ৰই আনিব নোৱাৰে।",
+      "back": "Family photographs bring back memories that a portrait cannot.",
+      "sim": 0.87,
+      "lexical": 0.86,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.works_on": {
+      "en": "Talking with family about earlier days",
+      "as": "পৰিয়ালৰ সৈতে আগৰ দিনবোৰৰ বিষয়ে কথা পাতি",
+      "back": "Talking to family about the days ahead",
+      "sim": 0.9,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.similar_to": {
+      "en": "Reminiscence work used in group care",
+      "as": "দলগত যত্নত ব্যৱহৃত স্মৃতিচিহ্নৰ কাম",
+      "back": "Memento work used in group care",
+      "sim": 0.66,
+      "lexical": 0.8,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "why.together.reason": {
+      "en": "Talking about earlier days together is calming, and needs no right answer.",
+      "as": "আগৰ দিনবোৰৰ বিষয়ে একেলগে কথা পতাটো শান্ত, আৰু কোনো সঠিক উত্তৰৰ প্ৰয়োজন নাই।",
+      "back": "It's calming to talk about the days ahead together, and no exact answers are needed.",
+      "sim": 0.85,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.title": {
+      "en": "What we keep, and where",
+      "as": "আমি কি ৰাখিছোঁ, আৰু ক'ত ৰাখিছোঁ",
+      "back": "What we keep, and where we keep it",
+      "sim": 0.95,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.on_device": {
+      "en": "Everything stays on this phone. The app works with no internet.",
+      "as": "এই ফোনত সকলো থাকে। এপটোৱে ইণ্টাৰনেট অবিহনে কাম কৰে।",
+      "back": "This phone has it all. The app works without the internet.",
+      "sim": 0.83,
+      "lexical": 0.5,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.stored_title": {
+      "en": "What is kept on this phone",
+      "as": "এই ফোনত কি ৰখা আছে",
+      "back": "what's on this phone",
+      "sim": 0.74,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.stored_list": {
+      "en": "The name and age of the person, family photographs and voice notes, reminders, care notes, and a record of each activity.",
+      "as": "ব্যক্তিজনৰ নাম আৰু বয়স, পৰিয়ালৰ ফটোগ্ৰাফ আৰু ভইচ নোট, ৰিমাইণ্ডাৰ, কেয়াৰ নোট, আৰু প্ৰতিটো কাৰ্যকলাপৰ ৰেকৰ্ড।",
+      "back": "The person's name and age, family photographs and voice notes, reminders, care notes, and records of each activity.",
+      "sim": 0.97,
+      "lexical": 0.92,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.locked_title": {
+      "en": "What is locked",
+      "as": "কি লক কৰা আছে",
+      "back": "what's locked",
+      "sim": 0.94,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.locked": {
+      "en": "The name, the care plan text, the care notes, the photographs and the voice notes are locked with AES-256-GCM encryption while they sit on this phone. The key is made on this phone and kept in the phone secure store.",
+      "as": "এই ফোনত বহি থকাৰ সময়ত নাম, যত্ন পৰিকল্পনাৰ লিখনি, যত্নৰ টোকা, ফটোগ্ৰাফ আৰু ভইচ টোকাবোৰ এইএছ-256-জিচিএম এনক্ৰিপশ্যনৰ সৈতে লক কৰা হয়। চাবিটো এই ফোনত তৈয়াৰ কৰা হয় আৰু ফোন সুৰক্ষিত দোকানত ৰখা হয়।",
+      "back": "Names, care plan text, care notes, photographs, and voice notes are locked with AES-256-GCM encryption while sitting on this phone. The key is made on this phone and the phone is kept in a safe.",
+      "sim": 0.93,
+      "lexical": 0.76,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.leaves_title": {
+      "en": "What leaves this phone",
+      "as": "এই ফোনটোৰ পৰা কি ওলায়",
+      "back": "what comes out of this phone",
+      "sim": 0.82,
+      "lexical": 0.67,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.leaves": {
+      "en": "Nothing leaves this phone unless a family member turns on syncing.",
+      "as": "পৰিয়ালৰ কোনো সদস্যই ছিংকিং অন নকৰালৈকে এই ফোনটোৰ পৰা একোৱেই ওলাই নাযায়।",
+      "back": "Nothing comes out of this phone until a family member turns on the syncing.",
+      "sim": 0.87,
+      "lexical": 0.75,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.sync_on": {
+      "en": "When syncing is on, only the record of the activities is sent: which activity, when, and how it went. Photographs, voice notes, names and care notes are never sent.",
+      "as": "সংমিশ্ৰণ চলি থকাৰ সময়ত কেৱল কাৰ্য্যকলাপসমূহৰ ৰেকৰ্ড প্ৰেৰণ কৰা হয়ঃ কোনটো কাৰ্য্যকলাপ, কেতিয়া, আৰু ই কেনেদৰে চলিছিল। ফটোগ্ৰাফ, ভইচ নোট, নাম আৰু কেয়াৰ নোট কেতিয়াও প্ৰেৰণ কৰা নহয়।",
+      "back": "Only records of operations are sent while the combination is running: which operation, when, and how it ran. Photographs, voice notes, names, and care notes are never sent.",
+      "sim": 0.61,
+      "lexical": 0.69,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_title": {
+      "en": "How to remove everything",
+      "as": "কেনেকৈ সকলোবোৰ আঁতৰাব পাৰি",
+      "back": "How to Remove Everything",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_how": {
+      "en": "The button below removes every person on this phone, with their photographs, voice notes, reminders, notes and activity records.",
+      "as": "তলৰ বুটামটোৱে এই ফোনত থকা প্ৰতিজন ব্যক্তিক তেওঁলোকৰ ফটো, ভইচ নোট, ৰিমাইণ্ডাৰ, নোট আৰু এক্টিভিটি ৰেকৰ্ডৰ সৈতে আঁতৰাই দিয়ে।",
+      "back": "The bottom button removes each person on this phone, along with their photos, voice notes, reminders, notes, and activity records.",
+      "sim": 0.88,
+      "lexical": 0.79,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_button": {
+      "en": "Remove everything from this phone",
+      "as": "এই ফোনটোৰ পৰা সকলোবোৰ আঁতৰাওক",
+      "back": "Remove everything from this phone",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.delete_confirm": {
+      "en": "Tap again to remove everything",
+      "as": "সকলো আঁতৰাবলৈ পুনৰ টেপ কৰক",
+      "back": "Tap again to remove everything",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.deleted": {
+      "en": "Everything has been removed from this phone.",
+      "as": "এই ফোনটোৰ পৰা সকলো আঁতৰাই পেলোৱা হৈছে।",
+      "back": "Everything has been removed from this phone.",
+      "sim": 1,
+      "lexical": 1,
+      "deny": null,
+      "long": false,
+      "verdict": "PASS"
+    },
+    "privacy.dpdp": {
+      "en": "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification.",
+      "as": "ভাৰতৰ ডিজিটেল ব্যক্তিগত তথ্য সুৰক্ষা আইন, 2023-ত কোৱা হৈছে যে ব্যক্তিগত তথ্য সুৰক্ষিতভাৱে ৰখা হয়, আৰু কেৱল প্ৰয়োজনৰ সময়লৈকেহে ৰখা হয়। এই পৃষ্ঠাটোৱে এপটোৱে কি কৰে সেই বিষয়ে কয়। এয়া প্ৰমাণপত্ৰৰ দাবী নহয়।",
+      "back": "India's Digital Personal Data Protection Act, 2023 states that personal data is kept securely, and only for as long as is necessary. This page talks about what the app does. This is not a certification requirement.",
+      "sim": 0.95,
+      "lexical": 0.76,
       "deny": null,
       "long": false,
       "verdict": "PASS"

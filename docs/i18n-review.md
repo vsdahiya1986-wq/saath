@@ -1,12 +1,12 @@
 # Assamese translation review
 
-Generated 2026-09-19T04:03:31.247Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
+Generated 2026-09-20T07:15:16.018Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
 
 - Engine A: Bhashini translation en→as. Engine B: Bhashini translation as→en. IndicTrans2 is the intended engine B but its models are gated; see the script header.
 - FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < 0.75) and words (overlap < 0.5).
 - A FAIL shows its English on screen and has no Assamese audio. LONG = more than 1.8× the English length (may clip).
 
-**224/227 verified (99%). 3 fall back to English.**
+**266/269 verified (99%). 3 fall back to English.**
 
 ## Needs human review (3)
 
@@ -269,3 +269,45 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 | `today.nothing_yet` | No games played yet today. | আজিও কোনো খেল খেলা হোৱা নাই। | No games have been played to date. | 0.7 | 0.6 | PASS |
 | `home.circle.one` | person who cares for you | আপোনাৰ যত্ন লোৱা ব্যক্তি | The person who cares for you | 0.96 | 1 | PASS |
 | `home.circle.many` | people who care for you | আপোনাৰ যত্ন লোৱা লোকসকল | People who care about you | 0.95 | 1 | PASS |
+| `why.title` | Why these activities | কিয় এই কাৰ্যকলাপবোৰ | Why these activities | 1 | 1 | PASS |
+| `why.intro` | Each activity works on one kind of thinking. This page says what each one is for. | প্ৰতিটো কাৰ্যকলাপে এক প্ৰকাৰৰ চিন্তাধাৰাৰ ওপৰত কাম কৰে। এই পৃষ্ঠাত কোৱা হৈছে যে প্ৰতিটো কিৰ বাবে। | Every activity works on a pattern of thought. This page states what each one is for. | 0.93 | 0.67 | PASS |
+| `why.works_on` | What it works on | ই কি কাম কৰে | what does it do | 0.61 | 0.5 | PASS |
+| `why.similar_to` | What it is similar to | এইটো কেনেকুৱা সদৃশ | how similar is this | 0.71 | 0.5 | PASS |
+| `why.not_a_test` | SAATH is a tool for daily activities. It is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test. | সাথ হৈছে দৈনন্দিন কাম-কাজৰ এক সঁজুলি। এয়া কোনো স্বাস্থ্য পৰীক্ষা নহয়। ই কোনো নম্বৰ নিদিয়ে আৰু কোনো ফলাফল নিদিয়ে। স্মৃতি পৰীক্ষাৰ দৰে দেখা এটা কাৰ্য্যকলাপ স্মৃতি পৰীক্ষাৰ দৰে একে নহয়। | Saath is a tool for daily chores. This is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test. | 0.98 | 0.94 | PASS |
+| `why.ask_doctor` | For any question about health, please speak to a doctor or a health worker. | স্বাস্থ্য সম্পৰ্কে যিকোনো প্ৰশ্নৰ বাবে, অনুগ্ৰহ কৰি চিকিৎসক বা স্বাস্থ্য কৰ্মীৰ সৈতে কথা পাতক। | For any health-related questions, please talk to a doctor or health worker. | 0.9 | 0.63 | PASS |
+| `why.familiar_pairs.works_on` | Knowing the time of day, the day and the season | দিনটোৰ সময়, দিনটো আৰু ঋতু জানি লোৱা | Know the time of day, day, and season | 0.87 | 0.75 | PASS |
+| `why.familiar_pairs.similar_to` | The orientation questions used in common memory checks | সাধাৰণ স্মৃতি পৰীক্ষাসমূহত ব্যৱহৃত অভিমুখীকৰণ প্ৰশ্নসমূহ | Orientation questions used in general memory tests | 0.86 | 0.67 | PASS |
+| `why.familiar_pairs.reason` | Talking about today keeps a person joined to the present day. | আজিৰ বিষয়ে ক'বলৈ গ" লে এজন ব্যক্তিয়ে বৰ্তমানলৈকে জড়িত হৈ থাকে। | Talking about today, a person is involved in the present. | 0.63 | 0.63 | PASS |
+| `why.sound_sight.works_on` | Understanding a spoken word and matching it to a picture | এটা কথিত শব্দ বুজি পোৱা আৰু ইয়াক এখন ছবিৰ সৈতে মিলোৱা | Understand a spoken word and match it to an image | 0.93 | 0.4 | PASS |
+| `why.sound_sight.similar_to` | Naming and listening tasks | নাম দিয়া আৰু শুনাৰ কামসমূহ | Naming and Listening Tasks | 1 | 1 | PASS |
+| `why.sound_sight.reason` | Matching a spoken word to its picture keeps words and objects connected. | এটা কথিত শব্দৰ সৈতে ইয়াৰ ছবিৰ মিল কৰিলে শব্দ আৰু বস্তু সংযুক্ত হৈ থাকে। | Matching a spoken word with its image keeps the word and object connected. | 0.95 | 0.67 | PASS |
+| `why.pattern_garden.works_on` | Planning, and putting things into groups | পৰিকল্পনা কৰা, আৰু বস্তুবোৰ গোটত ৰখা | Planning, and putting things together | 0.83 | 0.6 | PASS |
+| `why.pattern_garden.similar_to` | Sorting tasks that group objects by type | বস্তুবোৰক প্ৰকাৰ অনুসৰি গোট দিয়া কাৰ্য্যসমূহ শ্ৰেণীবদ্ধ কৰা | Classify tasks that group items by type | 0.76 | 0.67 | PASS |
+| `why.pattern_garden.reason` | Sorting household things uses the same thinking as ordinary housework. | ঘৰুৱা বস্তুবোৰ ছৰ্ট কৰিলে সাধাৰণ ঘৰুৱা কামৰ দৰে একেই চিন্তাধাৰা ব্যৱহাৰ কৰা হয়। | Sorting household items uses the same thinking as ordinary housework. | 0.97 | 0.89 | PASS |
+| `why.my_next_step.works_on` | Putting the steps of a task in the right order | এটা কামৰ পদক্ষেপবোৰ সঠিক ক্ৰমত ৰখা | Putting the steps of a task in the right order | 1 | 1 | PASS |
+| `why.my_next_step.similar_to` | Ordering and sequencing tasks | অৰ্ডাৰ আৰু ক্ৰমবিন্যাসৰ কামসমূহ | Order and sequencing tasks | 0.98 | 0.67 | PASS |
+| `why.my_next_step.reason` | A daily routine is easier when the order of its steps stays familiar. | এটা দৈনন্দিন ৰুটিন সহজ হয় যেতিয়া ইয়াৰ পদক্ষেপৰ ক্ৰম পৰিচিত থাকে। | A daily routine is easier when its sequence of steps is known. | 0.89 | 0.67 | PASS |
+| `why.saah_pat.works_on` | Looking carefully, and staying with one task | সাৱধানে চাওক, আৰু এটা কামৰ সৈতে থাকক | Look carefully, and stick to one task | 0.83 | 0.5 | PASS |
+| `why.saah_pat.similar_to` | Search tasks where one shape must be found among many | কামবোৰ সন্ধান কৰক য'ত বহুতোৰ মাজত এটা আকৃতি বিচাৰি পাব লাগিব | Look for tasks where you need to find one shape among many | 0.87 | 0.67 | PASS |
+| `why.saah_pat.reason` | Looking for tea shoots is work many people here have done all their lives. | ইয়াত বহু লোকে গোটেই জীৱন ধৰি কৰি অহা এটা কাম হ'ল চাহৰ টুকুৰা বিচাৰি উলিওৱা। | One thing many people here have been doing all their lives is finding a cup of tea. | 0.73 | 0.64 | PASS |
+| `why.apon_mukh.works_on` | Knowing faces, and remembering people | মুখবোৰ চিনি পোৱা, আৰু মানুহক মনত ৰখা | Recognizing faces, and remembering people | 0.93 | 0.75 | PASS |
+| `why.apon_mukh.similar_to` | Tasks that join a face to a name | এটা নামৰ সৈতে এটা মুখ সংযোগ কৰা কাৰ্য্যসমূহ | Functions that connect a face to a name | 0.67 | 0.5 | PASS |
+| `why.apon_mukh.reason` | Family photographs bring back memories that a drawing cannot. | পৰিয়ালৰ ফটোগ্ৰাফবোৰে স্মৃতিবোৰ ঘূৰাই আনে যিবোৰ এখন চিত্ৰই আনিব নোৱাৰে। | Family photographs bring back memories that a portrait cannot. | 0.87 | 0.86 | PASS |
+| `why.together.works_on` | Talking with family about earlier days | পৰিয়ালৰ সৈতে আগৰ দিনবোৰৰ বিষয়ে কথা পাতি | Talking to family about the days ahead | 0.9 | 0.67 | PASS |
+| `why.together.similar_to` | Reminiscence work used in group care | দলগত যত্নত ব্যৱহৃত স্মৃতিচিহ্নৰ কাম | Memento work used in group care | 0.66 | 0.8 | PASS |
+| `why.together.reason` | Talking about earlier days together is calming, and needs no right answer. | আগৰ দিনবোৰৰ বিষয়ে একেলগে কথা পতাটো শান্ত, আৰু কোনো সঠিক উত্তৰৰ প্ৰয়োজন নাই। | It's calming to talk about the days ahead together, and no exact answers are needed. | 0.85 | 0.5 | PASS |
+| `privacy.title` | What we keep, and where | আমি কি ৰাখিছোঁ, আৰু ক'ত ৰাখিছোঁ | What we keep, and where we keep it | 0.95 | 1 | PASS |
+| `privacy.on_device` | Everything stays on this phone. The app works with no internet. | এই ফোনত সকলো থাকে। এপটোৱে ইণ্টাৰনেট অবিহনে কাম কৰে। | This phone has it all. The app works without the internet. | 0.83 | 0.5 | PASS |
+| `privacy.stored_title` | What is kept on this phone | এই ফোনত কি ৰখা আছে | what's on this phone | 0.74 | 0.67 | PASS |
+| `privacy.stored_list` | The name and age of the person, family photographs and voice notes, reminders, care notes, and a record of each activity. | ব্যক্তিজনৰ নাম আৰু বয়স, পৰিয়ালৰ ফটোগ্ৰাফ আৰু ভইচ নোট, ৰিমাইণ্ডাৰ, কেয়াৰ নোট, আৰু প্ৰতিটো কাৰ্যকলাপৰ ৰেকৰ্ড। | The person's name and age, family photographs and voice notes, reminders, care notes, and records of each activity. | 0.97 | 0.92 | PASS |
+| `privacy.locked_title` | What is locked | কি লক কৰা আছে | what's locked | 0.94 | 1 | PASS |
+| `privacy.locked` | The name, the care plan text, the care notes, the photographs and the voice notes are locked with AES-256-GCM encryption while they sit on this phone. The key is made on this phone and kept in the phone secure store. | এই ফোনত বহি থকাৰ সময়ত নাম, যত্ন পৰিকল্পনাৰ লিখনি, যত্নৰ টোকা, ফটোগ্ৰাফ আৰু ভইচ টোকাবোৰ এইএছ-256-জিচিএম এনক্ৰিপশ্যনৰ সৈতে লক কৰা হয়। চাবিটো এই ফোনত তৈয়াৰ কৰা হয় আৰু ফোন সুৰক্ষিত দোকানত ৰখা হয়। | Names, care plan text, care notes, photographs, and voice notes are locked with AES-256-GCM encryption while sitting on this phone. The key is made on this phone and the phone is kept in a safe. | 0.93 | 0.76 | PASS |
+| `privacy.leaves_title` | What leaves this phone | এই ফোনটোৰ পৰা কি ওলায় | what comes out of this phone | 0.82 | 0.67 | PASS |
+| `privacy.leaves` | Nothing leaves this phone unless a family member turns on syncing. | পৰিয়ালৰ কোনো সদস্যই ছিংকিং অন নকৰালৈকে এই ফোনটোৰ পৰা একোৱেই ওলাই নাযায়। | Nothing comes out of this phone until a family member turns on the syncing. | 0.87 | 0.75 | PASS |
+| `privacy.sync_on` | When syncing is on, only the record of the activities is sent: which activity, when, and how it went. Photographs, voice notes, names and care notes are never sent. | সংমিশ্ৰণ চলি থকাৰ সময়ত কেৱল কাৰ্য্যকলাপসমূহৰ ৰেকৰ্ড প্ৰেৰণ কৰা হয়ঃ কোনটো কাৰ্য্যকলাপ, কেতিয়া, আৰু ই কেনেদৰে চলিছিল। ফটোগ্ৰাফ, ভইচ নোট, নাম আৰু কেয়াৰ নোট কেতিয়াও প্ৰেৰণ কৰা নহয়। | Only records of operations are sent while the combination is running: which operation, when, and how it ran. Photographs, voice notes, names, and care notes are never sent. | 0.61 | 0.69 | PASS |
+| `privacy.delete_title` | How to remove everything | কেনেকৈ সকলোবোৰ আঁতৰাব পাৰি | How to Remove Everything | 1 | 1 | PASS |
+| `privacy.delete_how` | The button below removes every person on this phone, with their photographs, voice notes, reminders, notes and activity records. | তলৰ বুটামটোৱে এই ফোনত থকা প্ৰতিজন ব্যক্তিক তেওঁলোকৰ ফটো, ভইচ নোট, ৰিমাইণ্ডাৰ, নোট আৰু এক্টিভিটি ৰেকৰ্ডৰ সৈতে আঁতৰাই দিয়ে। | The bottom button removes each person on this phone, along with their photos, voice notes, reminders, notes, and activity records. | 0.88 | 0.79 | PASS |
+| `privacy.delete_button` | Remove everything from this phone | এই ফোনটোৰ পৰা সকলোবোৰ আঁতৰাওক | Remove everything from this phone | 1 | 1 | PASS |
+| `privacy.delete_confirm` | Tap again to remove everything | সকলো আঁতৰাবলৈ পুনৰ টেপ কৰক | Tap again to remove everything | 1 | 1 | PASS |
+| `privacy.deleted` | Everything has been removed from this phone. | এই ফোনটোৰ পৰা সকলো আঁতৰাই পেলোৱা হৈছে। | Everything has been removed from this phone. | 1 | 1 | PASS |
+| `privacy.dpdp` | India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification. | ভাৰতৰ ডিজিটেল ব্যক্তিগত তথ্য সুৰক্ষা আইন, 2023-ত কোৱা হৈছে যে ব্যক্তিগত তথ্য সুৰক্ষিতভাৱে ৰখা হয়, আৰু কেৱল প্ৰয়োজনৰ সময়লৈকেহে ৰখা হয়। এই পৃষ্ঠাটোৱে এপটোৱে কি কৰে সেই বিষয়ে কয়। এয়া প্ৰমাণপত্ৰৰ দাবী নহয়। | India's Digital Personal Data Protection Act, 2023 states that personal data is kept securely, and only for as long as is necessary. This page talks about what the app does. This is not a certification requirement. | 0.95 | 0.76 | PASS |

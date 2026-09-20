@@ -906,5 +906,173 @@
   "home.circle.many": {
     "file": "home_circle_many.wav",
     "text": "people who care for you"
+  },
+  "why.title": {
+    "file": null,
+    "text": "Why these activities"
+  },
+  "why.intro": {
+    "file": null,
+    "text": "Each activity works on one kind of thinking. This page says what each one is for."
+  },
+  "why.works_on": {
+    "file": null,
+    "text": "What it works on"
+  },
+  "why.similar_to": {
+    "file": null,
+    "text": "What it is similar to"
+  },
+  "why.not_a_test": {
+    "file": null,
+    "text": "SAATH is a tool for daily activities. It is not a medical test. It gives no score and no result. An activity that looks like a memory test is not the same as a memory test."
+  },
+  "why.ask_doctor": {
+    "file": null,
+    "text": "For any question about health, please speak to a doctor or a health worker."
+  },
+  "why.familiar_pairs.works_on": {
+    "file": null,
+    "text": "Knowing the time of day, the day and the season"
+  },
+  "why.familiar_pairs.similar_to": {
+    "file": null,
+    "text": "The orientation questions used in common memory checks"
+  },
+  "why.familiar_pairs.reason": {
+    "file": null,
+    "text": "Talking about today keeps a person joined to the present day."
+  },
+  "why.sound_sight.works_on": {
+    "file": null,
+    "text": "Understanding a spoken word and matching it to a picture"
+  },
+  "why.sound_sight.similar_to": {
+    "file": null,
+    "text": "Naming and listening tasks"
+  },
+  "why.sound_sight.reason": {
+    "file": null,
+    "text": "Matching a spoken word to its picture keeps words and objects connected."
+  },
+  "why.pattern_garden.works_on": {
+    "file": null,
+    "text": "Planning, and putting things into groups"
+  },
+  "why.pattern_garden.similar_to": {
+    "file": null,
+    "text": "Sorting tasks that group objects by type"
+  },
+  "why.pattern_garden.reason": {
+    "file": null,
+    "text": "Sorting household things uses the same thinking as ordinary housework."
+  },
+  "why.my_next_step.works_on": {
+    "file": null,
+    "text": "Putting the steps of a task in the right order"
+  },
+  "why.my_next_step.similar_to": {
+    "file": null,
+    "text": "Ordering and sequencing tasks"
+  },
+  "why.my_next_step.reason": {
+    "file": null,
+    "text": "A daily routine is easier when the order of its steps stays familiar."
+  },
+  "why.saah_pat.works_on": {
+    "file": null,
+    "text": "Looking carefully, and staying with one task"
+  },
+  "why.saah_pat.similar_to": {
+    "file": null,
+    "text": "Search tasks where one shape must be found among many"
+  },
+  "why.saah_pat.reason": {
+    "file": null,
+    "text": "Looking for tea shoots is work many people here have done all their lives."
+  },
+  "why.apon_mukh.works_on": {
+    "file": null,
+    "text": "Knowing faces, and remembering people"
+  },
+  "why.apon_mukh.similar_to": {
+    "file": null,
+    "text": "Tasks that join a face to a name"
+  },
+  "why.apon_mukh.reason": {
+    "file": null,
+    "text": "Family photographs bring back memories that a drawing cannot."
+  },
+  "why.together.works_on": {
+    "file": null,
+    "text": "Talking with family about earlier days"
+  },
+  "why.together.similar_to": {
+    "file": null,
+    "text": "Reminiscence work used in group care"
+  },
+  "why.together.reason": {
+    "file": null,
+    "text": "Talking about earlier days together is calming, and needs no right answer."
+  },
+  "privacy.title": {
+    "file": null,
+    "text": "What we keep, and where"
+  },
+  "privacy.on_device": {
+    "file": null,
+    "text": "Everything stays on this phone. The app works with no internet."
+  },
+  "privacy.stored_title": {
+    "file": null,
+    "text": "What is kept on this phone"
+  },
+  "privacy.stored_list": {
+    "file": null,
+    "text": "The name and age of the person, family photographs and voice notes, reminders, care notes, and a record of each activity."
+  },
+  "privacy.locked_title": {
+    "file": null,
+    "text": "What is locked"
+  },
+  "privacy.locked": {
+    "file": null,
+    "text": "The name, the care plan text, the care notes, the photographs and the voice notes are locked with AES-256-GCM encryption while they sit on this phone. The key is made on this phone and kept in the phone secure store."
+  },
+  "privacy.leaves_title": {
+    "file": null,
+    "text": "What leaves this phone"
+  },
+  "privacy.leaves": {
+    "file": null,
+    "text": "Nothing leaves this phone unless a family member turns on syncing."
+  },
+  "privacy.sync_on": {
+    "file": null,
+    "text": "When syncing is on, only the record of the activities is sent: which activity, when, and how it went. Photographs, voice notes, names and care notes are never sent."
+  },
+  "privacy.delete_title": {
+    "file": null,
+    "text": "How to remove everything"
+  },
+  "privacy.delete_how": {
+    "file": null,
+    "text": "The button below removes every person on this phone, with their photographs, voice notes, reminders, notes and activity records."
+  },
+  "privacy.delete_button": {
+    "file": null,
+    "text": "Remove everything from this phone"
+  },
+  "privacy.delete_confirm": {
+    "file": null,
+    "text": "Tap again to remove everything"
+  },
+  "privacy.deleted": {
+    "file": null,
+    "text": "Everything has been removed from this phone."
+  },
+  "privacy.dpdp": {
+    "file": null,
+    "text": "India's Digital Personal Data Protection Act, 2023 asks that personal data is kept safely, and only for as long as it is needed. This page says what the app does. It is not a claim of certification."
   }
 }

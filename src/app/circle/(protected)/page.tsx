@@ -13,6 +13,7 @@ import { getActivePersonId } from '@/lib/usePerson';
 import { db, getPerson, packsForPerson, membersForPerson, remindersForPerson } from '@/lib/db';
 import { todayStatuses } from '@/lib/reminders';
 import { evidenceTrials } from '@/lib/trends';
+import { ACTIVITIES } from '@/content/activities';
 
 interface CircleCounts {
   personName: string | null;
@@ -26,6 +27,7 @@ interface CircleCounts {
   remindersOverdue: number;
   trials: number;
   sessionsThisWeek: number;
+  activities: number;
 }
 
 type Stat = { value: string | null; label: string };
@@ -41,6 +43,8 @@ const LINKS: { href: string; label: string; desc: string; icon: IconName; color:
   // R2: Handoff removed — unfinished, not in the requirement list, and multi-person
   // on one device covers the real ASHA workflow.
   // R3: Voice Legacy folded into Memory Garden, which now has the export button.
+  { href: '/circle/why', label: 'Why these activities', desc: 'What each activity works on, and the assessment task it resembles', icon: 'sparkle', color: '#6d28d9', stat: (c) => ({ value: String(c.activities), label: 'activities explained' }) },
+  { href: '/circle/privacy', label: 'What we keep, and where', desc: 'What stays on this phone, what is encrypted, how to remove it', icon: 'keylock', color: '#334155', stat: () => ({ value: null, label: 'Storage and privacy' }) },
   { href: '/inspector', label: 'Evidence Inspector', desc: 'How the model decides, in plain words', icon: 'sparkle', color: '#065f46', stat: () => ({ value: null, label: 'Open the model’s reasoning' }), wide: true },
 ];
 
@@ -55,7 +59,7 @@ export default function CircleHome() {
       // 08 item 7: with no one selected (e.g. just after Clear sample data) the
       // screen shows a real empty state, not the loading placeholder forever.
       if (!id) {
-        setCounts({ personName: null, isDemo: false, persons: await db.persons.count(), packsApproved: 0, packsTotal: 0, recordings: 0, members: 0, remindersTotal: 0, remindersOverdue: 0, trials: 0, sessionsThisWeek: 0 });
+        setCounts({ personName: null, isDemo: false, persons: await db.persons.count(), packsApproved: 0, packsTotal: 0, recordings: 0, members: 0, remindersTotal: 0, remindersOverdue: 0, trials: 0, sessionsThisWeek: 0, activities: ACTIVITIES.length });
         return;
       }
       setPersonId(id);
@@ -82,6 +86,7 @@ export default function CircleHome() {
         remindersOverdue: (await todayStatuses(id)).filter((x) => x.status === 'missed').length,
         trials: own.length,
         sessionsThisWeek: own.filter((x) => new Date(x.created_at).getTime() >= weekAgo).length,
+        activities: ACTIVITIES.length,
       });
     })();
   }, []);
