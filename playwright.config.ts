@@ -20,11 +20,19 @@ export default defineConfig({
     reuseExistingServer: true,
     timeout: 120_000,
   },
+  // `list` keeps the terminal readable; `html` is what CI uploads on failure.
+  // Without the html reporter there is no playwright-report/ to archive at all.
+  reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:3000',
     // `a due reminder shows the card in-app` failed once in a full run and
     // could not be reproduced in 45 runs after. Keep the evidence next time;
     // no retries, which would hide it.
     trace: 'retain-on-failure',
+    // Three CI-only bugs in a row (the clipped A++ label, the post-save race)
+    // were diagnosed from log text alone, because nothing was uploaded to look
+    // at. These cost nothing on a green run and write only on a failure.
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
 });

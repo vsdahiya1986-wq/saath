@@ -26,3 +26,18 @@ jobs:
       - run: npm run verify-translations
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
+
+      # This runner is the only place several of these bugs are visible, so a
+      # failure here has to leave something behind to look at. Both paths: the
+      # html report, and test-results/, which holds the trace zips, screenshots
+      # and video the report links to.
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
