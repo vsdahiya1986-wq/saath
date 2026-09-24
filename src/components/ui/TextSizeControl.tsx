@@ -33,8 +33,12 @@ export default function TextSizeControl({ personId }: { personId: string | null 
           onClick={() => choose(s)}
           aria-pressed={s === current}
           aria-label={NAME[s]}
-          className={`btn btn-icon ${s === current ? 'btn-primary' : 'btn-ghost'}`}
-          style={{ fontSize: 18 + (s - 1) * 40 }}
+          // Not btn-icon: that is a fixed square for one glyph, and "A++" at
+          // this size overflowed it on the fonts Linux and Android use (it fit
+          // on Windows, so only CI saw it). `.btn` keeps the 64 px touch
+          // target and grows with the label instead.
+          className={`btn ${s === current ? 'btn-primary' : 'btn-ghost'}`}
+          style={{ fontSize: 18 + (s - 1) * 40, padding: '0 16px' }}
         >
           {LABEL[s]}
         </button>
