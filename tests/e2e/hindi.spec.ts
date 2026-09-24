@@ -42,6 +42,12 @@ test('a Hindi profile sees Hindi questions in an activity', async ({ page }) => 
   await page.getByLabel('Name').fill('Hindi Person');
   await page.getByLabel('Language').selectOption('hi');
   await page.getByRole('button', { name: 'Save profile' }).click();
+  // Wait for the app's own post-save navigation, as every other spec does:
+  // save() awaits two IndexedDB/Preferences writes before router.push, and the
+  // goto below can abort them mid-flight, leaving no person and so no
+  // question. This was the one call site missing the wait, and it failed in CI
+  // under load while passing everywhere else.
+  await expect(page).toHaveURL(/\/circle$/);
 
   await page.goto('/play/sort_home');
   const question = page.getByTestId('question').first();
