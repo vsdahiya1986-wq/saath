@@ -1,6 +1,6 @@
 # Hindi translation review
 
-Generated 2026-09-20T09:23:42.917Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
+Generated 2026-09-24T13:31:16.288Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
 
 - Engine A: Bhashini translation en→hi. Engine B: Bhashini translation hi→en. IndicTrans2 is the intended engine B but its models are gated; see the script header.
 - FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < 0.75) and words (overlap < 0.5).
@@ -44,7 +44,7 @@ None.
 
 | key | English | Hindi | round-trip English | similarity | word overlap | verdict |
 | --- | --- | --- | --- | --- | --- | --- |
-| `home_intro` | This is your memory companion. Choose Play, Help, or Today. | यह आपकी स्मृति साथी है। प्ले, हेल्प या टुडे चुनें। | This is your memory companion. Choose Play, Help, or Today. | 1 | 1 | PASS |
+| `home_intro` | This is your memory companion. You can start an activity, look at your day, or ask for help. | यह आपकी स्मृति साथी है। आप कोई गतिविधि शुरू कर सकते हैं, अपने दिन को देख सकते हैं या मदद मांग सकते हैं। | This is your memory companion. You can start an activity, look over your day, or ask for help. | 0.98 | 1 | PASS |
 | `home.play` | Play | बजाएँ | Play | 1 | 1 | PASS |
 | `home.help` | Help | मदद करें | Help | 1 | 1 | PASS · LONG |
 | `home.today` | Today | आज | today's | 0.81 | 1 | PASS |
@@ -86,7 +86,7 @@ None.
 | `game.not_this_one` | Not this one. | यह नहीं। | It's not. | 0.33 | 0.5 | PASS |
 | `cue.highlight` | Look here. | यहां देखिए। | Look here. | 1 | 1 | PASS |
 | `cue.reduce` | Let us try with fewer choices. | आइए हम कम विकल्पों के साथ प्रयास करें। | Let us try with fewer options. | 0.9 | 0.75 | PASS |
-| `common.pause` | Paused. Tap to continue, or choose Stop. | रुक गया। जारी रखने के लिए दबाएँ, या रुकें चुनें। | stopped. Press to continue, or select Pause. | 0.82 | 0.2 | PASS |
+| `common.pause` | Paused. You can continue, or finish this activity. | रुक गया। आप इस गतिविधि को जारी रख सकते हैं या समाप्त कर सकते हैं। | stopped. You can continue or end this activity. | 0.83 | 0.6 | PASS |
 | `common.open` | Open | खोलें | Open | 1 | 1 | PASS |
 | `common.back` | Go back | वापस जाओ | Go back | 1 | 1 | PASS |
 | `common.home` | Home | घर | Home | 1 | 1 | PASS |

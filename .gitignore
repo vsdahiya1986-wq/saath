@@ -50,3 +50,6 @@ next-env.d.ts
 # local secrets — .env.local.example stays tracked as the template
 .env.local
 .env*.local
+
+# local demo artifact, regenerate any time (QR to the repo URL)
+saath-qr.png

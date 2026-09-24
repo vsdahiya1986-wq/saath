@@ -18,6 +18,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      # next-env.d.ts references .next/types/*, emitted only by a build,
+      # so the typecheck has to run after it.
+      - run: npm run build
       - run: npx tsc --noEmit
       - run: npm test
       - run: npm run verify-translations

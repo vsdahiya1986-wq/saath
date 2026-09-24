@@ -3,6 +3,11 @@ import { defineConfig } from '@playwright/test';
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
+  // fullyParallel:false only serialises tests *within* a file; files still run
+  // across workers. These specs share one origin's device state (profiles in
+  // localStorage/IndexedDB), so parallel files clobber each other and fail a
+  // different subset each run. One worker is the fix; retries would hide it.
+  workers: 1,
   // Serves the actual static export (`out/`), not `next dev`. This matters:
   // the shipped app runs inside a Capacitor WebView with no server at all,
   // so client-side navigation must resolve from the local bundle. Testing

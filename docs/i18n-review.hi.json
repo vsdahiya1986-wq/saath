@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T09:23:42.917Z",
+  "generated_at": "2026-09-24T13:31:16.288Z",
   "lang": "hi",
   "engine_a": "Bhashini translation en→hi",
   "engine_b": "Bhashini translation hi→en",
@@ -10,10 +10,10 @@
   },
   "entries": {
     "home_intro": {
-      "en": "This is your memory companion. Choose Play, Help, or Today.",
-      "as": "यह आपकी स्मृति साथी है। प्ले, हेल्प या टुडे चुनें।",
-      "back": "This is your memory companion. Choose Play, Help, or Today.",
-      "sim": 1,
+      "en": "This is your memory companion. You can start an activity, look at your day, or ask for help.",
+      "as": "यह आपकी स्मृति साथी है। आप कोई गतिविधि शुरू कर सकते हैं, अपने दिन को देख सकते हैं या मदद मांग सकते हैं।",
+      "back": "This is your memory companion. You can start an activity, look over your day, or ask for help.",
+      "sim": 0.98,
       "lexical": 1,
       "deny": null,
       "long": false,
@@ -430,11 +430,11 @@
       "verdict": "PASS"
     },
     "common.pause": {
-      "en": "Paused. Tap to continue, or choose Stop.",
-      "as": "रुक गया। जारी रखने के लिए दबाएँ, या रुकें चुनें।",
-      "back": "stopped. Press to continue, or select Pause.",
-      "sim": 0.82,
-      "lexical": 0.2,
+      "en": "Paused. You can continue, or finish this activity.",
+      "as": "रुक गया। आप इस गतिविधि को जारी रख सकते हैं या समाप्त कर सकते हैं।",
+      "back": "stopped. You can continue or end this activity.",
+      "sim": 0.83,
+      "lexical": 0.6,
       "deny": null,
       "long": false,
       "verdict": "PASS"

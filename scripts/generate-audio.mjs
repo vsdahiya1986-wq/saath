@@ -38,7 +38,7 @@ if (!API_KEY) {
 }
 
 const STRINGS = {
-  home_intro: 'This is your memory companion. Choose Play, Help, or Today.',
+  home_intro: 'This is your memory companion. You can start an activity, look at your day, or ask for help.',
   'home.play': 'Play',
   'home.help': 'Help',
   'home.today': 'Today',
@@ -80,7 +80,7 @@ const STRINGS = {
   'game.not_this_one': 'Not this one.',
   'cue.highlight': 'Look here.',
   'cue.reduce': 'Let us try with fewer choices.',
-  'common.pause': 'Paused. Tap to continue, or choose Stop.',
+  'common.pause': 'Paused. You can continue, or finish this activity.',
   'common.open': 'Open',
   'common.back': "Go back",
   'common.home': 'Home',

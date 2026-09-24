@@ -1,7 +1,7 @@
 {
   "home_intro": {
     "file": "home_intro.wav",
-    "text": "This is your memory companion. Choose Play, Help, or Today."
+    "text": "This is your memory companion. You can start an activity, look at your day, or ask for help."
   },
   "home.play": {
     "file": "home_play.wav",
@@ -169,7 +169,7 @@
   },
   "common.pause": {
     "file": "common_pause.wav",
-    "text": "Paused. Tap to continue, or choose Stop."
+    "text": "Paused. You can continue, or finish this activity."
   },
   "common.open": {
     "file": "common_open.wav",

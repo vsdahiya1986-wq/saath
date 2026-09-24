@@ -20,6 +20,26 @@ import fs from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 import { STRINGS } from '../src/content/strings.ts';
 import { fixApostrophes } from './lib/fixApostrophes.mjs';
+import { findTransliterations } from './romanize-as.mjs';
+
+// Read relative to the repo root, like the manifests below — and lazily, so
+// importing this module for its exports never touches the disk.
+let allowlistCache;
+const allowlist = async () =>
+  (allowlistCache ??= JSON.parse(await fs.readFile('scripts/translation-allowlist.json', 'utf8')).proper_nouns);
+
+/**
+ * The keys whose English *is* a control's label. A cue that names one of
+ * these gets it transliterated by Bhashini (a capitalised label reads as a
+ * proper noun), and the elder is told to press a sound they cannot read.
+ * Keys, not words, so renaming a button keeps this honest for free.
+ */
+export const CONTROL_KEYS = [
+  'home.play', 'home.help', 'home.today', 'home.circle', 'common.open',
+  'common.back', 'common.home', 'common.continue', 'exit.end', 'exit.pause',
+  'exit.skip_one', 'rest.rest_now', 'rest.one_more', 'remind.done', 'a11y.listen',
+];
+export const controlLabels = () => CONTROL_KEYS.map((k) => STRINGS[k]).filter(Boolean);
 
 /**
  * Fix pack 12: a second target locale, same mechanism. Each language has its
@@ -198,10 +218,13 @@ async function gateOne(lang) {
   const review = JSON.parse(await fs.readFile(target.review, 'utf8').catch(() => 'null'));
   const manifest = JSON.parse(await fs.readFile(manifestFor(lang), 'utf8').catch(() => 'null'));
   const problems = [];
+  const warnings = [];
+  const allow = await allowlist();
+  const controls = controlLabels();
   if (!review) problems.push(`${target.review} is missing — run with --run --lang=${lang} first.`);
   if (!manifest) {
     problems.push(`${manifestFor(lang)} is missing — run generate-audio.`);
-    return { problems, shown: 0 };
+    return { problems, warnings, shown: 0 };
   }
 
   for (const [key, en] of Object.entries(STRINGS)) {
@@ -213,12 +236,21 @@ async function gateOne(lang) {
     const hit = DENY_FOR[lang].find((w) => shown.includes(w));
     if (hit) problems.push(`${lang} ${key}: shows denylisted ${hit}`);
     if (shown === en) continue; // English fallback: honest by definition
+
+    // Check 4: phonetic English in Indic script. The round trip cannot see
+    // this — a transliteration round-trips better than a translation — so it
+    // is read as sound instead.
+    for (const f of findTransliterations(en, shown, { allow, controls })) {
+      const line = `${lang} ${key}: "${f.native}" reads as "${f.reads_as}" ≈ English "${f.english}"`;
+      if (f.severity === 'blocking') problems.push(`${line} — ${f.why}`);
+      else warnings.push(`${line} — ${f.why}`);
+    }
     const r = review?.entries[key];
     if (!r || r.verdict !== 'PASS') problems.push(`${lang} ${key}: shows ${target.name} that did not pass verification`);
     else if (r.en !== en) problems.push(`${lang} ${key}: English changed since it was verified — re-run --run --lang=${lang}`);
     else if (r.as !== shown) problems.push(`${lang} ${key}: shows ${target.name} that differs from the verified text`);
   }
-  return { problems, shown: Object.keys(STRINGS).filter((k) => manifest[k]?.text !== undefined && manifest[k].text !== STRINGS[k]).length };
+  return { problems, warnings, shown: Object.keys(STRINGS).filter((k) => manifest[k]?.text !== undefined && manifest[k].text !== STRINGS[k]).length };
 }
 
 async function gate() {
@@ -230,12 +262,16 @@ async function gate() {
   `));
     process.exit(1);
   }
+  const warnings = results.flatMap(([, r]) => r.warnings);
+  if (warnings.length) {
+    console.warn(`verify-translations: ${warnings.length} warning(s) — loanwords written as sound. Not blocking; a person decides.\n  ${warnings.join('\n  ')}`);
+  }
   const total = Object.keys(STRINGS).length;
   const summary = results.map(([lang, r]) => `${TARGETS[lang].name} ${r.shown}/${total} (${total - r.shown} English fallback)`).join('; ');
   console.log(`verify-translations: OK — ${summary}. Every shown string was verified.`);
 }
 
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const arg = process.argv.find((a) => a.startsWith('--lang='));
   const langs = arg ? arg.slice('--lang='.length).split(',') : Object.keys(TARGETS);
   const bad = langs.filter((l) => !TARGETS[l]);

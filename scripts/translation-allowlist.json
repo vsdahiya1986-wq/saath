@@ -1,0 +1,20 @@
+{
+  "_comment": "Proper nouns only. A proper noun SHOULD come through in Indic script as its sound — that is the correct rendering, not a defect, so the transliteration check stays silent on these. Anything that is not a name belongs in the warnings list instead, where a person can read it. Do not add a word here to quieten a finding; that is what the fallback to English is for.",
+  "proper_nouns": [
+    "Saah",
+    "Pat",
+    "Apon",
+    "Mukh",
+    "Bihu",
+    "Japi",
+    "Thali",
+    "Mora",
+    "Dhekia",
+    "Gamosa",
+    "Areca",
+    "Xorai",
+    "SAATH",
+    "Assam",
+    "Assamese"
+  ]
+}

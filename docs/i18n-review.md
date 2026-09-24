@@ -1,6 +1,6 @@
 # Assamese translation review
 
-Generated 2026-09-20T08:29:18.884Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
+Generated 2026-09-24T13:31:15.014Z by `node scripts/verify-translations.mjs --run`. Do not edit by hand.
 
 - Engine A: Bhashini translation en→as. Engine B: Bhashini translation as→en. IndicTrans2 is the intended engine B but its models are gated; see the script header.
 - FAIL = a denylisted concept, or the round trip diverges on **both** meaning (similarity < 0.75) and words (overlap < 0.5).
@@ -43,7 +43,7 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 
 | key | English | Assamese | round-trip English | similarity | word overlap | verdict |
 | --- | --- | --- | --- | --- | --- | --- |
-| `home_intro` | This is your memory companion. Choose Play, Help, or Today. | এয়া আপোনাৰ স্মৃতিৰ সংগী। প্লে, হেল্প, বা টুডে বাছনি কৰক। | This is your memory partner. Select Play, Help, or Today. | 0.85 | 0.67 | PASS |
+| `home_intro` | This is your memory companion. You can start an activity, look at your day, or ask for help. | এয়া আপোনাৰ স্মৃতিৰ সংগী। আপুনি এটা কাৰ্য্যকলাপ আৰম্ভ কৰিব পাৰে, আপোনাৰ দিনটো চাব পাৰে বা সহায় বিচাৰিব পাৰে। | This is your memory partner. You can start an activity, watch your day, or ask for help. | 0.93 | 0.78 | PASS |
 | `home.play` | Play | খেলিব | let's play | 0.66 | 1 | PASS |
 | `home.help` | Help | সহায় কৰক | Help me | 0.83 | 1 | PASS · LONG |
 | `home.today` | Today | আজি | today's | 0.81 | 1 | PASS |
@@ -85,7 +85,7 @@ Flagged by a person reading the screen, not by a native speaker — kept here fo
 | `game.not_this_one` | Not this one. | এইটো নহয়। | This is not. | 0.45 | 0.5 | PASS |
 | `cue.highlight` | Look here. | ইয়াত চাওক। | Take a look here. | 0.66 | 1 | PASS |
 | `cue.reduce` | Let us try with fewer choices. | আমি কম বিকল্পৰ সৈতে চেষ্টা কৰো। | We try with fewer options. | 0.83 | 0.75 | PASS |
-| `common.pause` | Paused. Tap to continue, or choose Stop. | থমকি ৰয়। অব্যাহত ৰাখিবলৈ টেপ কৰক, বা ষ্টপ বাছনি কৰক। | Stop. Tap to continue, or select Stop. | 0.89 | 0.6 | PASS |
+| `common.pause` | Paused. You can continue, or finish this activity. | থমকি ৰয়। আপুনি এই কাৰ্য্যকলাপ অব্যাহত ৰাখিব পাৰে বা সম্পূৰ্ণ কৰিব পাৰে। | Stop. You can continue or complete this activity. | 0.82 | 0.6 | PASS |
 | `common.open` | Open | খোলক | Open | 1 | 1 | PASS |
 | `common.back` | Go back | উভতি যাওক | Go back | 1 | 1 | PASS |
 | `common.home` | Home | ঘৰ | Home | 1 | 1 | PASS |

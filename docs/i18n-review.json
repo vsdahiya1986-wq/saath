@@ -1,5 +1,6 @@
 {
-  "generated_at": "2026-09-20T08:29:18.884Z",
+  "generated_at": "2026-09-24T13:31:15.014Z",
+  "lang": "as",
   "engine_a": "Bhashini translation en→as",
   "engine_b": "Bhashini translation as→en",
   "thresholds": {
@@ -9,11 +10,11 @@
   },
   "entries": {
     "home_intro": {
-      "en": "This is your memory companion. Choose Play, Help, or Today.",
-      "as": "এয়া আপোনাৰ স্মৃতিৰ সংগী। প্লে, হেল্প, বা টুডে বাছনি কৰক।",
-      "back": "This is your memory partner. Select Play, Help, or Today.",
-      "sim": 0.85,
-      "lexical": 0.67,
+      "en": "This is your memory companion. You can start an activity, look at your day, or ask for help.",
+      "as": "এয়া আপোনাৰ স্মৃতিৰ সংগী। আপুনি এটা কাৰ্য্যকলাপ আৰম্ভ কৰিব পাৰে, আপোনাৰ দিনটো চাব পাৰে বা সহায় বিচাৰিব পাৰে।",
+      "back": "This is your memory partner. You can start an activity, watch your day, or ask for help.",
+      "sim": 0.93,
+      "lexical": 0.78,
       "deny": null,
       "long": false,
       "verdict": "PASS"
@@ -429,10 +430,10 @@
       "verdict": "PASS"
     },
     "common.pause": {
-      "en": "Paused. Tap to continue, or choose Stop.",
-      "as": "থমকি ৰয়। অব্যাহত ৰাখিবলৈ টেপ কৰক, বা ষ্টপ বাছনি কৰক।",
-      "back": "Stop. Tap to continue, or select Stop.",
-      "sim": 0.89,
+      "en": "Paused. You can continue, or finish this activity.",
+      "as": "থমকি ৰয়। আপুনি এই কাৰ্য্যকলাপ অব্যাহত ৰাখিব পাৰে বা সম্পূৰ্ণ কৰিব পাৰে।",
+      "back": "Stop. You can continue or complete this activity.",
+      "sim": 0.82,
       "lexical": 0.6,
       "deny": null,
       "long": false,
